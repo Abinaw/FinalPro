@@ -1,0 +1,98 @@
+* {
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+nav {
+    background-color: #382e59;
+    margin-left: 0.3rem;
+    margin-top: 3px;
+    width: 20vw;
+    height: 99vh;
+    position: relative;
+    /* bottom:35px; */
+    overflow: hidden;
+    
+    
+}
+
+nav img,
+nav ul,
+.logout,
+.user {
+    position: absolute;
+}
+
+
+nav ul {
+    list-style-type: none;
+}
+
+
+
+
+li >ul.settings-conts{
+   
+    top: 29rem;
+    display: grid;
+    grid-template-columns: auto;    
+    left: 0;
+    width:17vw;
+    height: 20vh;
+    text-align: left;
+}
+
+
+
+.settings-conts li a {
+    display: grid;
+    grid-template-columns: auto auto;
+    position: absolute;
+    left: 1vw;
+    gap: 0.7vw;
+    color: aliceblue;
+}
+
+.settings-conts li a:hover{
+    color: #f5cade ;
+}
+
+
+div.setHead{
+    position: absolute;
+    font-size:1.1rem;
+    top :-2.3rem;
+    left: 1rem;
+    color: #faf8ff3f;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+
+
+span.sys-opt{
+    font-size: 0.9rem;
+}
+
+.logout > a, .user > a{
+    color: aliceblue;
+}
+
+ul .logout {
+    position: relative;
+    width: 8vw;
+    color: black;
+    text-align: center;
+    height: 4.5vh;
+    font-size: 1rem;
+    transition: width .5s;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transform: translate(5vw,49vh);
+}
+
+
+a.logout:hover{
+ width: 9vw;
+}
+

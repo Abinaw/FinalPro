@@ -1,0 +1,53 @@
+* {
+    color: aliceblue;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+img,
+nav ul,
+.logout,
+.user {
+    position: absolute;
+}
+
+
+img {
+    width: 60%;
+    border: 1px solid black;
+    border-radius: 50%;
+    left: 20%;
+    top: 5%;
+}
+
+
+ul .user {
+    text-align: center;
+    width: 20vw;
+    left: 0px;
+    top: 30vh;
+}
+
+#role{
+    position: absolute;
+    color:#faf8ff3f ;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    width: 20vw;
+    text-align: center;
+    left: 0px;
+    top: 34vh;
+}
+
+.separation{
+    position: absolute;
+    border: 1px solid #f8bfda ;
+    opacity: .5;
+    width: 16vw;
+    left: 2vw;
+    top:50vh;
+}
+
+
+

@@ -1,0 +1,64 @@
+<nav class="rounded-l-xl">
+    <div>
+    <app-user-deatils >
+
+    </app-user-deatils>
+
+
+    <ul class="slide-conts">
+        <li>
+            <ul class="settings-conts">
+                <div class="setHead">SETTINGS</div>
+                
+                <li>
+                    <a [routerLink]="['Sys-info']">
+                        <span class="material-symbols-rounded">
+                            info
+                        </span>
+                        <span class="sys-opt">
+                            System Info
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" [routerLink]='["Company-details"]'>
+                        <span class="material-symbols-rounded">
+                            manage_history
+                        </span>
+                        <span class="sys-opt">
+                            Company Details
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" [routerLink]='["Print"]'>
+                        <span class="material-symbols-rounded">
+                            print
+                        </span>
+                        <span class="sys-opt">
+                            Print Setup
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" [routerLink]='["Backup"]'>
+                        <span class="material-symbols-rounded">
+                            backup
+                        </span>
+                        <span class="sys-opt">
+                            Backup
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        
+            <a href="#" class="logout p-1 bg-[#F8E5EE] rounded-full pointer-events-auto flex justify-center items-center top-72">
+                <span>Logout</span>
+                <span class="material-symbols-rounded ">logout</span>
+            </a>
+
+    </ul>
+</div>
+</nav>
+

@@ -1,0 +1,55 @@
+.main-container{
+    transition:transform .5s;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    width: 50vw;
+}
+
+.main-container:hover{
+   
+    box-shadow: #917fcafd 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+     rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+     rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+     transform: translate(0px, -8px);
+}
+
+
+button{
+    transition: width .5s;
+    width:25%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  
+}
+
+button:hover{
+   width: 250px;
+}
+
+div form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+svg{
+    height: 3vh;
+   position: absolute;
+   width: 5vw;
+   transform: translate(630%,-450%);
+   color: dimgray;
+}
+
+input{
+    width:55%;
+    transition: width .5s;
+    position: relative;
+}
+
+input:focus{
+    width: 58%;
+}
+
+section{
+    width: 99.9vw;
+}

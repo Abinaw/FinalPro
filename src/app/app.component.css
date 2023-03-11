@@ -1,0 +1,13 @@
+
+
+div.main-container{
+    display: grid;
+    grid-template-columns: auto auto;
+
+}
+
+
+.dash-contents-container{
+    position: absolute;
+    left: 21vw;
+}

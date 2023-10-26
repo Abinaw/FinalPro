@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 // Components of the modules in the dashBoard
-import { DashboardCardsComponent } from './dashboard-cards/dashboard-cards.component';
-import { LoginCompoComponent } from './Template/LogIn/login-compo/login-compo.component';
+import { DashboardCardsComponent } from './Template/dashboard-cards/dashboard-cards.component';
+import { LoginCompoComponent } from './Template/auth-forms/login-compo/login-compo.component';
 import { CustomerComponent } from './Template/modules/customer/customer.component';
 import { EmployeeComponent } from './Template/modules/employee/employee.component';
 import { PurchaseComponent } from './Template/modules/purchase/purchase.component';
@@ -17,74 +17,83 @@ import { BackupComponent } from './Template/side-bar/nav-settings/backup/backup.
 import { CompanyDetailsComponent } from './Template/side-bar/nav-settings/company-details/company-details.component';
 import { PrintComponent } from './Template/side-bar/nav-settings/print/print.component';
 import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-info.component';
+import { SignUpComponent } from './Template/auth-forms/sign-up/sign-up.component';
 
 
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo:'login',
+    pathMatch:'full'
+  },
+
+  //----Modules Start-----
+  {
+    path: 'dash-board',
     component: DashboardCardsComponent
   },
- 
-  //----Modules Start-----
-  
   {
-    path: 'Customer',
+    path: 'customer',
     component: CustomerComponent
   },
   {
-    path: 'Employee',
+    path: 'employee',
     component: EmployeeComponent
   },
   {
-    path: 'Purchase',
+    path: 'purchase',
     component: PurchaseComponent
   },
   {
-    path: 'Report',
+    path: 'report',
     component: ReportComponent
   },
   {
-    path: 'Sales',
+    path: 'sales',
     component: SalesComponent
   },
   {
-    path: 'Stock',
+    path: 'stock',
     component: StockComponent
   },
   {
-    path: 'User',
+    path: 'user',
     component: UserComponent
   },
   {
-    path: 'Vendor',
+    path: 'vendor',
     component: VendorComponent
   },
- 
+
   //----Modules End-----
 
 
   {
-    path: 'Login',
+    path: 'login',
     component: LoginCompoComponent
+  },
+  {
+    path: 'signup',
+    component: SignUpComponent
   },
 
 
   //----Nav settings-----
   {
-    path: 'Backup',
+    path: 'backup',
     component: BackupComponent
   },
   {
-    path: 'Company-details',
+    path: 'company-details',
     component: CompanyDetailsComponent
   },
   {
-    path: 'Print',
+    path: 'print',
     component: PrintComponent
   },
   {
-    path: 'Sys-info',
+    path: 'sys-info',
     component: SysInfoComponent
   }
 

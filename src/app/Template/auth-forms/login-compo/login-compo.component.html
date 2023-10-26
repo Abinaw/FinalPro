@@ -1,0 +1,55 @@
+<mat-card-content
+  class="bg-gray-200 flex justify-center items-center min-h-screen min-w-full"
+>
+  <div class="main-container bg-white p-5 shadow-2xl rounded-3xl">
+    <div class="p-3 flex justify-center">
+      <mat-card-header Class="font-bold text-sm text-purple-700"> Login </mat-card-header>
+    </div>
+
+    <form
+    [formGroup]="loginForm"
+      class="flex flex-col items-center justify-center content-center"
+    >
+
+        <mat-form-field class="w-2/3 ">
+          <input
+          [(ngModel)]="username"
+            name="username"
+            matInput
+            formControlName="username"
+            placeholder="Username"
+            type="username"
+            class=" rounded-lg shadow-md  bg-gray-200"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field class="w-2/3 flex">
+          <input
+
+          [(ngModel)]="password"
+            matInput
+            formControlName="password"
+            id="passW"
+            placeholder="Password"
+            type="password"
+            class="rounded-lg shadow-md  bg-gray-200"
+          />
+          <!-- <input type="checkbox" #password class="translate-x-36" (click)="showPassword()"> -->
+        </mat-form-field>
+
+        <div>
+          <button class="rounded-full p-1 bg-purple-700 text-white" (click)="loginUser()">Login</button>
+        </div>
+
+
+    </form>
+
+    <a
+      class="hover:text-purple-700 text-sm py-1 px-2 rounded"
+      routerLink="/signup"
+    >
+      Sign-up
+    </a>
+  </div>
+</mat-card-content>

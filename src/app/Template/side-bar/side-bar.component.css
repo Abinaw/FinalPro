@@ -13,8 +13,6 @@ nav {
     position: relative;
     /* bottom:35px; */
     overflow: hidden;
-    
-    
 }
 
 nav img,
@@ -30,13 +28,11 @@ nav ul {
 }
 
 
-
-
 li >ul.settings-conts{
-   
-    top: 29rem;
+
+    top: 36rem;
     display: grid;
-    grid-template-columns: auto;    
+    grid-template-columns: auto;
     left: 0;
     width:17vw;
     height: 20vh;
@@ -80,7 +76,6 @@ span.sys-opt{
 }
 
 ul .logout {
-    position: relative;
     width: 8vw;
     color: black;
     text-align: center;
@@ -88,11 +83,31 @@ ul .logout {
     font-size: 1rem;
     transition: width .5s;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    transform: translate(5vw,49vh);
+    transform: translateX(5.7vw);
+    top: 90vh;
+
 }
 
 
 a.logout:hover{
  width: 9vw;
 }
+
+
+.separation{
+    position: absolute;
+    border: 1px solid #faf8ff3f  ;
+    width: 16vw;
+    opacity: 0.5;
+    transform: translateX(12%);
+    top:50vh;
+    transition: all .5s;
+
+}
+
+nav:hover .separation{
+    border: 1px solid #fdfdfd;
+    width: 16.01vw;
+}
+
 

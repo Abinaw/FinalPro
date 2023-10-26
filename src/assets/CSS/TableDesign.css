@@ -1,0 +1,39 @@
+*{
+    font-size: 0.8rem;
+ }
+
+ th{
+     text-transform: uppercase;
+ }
+
+ td,th{
+     border: 1px solid white;
+     text-align: center;
+ }
+
+ .btn{
+     font-size: 1.2rem;
+     transition: all .5s;
+ }
+
+ .btn:hover{
+     padding: 4px;
+     border: solid 1px rgba(255, 255, 255, 0.973);
+ }
+
+ div.tab-container{
+    transform: translateY(9vh);
+     width: 105%;
+     height: auto;
+ }
+
+ .btn-container {
+     transform: translate(70vw);
+     position: absolute;
+     top: 12px;
+     width: 7VW;
+ }
+
+
+
+

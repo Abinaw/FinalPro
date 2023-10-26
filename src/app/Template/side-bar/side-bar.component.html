@@ -4,14 +4,17 @@
 
     </app-user-deatils>
 
+    <div class="separation"></div>
+
+
 
     <ul class="slide-conts">
         <li>
             <ul class="settings-conts">
                 <div class="setHead">SETTINGS</div>
-                
+
                 <li>
-                    <a [routerLink]="['Sys-info']">
+                    <a [routerLink]="['/Sys-info']">
                         <span class="material-symbols-rounded">
                             info
                         </span>
@@ -21,7 +24,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" [routerLink]='["Company-details"]'>
+                    <a href="#" [routerLink]='["/Company-details"]'>
                         <span class="material-symbols-rounded">
                             manage_history
                         </span>
@@ -31,7 +34,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" [routerLink]='["Print"]'>
+                    <a href="#" [routerLink]='["/Print"]'>
                         <span class="material-symbols-rounded">
                             print
                         </span>
@@ -41,7 +44,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" [routerLink]='["Backup"]'>
+                    <a href="#" [routerLink]='["/Backup"]'>
                         <span class="material-symbols-rounded">
                             backup
                         </span>
@@ -52,8 +55,8 @@
                 </li>
             </ul>
         </li>
-        
-            <a href="#" class="logout p-1 bg-[#F8E5EE] rounded-full pointer-events-auto flex justify-center items-center top-72">
+
+            <a href="#" class="logout p-1 bg-[#F8E5EE] rounded-full pointer-events-auto flex justify-center items-center">
                 <span>Logout</span>
                 <span class="material-symbols-rounded ">logout</span>
             </a>

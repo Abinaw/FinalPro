@@ -7,18 +7,22 @@ import { SideBarComponent } from './Template/side-bar/side-bar.component';
 
 // import {MatIconModule} from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardCardsComponent } from './dashboard-cards/dashboard-cards.component';
+import { DashboardCardsComponent } from './Template/dashboard-cards/dashboard-cards.component';
 // Imports for Modules
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button'
 import {MatCardModule} from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import {MatTableModule} from '@angular/material/table';
+import { ToastrModule } from 'ngx-toastr';
 
-import { LoginCompoComponent } from './Template/LogIn/login-compo/login-compo.component';
 
-// Roting Module
+import { LoginCompoComponent } from './Template/auth-forms/login-compo/login-compo.component';
 
+// Routing Module
 import { Routes, RouterModule } from '@angular/router';
+
+import { UserComponent } from './Template/modules/user/user.component';
 import { UserDeatilsComponent } from './Template/side-bar/user-deatils/user-deatils.component';
 import { CustomerComponent } from './Template/modules/customer/customer.component';
 import { VendorComponent } from './Template/modules/vendor/vendor.component';
@@ -31,6 +35,15 @@ import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-
 import { CompanyDetailsComponent } from './Template/side-bar/nav-settings/company-details/company-details.component';
 import { BackupComponent } from './Template/side-bar/nav-settings/backup/backup.component';
 import { PrintComponent } from './Template/side-bar/nav-settings/print/print.component';
+import { SignUpComponent } from './Template/auth-forms/sign-up/sign-up.component';
+// Form Modules
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import {MatRadioModule} from '@angular/material/radio';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,19 +61,42 @@ import { PrintComponent } from './Template/side-bar/nav-settings/print/print.com
     SysInfoComponent,
     CompanyDetailsComponent,
     BackupComponent,
-    PrintComponent
+    PrintComponent,
+    SignUpComponent,
+    UserComponent
+
+
+
   ],
   imports: [
     BrowserModule,
+    // CommonModule,
     AppRoutingModule,
-    HttpClientModule,
+
 
      // Dash-Board-Purpose
      MatButtonModule,
      MatCardModule,
      MatIconModule,
 
-     MatFormFieldModule
+    // Form
+     MatFormFieldModule,
+     ReactiveFormsModule,
+     HttpClientModule,
+     MatSelectModule,
+     MatRadioModule,
+    //  Table
+     MatTableModule,
+     MatInputModule,
+
+
+     ToastrModule.forRoot(),
+     RouterModule,
+
+     HttpClientModule,
+     FormsModule,
+     BrowserAnimationsModule
+
   ],
   //providers: [],
   bootstrap: [AppComponent]

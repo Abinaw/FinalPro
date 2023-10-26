@@ -1,0 +1,57 @@
+.main-container {
+  transition: transform .5s;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  width: 50vw;
+}
+
+.main-container:hover {
+
+  box-shadow: #917fcafd 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+    rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px,
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  transform: translate(0px, -8px);
+}
+
+
+button {
+  transition: width .5s;
+  width: 10rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+button:hover {
+  width: 11rem;
+}
+
+
+
+/* svg {
+    height: 3vh;
+    position: absolute;
+    width: 5vw;
+    transform: translate(630%, -450%);
+    color: dimgray;
+} */
+
+input,select {
+  display: inline;
+  width: 97%;
+  transition: width .5s;
+  padding: 0.75rem;
+
+  /* transform: translateX(40%); */
+}
+
+input:focus{
+width: 101%;
+}
+
+a:hover{
+  background-color: rgba(255, 255, 255, 0.514);
+}
+
+
+
+

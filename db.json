@@ -1,0 +1,55 @@
+{
+  "posts": [
+    {
+      "name": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "id": "E001",
+      "name": "Kabil",
+      "gender": "male",
+      "role": "admin",
+      "email": "Kabil@gmail.com",
+      "password": "Plant1234567",
+      "isactive": true
+    },
+    {
+      "id": "E002",
+      "name": "Yalini",
+      "gender": "female",
+      "role": "technician",
+      "email": "Yalini@gmail.com",
+      "password": "Yalini123456",
+      "isactive": false
+    },
+    {
+      "id": "E003",
+      "name": "Liesel",
+      "gender": "female",
+      "role": "user",
+      "email": "Liesel@gmail.com",
+      "password": "Liesel12345678",
+      "isactive": false
+    },
+    {
+      "id": "E006",
+      "name": "Crony",
+      "gender": "male",
+      "role": "user",
+      "email": "crony@gmail.com",
+      "password": "Crony12345@",
+      "isactive": false
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

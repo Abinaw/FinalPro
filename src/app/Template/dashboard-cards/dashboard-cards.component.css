@@ -39,7 +39,7 @@ mat-card{
   .card-container{
       display: grid;
       grid-template-columns: auto auto auto auto;
-      /* row-gap: 4rem; */
+       row-gap: 4rem;
       column-gap: 4rem;
       margin-top: 2rem;
       margin-left: 2rem;

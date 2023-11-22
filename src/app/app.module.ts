@@ -13,9 +13,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button'
 import {MatCardModule} from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
 import { ToastrModule } from 'ngx-toastr';
-
+import {MatDialogModule} from '@angular/material/dialog'
 
 import { LoginCompoComponent } from './Template/auth-forms/login-compo/login-compo.component';
 
@@ -43,7 +42,15 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+// Table
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSortModule} from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
+import { UserRegistrationComponent } from './Template/auth-forms/user-registration/user-registration.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +70,9 @@ import { FormsModule } from '@angular/forms';
     BackupComponent,
     PrintComponent,
     SignUpComponent,
-    UserComponent
+    UserComponent,
+    UserRegistrationComponent,
+
 
 
 
@@ -85,10 +94,13 @@ import { FormsModule } from '@angular/forms';
      HttpClientModule,
      MatSelectModule,
      MatRadioModule,
+     MatDialogModule,
     //  Table
      MatTableModule,
      MatInputModule,
-
+     MatPaginatorModule,
+     MatProgressSpinnerModule,
+     MatSortModule,
 
      ToastrModule.forRoot(),
      RouterModule,

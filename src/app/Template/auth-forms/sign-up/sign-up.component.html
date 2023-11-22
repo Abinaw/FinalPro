@@ -12,23 +12,11 @@
     [formGroup]="registerForm"
       action=""
       class="flex flex-col items-center justify-center content-center"
-
-
     >
-      <mat-form-field class="w-2/3">
-        <input
-          [(ngModel)]="id"
-          matInput
-          formControlName="id"
-          placeholder="ID"
-          type="number"
-          class="rounded-lg shadow-md bg-gray-200"
-        />
-      </mat-form-field>
 
       <mat-form-field class="w-2/3">
         <input
-        [(ngModel)]="username"
+       
         #usernameInput
           matInput
           formControlName="name"
@@ -47,7 +35,7 @@
        <mat-form-field appearance="fill" class="w-2/3">
         <mat-label>Role</mat-label>
         <select
-        [(ngModel)]="role"
+        
           formControlName="role"
           mat-select
           matNativeControl
@@ -61,7 +49,7 @@
 
       <mat-form-field class="w-2/3">
         <input
-        [(ngModel)]="email"
+        
           matInput
           formControlName="email"
           placeholder="Email"
@@ -72,7 +60,7 @@
 
       <mat-form-field class="w-2/3">
         <input
-        [(ngModel)]="password"
+        
           matInput
           formControlName="password"
           id="passW"
@@ -96,10 +84,10 @@
       Login
     </a>
 
-    <a
-      class="hover:text-purple-700 text-sm py-1 px-2 rounded cursor-pointer"
+    <button
+      class="hover:text-purple-700 text-sm py-1 px-2 rounded cursor-pointer" mat-raised-button (click)="open()"
     >
       Update
-    </a>
+    </button>
   </div>
 </mat-card-content>

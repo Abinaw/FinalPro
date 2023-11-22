@@ -1,25 +1,28 @@
 import { Component } from '@angular/core';
 import userData from "../../../../assets/json/users.json"
-
-export interface userDetails{
-
-  name:string;
-  job: string;
-  id: string;
-  createdAt:string;
-}
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UserRegistrationComponent } from '../../auth-forms/user-registration/user-registration.component';
+import { SignUpComponent } from '../../auth-forms/sign-up/sign-up.component';
 
 
-const ELEMENT_DATA : userDetails[] = userData;
 
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css','../../../../assets/CSS/TableDesign.css','../../../../assets/CSS/ComponentCommDesign.css']  
+  styleUrls: ['./user.component.css','../../../../assets/CSS/TableDesign.css','../../../../assets/CSS/ComponentCommDesign.css']
 
 })
 export class UserComponent {
-dataSource = ELEMENT_DATA;
-displayedColumn = ["Name","Job","Id","CreatedAt"];
+
+  constructor(private dialog:MatDialog){
+
+  }
+
+  userInsertOrUpdate(){
+      this.dialog.open(SignUpComponent)
+
+  }
+
+
 }

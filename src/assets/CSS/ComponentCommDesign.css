@@ -1,7 +1,4 @@
 .main-wrapper{
-    display: flex;
-}
-
-.main-wrapper app-side-bar{
-margin-right: 8px;
+    /* display: flex; */
+    margin-right: 8px;
 }

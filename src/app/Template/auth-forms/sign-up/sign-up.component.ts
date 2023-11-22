@@ -1,10 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators ,FormGroup} from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { RegisterRequest } from './RegisterRequest';
-import { map } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { UserRegistrationComponent } from '../user-registration/user-registration.component';
 
 
 
@@ -17,18 +15,17 @@ import { map } from 'rxjs';
 
 export class SignUpComponent {
 
-  id:number= 0;
-  username: string = "";
-  gender: string = "";
-  role: string = "";
-  email: string = "";
-  password: string = "";
+  username: string = "Kabil";
+  gender: string = "Male";
+  role: string = "Admin";
+  email: string = "Kabil@gmail.com";
+  password: string = "Plant12345678";
 
 
 
   constructor(
     private builder: FormBuilder,
-    private toastr: ToastrService,
+    private dialog: MatDialog,
     private authService: AuthService,
     ) {
 
@@ -40,7 +37,6 @@ export class SignUpComponent {
 
 
   registerForm=this.builder.group({
-    id:['',Validators.required],
     name: ['', Validators.required],
     gender: [''], // You can set a default value here if needed
     role: ['', Validators.required],
@@ -52,7 +48,6 @@ export class SignUpComponent {
  registerUser(){
   if(this.registerForm.valid){
     let registerRequest ={
-      "id" : this.id,
       "username":this.username,
       "gender":this.gender,
       "role":this.role,
@@ -60,11 +55,16 @@ export class SignUpComponent {
       "password":this.password
     }
 
-    // Update the properties of the regReq object
+
     this.authService.regiterReq(registerRequest).subscribe((res)=>{
       console.log(res)
-    })
+     })
   }
+}
+
+
+open(){
+  this.dialog.open(UserRegistrationComponent);
 }
 
 

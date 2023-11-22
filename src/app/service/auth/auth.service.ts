@@ -18,7 +18,7 @@ export class AuthService {
 
 
   regiterReq(regReq: RegisterRequest):Observable<any>{
-    const url = `${this.baseUrl}/api/auth/register`;
+    const url = `${this.baseUrl}/user/register`;
     return this.http.post<RegisterRequest>(url,regReq,{responseType :'text' as 'json'})
   }
 

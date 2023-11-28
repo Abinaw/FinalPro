@@ -8,10 +8,12 @@ import { LoginRequest } from 'src/app/Template/auth-forms/login-compo/LoginReque
 @Component({
   selector: 'app-login-compo',
   templateUrl: './login-compo.component.html',
-  styleUrls: ['./login-compo.component.css', '../../../../assets/CSS/FormDesign.css']
+  styleUrls: ['./login-compo.component.css']
 })
 
 export class LoginCompoComponent implements OnInit {
+ hide:boolean=true;
+
 password: string="";
 username: string="";
 

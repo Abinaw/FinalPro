@@ -1,93 +1,55 @@
-<mat-card-content
-  class="bg-gray-200 flex justify-center items-center min-h-screen min-w-full"
->
-  <div class="main-container bg-white p-5 shadow-2xl rounded-3xl">
-    <div class="p-3 flex justify-center">
-      <mat-card-header Class="font-bold text-sm text-purple-700">
-        Registration
-      </mat-card-header>
+
+    <div class="main-container-signUp bg-neutral-200 p-5 shadow-2xl  rounded-3xl">
+        <div class="p-3 flex justify-center">
+            <mat-card-header Class="font-bold text-sm text-purple-700">
+                Registration
+            </mat-card-header>
+        </div>
+
+        <form [formGroup]="registerForm" action="" class="flex flex-col items-center justify-center content-center">
+
+            <mat-form-field class="w-1/3">
+                <input #usernameInput matInput formControlName="name" placeholder="User Name" type="text"
+                    class="rounded-lg shadow-md bg-gray-200" />
+            </mat-form-field>
+
+            <mat-radio-group name="gender" formControlName="gender" [(ngModel)]="gender">
+                <mat-radio-button id="male" value="male" name="male">Male</mat-radio-button>
+                <mat-radio-button id="female" value="female">Female</mat-radio-button>
+                <mat-radio-button id="others" value="others">Others</mat-radio-button>
+            </mat-radio-group>
+
+            <mat-form-field appearance="fill" class="w-1/3">
+                <mat-label>Role</mat-label>
+                <select formControlName="role" mat-select matNativeControl class="bg-gray-200 rounded-2xl p-2">
+                    <option value="admin" class="text-purple-700">Admin</option>
+                    <option value="technician" class="text-purple-700">Technician</option>
+                    <option value="user" class="text-purple-700">User</option>
+                </select>
+            </mat-form-field>
+
+            <mat-form-field class="w-1/3">
+                <input matInput formControlName="email" placeholder="Email" type="email"
+                    class="rounded-lg shadow-md bg-gray-200" />
+            </mat-form-field>
+
+            <mat-form-field class="w-1/3">
+                <input matInput formControlName="password" id="passW" placeholder="Password" type="password"
+                    class="rounded-lg shadow-md bg-gray-200" />
+            </mat-form-field>
+
+            <mat-form-field class="w-1/3">
+                <input matInput formControlName="confirmPw" id="confirmPw" placeholder="ConfirmPassWord" type="password"
+                    class="rounded-lg shadow-md bg-gray-200" />
+            </mat-form-field>
+            <div>
+                <button class="rounded-full p-1 bg-purple-700 text-white" (click)="registerUser()">
+                    Register
+                </button>
+            </div>
+        </form>
+
+
+
+
     </div>
-
-    <form
-    [formGroup]="registerForm"
-      action=""
-      class="flex flex-col items-center justify-center content-center"
-    >
-
-      <mat-form-field class="w-2/3">
-        <input
-       
-        #usernameInput
-          matInput
-          formControlName="name"
-          placeholder="User Name"
-          type="text"
-          class="rounded-lg shadow-md bg-gray-200"
-        />
-      </mat-form-field>
-
-         <mat-radio-group name="gender" formControlName="gender" [(ngModel)]="gender">
-        <mat-radio-button id="male" value="male" name="male">Male</mat-radio-button>
-        <mat-radio-button id="female" value="female">Female</mat-radio-button>
-        <mat-radio-button id="others" value="others">Others</mat-radio-button>
-      </mat-radio-group>
-
-       <mat-form-field appearance="fill" class="w-2/3">
-        <mat-label>Role</mat-label>
-        <select
-        
-          formControlName="role"
-          mat-select
-          matNativeControl
-          class="bg-gray-200 rounded-2xl p-2"
-        >
-          <option value="admin" class="text-purple-700">Admin</option>
-          <option value="technician" class="text-purple-700">Technician</option>
-          <option value="user" class="text-purple-700">User</option>
-        </select>
-      </mat-form-field>
-
-      <mat-form-field class="w-2/3">
-        <input
-        
-          matInput
-          formControlName="email"
-          placeholder="Email"
-          type="email"
-          class="rounded-lg shadow-md bg-gray-200"
-        />
-      </mat-form-field>
-
-      <mat-form-field class="w-2/3">
-        <input
-        
-          matInput
-          formControlName="password"
-          id="passW"
-          placeholder="Password"
-          type="password"
-          class="rounded-lg shadow-md bg-gray-200"
-        />
-      </mat-form-field>
-
-      <div>
-        <button class="rounded-full p-1 bg-purple-700 text-white" (click)="registerUser()">
-          Register
-        </button>
-      </div>
-    </form>
-
-    <a
-      class="hover:text-purple-700 text-sm py-1 px-2 rounded"
-      routerLink="/login"
-    >
-      Login
-    </a>
-
-    <button
-      class="hover:text-purple-700 text-sm py-1 px-2 rounded cursor-pointer" mat-raised-button (click)="open()"
-    >
-      Update
-    </button>
-  </div>
-</mat-card-content>

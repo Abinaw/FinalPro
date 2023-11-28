@@ -1,7 +1,5 @@
-.dash-contents-container{
-  /* border: solid 1px black; */
-    position: absolute;
-    left: 21vw;
+ .dash-contents-container{
+  position: absolute;
+  left: 21vw;
 
-
-}
+} 

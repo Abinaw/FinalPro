@@ -12,7 +12,6 @@ import { DashboardCardsComponent } from './Template/dashboard-cards/dashboard-ca
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button'
 import {MatCardModule} from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 import { ToastrModule } from 'ngx-toastr';
 import {MatDialogModule} from '@angular/material/dialog'
 
@@ -41,7 +40,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {MatIcon, MatIconModule} from '@angular/material/icon';
 
 // Table
 import {MatTableModule} from '@angular/material/table';
@@ -50,7 +49,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSortModule} from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { UserRegistrationComponent } from './Template/auth-forms/user-registration/user-registration.component';
-
+import {AgGridModule} from 'ag-grid-angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,9 +72,6 @@ import { UserRegistrationComponent } from './Template/auth-forms/user-registrati
     UserComponent,
     UserRegistrationComponent,
 
-
-
-
   ],
   imports: [
     BrowserModule,
@@ -86,7 +82,7 @@ import { UserRegistrationComponent } from './Template/auth-forms/user-registrati
      // Dash-Board-Purpose
      MatButtonModule,
      MatCardModule,
-     MatIconModule,
+    MatIconModule,
 
     // Form
      MatFormFieldModule,
@@ -101,6 +97,7 @@ import { UserRegistrationComponent } from './Template/auth-forms/user-registrati
      MatPaginatorModule,
      MatProgressSpinnerModule,
      MatSortModule,
+     AgGridModule,
 
      ToastrModule.forRoot(),
      RouterModule,

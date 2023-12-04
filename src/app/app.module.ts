@@ -47,9 +47,11 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSortModule} from '@angular/material/sort';
-// import { FormsModule } from '@angular/forms';
+ import { FormsModule } from '@angular/forms';
 import { UserRegistrationComponent } from './Template/auth-forms/user-registration/user-registration.component';
 import {AgGridModule} from 'ag-grid-angular';
+import { ActionCellComponent } from './action-cell/action-cell.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +73,8 @@ import {AgGridModule} from 'ag-grid-angular';
     SignUpComponent,
     UserComponent,
     UserRegistrationComponent,
+    ActionCellComponent,
+
 
   ],
   imports: [
@@ -97,12 +101,11 @@ import {AgGridModule} from 'ag-grid-angular';
      MatPaginatorModule,
      MatProgressSpinnerModule,
      MatSortModule,
-
+     AgGridModule,
      ToastrModule.forRoot(),
      RouterModule,
-
      HttpClientModule,
-    //  FormsModule,
+      FormsModule,
      BrowserAnimationsModule
 
   ],

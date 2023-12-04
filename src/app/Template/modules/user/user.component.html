@@ -1,13 +1,16 @@
-
-
-    <div class="btn-container">
-      <button mat-raised-button class="rounded-sm font-semibold" color="primary" (click)="userInsertOrUpdate()">Insert
-        <span class="material-symbols-rounded font-semibold">add</span>
-      </button>
+<div class="user-details-wrapper flex flex-col">
+    <div class="btn-container mb-5 flex justify-end">
+        <button mat-raised-button class="rounded-sm font-semibold" color="primary" (click)="userInsertOrUpdate()">Insert
+            <mat-icon>person_add</mat-icon>
+        </button>
     </div>
 
+    <div class="flex justify-center">
+        <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" style="height: 500px; width:84.5vw;"
+            [rowData]="rowData$ | async" [columnDefs]="columnDef" [pagination]="true">
+        </ag-grid-angular>
 
 
 
-
-
+    </div>
+</div>

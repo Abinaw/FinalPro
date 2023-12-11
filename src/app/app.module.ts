@@ -20,7 +20,7 @@ import { LoginCompoComponent } from './Template/auth-forms/login-compo/login-com
 // Routing Module
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserComponent } from './Template/modules/user/user.component';
+import { UserDataComponent } from './Template/modules/userData/userData.component';
 import { UserDeatilsComponent } from './Template/side-bar/user-deatils/user-deatils.component';
 import { CustomerComponent } from './Template/modules/customer/customer.component';
 import { VendorComponent } from './Template/modules/vendor/vendor.component';
@@ -33,7 +33,7 @@ import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-
 import { CompanyDetailsComponent } from './Template/side-bar/nav-settings/company-details/company-details.component';
 import { BackupComponent } from './Template/side-bar/nav-settings/backup/backup.component';
 import { PrintComponent } from './Template/side-bar/nav-settings/print/print.component';
-import { SignUpComponent } from './Template/auth-forms/sign-up/sign-up.component';
+
 // Form Modules
  import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -48,7 +48,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSortModule} from '@angular/material/sort';
  import { FormsModule } from '@angular/forms';
-import { UserRegistrationComponent } from './Template/auth-forms/user-registration/user-registration.component';
+import { UserRegistrationForm } from './Template/auth-forms/registration-form/userRegistration-form.component';
 import {AgGridModule} from 'ag-grid-angular';
 import { ActionCellComponent } from './action-cell/action-cell.component';
 
@@ -70,9 +70,8 @@ import { ActionCellComponent } from './action-cell/action-cell.component';
     CompanyDetailsComponent,
     BackupComponent,
     PrintComponent,
-    SignUpComponent,
-    UserComponent,
-    UserRegistrationComponent,
+    UserDataComponent,
+    UserRegistrationForm,
     ActionCellComponent,
 
 

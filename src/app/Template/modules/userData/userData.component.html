@@ -6,11 +6,14 @@
     </div>
 
     <div class="flex justify-center">
-        <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" style="height: 500px; width:84.5vw;"
-            [rowData]="rowData$ | async" [columnDefs]="columnDef" [pagination]="true">
+        <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" 
+        [paginationAutoPageSize]="true" 
+        style="height: 500px; width:84.5vw;"
+        [rowData]="rowData$ | async"
+        [columnDefs]="columnDef" 
+        [pagination]="true" 
+        (gridReady)="onGridReady($event)"
+        >
         </ag-grid-angular>
-
-
-
     </div>
 </div>

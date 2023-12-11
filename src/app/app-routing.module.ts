@@ -11,13 +11,13 @@ import { PurchaseComponent } from './Template/modules/purchase/purchase.componen
 import { ReportComponent } from './Template/modules/report/report.component';
 import { SalesComponent } from './Template/modules/sales/sales.component';
 import { StockComponent } from './Template/modules/stock/stock.component';
-import { UserComponent } from './Template/modules/user/user.component';
+import { UserDataComponent } from './Template/modules/userData/userData.component';
 import { VendorComponent } from './Template/modules/vendor/vendor.component';
 import { BackupComponent } from './Template/side-bar/nav-settings/backup/backup.component';
 import { CompanyDetailsComponent } from './Template/side-bar/nav-settings/company-details/company-details.component';
 import { PrintComponent } from './Template/side-bar/nav-settings/print/print.component';
 import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-info.component';
-import { SignUpComponent } from './Template/auth-forms/sign-up/sign-up.component';
+
 
 
 
@@ -59,7 +59,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    component: UserComponent
+    component: UserDataComponent
   },
   {
     path: 'vendor',
@@ -73,10 +73,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginCompoComponent
   },
-  {
-    path: 'signup',
-    component: SignUpComponent
-  },
+ 
 
 
   //----Nav settings-----

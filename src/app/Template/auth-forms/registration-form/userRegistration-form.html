@@ -5,7 +5,7 @@
     </div> 
 
     <div mat-dialog-content class="overflow-hidden p-5">
-        <form [formGroup]="userForm" action="" class="flex flex-col" >
+        <form [formGroup]="userForm" action="" class="flex flex-col" (ngSubmit)="saveUserData()">
          <div class="flex flex-row gap-2"> 
             <mat-form-field class="" >
                 <mat-label class=""> First Name </mat-label>
@@ -65,7 +65,7 @@
             
 
             <div mat-dialog-actions class="flex flex-col justify-center">
-                <button mat-flat-button color="primary" class="save" (click)="onFormSubmit()">
+                <button mat-flat-button color="primary" class="save" type="submit">
                     Save
                 </button>
             </div>

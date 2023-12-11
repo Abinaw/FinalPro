@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ICellRendererParams } from 'ag-grid';
+import { GridApi, ICellRendererParams } from 'ag-grid';
 
 @Component({
   selector: 'app-action-cell',
@@ -9,7 +9,9 @@ import { ICellRendererParams } from 'ag-grid';
 })
 export class ActionCellComponent {
 
+   
+
     agInit(params:ICellRendererParams): void {
-        
+      
     }
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginRequest } from 'src/app/Template/auth-forms/login-compo/LoginRequest';
-import { RegisterRequest } from 'src/app/Template/auth-forms/sign-up/RegisterRequest';
+
 
 
 @Injectable({
@@ -17,10 +17,7 @@ export class AuthService {
 
 
 
-  regiterReq(regReq: RegisterRequest):Observable<any>{
-    const url = `${this.baseUrl}/user/register`;
-    return this.http.post<RegisterRequest>(url,regReq,{responseType :'text' as 'json'})
-  }
+  
 
 
   logInReq(data:LoginRequest):Observable<any>{
@@ -31,4 +28,5 @@ export class AuthService {
   settoken(token:Array<string>):void{
     localStorage.setItem("key",token.toLocaleString());
   }
+
 }

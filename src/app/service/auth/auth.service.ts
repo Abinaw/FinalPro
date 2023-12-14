@@ -16,10 +16,6 @@ export class AuthService {
   private baseUrl = 'http://localhost:8080';
 
 
-
-  
-
-
   logInReq(data:LoginRequest):Observable<any>{
     const url = `${this.baseUrl}/api/auth/login`;
     return this.http.post<LoginRequest>(url, data,{responseType:'text' as 'json'});

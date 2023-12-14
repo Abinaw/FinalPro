@@ -11,7 +11,9 @@
         style="height: 500px; width:84.5vw;"
         [rowData]="rowData$ | async"
         [columnDefs]="columnDef" 
-        [pagination]="true" 
+        [pagination]="true"
+        [rowSelection]="rowSelection"
+        (cellClicked)="onCellClicked($event)"
         (gridReady)="onGridReady($event)"
         >
         </ag-grid-angular>

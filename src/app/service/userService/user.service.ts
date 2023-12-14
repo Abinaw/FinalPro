@@ -8,6 +8,8 @@ import { UserRegistrationForm } from 'src/app/Template/auth-forms/registration-f
   providedIn: 'root'
 })
 export class UserService {
+   
+   
     private baseUrl = 'http://localhost:8080';
 
   constructor(private http:HttpClient) { }
@@ -21,4 +23,14 @@ export class UserService {
     const url = `${this.baseUrl}/user/getAll`;
     return this.http.get<any[]>(url);
   }
+
+  deleteUserDetails(userId:any) {
+       const url =`${this.baseUrl}/user/deleteUser/${userId}`;
+       return this.http.delete<any>(url);
+  }
+
+
+  updateUserDetails() {
+  
+ }
 }

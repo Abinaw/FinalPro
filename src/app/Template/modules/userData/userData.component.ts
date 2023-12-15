@@ -22,7 +22,7 @@ export class UserDataComponent {
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-
+    isInsert!:true;
     public columnDef: ColDef[] = [
         // 
         { field: "userId", width: 90, hide: true, suppressColumnsToolPanel: true },
@@ -39,6 +39,7 @@ export class UserDataComponent {
     constructor(
         private dialog: MatDialog,
         private userService: UserService,
+        
     ) { }
 
 
@@ -70,8 +71,9 @@ export class UserDataComponent {
         })
     }
 
-     userInsertOrUpdate() {
-        const dialogRef = this.dialog.open(UserRegistrationForm, {})
+
+    insertTrigger() {
+        const dialogRef = this.dialog.open(UserRegistrationForm,{data:{title:"Insert"}})
         dialogRef.afterClosed().subscribe(() => {
             this.setDataIntoRow()
         })

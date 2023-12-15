@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeletePopComponent } from './delete-pop.component';
+import { ActionPopComponent } from './action-pop.component';
 
 describe('DeletePopComponent', () => {
-  let component: DeletePopComponent;
-  let fixture: ComponentFixture<DeletePopComponent>;
+  let component: ActionPopComponent;
+  let fixture: ComponentFixture<ActionPopComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeletePopComponent ]
+      declarations: [ ActionPopComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DeletePopComponent);
+    fixture = TestBed.createComponent(ActionPopComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

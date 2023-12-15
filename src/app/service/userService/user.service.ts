@@ -31,6 +31,8 @@ export class UserService {
 
 
   updateUserDetails() {
-  
+    console.log("Updated")
+    // const url = `${this.baseUrl}/user/register`;
+    // return this.http.post<UserRegistrationForm>(url,data,{responseType :'text' as 'json'})
  }
 }

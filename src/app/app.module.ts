@@ -51,7 +51,7 @@ import {MatSortModule} from '@angular/material/sort';
 import { UserRegistrationForm } from './Template/auth-forms/registration-form/userRegistration-form.component';
 import {AgGridModule} from 'ag-grid-angular';
 import { ActionCellComponent } from './custom-components/action-cell/action-cell.component';
-import { DeletePopComponent } from './custom-components/action-cell/delete-pop/delete-pop.component';
+import { ActionPopComponent } from './custom-components/action-cell/action-pop/action-pop.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,7 +73,7 @@ import { DeletePopComponent } from './custom-components/action-cell/delete-pop/d
     UserDataComponent,
     UserRegistrationForm,
     ActionCellComponent,
-    DeletePopComponent,
+    ActionPopComponent,
 
 
   ],

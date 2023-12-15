@@ -1,14 +1,14 @@
-<div class="main-wrapper">
-<app-side-bar></app-side-bar>
 
-<div class="card-container ">
-  <mat-card *ngFor="let card of Cards" routerLink="/{{card.name}}"  style="text-align: center;margin-top: 5px;" >
-      <div class="img-cont">
-      <img mat-card-image src="{{card.imgUrl}}" >
+
+<div class="card-container flex justify-evenly">
+  <mat-card *ngFor="let card of Cards" routerLink="/{{card.route}}"  style="text-align: center;" class="" >
+    <mat-card-header class="flex align-middle justify-center">
+        <mat-card-subtitle>{{card.name | uppercase}}</mat-card-subtitle>
+      </mat-card-header>
+      <div   class="img-cont flex items-center">
+        <img mat-card-image src="{{card.imageUrl}}" />  
       </div>
-      <mat-card-title>
-          {{card.name | uppercase}}
-      </mat-card-title>
+     
   </mat-card>
 </div>
-</div>
+

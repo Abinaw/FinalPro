@@ -12,17 +12,15 @@ import { DashboardCardsComponent } from './Template/dashboard-cards/dashboard-ca
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button'
 import {MatCardModule} from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
 import { ToastrModule } from 'ngx-toastr';
-
+import {MatDialogModule} from '@angular/material/dialog'
 
 import { LoginCompoComponent } from './Template/auth-forms/login-compo/login-compo.component';
 
 // Routing Module
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserComponent } from './Template/modules/user/user.component';
+import { UserDataComponent } from './Template/modules/userData/userData.component';
 import { UserDeatilsComponent } from './Template/side-bar/user-deatils/user-deatils.component';
 import { CustomerComponent } from './Template/modules/customer/customer.component';
 import { VendorComponent } from './Template/modules/vendor/vendor.component';
@@ -35,15 +33,25 @@ import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-
 import { CompanyDetailsComponent } from './Template/side-bar/nav-settings/company-details/company-details.component';
 import { BackupComponent } from './Template/side-bar/nav-settings/backup/backup.component';
 import { PrintComponent } from './Template/side-bar/nav-settings/print/print.component';
-import { SignUpComponent } from './Template/auth-forms/sign-up/sign-up.component';
+
 // Form Modules
-import { ReactiveFormsModule } from '@angular/forms';
+ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
 
-import { FormsModule } from '@angular/forms';
+// Table
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSortModule} from '@angular/material/sort';
+ import { FormsModule } from '@angular/forms';
+import { UserRegistrationForm } from './Template/auth-forms/registration-form/userRegistration-form.component';
+import {AgGridModule} from 'ag-grid-angular';
+import { ActionCellComponent } from './custom-components/action-cell/action-cell.component';
+import { ActionPopComponent } from './custom-components/action-cell/action-pop/action-pop.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,9 +70,10 @@ import { FormsModule } from '@angular/forms';
     CompanyDetailsComponent,
     BackupComponent,
     PrintComponent,
-    SignUpComponent,
-    UserComponent
-
+    UserDataComponent,
+    UserRegistrationForm,
+    ActionCellComponent,
+    ActionPopComponent,
 
 
   ],
@@ -77,7 +86,7 @@ import { FormsModule } from '@angular/forms';
      // Dash-Board-Purpose
      MatButtonModule,
      MatCardModule,
-     MatIconModule,
+    MatIconModule,
 
     // Form
      MatFormFieldModule,
@@ -85,16 +94,18 @@ import { FormsModule } from '@angular/forms';
      HttpClientModule,
      MatSelectModule,
      MatRadioModule,
+     MatDialogModule,
     //  Table
      MatTableModule,
      MatInputModule,
-
-
+     MatPaginatorModule,
+     MatProgressSpinnerModule,
+     MatSortModule,
+     AgGridModule,
      ToastrModule.forRoot(),
      RouterModule,
-
      HttpClientModule,
-     FormsModule,
+      FormsModule,
      BrowserAnimationsModule
 
   ],

@@ -6,37 +6,37 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'app-dashboard-cards',
   templateUrl: 'dashboard-cards.component.html',
-  styleUrls: ['dashboard-cards.component.css','../../../assets/CSS/ComponentCommDesign.css'],
+  styleUrls: ['dashboard-cards.component.css'],
 })
 export class DashboardCardsComponent {
 
   Cards=[
     {
-      name:'Customer' ,imgUrl:'../../assets/New Set/customer.jpg'
+      name:'Customer' ,imageUrl:"../../assets/New Set/customer.jpg",route:'customer'
     },
     {
-      name:'User' ,imgUrl:'../../assets/New Set/user.jpg'
+      name:'User' ,imageUrl:"../../assets/New Set/user.jpg",route:'user'
     },
     {
-      name:'Vendor' ,imgUrl:'../../assets/New Set/vendor.jpg'
+      name:'Vendor' ,imageUrl:"../../assets/New Set/vendor.jpg",route:'vendor'
     },
     {
-      name:'Sales' ,imgUrl:'../../assets/New Set/Sales.jpg'
+      name:'Sales' ,imageUrl:"../../assets/New Set/sales.jpg",route:'sales'
     },
     {
-      name:'Employee' ,imgUrl:'../../assets/New Set/Employee.jpg'
+      name:'Employee' ,imageUrl:"../../assets/New Set/employee.jpg",route:'employee'
     },
     {
-      name:'Stock' ,imgUrl:'../../assets/New Set/Stock.jpg'
+      name:'Stock' ,imageUrl:"../../assets/New Set/stock.jpg",route:'stock'
     },
     {
-      name:'Purchase' ,imgUrl:'../../assets/New Set/Purchase.jpg'
+      name:'Purchase' ,imageUrl:"../../assets/New Set/purchase.jpg",route:'purchase'
     },
     {
-      name:'Report' ,imgUrl:'../../assets/New Set/Report.jpg'
+      name:'Report' ,imageUrl:"../../assets/New Set/report.jpg",route:'report'
     }
 
   ]
 
-  
+
 }

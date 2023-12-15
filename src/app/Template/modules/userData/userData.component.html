@@ -1,0 +1,21 @@
+<div class="user-details-wrapper flex flex-col">
+    <div class="btn-container mb-5 flex justify-end">
+        <button mat-raised-button class="rounded-sm font-semibold" color="primary" (click)="insertTrigger()">Insert
+            <mat-icon>person_add</mat-icon>
+        </button>
+    </div>
+
+    <div class="flex justify-center">
+        <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" 
+        [paginationAutoPageSize]="true" 
+        style="height: 500px; width:84.5vw;"
+        [rowData]="rowData$ | async"
+        [columnDefs]="columnDef" 
+        [pagination]="true"
+        [rowSelection]="rowSelection"
+        (cellClicked)="onCellClicked($event)"
+        (gridReady)="onGridReady($event)"
+        >
+        </ag-grid-angular>
+    </div>
+</div>

@@ -1,4 +1,16 @@
+
 /* You can add global styles to this file, and also import other style files */
+/* style.css */
+
+/* Import Ag-Grid styles */
+@import "~ag-grid-community/styles/ag-grid.css";
+@import "~ag-grid-community/styles/ag-theme-alpine.css"; /* Use a theme of your choice */
+
+
+
+
+
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,7 +23,6 @@
 body{
     font-size: 5px;
     margin: 0;
-    position: relative;
     font-family: 'Nunito', sans-serif;
 }
 

@@ -1,5 +1,5 @@
 import { Component, ViewChild, } from '@angular/core';
-import { MatDialog, } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, } from '@angular/material/dialog';
 import { UserRegistrationForm } from '../../auth-forms/registration-form/userRegistration-form.component';
 import userDta from '../../../../assets/json/users.json'
 import { Observable, map } from 'rxjs';
@@ -33,13 +33,13 @@ export class UserDataComponent {
         { field: "gender", },
         { field: "role", },
         { field: "password", },
+        { field: "confirmPw", hide: true, suppressColumnsToolPanel: true },
         { field: "Action", cellRenderer: ActionCellComponent }
     ];
 
     constructor(
         private dialog: MatDialog,
         private userService: UserService,
-        
     ) { }
 
 
@@ -73,8 +73,8 @@ export class UserDataComponent {
 
 
     insertTrigger() {
-        const dialogRef = this.dialog.open(UserRegistrationForm,{data:{title:"Insert"}})
-        dialogRef.afterClosed().subscribe(() => {
+        const openForm = this.dialog.open(UserRegistrationForm,{data:{title:"Insert"}})
+        openForm.afterClosed().subscribe(() => {
             this.setDataIntoRow()
         })
     }

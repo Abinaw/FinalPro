@@ -29,7 +29,6 @@ export class UserService {
        return this.http.delete<any>(url);
   }
 
-
   updateUserDetails() {
     console.log("Updated")
     // const url = `${this.baseUrl}/user/register`;

@@ -40,9 +40,21 @@ export class UserRegistrationForm implements OnInit {
         })
     }
     ngOnInit(): void {
-
+        if(this.data.title==="Update" ){
+            this.userForm = this.fromBuilder.group({
+                firstname:  this.data.userdata.firstname,
+                lastname: this.data.userdata.lastname,
+                username: this.data.userdata.username,
+                gender: this.data.userdata.gender,
+                role: this.data.userdata.role,
+                email: this.data.userdata.email,
+                password: this.data.userdata.password,
+                confirmPw: this.data.userdata.confirmPw
+            })
+        }
     }
     agInit() {
+        
 
     }
 
@@ -61,8 +73,8 @@ export class UserRegistrationForm implements OnInit {
             subTitle: "are you sure you want to add this data?",
             userformData: this.userForm
         }
-        const dialogRef = this.matDialog.open(ActionPopComponent, { data: extraData })
-        dialogRef.afterClosed().subscribe(() => {
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        openActionPop.afterClosed().subscribe(() => {
             this.matDialogRef.close()
         })
     }else{
@@ -83,14 +95,7 @@ export class UserRegistrationForm implements OnInit {
         }
         // const data=this.data.userdata;
         // this.userForm = this.fromBuilder.group({
-        //     firstname: data.userId,
-        //     lastname:data.lastname,
-        //     username: data.username,
-        //     gender: data.gender,
-        //     role: data.role,
-        //     email: data.email,
-        //     password:data.password,
-        //     confirmPw: data.confirmPw
+           
         // })
     }
 

@@ -53,7 +53,6 @@ export class ActionPopComponent {
 
     insertDataYes(){
             let regRequestData=this.data.userformData.value
-            console.log(regRequestData)
             this.userService.regiterReq(regRequestData).subscribe({
                 next: (val) => {
                     
@@ -64,8 +63,6 @@ export class ActionPopComponent {
             })
     }
 
-    onclose(){
-        this.dialogRef.close();
-    }
+    
 }
 

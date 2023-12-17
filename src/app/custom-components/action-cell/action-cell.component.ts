@@ -47,16 +47,16 @@ export class ActionCellComponent {
        })
        
     }
-
-
     
     updateFormTrigger() {
+       
         const dialogRef = this.matDialog.open(UserRegistrationForm, {data:{ title : "Update",userdata:this.dataFromRow}},)
         dialogRef.afterOpened().subscribe(()=>{
+            
         })
-        dialogRef.afterClosed().subscribe(()=>{
-            this.userDataClassToSetGridRow.setDataIntoRow();
+        dialogRef.afterOpened().subscribe(()=>{
         })
+       
     //     const extraData = {
     //         title : "Update",
     //         subTitle: "Do you want to update this customer?",
@@ -67,8 +67,6 @@ export class ActionCellComponent {
     //     updatePop.afterClosed().subscribe(()=>{
        
     //    })
-
-
         }
 }
 

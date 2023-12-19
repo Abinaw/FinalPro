@@ -39,34 +39,28 @@ export class ActionCellComponent {
             title : "Delete",
             subTitle: "Do you want to delete this customer?",
             userId: this.dataFromRow.userId,
-            
         }
-       const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
-       deletePop.afterClosed().subscribe(()=>{
-            this.userDataClassToSetGridRow.setDataIntoRow();
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
+        deletePop.afterClosed().subscribe(()=>{
+        this.userDataClassToSetGridRow.setDataIntoRow();
        })
        
     }
     
     updateFormTrigger() {
-       
-        const dialogRef = this.matDialog.open(UserRegistrationForm, {data:{ title : "Update",userdata:this.dataFromRow}},)
-        dialogRef.afterOpened().subscribe(()=>{
-            
+        const extraData={
+            title: "Update",
+            userdata:this.dataFromRow
+           
+        }
+        const dialogRef = this.matDialog.open(UserRegistrationForm, {data:extraData},);
+        dialogRef.afterClosed().subscribe(()=>{
+            this.userDataClassToSetGridRow.setDataIntoRow();
         })
-        dialogRef.afterOpened().subscribe(()=>{
-        })
+        
+        
+        
        
-    //     const extraData = {
-    //         title : "Update",
-    //         subTitle: "Do you want to update this customer?",
-    //         userId: this.dataFromRow,
-    //         isDelete:false
-    //     }
-    //    const updatePop= this.matDialog.open(DeletePopComponent, {data: extraData});
-    //     updatePop.afterClosed().subscribe(()=>{
-       
-    //    })
         }
 }
 

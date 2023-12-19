@@ -1,6 +1,6 @@
 * {
     text-decoration: none;
-    font-size: 0.3rem;
+    font-size: 1.25rem;
     font-weight: bold;
 }
 
@@ -8,51 +8,97 @@ nav {
     background-color: #382e59;
     margin-left: 0.3rem;
     margin-top: 3px;
-    width: 99.5vw;
-    height: 8vh;
+    width: 12vw;
+    height: 99vh;
+    position: relative;
+    /* bottom:35px; */
     overflow: hidden;
 }
- 
 
-
-.cont{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-     transform: translate(-5px,20px); 
+nav img,
+nav ul,
+.user {
+    position: absolute;
 }
 
-.logout{
-    width: 4vw;
-    transition:  .5s;
+
+nav ul {
+    list-style-type: none;
+}
+
+
+li >ul.settings-conts{
+
+    top: 33rem;
+    display: grid;
+    grid-template-columns: auto;
+    left: 0;
+    width:17vw;
+    height: 15vh;
+    text-align: left;
+}
+
+
+
+.settings-conts li a {
+    display: grid;
+    grid-template-columns: auto auto;
+    position: absolute;
+    left: 1vw;
+    gap: 0.7vw;
+    color: aliceblue;
+}
+
+.settings-conts li a:hover{
+    color: #f5cade ;
+}
+
+
+div.setHead{
+    position: absolute;
+    font-size:1.1rem;
+    top :-2.3rem;
+    left: 1rem;
+    color: #faf8ff3f;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+
+
+span.sys-opt{
+    font-size: 0.9rem;
+}
+
+
+ .logout {
+    background-color: rgb(243, 192, 253);
+    width: 8vw;
+    color: black;
+    text-align: center;
+    height: 3vh;
+    font-size: 1rem;
+    transition: width .5s;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .logout:hover{
- width: 4.5vw;
+    width: 8.2vw
 }
 
-.logo{
-   
-    transform: translateX(0vw)  ;
-    display: flex;
-    justify-content: flex-start;
-    
+.separation{
+    position: absolute;
+    border: 1px solid #faf8ff3f  ;
+    width: 10vw;
+    opacity: 0.5;
+    transform: translateX(12%);
+    top:25vh;
+    transition: all .5s;
+
 }
 
-div.logo img{
-    padding-top: 20px;
-    padding-left: 5px;
-    filter:drop-shadow(rgb(255, 255, 255) 0px 5px 15px);
-    width: 5vw;
-     position: absolute;
-     transition: width .5s;
-     cursor: pointer;
-}
-
-div.logo img:hover{
-   
-width: 5.3vw;
-filter: drop-shadow(#fffffffd 0px 5px 25px);
+nav:hover .separation{
+    border: 1px solid #fdfdfd;
 }
 
 

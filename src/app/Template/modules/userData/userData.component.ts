@@ -23,18 +23,19 @@ export class UserDataComponent {
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
     isInsert!:true;
+    findByName : string=""
     public columnDef: ColDef[] = [
         // 
         { field: "userId", width: 90, hide: true, suppressColumnsToolPanel: true },
         { field: "firstname", },
         { field: "lastname", },
         { field: "username", },
-        { field: "email", },
-        { field: "gender", },
         { field: "role", },
-        { field: "password", },
+        { field: "email",width:250 },
+        { field: "gender",},
+        { field: "password", hide: true, suppressColumnsToolPanel: true },
         { field: "confirmPw", hide: true, suppressColumnsToolPanel: true },
-        { field: "Action", cellRenderer: ActionCellComponent }
+        { field: "Action",width: 90, cellRenderer: ActionCellComponent, }
     ];
 
     constructor(
@@ -73,10 +74,20 @@ export class UserDataComponent {
 
 
     insertTrigger() {
-        const openForm = this.dialog.open(UserRegistrationForm,{data:{title:"Insert"}})
+        const extraData={
+            title:"Insert"
+        }
+        const openForm = this.dialog.open(UserRegistrationForm,{data:extraData})
         openForm.afterClosed().subscribe(() => {
             this.setDataIntoRow()
         })
+    }
+
+    searchDataInRows()
+    {
+        this.userService.FindData(this.findByName).subscribe(res=>{
+               console.log(res) 
+        });
     }
 
 

@@ -1,5 +1,15 @@
- .dash-contents-container{
-    margin-left: 3rem;
-    margin-top: 3rem;
+ .nonLoginDirectivesContainer{
+    background-color: #e6dcfc46;
+    width: 100%;
+    margin-left: 2rem;
+    margin-top: 1.5rem;
     margin-right: 3rem;
-} 
+    padding-top: 3.5rem;
+    height: 95vh;
+    border-radius: 20px;
+}
+
+.loginLoadDirectiveContainer{
+    transform: translateX(50%);
+}
+

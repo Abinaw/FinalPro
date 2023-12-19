@@ -10,6 +10,7 @@ import {Component} from '@angular/core';
 })
 export class DashboardCardsComponent {
 
+
   Cards=[
     {
       name:'Customer' ,imageUrl:"../../assets/New Set/customer.jpg",route:'customer'
@@ -37,6 +38,8 @@ export class DashboardCardsComponent {
     }
 
   ]
+
+
 
 
 }

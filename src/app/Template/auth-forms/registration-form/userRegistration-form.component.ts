@@ -29,45 +29,59 @@ export class UserRegistrationForm implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.userForm = this.fromBuilder.group({
-            firstname: '',
-            lastname: '',
-            username: '',
-            gender: '',
-            role: '',
-            email: '',
-            password: '',
-            confirmPw: ''
+            firstname: ['', Validators.required],
+            lastname: ['', Validators.required],
+            username: ['', Validators.required],
+            gender: ['', Validators.required],
+            role: ['', Validators.required],
+            email: ['', Validators.required],
+            password: ['', Validators.required],
+            confirmPw: ['', Validators.required],
         })
     }
+
+    setDataIntoFormFields() {
+      return  this.userForm.setValue({
+            firstname: this.data.userdata.firstname,
+            lastname: this.data.userdata.lastname,
+            username: this.data.userdata.username,
+            gender: this.data.userdata.gender,
+            role: this.data.userdata.role,
+            email: this.data.userdata.email,
+            password: null,
+            confirmPw: null
+        })
+    }
+
     ngOnInit(): void {
-        if(this.data.title==="Update" ){
-            this.userForm = this.fromBuilder.group({
-                firstname:  this.data.userdata.firstname,
-                lastname: this.data.userdata.lastname,
-                username: this.data.userdata.username,
-                gender: this.data.userdata.gender,
-                role: this.data.userdata.role,
-                email: this.data.userdata.email,
-                password: this.data.userdata.password,
-                confirmPw: this.data.userdata.confirmPw
-            })
+        if (this.data.title === "Update") {
+            this.setDataIntoFormFields()
         }
     }
     agInit() {
-        
+
 
     }
 
     selectOperation() {
-        if (this.data.title === "Insert") {
-            this.insertPopTrigger();
-        } else {
-            this.updatePopTrigger();
+
+        if (this.userForm.valid && this.userForm.value.password === this.userForm.value.confirmPw) {
+            if(this.data.title=="Update"){
+                this.updatePopTrigger();
+            }else if(this.data.title === "Insert"){
+                this.insertPopTrigger();
+            }
+        }else{
+            if(this.userForm.value.password != this.userForm.value.confirmPw){
+            alert("Password isn't matching!")
+            }else{
+                alert("Invalid")
+            }
         }
 
     }
     insertPopTrigger() {
-        if (this.userForm.valid) {
+
         const extraData = {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
@@ -77,26 +91,25 @@ export class UserRegistrationForm implements OnInit {
         openActionPop.afterClosed().subscribe(() => {
             this.matDialogRef.close()
         })
-    }else{
-        alert("Invalid Data")
+
     }
-    }
+
 
 
     updatePopTrigger() {
-        if (this.userForm.valid) {
-            const extraData = {
-                title: "Update",
-                subTitle: "are you sure you want to update the selected data?"
-            }
-            this.matDialog.open(ActionPopComponent, { data: extraData })
-        }else{
 
+        const extraData = {
+            title: this.data.title,
+            subTitle: "are you sure you want to update the selected data?",
+            userformData: this.userForm.value,
+            userId: this.data.userdata.userId
+            
         }
-        // const data=this.data.userdata;
-        // this.userForm = this.fromBuilder.group({
-           
-        // })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        openActionPop.afterClosed().subscribe(() => {
+            this.matDialogRef.close();
+        })
+
     }
 
 }

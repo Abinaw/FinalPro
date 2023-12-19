@@ -52,6 +52,8 @@ import { UserRegistrationForm } from './Template/auth-forms/registration-form/us
 import {AgGridModule} from 'ag-grid-angular';
 import { ActionCellComponent } from './custom-components/action-cell/action-cell.component';
 import { ActionPopComponent } from './custom-components/action-cell/action-pop/action-pop.component';
+import { ModuleToggleComponent } from './Template/side-bar/module-toggle/module-toggle.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +76,8 @@ import { ActionPopComponent } from './custom-components/action-cell/action-pop/a
     UserRegistrationForm,
     ActionCellComponent,
     ActionPopComponent,
+    ModuleToggleComponent,
+    
 
 
   ],

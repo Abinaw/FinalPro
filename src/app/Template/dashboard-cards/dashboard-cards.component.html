@@ -2,7 +2,7 @@
 
 <div class="card-container flex justify-evenly">
   <mat-card *ngFor="let card of Cards" routerLink="/{{card.route}}"  style="text-align: center;" class="" >
-    <mat-card-header class="flex align-middle justify-center">
+    <mat-card-header class="flex align-middle justify-center" >
         <mat-card-subtitle>{{card.name | uppercase}}</mat-card-subtitle>
       </mat-card-header>
       <div   class="img-cont flex items-center">

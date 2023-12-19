@@ -64,20 +64,28 @@ export class UserRegistrationForm implements OnInit {
     }
 
     selectOperation() {
+        if (this.data.title === "Insert" && 
+        this.userForm.valid && this.userForm.value.password === this.userForm.value.confirmPw) {
+            this.insertPopTrigger();
+        }else if(this.data.title == "Update" && 
+        this.userForm.value.password=== this.userForm.value.confirmPw||
+        this.userForm.value.password && this.userForm.value.confirmPw ==null)
+        this.updatePopTrigger();
+    
 
-        if (this.userForm.valid && this.userForm.value.password === this.userForm.value.confirmPw) {
-            if(this.data.title=="Update"){
-                this.updatePopTrigger();
-            }else if(this.data.title === "Insert"){
-                this.insertPopTrigger();
-            }
-        }else{
-            if(this.userForm.value.password != this.userForm.value.confirmPw){
-            alert("Password isn't matching!")
-            }else{
-                alert("Invalid")
-            }
-        }
+        // if (this.userForm.valid && this.userForm.value.password === this.userForm.value.confirmPw) {
+        //     if(this.data.title=="Update"){
+        //         this.updatePopTrigger();
+        //     }else if(this.data.title === "Insert"){
+        //         this.insertPopTrigger();
+        //     }
+        // }else{
+        //     if(this.userForm.value.password != this.userForm.value.confirmPw){
+        //     alert("Password isn't matching!")
+        //     }else{
+        //         alert("Invalid")
+        //     }
+        // }
 
     }
     insertPopTrigger() {

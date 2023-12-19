@@ -13,10 +13,16 @@
     </div>
 
     <div class="flex justify-center">
-        <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" [paginationAutoPageSize]="true"
-            style="height: 500px; width:70vw;" [rowData]="rowData$ | async" [columnDefs]="columnDef"
-            [pagination]="true" [rowSelection]="rowSelection" (cellClicked)="onCellClicked($event)"
-            (gridReady)="onGridReady($event)">
+        <ag-grid-angular 
+        class="ag-theme-alpine user-table cursor-pointer" 
+        [paginationAutoPageSize]="true"
+        style="height: 500px; width:70vw;"
+        [rowData]="rowData$ | async" 
+        [columnDefs]="columnDef"
+        [pagination]="true" 
+        [rowSelection]="rowSelection" 
+        (cellClicked)="onCellClicked($event)"
+        (gridReady)="onGridReady($event)">
         </ag-grid-angular>
     </div>
 </div>

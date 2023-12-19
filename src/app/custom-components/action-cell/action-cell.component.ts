@@ -7,6 +7,7 @@ import { __param } from 'tslib';
 import { UserDataComponent } from 'src/app/Template/modules/userData/userData.component';
 import { UserRegistrationForm } from 'src/app/Template/auth-forms/registration-form/userRegistration-form.component';
 import { ActionPopComponent } from './action-pop/action-pop.component';
+import { UserService } from 'src/app/service/userService/user.service';
 @Component({
     selector: 'app-action-cell',
     templateUrl: './action-cell.component.html',
@@ -21,7 +22,7 @@ export class ActionCellComponent {
 
     constructor(
         public matDialog: MatDialog,
-        public userDataClassToSetGridRow: UserDataComponent,
+        private userService:UserService
        
     ) {
 
@@ -32,6 +33,11 @@ export class ActionCellComponent {
         this.gridApi = params.api;
      }
 
+     public setDataIntoRow() {
+        this.userService.getAllUser().subscribe((res) => {
+            this.gridApi.setRowData(res);
+        })
+    }
 
     openDelDialog(): void {
         
@@ -42,7 +48,7 @@ export class ActionCellComponent {
         }
         const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
         deletePop.afterClosed().subscribe(()=>{
-        this.userDataClassToSetGridRow.setDataIntoRow();
+            this.setDataIntoRow()
        })
        
     }
@@ -55,7 +61,7 @@ export class ActionCellComponent {
         }
         const dialogRef = this.matDialog.open(UserRegistrationForm, {data:extraData},);
         dialogRef.afterClosed().subscribe(()=>{
-            this.userDataClassToSetGridRow.setDataIntoRow();
+            this.setDataIntoRow()
         })
         
         

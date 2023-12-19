@@ -1,18 +1,18 @@
-<div class="main-container-signUp bg-neutral-200 shadow-2xl flex flex-col items-center justify-center">
+<div class="main-container-userform bg-neutral-200 shadow-2xl flex flex-col items-center justify-center">
      <img src="../../../../assets/logo/logoo.png" class="pt-5" width="90px"> 
      <div mat-dialog-title   class=" text-sm ">
         {{this.data.title}} Data
     </div> 
 
-    <div mat-dialog-content class="overflow-hidden p-5">
+    <div mat-dialog-content class=" overflow-hidden">
         <form [formGroup]="userForm" action="" class="overflow-hidden flex flex-col" (ngSubmit)="selectOperation()">
          <div class="flex flex-row gap-2 "> 
-            <mat-form-field class="" >
-                <mat-label class=""> First Name </mat-label>
+            <mat-form-field >
+                <mat-label > First Name </mat-label>
                 <input matInput formControlName="firstname" type="text" class=""/>
             </mat-form-field>
 
-            <mat-form-field class="">
+            <mat-form-field>
                 <mat-label> Last Name </mat-label>
                 <input matInput formControlName="lastname" type="text" class="" />
             </mat-form-field>
@@ -22,12 +22,12 @@
                 <input matInput formControlName="username" type="text" class="" />
             </mat-form-field>
 
-            <mat-form-field class="">
+            <mat-form-field >
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email" type="email">
             </mat-form-field>
 
-            <mat-radio-group class="text-sm flex m-1 flex-row justify-evenly" name="gender" formControlName="gender"
+            <mat-radio-group class="text-sm flex flex-row justify-evenly" name="gender" formControlName="gender"
                 color="primary">
                     <mat-label> Gender </mat-label>
                     <mat-radio-button id="male" value="male" name="male">Male</mat-radio-button>

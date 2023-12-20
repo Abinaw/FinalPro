@@ -1,18 +1,15 @@
-<div class="user-details-wrapper flex flex-col">
-    <div class="btn-container mb-5 flex flex-col gap-6 justify-center ">
-        <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" (click)="insertTrigger()">User
-            <mat-icon>person_add</mat-icon>
-        </button>
+<div class="user-data-wrapper flex flex-col">
+    
         
-            <mat-label>Search Data</mat-label>
-            <input (input)="searchDataInRows()"  type="tel" matInput placeholder="" [(ngModel)]="findByName">
-            <button type="button">
-                <mat-icon >search</mat-icon>
-            </button>
-       
-    </div>
+       <div class="search-cont -translate-y-8  flex justify-center align-middle">
+        <div class="box">
+            <input type="text" placeholder="Search" (input)="searchDataInRows()" [(ngModel)]="findByName">
+                <mat-icon>search</mat-icon>
+        </div>
+       </div>
 
-    <div class="flex justify-center">
+
+    <div class="user-table-cont flex justify-center">
         <ag-grid-angular 
         class="ag-theme-alpine user-table cursor-pointer" 
         [paginationAutoPageSize]="true"
@@ -25,4 +22,9 @@
         (gridReady)="onGridReady($event)">
         </ag-grid-angular>
     </div>
+    <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
+    <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" (click)="insertTrigger()">User
+        <mat-icon>person_add</mat-icon>
+    </button>
+</div>
 </div>

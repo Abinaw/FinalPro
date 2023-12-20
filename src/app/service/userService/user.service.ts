@@ -11,33 +11,33 @@ import { UserRegistrationForm } from 'src/app/Template/auth-forms/registration-f
 export class UserService {
     
    
-    private baseUrl = 'http://localhost:8080';
+    private baseUrl = 'http://localhost:8080/user';
 
   constructor(private http:HttpClient) { }
 
   regiterReq(regReq: UserRegistrationForm):Observable<any>{
-    const url = `${this.baseUrl}/user/register`;
+    const url = `${this.baseUrl}/register`;
     return this.http.post<UserRegistrationForm>(url,regReq,{responseType :'text' as 'json'})
   }
 
   getAllUser(){
-    const url = `${this.baseUrl}/user/getAll`;
+    const url = `${this.baseUrl}/getAll`;
     return this.http.get<any[]>(url);
   }
 
   deleteUserDetails(userId:any) {
-       const url =`${this.baseUrl}/user/deleteUser/${userId}`;
+       const url =`${this.baseUrl}/deleteUser/${userId}`;
        return this.http.delete<any>(url);
   }
 
   updateUserDetails(updateRequestData: UserRegistrationForm):Observable<any>{
-    const url = `${this.baseUrl}/user/updateUser`;
+    const url = `${this.baseUrl}/updateUser`;
     return this.http.put<UserRegistrationForm>(url,updateRequestData,{responseType :'text' as 'json'})
   }
 
-  FindData(dataChar:any) {
-    const url = `${this.baseUrl}/user/selectUsers`;
-    return this.http.get<UserRegistrationForm>(url,)
+  findData(dataChar:any) {
+    const url = `${this.baseUrl}/selectUsers/${dataChar}`;
+    return this.http.get<any>(url)
   }
 }
 

@@ -85,9 +85,13 @@ export class UserDataComponent {
 
     searchDataInRows()
     {
-        this.userService.FindData(this.findByName).subscribe(res=>{
-               console.log(res) 
-        });
+       this.gridApi.setQuickFilter(this.findByName)
+        // console.log(this.findByName)
+        // this.userService.findData(this.findByName).subscribe(res=>{
+        //   this.gridApi.setRowData(res)     
+        //   console.log(this.gridApi)
+        // });
+    
     }
 
 

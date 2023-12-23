@@ -22,8 +22,7 @@ export class UserDataComponent {
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-    isInsert!:true;
-    findByName : string=""
+    searchCharac : string=""
     public columnDef: ColDef[] = [
         // 
         { field: "userId", width: 90, hide: true, suppressColumnsToolPanel: true },
@@ -85,13 +84,14 @@ export class UserDataComponent {
 
     searchDataInRows()
     {
-       this.gridApi.setQuickFilter(this.findByName)
-        // console.log(this.findByName)
-        // this.userService.findData(this.findByName).subscribe(res=>{
-        //   this.gridApi.setRowData(res)     
-        //   console.log(this.gridApi)
-        // });
-    
+        // this.gridApi.setQuickFilter(this.searchCharac)
+        if(this.searchCharac!==""){
+        this.userService.findData(this.searchCharac).subscribe(res=>{
+          this.gridApi.setRowData(res) 
+           });   
+        }else if(this.searchCharac===""){
+           this.setDataIntoRow()
+        }
     }
 
 

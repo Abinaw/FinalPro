@@ -2,9 +2,7 @@ import { Component, Inject, InjectionToken } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { UserService } from 'src/app/service/userService/user.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActionCellComponent } from '../action-cell.component';
-import { UserRegistrationForm } from 'src/app/Template/auth-forms/registration-form/userRegistration-form.component';
-
+import { AudioService } from 'src/app/service/audio-service/audio-service.service';
 @Component({
     selector: 'app-delete-pop',
     templateUrl: './action-pop.component.html',
@@ -15,6 +13,7 @@ export class ActionPopComponent {
 
 
     constructor(
+        public audService :AudioService,
         public dialogRef: MatDialogRef<ActionPopComponent>,
         private userService: UserService,
         //the data has been passed from actionCellComponent within the openDelDialog() has been injected by the below line  
@@ -32,28 +31,11 @@ export class ActionPopComponent {
             this.insertDataYes()
         }
     }
-    playSoundDelete() {
-        let delAudio = new Audio();
-        delAudio.src = "../../../assets/sounds/actions/Delete.wav"
-        delAudio.load();
-        delAudio.play();
-    }
-    playSoundUpdate() {
-        let updateAudio = new Audio();
-        updateAudio.src = "../../../assets/sounds/actions/Update.wav"
-        updateAudio.load();
-        updateAudio.play();
-    }
-    playSoundInsert() {
-        let insertAudio = new Audio();
-        insertAudio.src = "../../../assets/sounds/actions/Insert.wav"
-        insertAudio.load();
-        insertAudio.play();
-    }
+    
 
     
     deleteDataYes() {
-        this.playSoundDelete();
+        this.audService.playSoundDelete();
         this.userService.deleteUserDetails(this.data.userId).subscribe(
 
             {
@@ -65,7 +47,7 @@ export class ActionPopComponent {
     }
 
     updateDataYes() {
-         this.playSoundUpdate()
+         this.audService.playSoundUpdate()
         let userId = this.data.userId;
         //userId added into the userForm data, had to do this separately since when updating the id is taken from the table and not from the form.
         this.data.userformData.userId = userId;
@@ -82,7 +64,7 @@ export class ActionPopComponent {
     }
 
     insertDataYes() {
-        this.playSoundInsert()
+        this.audService.playSoundInsert()
         let regRequestData = this.data.userformData.value
         this.userService.regiterReq(regRequestData).subscribe({
             next: (val) => {

@@ -5,7 +5,7 @@
     </div> 
 
     <div mat-dialog-content class=" overflow-hidden">
-        <form [formGroup]="userForm" action="" class="overflow-hidden flex flex-col" (ngSubmit)="selectOperation()">
+        <form [formGroup]="userForm"  class="overflow-hidden flex flex-col" (ngSubmit)="selectOperation()">
          <div class="flex flex-row gap-2 "> 
             <mat-form-field >
                 <mat-label > First Name </mat-label>
@@ -59,7 +59,7 @@
                     [attr.aria-pressed]="hide" type="button">
                     <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                 </button>
-                <mat-error *ngIf="userForm.get('password')?.errors">This field is required!</mat-error>
+                <mat-error *ngIf="this.data.title=='Insert' && userForm.get('password')?.errors">This field is required!</mat-error>
             </mat-form-field>
 
             <mat-form-field>
@@ -69,7 +69,7 @@
                     [attr.aria-pressed]="hide" type="button">
                     <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                 </button>
-                <mat-error *ngIf="userForm.get('confirmPw')?.errors">This field is required!</mat-error>
+                <mat-error *ngIf="this.data.title=='Insert' && userForm.get('confirmPw')?.errors">This field is required!</mat-error>
             </mat-form-field>
             
 

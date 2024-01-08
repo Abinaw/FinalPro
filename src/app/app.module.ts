@@ -103,13 +103,13 @@ import { ModuleToggleComponent } from './Template/side-bar/module-toggle/module-
      MatTableModule,
      MatInputModule,
      MatPaginatorModule,
-     MatProgressSpinnerModule,
+     MatProgressSpinnerModule,  
      MatSortModule,
      AgGridModule,
      ToastrModule.forRoot(),
      RouterModule,
      HttpClientModule,
-      FormsModule,
+     FormsModule,
      BrowserAnimationsModule
 
   ],

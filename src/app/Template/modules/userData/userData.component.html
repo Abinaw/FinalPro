@@ -16,7 +16,7 @@
         style=" height: 500px; width:70vw;"
         [rowData]="rowData$ | async" 
         [columnDefs]="columnDef"
-        [pagination]="true" 
+       
         [rowSelection]="rowSelection" 
         (cellClicked)="onCellClicked($event)"
         (gridReady)="onGridReady($event)">

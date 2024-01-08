@@ -7,9 +7,9 @@ import { HttpClient } from '@angular/common/http';
 import { ActionCellComponent } from 'src/app/custom-components/action-cell/action-cell.component';
 import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
-import { OnInit } from '@angular/core';
+
 import { UserService } from 'src/app/service/userService/user.service';
-import { ICellRendererParams } from 'ag-grid';
+
 
 @Component({
     selector: 'app-user',
@@ -65,10 +65,11 @@ export class UserDataComponent {
 
     // every Time delete,add,update have been used this specific function should be used by classes(popups or etc) so kept public 
     // or else this should be created for every class 
-    public setDataIntoRow() {
-        this.userService.getAllUser().subscribe((res) => {
-            this.gridApi.setRowData(res);
-        })
+    public setDataIntoRow() {       
+        this.userService.getAllUser().subscribe((userData) => {
+            this.gridApi.setRowData(userData);
+          }, (err) => {
+          })
     }
 
 
@@ -77,9 +78,10 @@ export class UserDataComponent {
             title:"Insert"
         }
         const openForm = this.dialog.open(UserRegistrationForm,{data:extraData})
-        openForm.afterClosed().subscribe(() => {
-            this.setDataIntoRow()
+        openForm.afterClosed().subscribe(res=>{
+            this.setDataIntoRow();
         })
+      
     }
 
     searchDataInRows()

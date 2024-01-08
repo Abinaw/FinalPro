@@ -4,10 +4,10 @@ import {
     MatDialog,
   } from '@angular/material/dialog';
 import { __param } from 'tslib';
-import { UserDataComponent } from 'src/app/Template/modules/userData/userData.component';
 import { UserRegistrationForm } from 'src/app/Template/auth-forms/registration-form/userRegistration-form.component';
 import { ActionPopComponent } from './action-pop/action-pop.component';
 import { UserService } from 'src/app/service/userService/user.service';
+import { state } from '@angular/animations';
 @Component({
     selector: 'app-action-cell',
     templateUrl: './action-cell.component.html',
@@ -34,8 +34,8 @@ export class ActionCellComponent {
      }
 
      public setDataIntoRow() {
-        this.userService.getAllUser().subscribe((res) => {
-            this.gridApi.setRowData(res);
+        this.userService.getAllUser().subscribe((retData)=>{
+            this.gridApi.setRowData(retData)
         })
     }
 
@@ -44,12 +44,19 @@ export class ActionCellComponent {
         const extraData = {
             title : "Delete",
             subTitle: "Do you want to delete this customer?",
-            userId: this.dataFromRow.userId,
         }
         const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
-        deletePop.afterClosed().subscribe(()=>{
-            this.setDataIntoRow()
-       })
+        
+        deletePop.afterClosed().subscribe((state:boolean) => {
+            // console.log(`Dialog result: ${result}`)
+            debugger
+            if(!state)return;
+            this.userService.deleteUser(this.dataFromRow.userId).subscribe(()=>{
+                this.setDataIntoRow();
+            })
+            
+            
+        })
        
     }
     
@@ -57,7 +64,6 @@ export class ActionCellComponent {
         const extraData={
             title: "Update",
             userdata:this.dataFromRow
-           
         }
         const dialogRef = this.matDialog.open(UserRegistrationForm, {data:extraData},);
         dialogRef.afterClosed().subscribe(()=>{

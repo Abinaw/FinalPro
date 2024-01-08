@@ -15,11 +15,6 @@ nav {
     overflow: hidden;
 }
 
-nav img,
-nav ul,
-.user {
-    position: absolute;
-}
 
 
 nav ul {
@@ -28,16 +23,20 @@ nav ul {
 
 
 li >ul.settings-conts{
-
-    top: 33rem;
-    display: grid;
-    grid-template-columns: auto;
+    transform: translateY(35rem);
+   /* background-color: rgba(240, 248, 255, 0.555); */
+   display: grid;
+   grid-gap:15px;
     left: 0;
     width:17vw;
     height: 15vh;
     text-align: left;
+    
 }
 
+.settings-conts li{
+    height: 2rem;
+}
 
 
 .settings-conts li a {
@@ -47,6 +46,7 @@ li >ul.settings-conts{
     left: 1vw;
     gap: 0.7vw;
     color: aliceblue;
+  
 }
 
 .settings-conts li a:hover{
@@ -93,7 +93,7 @@ span.sys-opt{
     opacity: 0.5;
     transform: translateX(12%);
     top:25vh;
-    transition: all .5s;
+    transition: all .8s;
 
 }
 

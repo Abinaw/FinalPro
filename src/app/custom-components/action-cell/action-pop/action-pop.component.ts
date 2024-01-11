@@ -16,7 +16,6 @@ export class ActionPopComponent {
     constructor(
        
         public dialogRef: MatDialogRef<ActionPopComponent>,
-        private userService: UserService,
         //the data has been passed from actionCellComponent within the openDelDialog() has been injected by the below line  
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
@@ -26,60 +25,6 @@ export class ActionPopComponent {
     onClose(state:boolean){
         this.dialogRef.close(state)
     }
-
-   
-
-    // selectOperation() {
-    //     if (this.data.title === "Delete") {
-    //         this.deleteDataYes()
-    //     } else if (this.data.title === "Update") {
-    //         this.updateDataYes()
-    //     } else if (this.data.title === "Insert") {
-    //         // this.insertDataYes()
-    //     }
-    // }
-    
-
-    
-    // deleteDataYes() {
-    //     this.userService.deleteUserDetails(this.data.userId).subscribe(
-    //         {
-    //             next: (val) => console.log(val)
-    //             ,
-    //             error: (err) => console.log(err)
-    //         })
-
-    // }
-
-    // updateDataYes() {
-        
-    //     let userId = this.data.userId;
-    //     //userId added into the userForm data, had to do this separately since when updating the id is taken from the table and not from the form.
-    //     this.data.userformData.userId = userId;
-    //     // console.log( this.data.userformData)
-    //     this.userService.updateUserDetails(this.data.userformData).subscribe({
-    //         next: (val) => {
-    //             console.log(val)
-    //         },
-    //         error: (err) => {
-    //             console.log(err)
-    //         }
-    //     })
-
-    // }
-
-    // insertDataYes() {
-      
-    //     let regRequestData = this.data.userformData.value
-    //     this.userService.regiterReq(regRequestData).subscribe({
-    //         next: (val) => {
-    //         },
-    //         error: (err) => {
-    //             console.log(err)
-    //         }
-    //     })
-
-    // }
 
 
 }

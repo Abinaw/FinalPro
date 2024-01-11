@@ -1,4 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
+import { Observable } from 'rxjs';
+import { CustomerService } from 'src/app/service/customer-service/customer.service';
+import { CustomerFormComponent } from '../../createData-forms/customer-form/customer-form.component';
+import { ActionCellComponent } from 'src/app/custom-components/action-cell/action-cell.component';
 
 @Component({
   selector: 'app-customer',
@@ -7,6 +14,83 @@ import { Component } from '@angular/core';
 })
 
 export class CustomerComponent{
-  
+    rowData$!: Observable<any[]>;
+    @ViewChild(AgGridAngular)
+    agGrid!: AgGridAngular
+    gridApi: GridApi | any = {}
+    public rowSelection: 'single' | 'multiple' = 'single';
+    searchCharac : string=""
+    public columnDef: ColDef[] = [
+        // 
+        { field: "custId", width: 90, },
+        { field: "custName", },
+        { field: "email",width:250 },
+        { field: "contact",},
+        {field:"address"},
+        { field: "Action",width: 90, cellRenderer: ActionCellComponent, }
+    ];
+
+    constructor(
+        private dialog: MatDialog,
+        private custService: CustomerService,
+    ) { }
+
+   
+
+
+    onGridReady(param: GridReadyEvent) {
+        this.rowData$ = this.getRowData();
+        this.gridApi = param?.api
+    }
+
+    onCellClicked(cellClickedEvent: CellClickedEvent) {
+        //    console.log(cellClickedEvent)
+    }
+
+    private getRowData(): any {
+        return new Promise((resolve) => {
+            this.custService.getAll().subscribe((custData) => {
+                resolve(custData);
+            }, (err) => {
+                resolve([])
+            })
+        })
+    }
+
+    // every Time delete,add,update have been used this specific function should be used by classes(popups or etc) so kept public 
+    // or else this should be created for every class 
+    public setDataIntoRow() {       
+        this.custService.getAll().subscribe((custData) => {
+            this.gridApi.setRowData(custData);
+          }, (err) => {
+          })
+    }
+
+
+    insertTrigger() {
+        const extraData={
+            title:"Insert"
+        }
+        const openForm = this.dialog.open(CustomerFormComponent,{data:extraData})
+        openForm.afterClosed().subscribe(res=>{
+            this.setDataIntoRow();
+        })
+      
+    }
+
+    searchDataInRows()
+    {
+        // this.gridApi.setQuickFilter(this.searchCharac)
+        if(this.searchCharac!==""){
+        this.custService.findData(this.searchCharac).subscribe(res=>{
+          this.gridApi.setRowData(res) 
+           });   
+        }else if(this.searchCharac===""){
+           this.setDataIntoRow()
+        }
+    }
+
+
+
 
 }

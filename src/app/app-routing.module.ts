@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Components of the modules in the dashBoard
 import { DashboardCardsComponent } from './Template/dashboard-cards/dashboard-cards.component';
-import { LoginCompoComponent } from './Template/auth-forms/login-compo/login-compo.component';
+import { LoginCompoComponent } from './Template/createData-forms/login-compo/login-compo.component'; 
 import { CustomerComponent } from './Template/modules/customer/customer.component';
 import { EmployeeComponent } from './Template/modules/employee/employee.component';
 import { PurchaseComponent } from './Template/modules/purchase/purchase.component';

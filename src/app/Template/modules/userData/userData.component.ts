@@ -1,7 +1,6 @@
-import { Component, ViewChild, } from '@angular/core';
-import { MatDialog, MatDialogRef, } from '@angular/material/dialog';
-import { UserRegistrationForm } from '../../auth-forms/registration-form/userRegistration-form.component';
-import userDta from '../../../../assets/json/users.json'
+import { Component,  ViewChild, } from '@angular/core';
+import { MatDialog,  } from '@angular/material/dialog';
+import { UserRegistrationForm } from '../../createData-forms/registration-form/userRegistration-form.component'; 
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ActionCellComponent } from 'src/app/custom-components/action-cell/action-cell.component';
@@ -42,6 +41,7 @@ export class UserDataComponent {
         private userService: UserService,
     ) { }
 
+   
 
 
     onGridReady(param: GridReadyEvent) {

@@ -1,0 +1,48 @@
+<div class="main-container-userform bg-neutral-200 shadow-2xl flex flex-col items-center justify-center">
+    <!-- <img src="../../../../assets/logo/logoo.png" class="pt-5" width="90px">  -->
+    <div mat-dialog-title   class=" text-sm ">
+       {{this.data.title}} Data
+   </div> 
+
+   <div mat-dialog-content class=" overflow-hidden">
+       <form [formGroup]="custForm"  class="overflow-hidden flex flex-col" (ngSubmit)="selectOperation()">
+        
+           <mat-form-field class="cdk-visually-hidden">
+               <mat-label > Id </mat-label>
+               <input matInput formControlName="custId"  type="text" class=""/>
+           </mat-form-field>
+
+           <mat-form-field >
+               <mat-label > Customer name </mat-label>
+               <input matInput formControlName="custName" type="text" class=""/>
+               <mat-error *ngIf="custForm.get('name')?.errors">This field is required!</mat-error>
+               <mat-error *ngIf="">This field is required!</mat-error>
+           </mat-form-field>
+           <mat-form-field >
+                <mat-label > Contact number </mat-label>
+                <input matInput formControlName="contact" type="text" class=""/>
+                <mat-error *ngIf="custForm.get('contact')?.errors">This field is required!</mat-error>
+                <mat-error *ngIf="">This field is required!</mat-error>
+            </mat-form-field>
+            <mat-form-field >
+                <mat-label>Address</mat-label>
+                <input matInput formControlName="address" type="text">
+                <mat-error *ngIf="custForm.get('address')?.errors">This field is required!</mat-error>
+            </mat-form-field>
+           <mat-form-field >
+               <mat-label>Email</mat-label>
+               <input matInput formControlName="email" type="email">
+               <mat-error *ngIf="custForm.get('email')?.errors">This field is required!</mat-error>
+           </mat-form-field>
+
+           <div mat-dialog-actions class="button-wrapper flex flex-row">
+               <button mat-flat-button color="primary" class="save" type="submit">
+                   {{data.title}}
+               </button>
+           </div>
+       </form>
+   </div>
+
+   
+
+</div>

@@ -8,7 +8,7 @@ import { UserService } from 'src/app/service/userService/user.service';
 @Component({
     selector: 'app-user-registration',
     templateUrl: './userRegistration-form.html',
-    styleUrls: ['./userRegistration-form.css']
+    styleUrls: ['./userRegistration-form.css','../form-design.css']
 })
 export class UserRegistrationForm implements OnInit {
     userForm: FormGroup;
@@ -22,6 +22,7 @@ export class UserRegistrationForm implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.userForm=new FormGroup({
+            userId:new FormControl,
             firstname:new FormControl(null,[Validators.required,]),
             lastname:new FormControl(null,Validators.required),
             username:new FormControl(null,Validators.required),
@@ -37,6 +38,7 @@ export class UserRegistrationForm implements OnInit {
 
     setDataIntoFormFields() {
         return this.userForm.setValue({
+            userId:this.data.userdata.userId,
             firstname: this.data.userdata.firstname,
             lastname: this.data.userdata.lastname,
             username: this.data.userdata.username,
@@ -57,7 +59,6 @@ export class UserRegistrationForm implements OnInit {
     
 
     selectOperation() {
-        // console.log(this.userForm)
         if (this.data.title === "Insert" &&
             this.userForm.valid && this.userForm.value.password === this.userForm.value.confirmPw) {
             this.insertPopTrigger();
@@ -77,28 +78,31 @@ export class UserRegistrationForm implements OnInit {
             userformData: this.userForm
         }
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
-        this.userService.regiterReq(this.userForm.value).subscribe(res=>{
+        openActionPop.afterClosed().subscribe((state:boolean) => {
+            if(!state)return;
+            this.userService.regiterReq(this.userForm.value).subscribe(res=>{
             console.log(res)
-        })
-        openActionPop.afterClosed().subscribe(() => {
             this.matDialogRef.close()
+        })
+           
         })
         
 
     }
 
     updatePopTrigger() {
-
         const extraData = {
             title: this.data.title,
             subTitle: "are you sure you want to update the selected data?",
-            userformData: this.userForm.value,
-            userId: this.data.userdata.userId
-
+          
         }
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
-        openActionPop.afterClosed().subscribe(() => {
-            this.matDialogRef.close();
+        openActionPop.afterClosed().subscribe((state:boolean) => {
+            if(!state)return;
+            this.userService.updateUserDetails(this.userForm.value).subscribe((res)=>{
+                this.matDialogRef.close()
+                console.log(res)
+            })
         })
 
     }

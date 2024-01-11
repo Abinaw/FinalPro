@@ -15,7 +15,7 @@ import {MatCardModule} from '@angular/material/card';
 import { ToastrModule } from 'ngx-toastr';
 import {MatDialogModule} from '@angular/material/dialog'
 
-import { LoginCompoComponent } from './Template/auth-forms/login-compo/login-compo.component';
+import { LoginCompoComponent } from './Template/createData-forms/login-compo/login-compo.component'; 
 
 // Routing Module
 import { Routes, RouterModule } from '@angular/router';
@@ -48,11 +48,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSortModule} from '@angular/material/sort';
  import { FormsModule } from '@angular/forms';
-import { UserRegistrationForm } from './Template/auth-forms/registration-form/userRegistration-form.component';
+import { UserRegistrationForm } from './Template/createData-forms/registration-form/userRegistration-form.component'; 
 import {AgGridModule} from 'ag-grid-angular';
 import { ActionCellComponent } from './custom-components/action-cell/action-cell.component';
 import { ActionPopComponent } from './custom-components/action-cell/action-pop/action-pop.component';
 import { ModuleToggleComponent } from './Template/side-bar/module-toggle/module-toggle.component';
+import { CustomerFormComponent } from './Template/createData-forms/customer-form/customer-form.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,9 @@ import { ModuleToggleComponent } from './Template/side-bar/module-toggle/module-
     UserRegistrationForm,
     ActionCellComponent,
     ActionPopComponent,
+    CustomerFormComponent,
     ModuleToggleComponent,
+    
     
 
 

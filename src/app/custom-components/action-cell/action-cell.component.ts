@@ -4,10 +4,10 @@ import {
     MatDialog,
   } from '@angular/material/dialog';
 import { __param } from 'tslib';
-import { UserRegistrationForm } from 'src/app/Template/auth-forms/registration-form/userRegistration-form.component';
+import { UserRegistrationForm } from 'src/app/Template/createData-forms/registration-form/userRegistration-form.component'; 
 import { ActionPopComponent } from './action-pop/action-pop.component';
 import { UserService } from 'src/app/service/userService/user.service';
-import { state } from '@angular/animations';
+
 @Component({
     selector: 'app-action-cell',
     templateUrl: './action-cell.component.html',
@@ -48,31 +48,25 @@ export class ActionCellComponent {
         const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
-            // console.log(`Dialog result: ${result}`)
-            debugger
             if(!state)return;
-            this.userService.deleteUser(this.dataFromRow.userId).subscribe(()=>{
+            this.userService.deleteUser(this.dataFromRow.userId).subscribe((res)=>{
+                console.log(res)
                 this.setDataIntoRow();
             })
-            
-            
         })
        
     }
     
     updateFormTrigger() {
+        console.log(this.gridApi    )
         const extraData={
             title: "Update",
             userdata:this.dataFromRow
         }
-        const dialogRef = this.matDialog.open(UserRegistrationForm, {data:extraData},);
-        dialogRef.afterClosed().subscribe(()=>{
-            this.setDataIntoRow()
-        })
-        
-        
-        
-       
+            const dialogRef = this.matDialog.open(UserRegistrationForm, {data:extraData});
+            dialogRef.afterClosed().subscribe(()=>{
+                this.setDataIntoRow()
+            })
         }
 }
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { LoginRequest } from 'src/app/Template/auth-forms/login-compo/LoginRequest';
+
 
 
 @Component({

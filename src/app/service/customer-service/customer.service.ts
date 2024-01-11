@@ -1,18 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UserRegistrationForm } from 'src/app/Template/createData-forms/registration-form/userRegistration-form.component';
 import { AudioService } from '../audio-service/audio-service.service';
-
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
+export class CustomerService {
 
-export class UserService {
-    
+     
    
-    private baseUrl = 'http://localhost:8080/dash-board/user';
+    private baseUrl = 'http://localhost:8080/dash-board/customer';
     
 
 
@@ -26,21 +24,21 @@ export class UserService {
     return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
   }
 
-  getAllUser():Observable<any>{
+  getAll():Observable<any>{
     const url = `${this.baseUrl}/getAll`;
     return this.http.get<any[]>(url);
   }
 
-  deleteUser(userId:any) {
+  delete(custId:any) {
     // this.audService.playSoundDelete()
-       const url =`${this.baseUrl}/delete/${userId}`;
+       const url =`${this.baseUrl}/delete/${custId}`;
        return this.http.delete<any>(url,{responseType :'text' as 'json'});
   }
 
-  updateUserDetails(updateRequestData: UserRegistrationForm):Observable<any>{
+  update(updateRequestData: any):Observable<any>{
     // this.audService.playSoundUpdate()
     const url = `${this.baseUrl}/update`;
-    return this.http.put<UserRegistrationForm>(url,updateRequestData,{responseType :'text' as 'json'})
+    return this.http.put<any>(url,updateRequestData,{responseType :'text' as 'json'})
   }
 
   findData(dataChar:any) {
@@ -48,4 +46,3 @@ export class UserService {
     return this.http.get<any>(url)
   }
 }
-

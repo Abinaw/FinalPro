@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
     title = 'FinalPro';
     isLoginPageAvail: boolean = true;
-
+    showClose:boolean | undefined
 
 
     constructor(
@@ -17,16 +17,27 @@ export class AppComponent {
 
     }
     ShowSidebar(): any {
+        
         const currentRoute = this.router.url;//login
-        if (['/login'].includes(currentRoute)) {
-            this.isLoginPageAvail = false;
+        // if (['/login'].includes(currentRoute)) {
+        if(currentRoute.includes('/login')){
+            this.isLoginPageAvail = true;
             return false;
         } else {
-            this.isLoginPageAvail = true;
+            this.isLoginPageAvail = false;
             return true;
         }
+    }
 
 
-
+    showCloseIcon(){
+        const currentRoute = this.router.url;
+        if(['/login','/dash-board'].includes(currentRoute)){
+           this.showClose= false
+            return false;
+        } else {
+           this.showClose = true
+            return true;
+        }
     }
 }

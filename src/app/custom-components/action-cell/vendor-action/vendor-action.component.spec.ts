@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModuleToggleComponent } from './module-toggle.component';
+import { VendorActionComponent } from './vendor-action.component';
 
-describe('ModuleToggleComponent', () => {
-  let component: ModuleToggleComponent;
-  let fixture: ComponentFixture<ModuleToggleComponent>;
+describe('VendorActionComponent', () => {
+  let component: VendorActionComponent;
+  let fixture: ComponentFixture<VendorActionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModuleToggleComponent ]
+      declarations: [ VendorActionComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModuleToggleComponent);
+    fixture = TestBed.createComponent(VendorActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -50,10 +50,13 @@ import {MatSortModule} from '@angular/material/sort';
  import { FormsModule } from '@angular/forms';
 import { UserRegistrationForm } from './Template/createData-forms/registration-form/userRegistration-form.component'; 
 import {AgGridModule} from 'ag-grid-angular';
-import { ActionCellComponent } from './custom-components/action-cell/action-cell.component';
+import { ActionCellComponent } from './custom-components/action-cell/user-action/action-cell.component';
 import { ActionPopComponent } from './custom-components/action-cell/action-pop/action-pop.component';
-import { ModuleToggleComponent } from './Template/side-bar/module-toggle/module-toggle.component';
 import { CustomerFormComponent } from './Template/createData-forms/customer-form/customer-form.component';
+import { CustomerActionComponent } from './custom-components/action-cell/customer-action/customer-action.component';
+import { VendorActionComponent } from './custom-components/action-cell/vendor-action/vendor-action.component';
+
+
 
 @NgModule({
   declarations: [
@@ -78,7 +81,9 @@ import { CustomerFormComponent } from './Template/createData-forms/customer-form
     ActionCellComponent,
     ActionPopComponent,
     CustomerFormComponent,
-    ModuleToggleComponent,
+    CustomerActionComponent,
+    VendorActionComponent,
+
     
     
 
@@ -94,9 +99,9 @@ import { CustomerFormComponent } from './Template/createData-forms/customer-form
      MatButtonModule,
      MatCardModule,
     MatIconModule,
-
+    
     // Form
-     MatFormFieldModule,
+    MatFormFieldModule,
      ReactiveFormsModule,
      HttpClientModule,
      MatSelectModule,

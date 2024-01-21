@@ -2,31 +2,32 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
-import { CustomerService } from 'src/app/service/customer-service/customer.service';
+import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 
 @Component({
-  selector: 'app-customer-form',
-  templateUrl: './customer-form.component.html',
-  styleUrls: ['./customer-form.component.css','../form-design.css']
+  selector: 'app-vendor-form',
+  templateUrl: './vendor-form.component.html',
+  styleUrls: ['./vendor-form.component.css','../form-design.css']
 })
-export class CustomerFormComponent {
-    custForm: FormGroup;
+export class VendorFormComponent {
+    
     hide: boolean = true;
     allData: any;
+    vendorForm: FormGroup;
    
    
     constructor(
-        private custService:CustomerService,
+        private vendorService:VendorService,
         private matDialog: MatDialog,
-        private matDialogRef: MatDialogRef<CustomerFormComponent>,
+        private matDialogRef: MatDialogRef<VendorFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.custForm=new FormGroup({
-            custId:new FormControl,
-            custName:new FormControl(null,Validators.required),
-            contact:new FormControl(null,Validators.required),
+        this.vendorForm=new FormGroup({
+            vendorId:new FormControl,
+            vendorName:new FormControl(null,Validators.required),
             address:new FormControl(null,Validators.required),
-            email:new FormControl("cap@gmail.com",[Validators.required,Validators.email]),
+            email:new FormControl(null,Validators.required),
+            contact:new FormControl("cap@gmail.com",[Validators.required,Validators.email]),
         })
     }
 
@@ -34,9 +35,9 @@ export class CustomerFormComponent {
 
     setDataIntoFormFields() {
        
-        return this.custForm.setValue({
-            custId:this.data.custData.custId,
-            custName: this.data.custData.custName,
+        return this.vendorForm.setValue({
+            vendorId:this.data.custData.custId,
+            vendorName: this.data.custData.custName,
             contact:this.data.custData.contact,
             address:this.data.custData.address,
             email: this.data.custData.email,
@@ -66,12 +67,12 @@ export class CustomerFormComponent {
         const extraData = {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
-            userformData: this.custForm
+            userformData: this.vendorForm
         }
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
-            this.custService.regiterReq(this.custForm.value).subscribe(res=>{
+            this.vendorService.regiterReq(this.vendorForm.value).subscribe(res=>{
             console.log(res)
             this.matDialogRef.close()
         })
@@ -90,7 +91,7 @@ export class CustomerFormComponent {
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
-            this.custService.update(this.custForm.value).subscribe((res)=>{
+            this.vendorService.update(this.vendorForm.value).subscribe((res)=>{
                 this.matDialogRef.close()
                 console.log(res)
             })

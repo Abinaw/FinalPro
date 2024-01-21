@@ -1,21 +1,23 @@
 import { Component,  ViewChild, } from '@angular/core';
-import { MatDialog,  } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef,  } from '@angular/material/dialog';
 import { UserRegistrationForm } from '../../createData-forms/registration-form/userRegistration-form.component'; 
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ActionCellComponent } from 'src/app/custom-components/action-cell/action-cell.component';
+import { ActionCellComponent } from 'src/app/custom-components/action-cell/user-action/action-cell.component';
 import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 
 import { UserService } from 'src/app/service/userService/user.service';
 
 
+
 @Component({
     selector: 'app-user',
     templateUrl: './userData.component.html',
-    styleUrls: ['./userData.component.css',],
+    styleUrls: ['./userData.component.css'],
 })
 export class UserDataComponent {
+    
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
     agGrid!: AgGridAngular
@@ -97,8 +99,7 @@ export class UserDataComponent {
     }
 
 
-
-
+    
 
 }
 

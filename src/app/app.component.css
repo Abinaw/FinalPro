@@ -5,7 +5,7 @@
     margin-left: 2rem;
     margin-top: 1.5rem;
     margin-right: 3rem;
-    padding-top: 3.5rem;
+    padding-top: 2rem;
     height: 95vh;
     border-radius: 20px;
 }
@@ -14,3 +14,17 @@
     transform: translateX(50%);
 }
 
+.close{
+    display: flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background-color: #5e4e92;
+    /* transform: translate(71.5rem,-2rem); */
+    cursor: pointer;
+    position: absolute;
+    right: 25px;
+    top: 10px;
+}

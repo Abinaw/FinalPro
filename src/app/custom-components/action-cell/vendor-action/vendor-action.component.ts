@@ -1,28 +1,23 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { GridApi, ICellRendererParams } from 'ag-grid';
-import {
-    MatDialog,
-  } from '@angular/material/dialog';
-import { __param } from 'tslib';
-import { UserRegistrationForm } from 'src/app/Template/createData-forms/registration-form/userRegistration-form.component'; 
-import { ActionPopComponent } from './action-pop/action-pop.component';
-import { UserService } from 'src/app/service/userService/user.service';
+import { VendorService } from 'src/app/service/vendor-service/vendor.service';
+import { ActionPopComponent } from '../action-pop/action-pop.component';
+import { VendorFormComponent } from 'src/app/Template/createData-forms/vendor-form/vendor-form.component';
 
 @Component({
-    selector: 'app-action-cell',
-    templateUrl: './action-cell.component.html',
-    styleUrls: ['./action-cell.component.css'],
-    template: '',
+  selector: 'app-vendor-action',
+  templateUrl: './vendor-action.component.html',
+  styleUrls: ['./vendor-action.component.css']
 })
-export class ActionCellComponent {
-
+export class VendorActionComponent {
     dataFromRow: any;
     gridApi: GridApi | any = {};
     
 
     constructor(
         public matDialog: MatDialog,
-        private userService:UserService
+        private vendorService:VendorService
        
     ) {
 
@@ -34,7 +29,7 @@ export class ActionCellComponent {
      }
 
      public setDataIntoRow() {
-        this.userService.getAllUser().subscribe((retData)=>{
+        this.vendorService.getAll().subscribe((retData)=>{
             this.gridApi.setRowData(retData)
         })
     }
@@ -42,14 +37,16 @@ export class ActionCellComponent {
     openDelDialog(): void {
         
         const extraData = {
-            title : "Delete",
-            subTitle: "Do you want to delete this customer?",
+            title : "Delete Vendor",
+            subTitle: "Do you want to delete this Vendor?",
         }
         const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
-            this.userService.deleteUser(this.dataFromRow.userId).subscribe((res)=>{
+
+            
+            this.vendorService.delete(this.dataFromRow.custId).subscribe((res)=>{
                 console.log(res)
                 this.setDataIntoRow();
             })
@@ -58,16 +55,13 @@ export class ActionCellComponent {
     }
     
     updateFormTrigger() {
-        console.log(this.gridApi    )
-        const extraData={
+        const data={
             title: "Update",
-            userdata:this.dataFromRow
+            custData:this.dataFromRow
         }
-            const dialogRef = this.matDialog.open(UserRegistrationForm, {data:extraData});
+            const dialogRef = this.matDialog.open(VendorFormComponent, {data});
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
             })
         }
 }
-
-

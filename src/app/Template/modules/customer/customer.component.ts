@@ -5,7 +5,8 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Observable } from 'rxjs';
 import { CustomerService } from 'src/app/service/customer-service/customer.service';
 import { CustomerFormComponent } from '../../createData-forms/customer-form/customer-form.component';
-import { ActionCellComponent } from 'src/app/custom-components/action-cell/action-cell.component';
+import { ActionCellComponent } from 'src/app/custom-components/action-cell/user-action/action-cell.component';
+import { CustomerActionComponent } from 'src/app/custom-components/action-cell/customer-action/customer-action.component';
 
 @Component({
   selector: 'app-customer',
@@ -22,12 +23,12 @@ export class CustomerComponent{
     searchCharac : string=""
     public columnDef: ColDef[] = [
         // 
-        { field: "custId", width: 90, },
+        { field: "custId", width: 90, hide:true},
         { field: "custName", },
         { field: "email",width:250 },
         { field: "contact",},
-        {field:"address"},
-        { field: "Action",width: 90, cellRenderer: ActionCellComponent, }
+        { field:"address"},
+        { field: "Action",width: 90, cellRenderer: CustomerActionComponent, }
     ];
 
     constructor(
@@ -44,7 +45,6 @@ export class CustomerComponent{
     }
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
-        //    console.log(cellClickedEvent)
     }
 
     private getRowData(): any {
@@ -57,8 +57,7 @@ export class CustomerComponent{
         })
     }
 
-    // every Time delete,add,update have been used this specific function should be used by classes(popups or etc) so kept public 
-    // or else this should be created for every class 
+  
     public setDataIntoRow() {       
         this.custService.getAll().subscribe((custData) => {
             this.gridApi.setRowData(custData);
@@ -80,7 +79,6 @@ export class CustomerComponent{
 
     searchDataInRows()
     {
-        // this.gridApi.setQuickFilter(this.searchCharac)
         if(this.searchCharac!==""){
         this.custService.findData(this.searchCharac).subscribe(res=>{
           this.gridApi.setRowData(res) 

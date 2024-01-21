@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService {
+export class VendorService {
 
-     
+  
    
-    private baseUrl = 'http://localhost:8080/api/customer';
+    private baseUrl = 'http://localhost:8080/api/vendor';
     
 
 
@@ -29,9 +29,9 @@ export class CustomerService {
     return this.http.get<any[]>(url);
   }
 
-  delete(custId:any) {
+  delete(vendorId:any) {
     // this.audService.playSoundDelete()
-       const url =`${this.baseUrl}/delete/${custId}`;
+       const url =`${this.baseUrl}/delete/${vendorId}`;
        return this.http.delete<any>(url,{responseType :'text' as 'json'});
   }
 

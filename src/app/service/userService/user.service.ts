@@ -12,7 +12,7 @@ import { AudioService } from '../audio-service/audio-service.service';
 export class UserService {
     
    
-    private baseUrl = 'http://localhost:8080/dash-board/user';
+    private baseUrl = 'http://localhost:8080/api/user';
     
 
 

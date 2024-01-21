@@ -1,7 +1,7 @@
 * {
     text-decoration: none;
-    font-size: 1.25rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    
 }
 
 nav {
@@ -23,19 +23,19 @@ nav ul {
 
 
 li >ul.settings-conts{
-    transform: translateY(35rem);
+    position: absolute;
+    bottom: 3rem;
    /* background-color: rgba(240, 248, 255, 0.555); */
    display: grid;
-   grid-gap:15px;
+   grid-gap:auto;
     left: 0;
     width:17vw;
-    height: 15vh;
     text-align: left;
     
 }
 
 .settings-conts li{
-    height: 2rem;
+    height: 0.3rem;
 }
 
 
@@ -44,6 +44,7 @@ li >ul.settings-conts{
     grid-template-columns: auto auto;
     position: absolute;
     left: 1vw;
+    /* column gap- b/w  icons and the text*/
     gap: 0.7vw;
     color: aliceblue;
   
@@ -76,10 +77,11 @@ span.sys-opt{
     width: 8vw;
     color: black;
     text-align: center;
-    height: 3vh;
+    height: 4vh;
     font-size: 1rem;
     transition: width .5s;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    font-weight: bold;
 }
 
 .logout:hover{
@@ -102,3 +104,6 @@ nav:hover .separation{
 }
 
 
+.toggle{
+    transform: translateY(2.7rem);
+}

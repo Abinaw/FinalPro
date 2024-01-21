@@ -1,6 +1,7 @@
 .search-cont{
     height: 5vh;
    display: flex;
+   flex-direction: row;
    justify-content: center;
    align-items: center;
     }
@@ -27,3 +28,5 @@
     transition: 0.8s;
     background-color: transparent;
 }
+
+

@@ -53,10 +53,10 @@ export class CustomerFormComponent {
     
 
     selectOperation() {
-        if (this.data.title === "Insert") {
+        if (this.data.title === "Insert" && this.custForm.valid) {
             this.insertPopTrigger();
            
-        } else if (this.data.title == "Update"){
+        } else if (this.data.title == "Update" && this.custForm.valid){
             this.updatePopTrigger();
         }
         
@@ -66,7 +66,6 @@ export class CustomerFormComponent {
         const extraData = {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
-            userformData: this.custForm
         }
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state:boolean) => {

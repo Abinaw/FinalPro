@@ -25,7 +25,7 @@ export class DashboardCardsComponent {
       name:'Sales' ,imageUrl:"../../assets/New Set/sales.jpg",route:'sales'
     },
     {
-      name:'Employee' ,imageUrl:"../../assets/New Set/employee.jpg",route:'employee'
+      name:'Return' ,imageUrl:"../../assets/New Set/return.jpg",route:'return'
     },
     {
       name:'Stock' ,imageUrl:"../../assets/New Set/stock.jpg",route:'stock'
@@ -34,8 +34,14 @@ export class DashboardCardsComponent {
       name:'Purchase' ,imageUrl:"../../assets/New Set/purchase.jpg",route:'purchase'
     },
     {
-      name:'Report' ,imageUrl:"../../assets/New Set/report.jpg",route:'report'
-    }
+      name:'Category' ,imageUrl:"../../assets/New Set/category.jpg",route:'category'
+    },
+    {
+      name:'Invoice' ,imageUrl:"../../assets/New Set/invoice.jpg",route:'invoice'
+    },
+    {
+        name:'Report' ,imageUrl:"../../assets/New Set/report.jpg",route:'report'
+      }
 
   ]
 

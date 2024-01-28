@@ -1,0 +1,7 @@
+.dateandQtyCont{
+    width: 60vh;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 2px;
+}

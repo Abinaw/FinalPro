@@ -1,13 +1,23 @@
- 
- <div class="flex" >
+
+ <div class="flex" [ngClass]="{'logBackground':isLoginPageAvail}">
     <div *ngIf="ShowSidebar()">
         <app-side-bar></app-side-bar>
     </div>
+    <div class="notification-bar">
+        <div class="notifi-button-container">
+            <button mat-mini-fab class="notifi" aria-label="Example icon button with a menu icon">
+                <span class="material-symbols-outlined">
+                    notifications
+                    </span>
+            </button>
+        </div>
+    </div>
     <div class="" [ngClass]="{'loginLoadDirectiveContainer':isLoginPageAvail,'nonLoginDirectivesContainer':!isLoginPageAvail}">
         <div class="close" *ngIf="showCloseIcon()">
-            <mat-icon class="close-icon" style="color: #e6dcfc;" [routerLink]='["/dash-board"]'>close</mat-icon>
+            <mat-icon class="close-icon" style="color: #ffffff;" [routerLink]='["/dash-board"]'>close</mat-icon>
         </div>
         <router-outlet></router-outlet>
+        
     </div>
     
 </div>

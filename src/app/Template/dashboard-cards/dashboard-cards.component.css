@@ -1,7 +1,7 @@
 mat-card{
   /* font-size: 0.5rem; */
-  width: 16vw;
-  height: 42vh;
+  width: 14vw;
+  height: 38vh;
   cursor: pointer;
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
@@ -23,7 +23,7 @@ mat-card{
 
   mat-card img{
       width: 17vw;
-      height: 33vh;
+      height: 30vh;
       opacity: 0.5;
       transition: .5s;
     
@@ -35,7 +35,10 @@ mat-card{
   }
 
   .card-container{
+    
       display: grid;
-      grid-template-columns: auto auto auto auto;
-       row-gap: 1rem;
+      grid-template-columns: auto auto auto auto auto;
+      row-gap: 2rem;
+text-align: center;
+      
   }

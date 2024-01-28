@@ -5,6 +5,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Observable } from 'rxjs';
 import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 import { VendorFormComponent } from '../../createData-forms/vendor-form/vendor-form.component';
+import { VendorActionComponent } from 'src/app/custom-components/action-cell/vendor-action/vendor-action.component';
 
 @Component({
   selector: 'app-vendor',
@@ -25,6 +26,7 @@ export class VendorComponent {
         { field: "address", },
         { field: "email", },
         { field: "contact", },
+        {field:"action",cellRenderer: VendorActionComponent,}
     ];
 
     constructor(

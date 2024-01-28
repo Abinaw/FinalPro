@@ -17,6 +17,8 @@ import { BackupComponent } from './Template/side-bar/nav-settings/backup/backup.
 import { CompanyDetailsComponent } from './Template/side-bar/nav-settings/company-details/company-details.component';
 import { PrintComponent } from './Template/side-bar/nav-settings/print/print.component';
 import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-info.component';
+import { CategoryComponent } from './Template/modules/category/category.component';
+import { InvoiceComponent } from './Template/modules/invoice/invoice.component';
 
 
 
@@ -34,11 +36,19 @@ const routes: Routes = [
     component: DashboardCardsComponent
   },
   {
+    path: 'invoice',
+    component: InvoiceComponent
+  },
+  {
+    path: 'category',
+    component: CategoryComponent
+  },
+  {
     path: 'customer',
     component: CustomerComponent
   },
   {
-    path: 'employee',
+    path: 'return',
     component: EmployeeComponent
   },
   {

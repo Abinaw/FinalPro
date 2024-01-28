@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
     title = 'FinalPro';
     isLoginPageAvail: boolean = true;
-    showClose:boolean | undefined
+    showClose:boolean =false
 
 
     constructor(
         private router: Router) {
-
     }
+    
     ShowSidebar(): any {
         
         const currentRoute = this.router.url;//login
@@ -23,7 +24,7 @@ export class AppComponent {
         if(currentRoute.includes('/login')){
             this.isLoginPageAvail = true;
             return false;
-        } else {
+        }else{
             this.isLoginPageAvail = false;
             return true;
         }

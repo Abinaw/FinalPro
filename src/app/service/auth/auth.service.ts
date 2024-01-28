@@ -13,11 +13,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = 'http://localhost:8080/api/user';
 
 
   logInReq(data:LoginRequest):Observable<any>{
-    const url = `${this.baseUrl}/api/auth/login`;
+    const url = `${this.baseUrl}/login`;
     return this.http.post<LoginRequest>(url, data,{responseType:'text' as 'json'});
   }
 

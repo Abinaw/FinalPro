@@ -15,7 +15,7 @@
            <mat-form-field >
                <mat-label > Customer name </mat-label>
                <input matInput formControlName="custName" type="text" class=""/>
-               <mat-error *ngIf="custForm.get('name')?.errors">This field is required!</mat-error>
+               <mat-error *ngIf="custForm.get('custName')?.errors">This field is required!</mat-error>
                <mat-error *ngIf="">This field is required!</mat-error>
            </mat-form-field>
            <mat-form-field >
@@ -37,7 +37,7 @@
 
            <div mat-dialog-actions class="button-wrapper flex flex-row">
                <button mat-flat-button color="primary" class="save" type="submit">
-                   Update
+                {{this.data.title}}
                </button>
            </div>
        </form>

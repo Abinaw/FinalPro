@@ -61,7 +61,7 @@ export class UserRegistrationForm implements OnInit {
     selectOperation() {
         if (this.data.title === "Insert" &&
             this.userForm.valid && this.userForm.value.password === this.userForm.value.confirmPw) {
-            this.insertPopTrigger();
+            this.insertPopTrigger();    
            
         } else if (this.data.title == "Update" &&
             this.userForm.value.password === this.userForm.value.confirmPw ||
@@ -75,7 +75,6 @@ export class UserRegistrationForm implements OnInit {
         const extraData = {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
-            userformData: this.userForm
         }
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state:boolean) => {

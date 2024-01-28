@@ -55,7 +55,15 @@ import { ActionPopComponent } from './custom-components/action-cell/action-pop/a
 import { CustomerFormComponent } from './Template/createData-forms/customer-form/customer-form.component';
 import { CustomerActionComponent } from './custom-components/action-cell/customer-action/customer-action.component';
 import { VendorActionComponent } from './custom-components/action-cell/vendor-action/vendor-action.component';
-
+import { VendorFormComponent } from './Template/createData-forms/vendor-form/vendor-form.component';
+import { StockFormComponent } from './Template/createData-forms/stock-form/stock-form.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { StockActionComponent } from './custom-components/action-cell/stock-action/stock-action.component';
+import { CategoryComponent } from './Template/modules/category/category.component';
+import { InvoiceComponent } from './Template/modules/invoice/invoice.component';
+import { CategoryActionComponent } from './custom-components/action-cell/category-action/category-action.component';
+import { CategoryFormComponent } from './Template/createData-forms/category-form/category-form.component';
 
 
 @NgModule({
@@ -83,6 +91,13 @@ import { VendorActionComponent } from './custom-components/action-cell/vendor-ac
     CustomerFormComponent,
     CustomerActionComponent,
     VendorActionComponent,
+    VendorFormComponent,
+    StockFormComponent,
+    StockActionComponent,
+    CategoryComponent,
+    InvoiceComponent,
+    CategoryActionComponent,
+    CategoryFormComponent
 
     
     
@@ -93,6 +108,8 @@ import { VendorActionComponent } from './custom-components/action-cell/vendor-ac
     BrowserModule,
     // CommonModule,
     AppRoutingModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
 
      // Dash-Board-Purpose
@@ -107,6 +124,7 @@ import { VendorActionComponent } from './custom-components/action-cell/vendor-ac
      MatSelectModule,
      MatRadioModule,
      MatDialogModule,
+     
     //  Table
      MatTableModule,
      MatInputModule,

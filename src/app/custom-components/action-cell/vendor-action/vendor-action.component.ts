@@ -46,7 +46,7 @@ export class VendorActionComponent {
             if(!state)return;
 
             
-            this.vendorService.delete(this.dataFromRow.custId).subscribe((res)=>{
+            this.vendorService.delete(this.dataFromRow.vendorId).subscribe((res)=>{
                 console.log(res)
                 this.setDataIntoRow();
             })
@@ -57,7 +57,7 @@ export class VendorActionComponent {
     updateFormTrigger() {
         const data={
             title: "Update",
-            custData:this.dataFromRow
+            vendorData:this.dataFromRow
         }
             const dialogRef = this.matDialog.open(VendorFormComponent, {data});
             dialogRef.afterClosed().subscribe(()=>{

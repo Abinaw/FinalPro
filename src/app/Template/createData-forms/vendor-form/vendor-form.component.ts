@@ -10,10 +10,9 @@ import { VendorService } from 'src/app/service/vendor-service/vendor.service';
   styleUrls: ['./vendor-form.component.css','../form-design.css']
 })
 export class VendorFormComponent {
-    
+    vendorForm: FormGroup;
     hide: boolean = true;
     allData: any;
-    vendorForm: FormGroup;
    
    
     constructor(
@@ -25,22 +24,22 @@ export class VendorFormComponent {
         this.vendorForm=new FormGroup({
             vendorId:new FormControl,
             vendorName:new FormControl(null,Validators.required),
+            contact:new FormControl(null,Validators.required),
             address:new FormControl(null,Validators.required),
-            email:new FormControl(null,Validators.required),
-            contact:new FormControl("cap@gmail.com",[Validators.required,Validators.email]),
+            email:new FormControl("vendor@gmail.com",[Validators.required,Validators.email]),
         })
     }
 
    
 
     setDataIntoFormFields() {
-       
+    //    console.log(this.data)
         return this.vendorForm.setValue({
-            vendorId:this.data.custData.custId,
-            vendorName: this.data.custData.custName,
-            contact:this.data.custData.contact,
-            address:this.data.custData.address,
-            email: this.data.custData.email,
+            vendorId:this.data.vendorData.vendorId,
+            vendorName: this.data.vendorData.vendorName,
+            contact:this.data.vendorData.contact,
+            address:this.data.vendorData.address,
+            email: this.data.vendorData.email,
         })
     }
 
@@ -54,10 +53,10 @@ export class VendorFormComponent {
     
 
     selectOperation() {
-        if (this.data.title === "Insert") {
+        if (this.data.title === "Insert" && this.vendorForm.valid) {
             this.insertPopTrigger();
            
-        } else if (this.data.title == "Update"){
+        } else if (this.data.title == "Update" && this.vendorForm.valid){
             this.updatePopTrigger();
         }
         
@@ -67,14 +66,13 @@ export class VendorFormComponent {
         const extraData = {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
-            userformData: this.vendorForm
         }
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.vendorService.regiterReq(this.vendorForm.value).subscribe(res=>{
-            console.log(res)
-            this.matDialogRef.close()
+                console.log(res)
+                this.matDialogRef.close()
         })
            
         })
@@ -98,5 +96,4 @@ export class VendorFormComponent {
         })
 
     }
-
 }

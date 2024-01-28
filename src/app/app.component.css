@@ -2,12 +2,14 @@
     background-color: #e6dcfc46;
     /* background-color: #382e59; */
     width: 100%;
-    margin-left: 2rem;
-    margin-top: 1.5rem;
+    margin-left: 0rem;
+    margin-top: 2rem;
     margin-right: 3rem;
-    padding-top: 2rem;
-    height: 95vh;
+    /* padding-top: 40px; */
+    height: 90vh;
     border-radius: 20px;
+    display: grid;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
 .loginLoadDirectiveContainer{
@@ -26,5 +28,24 @@
     cursor: pointer;
     position: absolute;
     right: 25px;
-    top: 10px;
+    top: 20px;
+}
+
+
+.logBackground{
+    background-color: #e6dcfcab;
+}
+
+.notifi-button-container{
+    /* position: absolute; */
+    width: 5%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+    transform: translateY(10rem);
+}
+.notifi{
+    background-color: #eb8cb8;
 }

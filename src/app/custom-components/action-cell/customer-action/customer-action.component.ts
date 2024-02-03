@@ -4,6 +4,7 @@ import { GridApi, ICellRendererParams } from 'ag-grid';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerService } from 'src/app/service/customer-service/customer.service';
 import { CustomerFormComponent } from 'src/app/Template/createData-forms/customer-form/customer-form.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customer-action',
@@ -16,6 +17,7 @@ export class CustomerActionComponent {
     
 
     constructor(
+        private toastr : ToastrService,
         public matDialog: MatDialog,
         private custService:CustomerService
        
@@ -47,7 +49,7 @@ export class CustomerActionComponent {
 
             
             this.custService.delete(this.dataFromRow.custId).subscribe((res)=>{
-                console.log(res)
+                this.toastr.success(res)
                 this.setDataIntoRow();
             })
         })

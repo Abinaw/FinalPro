@@ -17,7 +17,7 @@ export class AppComponent {
         private router: Router) {
     }
     
-    ShowSidebar(): any {
+    ShowSidebarAndNotifiBar(): any {
         
         const currentRoute = this.router.url;//login
         // if (['/login'].includes(currentRoute)) {
@@ -41,4 +41,7 @@ export class AppComponent {
             return true;
         }
     }
+
+
+    
 }

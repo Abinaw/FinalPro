@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 
@@ -16,6 +17,7 @@ export class VendorFormComponent {
    
    
     constructor(
+        private toastr : ToastrService,
         private vendorService:VendorService,
         private matDialog: MatDialog,
         private matDialogRef: MatDialogRef<VendorFormComponent>,
@@ -24,7 +26,7 @@ export class VendorFormComponent {
         this.vendorForm=new FormGroup({
             vendorId:new FormControl,
             vendorName:new FormControl(null,Validators.required),
-            contact:new FormControl(null,Validators.required),
+            contact:new FormControl(null,[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
             address:new FormControl(null,Validators.required),
             email:new FormControl("vendor@gmail.com",[Validators.required,Validators.email]),
         })
@@ -33,7 +35,6 @@ export class VendorFormComponent {
    
 
     setDataIntoFormFields() {
-    //    console.log(this.data)
         return this.vendorForm.setValue({
             vendorId:this.data.vendorData.vendorId,
             vendorName: this.data.vendorData.vendorName,
@@ -53,7 +54,12 @@ export class VendorFormComponent {
     
 
     selectOperation() {
-        if (this.data.title === "Insert" && this.vendorForm.valid) {
+        console.log(this.vendorForm.getRawValue)
+        if(!this.vendorForm.valid){
+            this.toastr.warning("Enter a valid data to " + this.data.title)
+            return;
+        }
+        if (this.data.title == "Insert" && this.vendorForm.valid) {
             this.insertPopTrigger();
            
         } else if (this.data.title == "Update" && this.vendorForm.valid){
@@ -71,8 +77,8 @@ export class VendorFormComponent {
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.vendorService.regiterReq(this.vendorForm.value).subscribe(res=>{
-                console.log(res)
                 this.matDialogRef.close()
+                this.toastr.success(res)
         })
            
         })
@@ -91,7 +97,7 @@ export class VendorFormComponent {
             if(!state)return;
             this.vendorService.update(this.vendorForm.value).subscribe((res)=>{
                 this.matDialogRef.close()
-                console.log(res)
+                this.toastr.success(res)
             })
         })
 

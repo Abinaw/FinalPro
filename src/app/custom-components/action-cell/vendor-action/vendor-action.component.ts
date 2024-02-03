@@ -4,6 +4,7 @@ import { GridApi, ICellRendererParams } from 'ag-grid';
 import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 import { ActionPopComponent } from '../action-pop/action-pop.component';
 import { VendorFormComponent } from 'src/app/Template/createData-forms/vendor-form/vendor-form.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vendor-action',
@@ -16,6 +17,7 @@ export class VendorActionComponent {
     
 
     constructor(
+        private toastr : ToastrService,
         public matDialog: MatDialog,
         private vendorService:VendorService
        
@@ -47,8 +49,8 @@ export class VendorActionComponent {
 
             
             this.vendorService.delete(this.dataFromRow.vendorId).subscribe((res)=>{
-                console.log(res)
                 this.setDataIntoRow();
+                this.toastr.success(res)
             })
         })
        

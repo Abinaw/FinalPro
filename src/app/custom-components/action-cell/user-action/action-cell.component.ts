@@ -7,6 +7,7 @@ import { __param } from 'tslib';
 import { UserRegistrationForm } from 'src/app/Template/createData-forms/registration-form/userRegistration-form.component'; 
 import { ActionPopComponent } from '../action-pop/action-pop.component';
 import { UserService } from 'src/app/service/userService/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-action-cell',
@@ -20,7 +21,8 @@ export class ActionCellComponent {
     gridApi: GridApi | any = {};
     
 
-    constructor(
+    constructor( 
+        private toastr: ToastrService,
         public matDialog: MatDialog,
         private userService:UserService
        
@@ -52,6 +54,7 @@ export class ActionCellComponent {
             this.userService.deleteUser(this.dataFromRow.userId).subscribe((res)=>{
                 console.log(res)
                 this.setDataIntoRow();
+                this.toastr.success(res)
             })
         })
        

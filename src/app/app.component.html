@@ -1,9 +1,9 @@
 
  <div class="flex" [ngClass]="{'logBackground':isLoginPageAvail}">
-    <div *ngIf="ShowSidebar()">
+    <div *ngIf="ShowSidebarAndNotifiBar()">
         <app-side-bar></app-side-bar>
     </div>
-    <div class="notification-bar">
+    <div class="notification-bar" *ngIf="ShowSidebarAndNotifiBar()">
         <div class="notifi-button-container">
             <button mat-mini-fab class="notifi" aria-label="Example icon button with a menu icon">
                 <span class="material-symbols-outlined">

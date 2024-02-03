@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, MaxValidator, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { CustomerService } from 'src/app/service/customer-service/customer.service';
 
@@ -16,6 +17,7 @@ export class CustomerFormComponent {
    
    
     constructor(
+        private toastr : ToastrService,
         private custService:CustomerService,
         private matDialog: MatDialog,
         private matDialogRef: MatDialogRef<CustomerFormComponent>,
@@ -24,10 +26,16 @@ export class CustomerFormComponent {
         this.custForm=new FormGroup({
             custId:new FormControl,
             custName:new FormControl(null,Validators.required),
-            contact:new FormControl(null,Validators.required),
+            contact:new FormControl(null,[
+                Validators.required,
+                Validators.pattern("^[0-9]*$"),
+                Validators.minLength(10),
+                Validators.maxLength(10)
+              ]),
             address:new FormControl(null,Validators.required),
             email:new FormControl("cap@gmail.com",[Validators.required,Validators.email]),
         })
+        
     }
 
    
@@ -59,6 +67,9 @@ export class CustomerFormComponent {
         } else if (this.data.title == "Update" && this.custForm.valid){
             this.updatePopTrigger();
         }
+        else{
+            this.toastr.warning("Enter a valid data to "+ this.data.title)
+        }
         
     }
     insertPopTrigger() {
@@ -71,8 +82,8 @@ export class CustomerFormComponent {
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.custService.regiterReq(this.custForm.value).subscribe(res=>{
-            console.log(res)
             this.matDialogRef.close()
+            this.toastr.success(res)
         })
            
         })
@@ -81,6 +92,7 @@ export class CustomerFormComponent {
     }
 
     updatePopTrigger() {
+        console.log(this.custForm.controls['contact'].status)
         const extraData = {
             title: this.data.title,
             subTitle: "are you sure you want to update the selected data?",
@@ -91,7 +103,7 @@ export class CustomerFormComponent {
             if(!state)return;
             this.custService.update(this.custForm.value).subscribe((res)=>{
                 this.matDialogRef.close()
-                console.log(res)
+                this.toastr.success(res)
             })
         })
 

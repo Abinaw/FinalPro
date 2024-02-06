@@ -11,21 +11,21 @@
        </div>
        
 
-    <div class="user-table-cont flex justify-center">
+    <div class="user-table-cont flex justify-center ">
         <ag-grid-angular 
-        class="ag-theme-alpine user-table cursor-pointer" 
+        class="ag-theme-alpine table cursor-pointer" 
         [paginationAutoPageSize]="true"
-        style=" height: 65vh; width:76vw;"
+        style=" height: 65vh; width:70vw;"
         [rowData]="rowData$ | async" 
         [columnDefs]="columnDef"
-       
+        [class]="themeClass"
         [rowSelection]="rowSelection" 
         (cellClicked)="onCellClicked($event)"
         (gridReady)="onGridReady($event)">
         </ag-grid-angular>
     </div>
     <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
-    <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" (click)="insertTrigger()">User
+    <button mat-raised-button class="rounded-sm font-semibold w-36 custom-button" (click)="insertTrigger()">User
         <mat-icon>person_add</mat-icon>
     </button>
     </div>

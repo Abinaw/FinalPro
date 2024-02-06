@@ -10,7 +10,7 @@ import { VendorActionComponent } from 'src/app/custom-components/action-cell/ven
 @Component({
   selector: 'app-vendor',
   templateUrl: './vendor.component.html',
-  styleUrls: ['./vendor.component.css','../../../../assets/CSS/ComponentCommDesign.css']
+  styleUrls: ['./vendor.component.css',]
 })
 export class VendorComponent {
     rowData$!: Observable<any[]>;
@@ -48,8 +48,8 @@ export class VendorComponent {
 
     private getRowData(): any {
         return new Promise((resolve) => {
-            this.vendorService.getAll().subscribe((userData) => {
-                resolve(userData);
+            this.vendorService.getAll().subscribe((vendorDate) => {
+                resolve(vendorDate);
             }, (err) => {
                 resolve([])
             })

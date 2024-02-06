@@ -1,6 +1,6 @@
- .nonLoginDirectivesContainer{
-    background-color: #e6dcfc46;
-    /* background-color: #382e59; */
+.nonLoginDirectivesContainer{
+    /* background-color: #e6dcfc46; */
+    background-color: #382e59;
     width: 100%;
     margin-left: 0rem;
     margin-top: 2rem;
@@ -9,28 +9,31 @@
     height: 90vh;
     border-radius: 20px;
     display: grid;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;  
 }
+
+
 
 .loginLoadDirectiveContainer{
     transform: translateX(50%);
+    /* background-color: #382e59; */
 }
 
 .close{
+    
     display: flex;
     width: 2.5rem;
     height: 2.5rem;
     align-items: center;
     justify-content: center;
     border-radius: 100%;
-    background-color: #5e4e92;
+    background-color: rgb(243, 192, 253);
     /* transform: translate(71.5rem,-2rem); */
     cursor: pointer;
     position: absolute;
     right: 25px;
     top: 20px;
 }
-
 
 .logBackground{
     background-color: #e6dcfcab;
@@ -46,10 +49,7 @@
     /* border: 1px solid black; */
     transform: translateY(10rem);
 }
-.notifi{
-    background-color: #eb8cb8;
-}
 
-.showNotificationBar{
-    
+.notifi{
+    background-color: rgb(243, 192, 253);
 }

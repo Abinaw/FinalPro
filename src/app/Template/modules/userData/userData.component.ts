@@ -17,7 +17,8 @@ import { UserService } from 'src/app/service/userService/user.service';
     styleUrls: ['./userData.component.css'],
 })
 export class UserDataComponent {
-    
+    public themeClass: string =
+    "ag-theme-alpine";
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
     agGrid!: AgGridAngular

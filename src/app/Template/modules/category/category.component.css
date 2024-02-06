@@ -15,10 +15,12 @@
     border-radius: 30px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     align-items: center;
+    background-color: #ffffff5b;
+    backdrop-filter: blur(100px)
 }
 
 .box:hover input{
-    width:400px
+    width:400px;
 }
 
 .box input{
@@ -28,6 +30,9 @@
     font-weight: 500;
     transition: 0.8s;
     background-color: transparent;
+    
 }
 
-
+.box:hover{
+    border: 2px solid white;
+}

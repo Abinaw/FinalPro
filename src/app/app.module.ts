@@ -64,6 +64,8 @@ import { CategoryComponent } from './Template/modules/category/category.componen
 import { InvoiceComponent } from './Template/modules/invoice/invoice.component';
 import { CategoryActionComponent } from './custom-components/action-cell/category-action/category-action.component';
 import { CategoryFormComponent } from './Template/createData-forms/category-form/category-form.component';
+import { InvoiceActionComponent } from './custom-components/action-cell/invoice-action/invoice-action.component';
+import { InvoiceFormComponent } from './Template/createData-forms/invoice-form/invoice-form.component';
 
 
 @NgModule({
@@ -97,7 +99,9 @@ import { CategoryFormComponent } from './Template/createData-forms/category-form
     CategoryComponent,
     InvoiceComponent,
     CategoryActionComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    InvoiceActionComponent,
+    InvoiceFormComponent
 
     
     

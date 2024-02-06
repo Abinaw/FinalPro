@@ -15,10 +15,12 @@
     border-radius: 30px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     align-items: center;
+    background-color: #ffffff5b;
+    backdrop-filter: blur(100px)
 }
 
 .box:hover input{
-    width:400px
+    width:400px;
 }
 
 .box input{
@@ -28,5 +30,25 @@
     font-weight: 500;
     transition: 0.8s;
     background-color: transparent;
+    
 }
 
+.box:hover{
+    border: 2px solid white;
+}
+
+.custom-button {
+    background-color: rgb(243, 192, 253) !important; 
+   
+}
+.ag-theme-alpine {
+    
+    --ag-foreground-color: rgb(0, 0, 0);
+    --ag-background-color: #ffffff5b;
+    --ag-header-foreground-color: rgb(0, 0, 0);
+    --ag-header-background-color: rgba(255, 255, 255, 0.795);
+    --ag-odd-row-background-color: rgb(0, 0, 0, 0.03);
+    --ag-header-column-resize-handle-color: rgba(126, 46, 132, 0.397);
+  
+    
+}

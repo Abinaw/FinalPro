@@ -29,9 +29,9 @@ export class StockService {
     return this.http.get<any[]>(url);
   }
 
-  deleteUser(userId:any) {
+  deleteUser(stockId:any) {
     // this.audService.playSoundDelete()
-       const url =`${this.baseUrl}/delete/${userId}`;
+       const url =`${this.baseUrl}/delete/${stockId}`;
        return this.http.delete<any>(url,{responseType :'text' as 'json'});
   }
 

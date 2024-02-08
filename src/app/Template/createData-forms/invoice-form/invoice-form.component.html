@@ -31,12 +31,30 @@
             <mat-error *ngIf="invoiceForm.get('netAmount')?.errors">This field is required!</mat-error>
         </mat-form-field>
 
-        <mat-form-field>
+        <!-- <mat-form-field>
             <mat-label> Customer </mat-label>
             <input matInput formControlName="customerOBJ" type="text"  class="" />
             <mat-error *ngIf="invoiceForm.get('customerOBJ')?.errors">This field is required!</mat-error>
-        </mat-form-field>
-
+        </mat-form-field> -->
+        <mat-form-field class="">
+            <mat-label>Customer</mat-label>
+            <input type="text"
+                   placeholder="Customer"
+                   matInput
+                   formControlName="customerOBJ"
+                   [formControl]="customerControl"
+                   [matAutocomplete]="auto"
+                   >
+                   <mat-error *ngIf="invoiceForm.get('customerOBJ')?.errors">This field is required!</mat-error>
+            <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete" >
+                <mat-option 
+                    *ngFor="let aCust of filterOptions | async" 
+                    [value]="aCust.custName"
+                    >
+                    {{aCust.custId}} | {{aCust.custName}}
+                </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
       
            
 

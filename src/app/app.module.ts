@@ -35,8 +35,9 @@ import { BackupComponent } from './Template/side-bar/nav-settings/backup/backup.
 import { PrintComponent } from './Template/side-bar/nav-settings/print/print.component';
 
 // Form Modules
- import { ReactiveFormsModule } from '@angular/forms';
+ import { ReactiveFormsModule} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -114,7 +115,8 @@ import { InvoiceFormComponent } from './Template/createData-forms/invoice-form/i
     AppRoutingModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
+    MatAutocompleteModule,
+   
 
      // Dash-Board-Purpose
      MatButtonModule,

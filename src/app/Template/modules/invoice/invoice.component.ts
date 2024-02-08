@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { InvoiceActionComponent } from 'src/app/custom-components/action-cell/invoice-action/invoice-action.component';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { InvoiceFormComponent } from '../../createData-forms/invoice-form/invoice-form.component';
+import { CustomerService } from 'src/app/service/customer-service/customer.service';
+import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 
 @Component({
   selector: 'app-invoice',
@@ -13,6 +15,7 @@ import { InvoiceFormComponent } from '../../createData-forms/invoice-form/invoic
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent {
+    
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
     agGrid!: AgGridAngular
@@ -21,23 +24,44 @@ export class InvoiceComponent {
     searchCharac : string=""
     public columnDef: ColDef[] = [
         // 
-        { field: "tempInvoiceId", width: 90, hide: true},
-        { field: "date", },
-        { field: "netAmount", },
+        { 
+            field: "tempInvoiceId",
+            colId:"tempInvoiceId",
+            headerName:"Temp id",
+            width: 90, 
+            hide: true
+        },
+        { 
+            field: "date",
+            colId:"date",
+            headerName:"Date"
+         },
+        { 
+            field: "netAmount",
+            colId:"netAmount",
+            headerName:"Net amount"
+        
+        },
         { 
             field: "customerOBJ",
+            colId:"customerOBJ",
+            headerName:"Customer",
             valueFormatter:(params)=>{
                 return params.value.custName 
             }
             
         },
-        {field:"action",cellRenderer: InvoiceActionComponent,}
+        {
+            field:"action",
+            headerName:"Action",
+            cellRenderer: InvoiceActionComponent,}
     ];
 
     constructor(
         private dialog: MatDialog,
         private invoiceService: InvoiceService,
-    ) { }
+        private customerService : CustomerService,
+    ) { this.getAllCustomerData() }
 
    
 
@@ -91,6 +115,12 @@ export class InvoiceComponent {
         }else if(this.searchCharac===""){
            this.setDataIntoRow()
         }
+    }
+
+    getAllCustomerData() {
+        this.customerService.getAll().subscribe(res => {
+            GLOBAL_LIST.CUSTOMER_DATA = res
+        })
     }
 
 

@@ -1,57 +1,99 @@
-.nonLoginDirectivesContainer{
-    /* background-color: #e6dcfc46; */
-    background-color: #382e59;
+.middleLogOrNonLogContainer{
     width: 100%;
-    margin-left: 0rem;
-    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-top: 3rem;
     margin-right: 3rem;
-    /* padding-top: 40px; */
-    height: 90vh;
+    height: 85vh;
     border-radius: 20px;
     display: grid;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;  
+    position: relative;
 }
 
+.darkMode{
+    background-color: #382e59;
+   
+}
+.liteMode{
+    background-color: #886cce46;
+    border: white solid 1px ;
+}
+
+
 .entirePageContainer{
-    background-color: rgba(104, 114, 122, 0.801);
+    background-color: rgba(211, 211, 211, 0.459);
 }
 
 .loginLoadDirectiveContainer{
-    transform: translateX(50%);
+    width: 100%;
+    margin-left: 2rem;
+    margin-top: 3rem;
+    margin-right: 3rem;
+    height: 85vh;
+    border-radius: 20px;
+    display: flex;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;  
+    /* transform: translateX(50%); */
     /* background-color: #382e59; */
 }
 
 .close{
-    
     display: flex;
     width: 2.5rem;
     height: 2.5rem;
     align-items: center;
     justify-content: center;
     border-radius: 100%;
-    background-color: rgb(243, 192, 253);
+    background-color: rgb(247, 126, 136);
     /* transform: translate(71.5rem,-2rem); */
     cursor: pointer;
-    position: absolute;
-    right: 25px;
+    right: 2rem;
     top: 20px;
 }
+
+
 
 .logBackground{
     background-color: #e6dcfcab;
 }
 
 .notifi-button-container{
-    /* position: absolute; */
-    width: 5%;
-    height: 40%;
+    /* border: black 2px; */
+    transform: translateY(1.5rem);
     display: flex;
-    justify-content: center;
-    align-items: center;
-    /* border: 1px solid black; */
-    transform: translateY(10rem);
+    justify-content: flex-start;
+    /* align-items: ; */
+    flex-direction: row-reverse;
+}
+
+.notifiAndnonLoginDirectivesContainer{
+    /* border: solid black 2px; */
+    width: 90%;
 }
 
 .notifi{
-    background-color: rgb(243, 192, 253);
+    color: aliceblue;
+ background-color: rgb(247, 126, 136);
+}
+.sideAndUser{
+    height: 99vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 30vh;
+    width: 7vw;
+   
+    
+}
+footer{
+    position: absolute;
+    bottom: 2px;
+    background-color: #d9d5e749;
+    width: 100vw;
+    text-align: center;
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 
@@ -13,9 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 
 export class LoginCompoComponent implements OnInit {
  hide:boolean=true;
+logForm : FormGroup;
 
-password: string="";
-username: string="";
+
 
 
 
@@ -24,27 +25,32 @@ username: string="";
   }
 
   constructor(
+    private router: Router,
     private authService: AuthService,
-    private builder: FormBuilder
-  ) { }
+  ) { 
+
+    this.logForm=new FormGroup({
+        userName:new FormControl(null,Validators.required),
+        password: new FormControl(null,Validators.required)
+        })
+
+  }
 
   message: any;
 
-  loginForm = this.builder.group({
-    username: ['', [Validators.required]],
-    password: ['', [Validators.required]]
-  })
-
-
 
   loginUser(): void {
-    let logInRequest={
-      "username":this.username,
-      "password":this.password
-    };
+    
 
-    this.authService.logInReq(logInRequest).subscribe((res) => {
-      console.log(res)
+    this.authService.logInReq(this.logForm.value).subscribe((res) => {
+        console.log(res)
+        var result = JSON.parse(res)
+        localStorage.setItem("userName",result.userName);
+        localStorage.setItem("token",result.token)  
+        this.router.navigateByUrl("/dash-board");
+        
+    },(err)=>{
+        alert("invalid")
     });
   }
 }

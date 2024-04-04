@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AudioService } from '../audio-service/audio-service.service';
 import { Observable } from 'rxjs';
@@ -13,21 +13,22 @@ export class CustomerService {
     private baseUrl = 'http://localhost:8080/api/customer';
     
 
-
-  constructor(private http:HttpClient, public audService :AudioService,) { }
+    private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("token")}`);
+    constructor(private http:HttpClient, public audService :AudioService,) {
+    
+   }
   
- 
+   getAll():Observable<any>{
+    const url = `${this.baseUrl}/getAll`;
+    return this.http.get<any[]>(url, {});
+  }
 
   regiterReq(regReq: any):Observable<any>{
     // this.audService.playSoundInsert()
     const url = `${this.baseUrl}/register`;
     return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
   }
-
-  getAll():Observable<any>{
-    const url = `${this.baseUrl}/getAll`;
-    return this.http.get<any[]>(url);
-  }
+ 
 
   delete(custId:any) {
     // this.audService.playSoundDelete()

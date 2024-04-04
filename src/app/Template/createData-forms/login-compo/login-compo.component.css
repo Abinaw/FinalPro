@@ -1,8 +1,7 @@
 img {
     filter: drop-shadow(#917fcafd 10px 5px 55px);
-   width: 13vw;
     position: absolute;
-   transform: translate(25px,-150px) 
+    transform: translate(25px,-150px) 
  }
  
  
@@ -10,8 +9,9 @@ img {
 .main-container {
     transition: transform .5s;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-    width: 50vw;
-    
+    width: 35vw;
+    border: solid black 1px;
+    padding: 2rem;
   }
   
   .main-container:hover {
@@ -20,7 +20,7 @@ img {
       rgba(0, 0, 0, 0.12) 0px 4px 6px,
       rgba(0, 0, 0, 0.17) 0px 12px 13px,
       rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    transform: translate(0px, -8px);
+    
   }
   
 

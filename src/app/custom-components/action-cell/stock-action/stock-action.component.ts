@@ -4,6 +4,7 @@ import { StockService } from 'src/app/service/stock-service/stock.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GridApi, ICellRendererParams } from 'ag-grid';
 import { StockFormComponent } from 'src/app/Template/createData-forms/stock-form/stock-form.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-stock-action',
@@ -17,6 +18,7 @@ export class StockActionComponent {
     
 
     constructor(
+        private toastr: ToastrService,
         public matDialog: MatDialog,
         private stockService:StockService
        
@@ -30,7 +32,7 @@ export class StockActionComponent {
      }
 
      public setDataIntoRow() {
-        this.stockService.getAllUser().subscribe((retData)=>{
+        this.stockService.getAll().subscribe((retData)=>{
             this.gridApi.setRowData(retData)
         })
     }
@@ -45,8 +47,8 @@ export class StockActionComponent {
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
-            this.stockService.deleteUser(this.dataFromRow.stockId).subscribe((res)=>{
-                console.log(res)
+            this.stockService.delete(this.dataFromRow.stockId).subscribe((res)=>{
+                this.toastr.success(res)
                 this.setDataIntoRow();
             })
         })
@@ -54,14 +56,16 @@ export class StockActionComponent {
     }
     
     updateFormTrigger() {
-        console.log(this.dataFromRow    )
+        
         const extraData={
             title: "Update",
-            stockData:this.dataFromRow
+            stockData:this.dataFromRow,
+            categoryData: this.dataFromRow.categoryOBJ
         }
             const dialogRef = this.matDialog.open(StockFormComponent, {data:extraData});
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
             })
         }
+       
 }

@@ -42,7 +42,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 // Table
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -142,7 +142,8 @@ import { InvoiceFormComponent } from './Template/createData-forms/invoice-form/i
      RouterModule,
      HttpClientModule,
      FormsModule,
-     BrowserAnimationsModule
+     BrowserAnimationsModule,
+     MatSlideToggleModule
 
   ],
   //providers: [],

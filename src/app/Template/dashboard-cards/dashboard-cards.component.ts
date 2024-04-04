@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 /**
  * @title Card with multiple sections
@@ -9,41 +9,46 @@ import {Component} from '@angular/core';
   styleUrls: ['dashboard-cards.component.css'],
 })
 export class DashboardCardsComponent {
+    @Input() isSwitched!: boolean;
 
-
+  
   Cards=[
     {
-      name:'Customer' ,imageUrl:"../../assets/New Set/customer.jpg",route:'customer'
+      name:'Customer' ,imageUrl:"../../assets/New Set/customer.png",route:'customer'
     },
     {
-      name:'User' ,imageUrl:"../../assets/New Set/user.jpg",route:'user'
+      name:'User' ,imageUrl:"../../assets/New Set/user.png",route:'user'
     },
     {
-      name:'Vendor' ,imageUrl:"../../assets/New Set/vendor.jpg",route:'vendor'
+      name:'Vendor' ,imageUrl:"../../assets/New Set/vendor.png",route:'vendor'
     },
     {
-      name:'Sales' ,imageUrl:"../../assets/New Set/sales.jpg",route:'sales'
+      name:'Sales' ,imageUrl:"../../assets/New Set/sales.png",route:'sales'
     },
     {
-      name:'Return' ,imageUrl:"../../assets/New Set/return.jpg",route:'return'
+      name:'Return' ,imageUrl:"../../assets/New Set/return.png",route:'return'
     },
     {
-      name:'Stock' ,imageUrl:"../../assets/New Set/stock.jpg",route:'stock'
+      name:'Stock' ,imageUrl:"../../assets/New Set/stock.png",route:'stock'
     },
     {
-      name:'Purchase' ,imageUrl:"../../assets/New Set/purchase.jpg",route:'purchase'
+      name:'Purchase' ,imageUrl:"../../assets/New Set/purchase.png",route:'purchase'
     },
     {
-      name:'Category' ,imageUrl:"../../assets/New Set/category.jpg",route:'category'
+      name:'Category' ,imageUrl:"../../assets/New Set/category.png",route:'category'
     },
     {
-      name:'Invoice' ,imageUrl:"../../assets/New Set/invoice.jpg",route:'invoice'
+      name:'Invoice' ,imageUrl:"../../assets/New Set/invoice.png",route:'invoice'
     },
     {
-        name:'Report' ,imageUrl:"../../assets/New Set/report.jpg",route:'report'
-      }
-
+        name:'Report' ,imageUrl:"../../assets/New Set/report.png",route:'report'
+      },
+    
+      
+      
+    
   ]
+
 
 
 

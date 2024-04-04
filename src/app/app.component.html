@@ -1,26 +1,42 @@
- <div class="entirePageContainer flex flex-row" [ngClass]="{'logBackground':isLoginPageAvail}">
-    <div *ngIf="ShowSidebarAndNotifiBar()">
-        <app-side-bar></app-side-bar>
+<div class="entirePageContainer flex flex-row" [ngClass]="{'logBackground':isLoginPageAvail}">
+
+    <div class="sideAndUser" *ngIf="ShowSidebarAndNotifiBar()">
+        <div class="user-container">
+            <app-user-deatils>
+            </app-user-deatils>
+        </div>
+        <div>
+            <app-side-bar [isSwitched]="isSwitched"></app-side-bar>
+        </div>
     </div>
-    <div class="notification-bar" *ngIf="ShowSidebarAndNotifiBar()">
-        <div class="notifi-button-container">
+
+    <div class="notifiAndnonLoginDirectivesContainer">
+        <div class="notifi-button-container" *ngIf="ShowSidebarAndNotifiBar()">
             <button mat-mini-fab class="notifi" aria-label="Example icon button with a menu icon">
                 <span class="material-symbols-outlined">
                     notifications
-                    </span>
+                </span>
             </button>
+            <div class="translate-y-2">
+                <mat-slide-toggle [(ngModel)]="isSwitched" color="primary"></mat-slide-toggle>
+            </div>
+        </div>
+
+        <div  class="middleLogOrNonLogContainer" [ngClass]="{
+        'loginLoadDirectiveContainer':isLoginPageAvail ,'nonLoginDirectivesContainer':!isLoginPageAvail
+        }" [ngClass]="{
+            'darkMode':isSwitched,'liteMode':!isSwitched
+            }">
+            <div class="flex flex-row justify-end p-2">
+                <div class="close" *ngIf="showCloseIcon()" [routerLink]='["/dash-board"]'>
+                    <span class="material-symbols-outlined text-slate-300">
+                        close
+                    </span>
+                </div>
+            </div>
+            <router-outlet></router-outlet>
         </div>
     </div>
-    <div class="" [ngClass]="{'loginLoadDirectiveContainer':isLoginPageAvail,'nonLoginDirectivesContainer':!isLoginPageAvail}">
-        <div class="close" *ngIf="showCloseIcon()">
-            <mat-icon class="close-icon" style="color: #000000;" [routerLink]='["/dash-board"]'>close</mat-icon>
-        </div>
-        <router-outlet></router-outlet>
-        
-    </div>
-    
 </div>
 
-
-
-
+<footer>2023 copyrights</footer>

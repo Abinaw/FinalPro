@@ -47,7 +47,8 @@ export class InvoiceComponent {
             colId:"customerOBJ",
             headerName:"Customer",
             valueFormatter:(params)=>{
-                return params.value.custName 
+                const combinedvalue = params.value.custId+"-"+params.value.custName
+                return combinedvalue
             }
             
         },

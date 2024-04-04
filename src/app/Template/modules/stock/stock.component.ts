@@ -6,6 +6,8 @@ import { StockService } from 'src/app/service/stock-service/stock.service';
 import { StockFormComponent } from '../../createData-forms/stock-form/stock-form.component';
 import { AgGridAngular } from 'ag-grid-angular';
 import { Observable } from 'rxjs';
+import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
+import { CetegoryService } from 'src/app/service/category-service/cetegory.service';
 
 @Component({
   selector: 'app-stock',
@@ -22,7 +24,13 @@ export class StockComponent {
     public columnDef: ColDef[] = [
         // 
         { field: "stockId", width: 90, hide: true, suppressColumnsToolPanel: true },
-        { field: "materialName", },
+        { field: "categoryOBJ",
+            colId:"materialName",
+            headerName:"Category",
+            valueFormatter:(params)=>{
+                const combinedvalue = params.value.categoryId+"-"+params.value.categoryName
+                return combinedvalue
+        } },
         { field: "materialType", },
         { field: "materialColour", },
         { field: "arrivalDate", },
@@ -37,7 +45,8 @@ export class StockComponent {
     constructor(
         private dialog: MatDialog,
         private stockService: StockService,
-    ) { }
+        private catService: CetegoryService
+    ) { this.getAllCategoryData() }
 
    
 
@@ -53,7 +62,7 @@ export class StockComponent {
 
     private getRowData(): any {
         return new Promise((resolve) => {
-            this.stockService.getAllUser().subscribe((stockData) => {
+            this.stockService.getAll().subscribe((stockData) => {
                 resolve(stockData);
             }, (err) => {
                 resolve([])
@@ -64,7 +73,7 @@ export class StockComponent {
     // every Time delete,add,update have been used this specific function should be used by classes(popups or etc) so kept public 
     // or else this should be created for every class 
     public setDataIntoRow() {       
-        this.stockService.getAllUser().subscribe((stockData) => {
+        this.stockService.getAll().subscribe((stockData) => {
             this.gridApi.setRowData(stockData);
           }, (err) => {
           })
@@ -92,6 +101,13 @@ export class StockComponent {
         }else if(this.searchCharac===""){
            this.setDataIntoRow()
         }
+    }
+
+    getAllCategoryData() {
+        this.catService.getAll().subscribe(res => {
+            GLOBAL_LIST.CATEGORY_DATA = res
+        })
+        
     }
 
 }

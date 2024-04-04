@@ -24,19 +24,20 @@ export class StockService {
     return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
   }
 
-  getAllUser():Observable<any>{
+  getAll():Observable<any>{
     const url = `${this.baseUrl}/getAll`;
     return this.http.get<any[]>(url);
   }
 
-  deleteUser(stockId:any) {
+  delete(stockId:any) {
     // this.audService.playSoundDelete()
        const url =`${this.baseUrl}/delete/${stockId}`;
        return this.http.delete<any>(url,{responseType :'text' as 'json'});
   }
 
-  updateUserDetails(updateRequestData: StockFormComponent):Observable<any>{
+  update(updateRequestData: StockFormComponent):Observable<any>{
     // this.audService.playSoundUpdate()
+    
     const url = `${this.baseUrl}/update`;
     return this.http.put<StockFormComponent>(url,updateRequestData,{responseType :'text' as 'json'})
   }

@@ -59,7 +59,8 @@ export class InvoiceActionComponent {
     updateFormTrigger() {
         const data={
             title: "Update",
-            tempInvoiceData:this.dataFromRow
+            tempInvoiceData:this.dataFromRow,
+            customerValue:this.dataFromRow.customerOBJ
         }
             const dialogRef = this.matDialog.open(InvoiceFormComponent, {data});
             dialogRef.afterClosed().subscribe(()=>{

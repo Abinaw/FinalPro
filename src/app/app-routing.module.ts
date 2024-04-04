@@ -33,7 +33,8 @@ const routes: Routes = [
   //----Modules Start-----
   {
     path: 'dash-board',
-    component: DashboardCardsComponent
+    component: DashboardCardsComponent,
+    data:{isSwitched:true}
   },
   {
     path: 'invoice',

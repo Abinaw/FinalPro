@@ -12,12 +12,32 @@
                <input matInput formControlName="stockId"  type="text" class=""/>
            </mat-form-field>
 
-           <mat-form-field>
+           <!-- <mat-form-field>
                <mat-label >Material Name</mat-label>
                <input matInput formControlName="materialName" type="text" class=""/>
                <mat-error *ngIf="stockForm.get('materialName')?.errors">This field is required!</mat-error>
                <mat-error *ngIf="">This field is required!</mat-error>
-           </mat-form-field>
+           </mat-form-field> -->
+
+           <mat-form-field class="">
+            <mat-label>Category</mat-label>
+            <input type="text"
+                   placeholder="Category"
+                   matInput
+                   formControlName="categoryOBJ"
+                   [formControl]="categoryControl"
+                   [matAutocomplete]="auto"
+                   >
+                   <mat-error *ngIf="stockForm.get('categoryOBJ')?.errors">This field is required!</mat-error>
+            <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete" >
+                <mat-option 
+                    *ngFor="let aCat of filterOptions | async" 
+                    [value]="aCat.categoryId"
+                    >
+                    {{aCat.categoryId}} | {{aCat.categoryName}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
 
            <mat-form-field>
                <mat-label> Material Type </mat-label>

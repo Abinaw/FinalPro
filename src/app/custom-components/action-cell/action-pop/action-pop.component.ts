@@ -27,6 +27,7 @@ export class ActionPopComponent {
         this.dialogRef.close(state)
         if(!state)  
         this.toastr.info("The "+ this.data.title+" operation has been cancelled")
+        
     }
 
 

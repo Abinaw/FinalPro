@@ -1,75 +1,62 @@
-<nav class="rounded-l-xl">
-    <div>
-    <app-user-deatils >
+<div class="nav-container">
+    <nav class="rounded-xl flex flex-col justify-center nav" 
+    [ngClass]="{
+        'dark':isSwitched,'lite borderForNav':!isSwitched}"
+  >
 
-    </app-user-deatils>
-
-    <div class="separation"></div>
-    
-   
- 
+        <ul class="settings-conts flex flex-row" 
+         [ngClass]="{
+            'text-gray-200':isSwitched,'text-gray-600':!isSwitched
+            }">
 
 
-    <ul class="side-conts ">
-        <li>
-            <ul class="settings-conts flex flex-row gap-5">
-                <div class="setHead">SETTINGS</div>
+            <li>
+                <a [routerLink]="['/sys-info']">
+                    <span class="material-symbols-rounded">
+                        info
+                    </span>
 
-                <li>
-                    <a [routerLink]="['/sys-info']">
+                </a>
+            </li>
+            <li>
+                <a href="#" [routerLink]='["/company-details"]'>
+                    <span class="material-symbols-rounded">
+                        manage_history
+                    </span>
+
+                </a>
+            </li>
+            <li>
+                <a href="#" [routerLink]='["/print"]'>
+                    <span class="material-symbols-rounded">
+                        print
+                    </span>
+
+                </a>
+            </li>
+            <li>
+                <a href="#" [routerLink]='["/backup"]'>
+                    <span class="material-symbols-rounded">
+                        backup
+                    </span>
+
+                </a>
+            </li>
+
+            <li>
+                <div class="logBtnCont">
+                    <button class="rounded-xl logout">
                         <span class="material-symbols-rounded">
-                            info
+                            logout
                         </span>
-                        <span class="sys-opt">
-                            System Info
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" [routerLink]='["/company-details"]'>
-                        <span class="material-symbols-rounded">
-                            manage_history
-                        </span>
-                        <span class="sys-opt">
-                            Company Details
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" [routerLink]='["/print"]'>
-                        <span class="material-symbols-rounded">
-                            print
-                        </span>
-                        <span class="sys-opt">
-                            Print Setup
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" [routerLink]='["/backup"]'>
-                        <span class="material-symbols-rounded">
-                            backup
-                        </span>
-                        <span class="sys-opt">
-                            Backup
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <div class=" translate-x-8 ">
-                    <button class="rounded-xl logout">logout</button>
+                    </button>
                 </div>
-                </li>
-            </ul>
-        </li>
-        
+            </li>
+
             
+        </ul>
 
-    </ul>
+    </nav>
+
 </div>
-    <!-- 
-        <button class="rounded-xl logout">logout</button>
-     -->
-
-</nav>
 

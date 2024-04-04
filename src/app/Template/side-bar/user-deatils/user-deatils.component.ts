@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 export class UserDeatilsComponent {
 
   role='Admin';
-  name = "UserName";
+  name = localStorage.getItem("userName");
 }

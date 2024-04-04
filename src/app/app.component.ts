@@ -8,13 +8,16 @@ import { Router } from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+
     title = 'FinalPro';
     isLoginPageAvail: boolean = true;
     showClose:boolean =false
+    isSwitched = false;
 
 
     constructor(
         private router: Router) {
+             this.isSwitched = true   
     }
     
     ShowSidebarAndNotifiBar(): any {
@@ -30,7 +33,6 @@ export class AppComponent {
         }
     }
 
-
     showCloseIcon(){
         const currentRoute = this.router.url;
         if(['/login','/dash-board'].includes(currentRoute)){
@@ -41,7 +43,5 @@ export class AppComponent {
             return true;
         }
     }
-
-
-    
 }
+

@@ -1,20 +1,29 @@
 * {
     text-decoration: none;
     font-size: 1.5rem;
-    
+
 }
 
-nav {
-    background-color: #382e59;
-    margin-left: 0.3rem;
+.borderForNav{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    border: white solid 1px;
+}
+nav{
+    margin-left: 1rem;
     margin-top: 3px;
-    width: 12vw;
-    height: 99vh;
+    width: 5vw;
+    height: 75vh;
     position: relative;
     /* bottom:35px; */
     overflow: hidden;
 }
+.lite {
+    background-color: #886cce46;
+}
 
+.dark{
+    background-color: #382e59;
+}
 
 
 nav ul {
@@ -22,85 +31,83 @@ nav ul {
 }
 
 
-li >ul.settings-conts{
-    position: absolute;
-    bottom: 3rem;
-   /* background-color: rgba(240, 248, 255, 0.555); */
-   display: grid;
-   grid-gap:auto;
-    left: 0;
-    width:17vw;
-    text-align: left;
-    
+ul.settings-conts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-gap: auto;
 }
 
-.settings-conts li{
-    height: 0.3rem;
+.settings-conts li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4.5rem;
+    /* border: 2px solid red; */
+    height: 4rem;
+
 }
 
 
 .settings-conts li a {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     position: absolute;
-    left: 1vw;
-    /* column gap- b/w  icons and the text*/
-    gap: 0.7vw;
-    color: aliceblue;
-  
+    /* color: aliceblue; */
+
 }
 
-.settings-conts li a:hover{
-    color: #f5cade ;
-}
-
-
-div.setHead{
-    position: absolute;
-    font-size:1.1rem;
-    top :-2.3rem;
-    left: 1rem;
-    color: #faf8ff3f;
-    font-weight: 700;
-    letter-spacing: 3px;
+.settings-conts li a:hover {
+    color: rgb(247, 126, 136);
 }
 
 
 
-span.sys-opt{
-    font-size: 0.9rem;
+span {
+    /* border: 1px solid black; */
+    font-size: 2.5rem;
+    font-weight: 400;
 }
 
 
- .logout {
-    background-color: rgb(243, 192, 253);
-    width: 8vw;
+
+
+.nav-container {
+    
+    height:80vh;
+    margin-left: 5px;
+}
+
+button.logout>span{
+    transition: transform .8s;
+}
+
+
+
+button.logout {
+   
+    background-color: rgb(247, 126, 136);
     color: black;
     text-align: center;
-    height: 4vh;
+    width: 3.5rem;
+    height: 2.5rem;
     font-size: 1rem;
-    transition: width .5s;
+    transition: all .8s;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     font-weight: bold;
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding-bottom: 2rem; */
+    
 }
-
-.logout:hover{
-    width: 8.2vw
+.logBtnCont{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* border: solid black 2px; */
+    height: 30rem;
 }
-
-.separation{
-    position: absolute;
-    border: 1px solid #faf8ff3f  ;
-    width: 10vw;
-    opacity: 0.5;
-    transform: translateX(12%);
-    top:25vh;
-    transition: all .8s;
-
-}
-
-nav:hover .separation{
-    border: 1px solid #fdfdfd;
-}
-
 

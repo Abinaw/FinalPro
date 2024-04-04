@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl,FormsModule,ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { InvoiceService } from 'src/app/service/invoice-service/invoice.service'
 import { Observable, map, startWith } from 'rxjs';
 import { ICustomerEntity } from '../../interfaces/CustomerEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
     selector: 'app-invoice-form',
@@ -14,14 +15,15 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
     styleUrls: ['./invoice-form.component.css', '../form-design.css']
 })
 export class InvoiceFormComponent implements OnInit {
-
-    invoiceForm: FormGroup;
+    @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
     hide: boolean = true;
     allData: any;
     customerControl = new FormControl('');
+    
     customerDataList: ICustomerEntity[];
     filterOptions!: Observable<ICustomerEntity[]>
-
+    invoiceForm:FormGroup;
+    
     constructor(
         private toastr: ToastrService,
         private invoiceService: InvoiceService,
@@ -29,26 +31,30 @@ export class InvoiceFormComponent implements OnInit {
         private matDialogRef: MatDialogRef<InvoiceFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        
+        this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA;
         this.invoiceForm = new FormGroup({
             tempInvoiceId: new FormControl,
             date: new FormControl(null, Validators.required),
             netAmount: new FormControl(null, Validators.required),
-            customerOBJ: new FormControl(null, Validators.required),
+            customerOBJ: new FormControl({}, Validators.required),
         })
-        this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA;
-
+    
+        
     }
 
     
+    
 
     setDataIntoFormFields() {
-        return this.invoiceForm.setValue({
+       
+        this.invoiceForm.patchValue({
             tempInvoiceId: this.data.tempInvoiceData.tempInvoiceId,
-            date: this.data.tempInvoiceData.date,
-            netAmount: this.data.tempInvoiceData.netAmount,
-            customerOBJ: {customerOBJ: this.data.tempInvoiceData.customerOBJ.custname}
-            
+            date:this.data.tempInvoiceData.date,
+            netAmount:this.data.tempInvoiceData.netAmount,
         })
+        this.customerControl.patchValue(this.data.customerValue.custId)
+     
     }
 
     ngOnInit(): void {
@@ -64,10 +70,10 @@ export class InvoiceFormComponent implements OnInit {
     }
 
     private listFilter(value: string): ICustomerEntity[] {
-        const searchValue = value.toLowerCase();
+        const searchValue = value.toString().toLowerCase();
         return this.customerDataList.filter(
             option => 
-            option.custName.toLocaleLowerCase().includes(searchValue)||
+            option.custName.toLowerCase().includes(searchValue)||
             option.custId.toString().toLowerCase().includes(searchValue)
         )
     }
@@ -75,7 +81,7 @@ export class InvoiceFormComponent implements OnInit {
 
 
     selectOperation() {
-   
+       
         if (!this.invoiceForm.valid) {
             this.toastr.warning("Enter a valid data to " + this.data.title)
             return;
@@ -84,12 +90,14 @@ export class InvoiceFormComponent implements OnInit {
             this.insertPopTrigger();
 
         } else if (this.data.title == "Update" && this.invoiceForm.valid) {
+            
             this.updatePopTrigger();
         }
 
     }
     insertPopTrigger() {
-
+        let tempInvoiceFormValue = this.invoiceForm.value;
+        tempInvoiceFormValue.customerOBJ = {custId:this.customerControl.value};
         const extraData = {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
@@ -97,7 +105,7 @@ export class InvoiceFormComponent implements OnInit {
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
-            this.invoiceService.regiterReq(this.invoiceForm.value).subscribe(res => {
+            this.invoiceService.regiterReq(tempInvoiceFormValue).subscribe(res => {
                 this.matDialogRef.close()
                 this.toastr.success(res)
             })
@@ -108,6 +116,9 @@ export class InvoiceFormComponent implements OnInit {
     }
 
     updatePopTrigger() {
+         let newlySelectedCustomerID = this.customerControl.value
+         let tempInvoiceFormValue = this.invoiceForm.value;
+         tempInvoiceFormValue.customerOBJ ={custId: newlySelectedCustomerID}
         const extraData = {
             title: this.data.title,
             subTitle: "are you sure you want to update the selected data?",

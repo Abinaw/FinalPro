@@ -7,11 +7,11 @@
              <mat-icon >search</mat-icon>
              
      </div>
-
+   
     </div>
     
 
- <div class="table-cont flex justify-center">
+ <div class="table-cont flex justify-center" >
      <ag-grid-angular 
      class="ag-theme-alpine user-table cursor-pointer" 
      [paginationAutoPageSize]="true"
@@ -23,6 +23,8 @@
      (gridReady)="onGridReady($event)">
      </ag-grid-angular>
  </div>
+ 
+ 
  <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
  <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" (click)="insertTrigger()">Invoice
      <mat-icon>person_add</mat-icon>

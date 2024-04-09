@@ -1,0 +1,10 @@
+.mat-card-header .mat-card-title {
+    text-align: center;
+  }
+
+  .custDetailsContainer{
+width: 70%;
+display:flex;
+flex-direction: row;
+justify-content: space-evenly;
+  }

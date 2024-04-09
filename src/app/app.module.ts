@@ -67,6 +67,11 @@ import { CategoryActionComponent } from './custom-components/action-cell/categor
 import { CategoryFormComponent } from './Template/createData-forms/category-form/category-form.component';
 import { InvoiceActionComponent } from './custom-components/action-cell/invoice-action/invoice-action.component';
 import { InvoiceFormComponent } from './Template/createData-forms/invoice-form/invoice-form.component';
+import { SelectedInvoiceComponent } from './Template/expansion/selected-invoice/selected-invoice.component';
+import { DatePipe } from '@angular/common';
+import { InvoiceFinalizationComponent } from './custom-components/invoice-finalization/invoice-finalization.component';
+import { ProductSelectionToCartComponent } from './Template/expansion/product-selection-to-cart/product-selection-to-cart.component';
+
 
 
 @NgModule({
@@ -102,7 +107,11 @@ import { InvoiceFormComponent } from './Template/createData-forms/invoice-form/i
     CategoryActionComponent,
     CategoryFormComponent,
     InvoiceActionComponent,
-    InvoiceFormComponent
+    InvoiceFormComponent,
+    SelectedInvoiceComponent,
+    InvoiceFinalizationComponent,
+    ProductSelectionToCartComponent,
+  
 
     
     
@@ -147,6 +156,7 @@ import { InvoiceFormComponent } from './Template/createData-forms/invoice-form/i
 
   ],
   //providers: [],
+  providers: [DatePipe],    
   bootstrap: [AppComponent]
 })
 export class AppModule { }

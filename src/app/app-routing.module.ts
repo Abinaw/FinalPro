@@ -19,6 +19,7 @@ import { PrintComponent } from './Template/side-bar/nav-settings/print/print.com
 import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-info.component';
 import { CategoryComponent } from './Template/modules/category/category.component';
 import { InvoiceComponent } from './Template/modules/invoice/invoice.component';
+import { SelectedInvoiceComponent } from './Template/expansion/selected-invoice/selected-invoice.component';
 
 
 
@@ -34,46 +35,45 @@ const routes: Routes = [
   {
     path: 'dash-board',
     component: DashboardCardsComponent,
-    data:{isSwitched:true}
   },
   {
-    path: 'invoice',
+    path: 'dash-board/invoice',
     component: InvoiceComponent
   },
   {
-    path: 'category',
+    path: 'dash-board/category',
     component: CategoryComponent
   },
   {
-    path: 'customer',
+    path: 'dash-board/customer',
     component: CustomerComponent
   },
   {
-    path: 'return',
+    path: 'dash-board/return',
     component: EmployeeComponent
   },
   {
-    path: 'purchase',
+    path: 'dash-board/purchase',
     component: PurchaseComponent
   },
   {
-    path: 'report',
+    path: 'dash-board/report',
     component: ReportComponent
   },
   {
-    path: 'sales',
+    path: 'dash-board/sales',
     component: SalesComponent
   },
   {
-    path: 'stock',
+    path: 'dash-board/stock',
     component: StockComponent
   },
   {
-    path: 'user',
+    path: 'dash-board/user',
     component: UserDataComponent
   },
   {
-    path: 'vendor',
+    path: 'dash-board/vendor',
     component: VendorComponent
   },
 
@@ -103,8 +103,13 @@ const routes: Routes = [
   {
     path: 'sys-info',
     component: SysInfoComponent
-  }
+  },
 
+    //----others-----
+  {
+    path:'dash-board/invoice/selectedInvoice',
+    component:SelectedInvoiceComponent
+  }
 ];
 
 @NgModule({

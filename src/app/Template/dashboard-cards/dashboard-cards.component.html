@@ -1,12 +1,9 @@
-<div class="card-container flex justify-evenly">
-    <p >{{isSwitched}}</p>
-
+<div  class="card-container flex justify-evenly">
     <ng-container *ngFor="let card of Cards">
       <ng-container>
         <mat-card routerLink="/{{card.route}}" style="text-align: center;">
           <mat-card-header class="flex align-middle justify-center ">
-            <mat-card-subtitle class="font-bold text-white" [ngClass]="{
-                'text-white':isSwitched,'dark':!isSwitched}">{{card.name | uppercase}}</mat-card-subtitle>
+            <mat-card-subtitle style="color: rgb(255, 255, 255);" class="font-bold">{{card.name | uppercase}}</mat-card-subtitle>
           </mat-card-header>
           <div class="img-cont flex items-center">
             <img mat-card-image src="{{card.imageUrl}}" />
@@ -14,5 +11,5 @@
         </mat-card>
       </ng-container>
     </ng-container>
-  </div>
+ </div>
   

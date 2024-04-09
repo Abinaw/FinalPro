@@ -2,12 +2,16 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { InvoiceActionComponent } from 'src/app/custom-components/action-cell/invoice-action/invoice-action.component';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { InvoiceFormComponent } from '../../createData-forms/invoice-form/invoice-form.component';
 import { CustomerService } from 'src/app/service/customer-service/customer.service';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
+import { InvoiceFinalizationComponent } from 'src/app/custom-components/invoice-finalization/invoice-finalization.component';
+import { ValueGetterParams } from 'ag-grid/dist/lib/entities/colDef';
+import { ActionCellComponent } from 'src/app/custom-components/action-cell/user-action/action-cell.component';
+import { IInvoiceEntity } from '../../interfaces/InvoiceEntity';
 
 @Component({
   selector: 'app-invoice',
@@ -15,7 +19,7 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent {
-    
+  
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
     agGrid!: AgGridAngular
@@ -36,6 +40,11 @@ export class InvoiceComponent {
             colId:"date",
             headerName:"Date"
          },
+         { 
+            field: "tempInvoiceNumber",
+            colId:"tempInvoiceNumber",
+            headerName:"Invoice number"
+         },
         { 
             field: "netAmount",
             colId:"netAmount",
@@ -52,25 +61,41 @@ export class InvoiceComponent {
             }
             
         },
+        { 
+            field: "finalized",
+            colId:"finalized",
+            headerName:"Is Finalized",
+            cellRenderer: InvoiceFinalizationComponent, 
+            hide: true
+        },    
         {
             field:"action",
             headerName:"Action",
-            cellRenderer: InvoiceActionComponent,}
+            cellRenderer: InvoiceActionComponent,
+             
+        }
     ];
+
+  
+
 
     constructor(
         private dialog: MatDialog,
         private invoiceService: InvoiceService,
         private customerService : CustomerService,
-    ) { this.getAllCustomerData() }
+    ) { 
+        this.getAllCustomerData() 
+        
+    }
 
-   
+    
 
 
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
     }
+    
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
        
@@ -96,6 +121,8 @@ export class InvoiceComponent {
 
 
     insertTrigger() {
+        
+       
         const extraData={
             title:"Insert"
         }
@@ -123,9 +150,5 @@ export class InvoiceComponent {
             GLOBAL_LIST.CUSTOMER_DATA = res
         })
     }
-
-
-    
-
 
 }

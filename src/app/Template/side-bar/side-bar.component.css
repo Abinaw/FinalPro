@@ -104,10 +104,9 @@ button.logout {
     
 }
 .logBtnCont{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+   
     /* border: solid black 2px; */
-    height: 30rem;
+    position: absolute;
+    bottom: 1rem;
 }
 

@@ -1,9 +1,9 @@
 .middleLogOrNonLogContainer{
-    width: 100%;
+    /* width: 100%; */
     margin-left: 2rem;
     margin-top: 3rem;
     margin-right: 3rem;
-    height: 85vh;
+    /* height: 85vh; */
     border-radius: 20px;
     display: grid;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;  
@@ -86,9 +86,8 @@
     flex-direction: column;
     justify-content: flex-start;
     height: 30vh;
-    width: 7vw;
-   
-    
+    width: 7vw; 
+    margin-left: .3rem;   
 }
 footer{
     position: absolute;

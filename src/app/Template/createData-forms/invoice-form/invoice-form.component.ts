@@ -8,6 +8,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { ICustomerEntity } from '../../interfaces/CustomerEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-invoice-form',
@@ -23,8 +24,10 @@ export class InvoiceFormComponent implements OnInit {
     customerDataList: ICustomerEntity[];
     filterOptions!: Observable<ICustomerEntity[]>
     invoiceForm:FormGroup;
+checkGrp!: FormGroup<any>;
     
     constructor(
+        private datePipe: DatePipe,
         private toastr: ToastrService,
         private invoiceService: InvoiceService,
         private matDialog: MatDialog,
@@ -35,16 +38,14 @@ export class InvoiceFormComponent implements OnInit {
         this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA;
         this.invoiceForm = new FormGroup({
             tempInvoiceId: new FormControl,
+            tempInvoiceNumber:new FormControl(Date.now()),
             date: new FormControl(null, Validators.required),
-            netAmount: new FormControl(null, Validators.required),
+            netAmount: new FormControl(0.00, Validators.required),
             customerOBJ: new FormControl({}, Validators.required),
         })
     
         
     }
-
-    
-    
 
     setDataIntoFormFields() {
        
@@ -52,6 +53,7 @@ export class InvoiceFormComponent implements OnInit {
             tempInvoiceId: this.data.tempInvoiceData.tempInvoiceId,
             date:this.data.tempInvoiceData.date,
             netAmount:this.data.tempInvoiceData.netAmount,
+            tempInvoiceNumber:this.data.tempInvoiceData.tempInvoiceNumber,
         })
         this.customerControl.patchValue(this.data.customerValue.custId)
      
@@ -134,5 +136,4 @@ export class InvoiceFormComponent implements OnInit {
         })
 
     }
-
 }

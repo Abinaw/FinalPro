@@ -31,7 +31,7 @@ export class StockFormComponent implements OnInit {
         this.stockForm=new FormGroup({
             stockId:new FormControl,
             categoryOBJ:new FormControl({},[Validators.required,]),
-            materialType:new FormControl("6X",Validators.required),
+            itemName:new FormControl("6X",Validators.required),
             materialColour:new FormControl("Blue",Validators.required),
             quantity:new FormControl(null,Validators.required),
             arrivalDate:new FormControl(null,Validators.required),
@@ -49,7 +49,7 @@ export class StockFormComponent implements OnInit {
         this.stockForm.patchValue({
             stockId:this.data.stockData.stockId,
             categoryOBJ: this.data.stockData.categoryOBJ,
-            materialType: this.data.stockData.materialType,
+            itemName: this.data.stockData.itemName,
             materialColour: this.data.stockData.materialColour,
             arrivalDate: this.data.stockData.arrivalDate,
             remarks: this.data.stockData.remarks,
@@ -138,13 +138,13 @@ export class StockFormComponent implements OnInit {
 
     //--------------- Form Validation------------------
 
-    doNotAddSpace(control: FormControl) {
-        if(control.value!= "" && control.value.indexOf(' ') != -1) {
-            console.log( control)
-            return control
-            // return { noSpace: true };
-        }else{
-            return null;
-        }
-}
+    // doNotAddSpace(control: FormControl) {
+    //     if(control.value!= "" && control.value.indexOf(' ') != -1) {
+    //         console.log( control)
+    //         return control
+    //         // return { noSpace: true };
+    //     }else{
+    //         return null;
+    //     }
+    // }
 }

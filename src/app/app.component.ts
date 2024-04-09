@@ -17,7 +17,7 @@ export class AppComponent {
 
     constructor(
         private router: Router) {
-             this.isSwitched = true   
+             this.isSwitched = false   
     }
     
     ShowSidebarAndNotifiBar(): any {

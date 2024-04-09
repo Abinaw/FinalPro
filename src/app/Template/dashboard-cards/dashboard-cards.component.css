@@ -5,7 +5,7 @@ mat-card{
   cursor: pointer;
   margin-top: 2rem;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-  /* transition: all .5s; */
+  transition: all .2s;
   border-radius: 10px;
 
 
@@ -25,14 +25,14 @@ mat-card{
   mat-card img{
       width: 17vw;
       height: 30vh;
-      opacity: 0.80;
+      opacity: 0.75;
       transition: .5s;
     
       
   }
 
   mat-card:hover img{
-    opacity: 1;
+    opacity: 2;
   }
 
   .card-container{

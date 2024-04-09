@@ -13,7 +13,10 @@
            </mat-form-field>
 
            <!-- </div> -->
-          
+           <mat-form-field>
+            <mat-label > Invoice Number </mat-label>
+            <input readonly matInput formControlName="tempInvoiceNumber"  type="number" class=""/>
+            </mat-form-field>
 
          
            <mat-form-field >
@@ -29,7 +32,7 @@
             <mat-label> Net Amount </mat-label>
             <input matInput formControlName="netAmount" type="number" step=".01" class="" />
             <mat-error *ngIf="invoiceForm.get('netAmount')?.errors">This field is required!</mat-error>
-        </mat-form-field>
+        </mat-form-field>      
 
         <mat-form-field class="">
             <mat-label>Customer</mat-label>
@@ -50,8 +53,8 @@
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
-      
-           
+        
+          
 
            <div mat-dialog-actions class="button-wrapper flex flex-row">
                <button mat-flat-button color="primary" class="save" type="submit">

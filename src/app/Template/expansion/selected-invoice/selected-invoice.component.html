@@ -1,0 +1,23 @@
+<div class="flex flex-row justify-center ">
+<mat-card class="w-3/4 rounded-3xl">
+    <mat-card-header class="bg-purple-200 rounded-lg m-2 flex flex-row justify-center relative ">
+      <div class="absolute top-1">
+        <mat-card-title >INVOICE DETAILS</mat-card-title>
+      </div>
+      <div class="custDetailsContainer mt-6">
+      <mat-card-subtitle  class="font-extrabold">CUSTOMER ID :{{this.custId}}</mat-card-subtitle>
+      <mat-card-subtitle class="font-extrabold">CUSTOMER NAME :{{this.customerName|uppercase}}</mat-card-subtitle>
+      <mat-card-subtitle  class="font-extrabold">CUSTOMER CONTACT :{{this.custContact}}</mat-card-subtitle>
+    </div>
+    </mat-card-header>
+    <mat-card-actions class="flex flex-row justify-around align-middle">
+      <button mat-raised-button  color="warn">Complete the invoice </button>
+    <button mat-raised-button color="primary" (click)="addProducts()">Add more products</button> 
+    </mat-card-actions>
+  </mat-card>
+  </div>
+
+  <div>
+
+
+  </div>

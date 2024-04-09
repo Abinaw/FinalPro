@@ -25,13 +25,12 @@ export class StockComponent {
         // 
         { field: "stockId", width: 90, hide: true, suppressColumnsToolPanel: true },
         { field: "categoryOBJ",
-            colId:"materialName",
             headerName:"Category",
             valueFormatter:(params)=>{
                 const combinedvalue = params.value.categoryId+"-"+params.value.categoryName
                 return combinedvalue
         } },
-        { field: "materialType", },
+        { field: "itemName", },
         { field: "materialColour", },
         { field: "arrivalDate", },
         { field: "purchasePrice",},

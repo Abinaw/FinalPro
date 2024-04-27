@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CellClickedEvent, ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { InvoiceActionComponent } from 'src/app/custom-components/action-cell/invoice-action/invoice-action.component';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { InvoiceFormComponent } from '../../createData-forms/invoice-form/invoice-form.component';
@@ -66,7 +66,7 @@ export class InvoiceComponent {
             colId:"finalized",
             headerName:"Is Finalized",
             cellRenderer: InvoiceFinalizationComponent, 
-            hide: true
+            // hide: true
         },    
         {
             field:"action",

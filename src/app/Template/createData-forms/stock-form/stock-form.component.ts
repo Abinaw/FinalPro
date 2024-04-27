@@ -48,7 +48,7 @@ export class StockFormComponent implements OnInit {
         
         this.stockForm.patchValue({
             stockId:this.data.stockData.stockId,
-            categoryOBJ: this.data.stockData.categoryOBJ,
+            // categoryOBJ: this.data.stockData.categoryOBJ,
             itemName: this.data.stockData.itemName,
             materialColour: this.data.stockData.materialColour,
             arrivalDate: this.data.stockData.arrivalDate,

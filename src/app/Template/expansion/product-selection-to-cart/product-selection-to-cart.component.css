@@ -37,8 +37,8 @@ mat-card{
   
     .card-container{
      
-      display: grid;
-      grid-template-columns: auto auto auto auto ;
+      display: flex;
+      flex-direction: row;
       row-gap: 1rem;
       column-gap: 0.5rem;
       text-align: center;

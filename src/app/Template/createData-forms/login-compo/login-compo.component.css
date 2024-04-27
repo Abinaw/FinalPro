@@ -49,3 +49,7 @@ input:focus{
     
 }
    
+
+:host {
+    width: 100%;
+}

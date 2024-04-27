@@ -27,7 +27,6 @@ export class InvoiceFormComponent implements OnInit {
 checkGrp!: FormGroup<any>;
     
     constructor(
-        private datePipe: DatePipe,
         private toastr: ToastrService,
         private invoiceService: InvoiceService,
         private matDialog: MatDialog,

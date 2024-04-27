@@ -71,6 +71,8 @@ import { SelectedInvoiceComponent } from './Template/expansion/selected-invoice/
 import { DatePipe } from '@angular/common';
 import { InvoiceFinalizationComponent } from './custom-components/invoice-finalization/invoice-finalization.component';
 import { ProductSelectionToCartComponent } from './Template/expansion/product-selection-to-cart/product-selection-to-cart.component';
+import { ProductSelectionToCartFormComponent } from './Template/expansion/product-selection-to-cart-form/product-selection-to-cart-form.component';
+import { ProductCartActionComponent } from './custom-components/product-cart-action/product-cart-action.component';
 
 
 
@@ -111,6 +113,8 @@ import { ProductSelectionToCartComponent } from './Template/expansion/product-se
     SelectedInvoiceComponent,
     InvoiceFinalizationComponent,
     ProductSelectionToCartComponent,
+    ProductSelectionToCartFormComponent,
+    ProductCartActionComponent,
   
 
     

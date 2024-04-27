@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,12 +12,14 @@ export class AppComponent {
     title = 'FinalPro';
     isLoginPageAvail: boolean = true;
     showClose:boolean =false
-    isSwitched = false;
+    isSwitched;
+    currentYear:number = new Date().getFullYear();
 
 
     constructor(
-        private router: Router) {
-             this.isSwitched = false   
+        private router: Router , private renderer: Renderer2) {
+             this.isSwitched = true
+                
     }
     
     ShowSidebarAndNotifiBar(): any {
@@ -42,6 +44,10 @@ export class AppComponent {
            this.showClose = true
             return true;
         }
+    }
+
+    toogleTheme(){
+        document.documentElement.classList.toggle("dark");
     }
 }
 

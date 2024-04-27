@@ -1,7 +1,7 @@
 .middleLogOrNonLogContainer{
     /* width: 100%; */
     margin-left: 2rem;
-    margin-top: 3rem;
+    margin-top: 1rem;
     margin-right: 3rem;
     /* height: 85vh; */
     border-radius: 20px;
@@ -12,7 +12,6 @@
 
 .darkMode{
     background-color: #382e59;
-   
 }
 .liteMode{
     background-color: #886cce46;
@@ -73,10 +72,10 @@
 
 .notifi{
     color: aliceblue;
- background-color: rgb(247, 126, 136);
+    background-color: rgb(247, 126, 136);
 }
 .sideAndUser{
-    height: 99vh;
+    height: 97.8vh;
     display: flex;
     flex-direction: column;
 }
@@ -89,10 +88,10 @@
     width: 7vw; 
     margin-left: .3rem;   
 }
-footer{
+/* footer{
     position: absolute;
     bottom: 2px;
     background-color: #d9d5e749;
     width: 100vw;
     text-align: center;
-}
+} */

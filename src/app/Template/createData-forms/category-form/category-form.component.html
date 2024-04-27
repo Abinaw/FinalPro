@@ -14,13 +14,13 @@
             <mat-label > Category name </mat-label>
             <input matInput formControlName="categoryName" type="text" class=""/>
             <mat-error *ngIf="categoryForm.get('categoryName')?.errors">This field is required!</mat-error>
-            <mat-error *ngIf="">This field is required!</mat-error>
+           
         </mat-form-field>
         <mat-form-field >
             <mat-label > Description </mat-label>
             <input matInput formControlName="description" type="text" class=""/>
             <mat-error *ngIf="categoryForm.get('description')?.errors">This field is required!</mat-error>
-            <mat-error *ngIf="">This field is required!</mat-error>
+          
         </mat-form-field>
     
        <div mat-dialog-actions class="button-wrapper flex flex-row">

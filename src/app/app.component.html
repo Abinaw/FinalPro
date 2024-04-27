@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="notifiAndnonLoginDirectivesContainer">
+    <div class="notifiAndnonLoginDirectivesContainer min-h-[calc(100vh-40px)]">
         <div class="notifi-button-container" *ngIf="ShowSidebarAndNotifiBar()">
             <button mat-mini-fab class="notifi" aria-label="Example icon button with a menu icon">
                 <span class="material-symbols-outlined">
@@ -18,7 +18,7 @@
                 </span>
             </button>
             <div class="translate-y-2">
-                <mat-slide-toggle [(ngModel)]="isSwitched" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isSwitched" color="primary" (ngModelChange)="toogleTheme()"></mat-slide-toggle>
             </div>
         </div>
 
@@ -39,4 +39,5 @@
     </div>
 </div>
 
-<footer>2023 copyrights</footer>
+<footer class="h-[20px] flex items-center justify-center bg-[#886cce46] dark:bg-[#382e59] text-[#382e59] dark:text-white">&copy; {{currentYear}} Comfort linen. All Rights Reserved</footer>
+ 

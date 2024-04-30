@@ -25,20 +25,20 @@ export class ProductCartService {
     return this.http.get<any[]>(url,{responseType:'json'});
   }
 
-//   delete(invoiceId:any) {
-//     // this.audService.playSoundDelete()
-//        const url =`${this.baseUrl}/delete/${invoiceId}`;
-//        return this.http.delete<any>(url,{responseType :'text' as 'json'});
-//   }
+  delete(invoiceId:any) {
+    // this.audService.playSoundDelete()
+       const url =`${this.baseUrl}/delete/${invoiceId}`;
+       return this.http.delete<any>(url,{responseType :'json'});
+  }
 
-//   update(updateRequestData: any):Observable<any>{
-//     // this.audService.playSoundUpdate()
-//     const url = `${this.baseUrl}/update`;
-//     return this.http.put<any>(url,updateRequestData,{responseType :'text' as 'json'})
-//   }
+  update(updateRequestData: any):Observable<any>{
+    // this.audService.playSoundUpdate()
+    const url = `${this.baseUrl}/update`;
+    return this.http.put<any>(url,updateRequestData,{responseType :'json'})
+  }
 
-//   findData(dataChar:any) {
-//     const url = `${this.baseUrl}/select/${dataChar}`;
-//     return this.http.get<any>(url)
-//   }
+  findData(dataChar:any) {
+    const url = `${this.baseUrl}/select/${dataChar}`;
+    return this.http.get<any>(url,{responseType:'json'})
+  }
 }

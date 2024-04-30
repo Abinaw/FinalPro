@@ -30,14 +30,15 @@ export class ProductCartActionComponent {
         this.gridApi = params.api;
      }
 
-    //  public setDataIntoRow() {
-    //     this.productCartService.getAll().subscribe((retData)=>{
-    //         this.gridApi.setRowData(retData)
-    //     })
-    // }
+     public setDataIntoRow() {
+        let invoiceId = this.dataFromRow.tempInvoiceOBJ.tempInvoiceId
+        this.productCartService.getAll(invoiceId).subscribe((cartData)=>{
+            this.gridApi.setRowData(cartData.result[0])
+        })
+    }
 
     openDelDialog(): void {
-        
+     
         const extraData = {
             title : "Delete Product",
             subTitle: "Do you want to delete this Product from the invoice?",
@@ -46,12 +47,11 @@ export class ProductCartActionComponent {
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
-
-            
-            // this.productCartService.delete(this.dataFromRow.custId).subscribe((res)=>{
-            //     this.toastr.success(res)
-            //     this.setDataIntoRow();
-            // })
+          
+            this.productCartService.delete(this.dataFromRow.proCartId).subscribe((res)=>{
+                this.toastr.success(res.successMessage)
+                this.setDataIntoRow();
+            })
         })
        
     }
@@ -64,7 +64,7 @@ export class ProductCartActionComponent {
         }
             const dialogRef = this.matDialog.open(ProductSelectionToCartFormComponent, {data});
             dialogRef.afterClosed().subscribe(()=>{
-                // this.setDataIntoRow()
+                this.setDataIntoRow()
             })
         }
 }

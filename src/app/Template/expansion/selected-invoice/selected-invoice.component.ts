@@ -76,7 +76,7 @@ export class SelectedInvoiceComponent {
             colId:"proCartId",
             headerName:"Cart Row ID",
             width: 90, 
-            // hide: true
+            hide: true
         },
         { 
             field: "stockOBJ",
@@ -145,7 +145,6 @@ export class SelectedInvoiceComponent {
         return new Promise((resolve) => {
             this.productCartService.getAll(this.invoiceId).subscribe((cartData) => {
                 resolve(cartData.result[0]);
-                console.log(cartData.result[0])
             }, (err) => {
                 resolve([])
             })
@@ -166,7 +165,8 @@ export class SelectedInvoiceComponent {
         const extraData={
             title:"Add",
             selectedInvoiceId: this.invoiceId,
-            customerId: this.custId
+            customerId: this.custId,
+
         }
        
         // const showAvailableProducts = this.matDialog.open(ProductSelectionToCartComponent,{height:"30%",width:"100%"})
@@ -177,31 +177,21 @@ export class SelectedInvoiceComponent {
             data:extraData})
             addProductsForm.afterClosed().subscribe(res=>{
             this.setDataIntoRow();
+            this.getAllStockData();
         })
     }
-    // insertTrigger() {
-        
-       
-    //     const extraData={
-    //         title:"Insert"
-    //     }
-    //     const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData})
-    //     openForm.afterClosed().subscribe(res=>{
-    //         this.setDataIntoRow();
-    //     })
-      
-    // }
+
 
     searchDataInRows()
     {
-        // this.gridApi.setQuickFilter(this.searchCharac)
-        // if(this.searchCharac!==""){
-        // this.productCartService.findData(this.searchCharac).subscribe(res=>{
-        //   this.gridApi.setRowData(res) 
-        //    });   
-        // }else if(this.searchCharac===""){
-        //    this.setDataIntoRow()
-        // }
+        this.gridApi.setQuickFilter(this.searchCharac)
+        if(this.searchCharac!==""){
+        this.productCartService.findData(this.searchCharac).subscribe(response=>{
+          this.gridApi.setRowData(response?.result) 
+           });   
+        }else if(this.searchCharac===""){
+           this.setDataIntoRow()
+        }
     }
 
 }

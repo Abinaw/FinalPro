@@ -18,10 +18,16 @@ export class ProductCartService {
     // this.audService.playSoundInsert()
     const url = `${this.baseUrl}/register`;
     return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
+    
   }
 
   getAll(invoiceId:any):Observable<any>{
     const url = `${this.baseUrl}/getAll/${invoiceId}`;
+    return this.http.get<any[]>(url,{responseType:'json'});
+  }
+
+  loadAll():Observable<any>{
+    const url = `${this.baseUrl}/loadAll`;
     return this.http.get<any[]>(url,{responseType:'json'});
   }
 
@@ -37,8 +43,8 @@ export class ProductCartService {
     return this.http.put<any>(url,updateRequestData,{responseType :'json'})
   }
 
-  findData(dataChar:any) {
-    const url = `${this.baseUrl}/select/${dataChar}`;
+  findData(tempInvoiceId:number, dataChar:any) {
+    const url = `${this.baseUrl}/select/${tempInvoiceId}/${dataChar}`;
     return this.http.get<any>(url,{responseType:'json'})
   }
 }

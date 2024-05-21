@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ICategoryEntity } from '../../interfaces/ICategoryEntity';
+import { ICategoryEntity } from '../../../constants/interfaces/ICategoryEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
-import { IStockEntity } from '../../interfaces/IStockEntity';
+import { IStockEntity } from '../../../constants/interfaces/IStockEntity';
 
 @Component({
   selector: 'app-product-selection-to-cart',

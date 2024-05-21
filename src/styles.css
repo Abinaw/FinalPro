@@ -25,3 +25,10 @@ body{
     margin: 0;
     font-family: 'Nunito', sans-serif;
 }
+
+
+.custom-dialog-container {
+    border-radius: 2rem;
+    overflow: hidden ;
+  }
+  

@@ -66,7 +66,7 @@ export class CategoryComponent {
         const extraData={
             title:"Insert"
         }
-        const openForm = this.dialog.open(CategoryFormComponent,{data:extraData})
+        const openForm = this.dialog.open(CategoryFormComponent,{data:extraData , panelClass:"custom-dialog-container"})
         openForm.afterClosed().subscribe(res=>{
             this.setDataIntoRow();
         })

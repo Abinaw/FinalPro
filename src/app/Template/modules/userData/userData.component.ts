@@ -80,7 +80,7 @@ export class UserDataComponent {
         const extraData={
             title:"Insert"
         }
-        const openForm = this.dialog.open(UserRegistrationForm,{data:extraData})
+        const openForm = this.dialog.open(UserRegistrationForm,{data:extraData, panelClass:"custom-dialog-container"})
         openForm.afterClosed().subscribe(res=>{
             this.setDataIntoRow();
         })

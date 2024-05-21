@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { IStockEntity } from '../../interfaces/IStockEntity';
+import { IStockEntity } from '../../../constants/interfaces/IStockEntity';
 import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ProductCartService } from 'src/app/service/productCart-service/product-cart.service';
@@ -18,16 +18,17 @@ import { ActionPopComponent } from 'src/app/custom-components/action-cell/action
 
 
 
-export class ProductSelectionToCartFormComponent  {
-    
+export class    ProductSelectionToCartFormComponent  {
+   
     selectedProduct!:any
     productSelectionForm : FormGroup
-    stockOBJControl = new FormControl('');
+    stockOBJControl = new FormControl('')
     stockDataList : IStockEntity[];
     filterOptions!: Observable<IStockEntity[]>
     selectedItemsQty! :number
-    tempInvoiceOBJControl= new FormControl('');
-
+    tempInvoiceOBJControl= new FormControl('')
+  
+    // isUpdate: boolean =this.data.isUpdate
    
     constructor(
         private matDialogRef:MatDialogRef<ProductSelectionToCartFormComponent>,
@@ -39,13 +40,14 @@ export class ProductSelectionToCartFormComponent  {
     ) {
         
        this.stockDataList = GLOBAL_LIST.STOCK_DATA
-       console.log("On the constructor ", this.stockDataList)
+    //    console.log("On the constructor ", this.stockDataList)
+       
         this.productSelectionForm=new FormGroup({
             proCartId:new FormControl,
             stockOBJ:new FormControl(Validators.required),
             quantity:new FormControl([Validators.required,]),
             //#cmt  qty validation has been done below, since the qty for selection will only be filtered from the list once the stock has been selected 
-            discount:new FormControl(Validators.required),
+            discount:new FormControl(0.0,Validators.required),
             netAmount:new FormControl(null),
             total:new FormControl(null),
             tempInvoiceOBJ:new FormControl()
@@ -53,18 +55,15 @@ export class ProductSelectionToCartFormComponent  {
     }
  
     ngOnInit(): void {
-      
+        
         if (this.data.title === "Update") {
-            this.setDataToInputForUpdation()
-            console.log("when update" ,this.stockDataList)
+            this.setDataToInputForUpdation()        
         }  
         this.filterOptions = this.stockOBJControl.valueChanges.pipe(
             startWith(''),
             map(value => this.listFilter(value || '')
             )
-        )
-       
-        
+        )       
     }
 
     private setDataToInputForUpdation(){
@@ -81,39 +80,61 @@ export class ProductSelectionToCartFormComponent  {
         this.getSelectedProduct_sList(stockIdOfTheSelectedRow)   
     }
 
+
+    
     quantityValidator(selectedItemsQty: number): ValidatorFn {
+       
         return (control: AbstractControl): {[key: string]: any} | null => {
-            const enteredQuantity = control.value;
-            // if(this.data.title==="Add")
+            const currentQty = control.value;
+            if(currentQty <=0){
+                return this.toastr.warning("Add a valid input")
+            }
+            if (this.data.title==="Add") {
+                if( currentQty && currentQty > selectedItemsQty){
+                    this.toastr.warning("Quantity should be either below or equals to "+selectedItemsQty)
+                    return { 'exceedsQty': true };  
+                }              
+             }else if(this.data.title==="Update"){
+                const existingInThecart = this.data.selectedRowData.quantity
+                let qtyDiff = currentQty - existingInThecart
+                if(qtyDiff > selectedItemsQty){
+                    this.toastr.warning("Quantity should be either below or equals to "+(selectedItemsQty + existingInThecart))
+                    return { 'exceedsQty': true };  
+                }
                 
-            if (this.data.title==="Add" && enteredQuantity && enteredQuantity > selectedItemsQty) {
-                this.toastr.warning("Quantity should be either below or equals to "+selectedItemsQty)
-                return { 'exceedsQty': true };  
-            }    
-            //  }else if(this.data.title==="Update" && enteredQuantity > (selectedItemsQty-enteredQuantity)){
-            //     this.toastr.warning("Quantity should be either below or equals to "+selectedItemsQty)
-            //     return { 'exceedsQty': true };   
-            //  }
+             }
             return null;
         };
     }
+
+    
 
     selectOperation(){
         this.setvaluesToOBJFields()
         if(this.data.title ==="Add"){
             this.productCartService.regiterReq(this.productSelectionForm.value).subscribe(res=>{
                 console.log("response ",res)
+                this.getAllStockData()
+                this.matDialogRef.close()
             })
         }else if(this.data.title === "Update"){
-            this.updatePopTrigger();            
+            this.updatePopTrigger(); 
         }
        
+        
     }
 
 
     getAllStockData() {
         this.stockService.getAll().subscribe(res => {
             GLOBAL_LIST.STOCK_DATA = res
+        })
+       
+    }
+
+    getAllCartData(){
+        this.productCartService.getAll(this.data?.selectedRowData?.tempInvoiceOBJ?.tempInvoiceId).subscribe((res)=>{
+            GLOBAL_LIST.PRODUCTCART_DATA = res.result[0]
         })
     }
 
@@ -123,14 +144,14 @@ export class ProductSelectionToCartFormComponent  {
             title: this.data.title,
             subTitle: "are you sure you want to update the selected data?",
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass:"custom-dialog-container" })
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.productCartService.update(this.productSelectionForm.value).subscribe((res)=>{             
                 this.matDialogRef.close()
-                this.toastr.success(res)
+                this.toastr.success(res.successMessage)
             })
-            this.getAllStockData()
+          
         })
 
     }
@@ -154,29 +175,46 @@ export class ProductSelectionToCartFormComponent  {
          //#cmt  only add this qty validation, once the qty has been acquired for the selected stock by the component 
          this.productSelectionForm.get('quantity')?.setValidators([
             Validators.required,
-            this.quantityValidator(this.selectedItemsQty)
+            this.quantityValidator(qty)
         ]);
         this.productSelectionForm.get('quantity')?.updateValueAndValidity();
         // end
-    }
+    } 
 
      getSelectedProduct_sList(stockId: number){
-        // console.log(stockId)
         this.selectedProduct =  this.stockDataList.filter(list=>list?.stockId === stockId);
+        // once the product has been selected the number of qty available of the product will get selected, stockId selected from the Blur property
         this.selectedItemsQty = this.selectedProduct?.[0]?.quantity
         this.initializeQtyValidation(this.selectedItemsQty)
     }
+    
     setTotal(){
-        let cartValue = this.productSelectionForm.value;
-        cartValue.total = this.selectedProduct?.[0]?.sellingPrice * cartValue.quantity 
-        this.productSelectionForm.get('total')?.setValue(parseFloat(cartValue.total.toFixed(2)))
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice
+        const qtyControl = this.productSelectionForm.get('quantity')
+        const totalControl = this.productSelectionForm.get('total')
+        const netAmountControl = this.productSelectionForm.get('netAmount')
+        const discountControl = this.productSelectionForm.get('discount')
+        qtyControl?.valueChanges.subscribe(qty => {
+            totalControl?.patchValue(qty*sellPrice)
+            if (discountControl){
+                const discountVal = discountControl.value
+                let TotalDiscount = discountVal * qty
+                let netAmount = totalControl?.value - TotalDiscount
+                netAmountControl?.patchValue(netAmount)
+            }
+        });      
     }
     setNetAmount(){
-        let cartValue = this.productSelectionForm.value;
-        let discount = cartValue.discount
-        let totalDiscount = discount * cartValue.quantity
-        cartValue.netAmount =  cartValue.total - totalDiscount;
-        this.productSelectionForm.get('netAmount')?.setValue(parseFloat(cartValue.netAmount.toFixed(2)))
+        const qtyControl = this.productSelectionForm.get('quantity')
+        const totalControl = this.productSelectionForm.get('total')
+        const netAmountControl = this.productSelectionForm.get('netAmount')
+        const discountControl = this.productSelectionForm.get('discount')
+        discountControl?.valueChanges.subscribe(discount=>{
+            let TotalDiscount = discount * qtyControl?.value
+            let netAmount = totalControl?.value - TotalDiscount
+            netAmountControl?.patchValue(netAmount)
+        })
+       
     }
     private setvaluesToOBJFields(){
        let cartValue = this.productSelectionForm.value;
@@ -188,6 +226,7 @@ export class ProductSelectionToCartFormComponent  {
     private setInvoiceDetailsForUpdation(){
         let cartValue = this.productSelectionForm.value;
         cartValue.tempInvoiceOBJ = this.data.selectedRowData.tempInvoiceOBJ
+        cartValue.stockOBJ = this.data.selectedRowData.stockOBJ
     }
     
 

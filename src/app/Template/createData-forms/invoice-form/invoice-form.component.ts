@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { Observable, map, startWith } from 'rxjs';
-import { ICustomerEntity } from '../../interfaces/CustomerEntity';
+import { ICustomerEntity } from '../../../constants/interfaces/CustomerEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { DatePipe } from '@angular/common';
@@ -20,11 +20,10 @@ export class InvoiceFormComponent implements OnInit {
     hide: boolean = true;
     allData: any;
     customerControl = new FormControl('');
-    
     customerDataList: ICustomerEntity[];
     filterOptions!: Observable<ICustomerEntity[]>
     invoiceForm:FormGroup;
-checkGrp!: FormGroup<any>;
+    checkGrp!: FormGroup<any>;
     
     constructor(
         private toastr: ToastrService,
@@ -41,6 +40,7 @@ checkGrp!: FormGroup<any>;
             date: new FormControl(null, Validators.required),
             netAmount: new FormControl(0.00, Validators.required),
             customerOBJ: new FormControl({}, Validators.required),
+            paidAmount: new FormControl(0.00)
         })
     
         

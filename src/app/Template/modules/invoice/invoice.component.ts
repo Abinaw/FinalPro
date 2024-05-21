@@ -11,7 +11,8 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { InvoiceFinalizationComponent } from 'src/app/custom-components/invoice-finalization/invoice-finalization.component';
 import { ValueGetterParams } from 'ag-grid/dist/lib/entities/colDef';
 import { ActionCellComponent } from 'src/app/custom-components/action-cell/user-action/action-cell.component';
-import { IInvoiceEntity } from '../../interfaces/InvoiceEntity';
+import { IInvoiceEntity } from '../../../constants/interfaces/InvoiceEntity';
+import { ProductCartService } from 'src/app/service/productCart-service/product-cart.service';
 
 @Component({
   selector: 'app-invoice',
@@ -62,6 +63,12 @@ export class InvoiceComponent {
             
         },
         { 
+            field: "paidAmount",
+            colId:"paidAmount",
+            headerName:"Paid amount"
+        
+        },
+        { 
             field: "finalized",
             colId:"finalized",
             headerName:"Is Finalized",
@@ -83,6 +90,7 @@ export class InvoiceComponent {
         private dialog: MatDialog,
         private invoiceService: InvoiceService,
         private customerService : CustomerService,
+        private productCartService :ProductCartService,
     ) { 
         this.getAllCustomerData() 
         
@@ -111,7 +119,11 @@ export class InvoiceComponent {
         })
     }
 
-  
+    loadAllProductCart(){
+        this.productCartService.loadAll().subscribe((cartData)=>{
+           GLOBAL_LIST.PRODUCTCART_DATA =  cartData?.result?.[0]
+        })
+    }
     public setDataIntoRow() {       
         this.invoiceService.getAll().subscribe((invoiceData) => {
             this.gridApi.setRowData(invoiceData);
@@ -126,7 +138,7 @@ export class InvoiceComponent {
         const extraData={
             title:"Insert"
         }
-        const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData})
+        const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData , panelClass:"custom-dialog-container"})
         openForm.afterClosed().subscribe(res=>{
             this.setDataIntoRow();
         })

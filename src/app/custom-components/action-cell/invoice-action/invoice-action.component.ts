@@ -48,7 +48,7 @@ export class InvoiceActionComponent  {
     openSelectedInvoice() {
         const dataString = JSON.stringify(this.params.data);
         this.router.navigate(['/dash-board/invoice/selectedInvoice'], { queryParams: { data: dataString } });
-       
+        
     }
     
     openDelDialog(): void {
@@ -57,7 +57,7 @@ export class InvoiceActionComponent  {
             title : "Delete Invoice",
             subTitle: "Do you want to delete this invoice?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container"});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
@@ -76,7 +76,7 @@ export class InvoiceActionComponent  {
             tempInvoiceData:this.dataFromRow,
             customerValue:this.dataFromRow.customerOBJ,
         }
-            const dialogRef = this.matDialog.open(InvoiceFormComponent, {data});
+            const dialogRef = this.matDialog.open(InvoiceFormComponent, {data, panelClass:"custom-dialog-container"});
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
             })

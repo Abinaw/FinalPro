@@ -1,6 +1,14 @@
+import { ICustomerEntity } from "./interfaces/CustomerEntity";
+import { ICategoryEntity } from "./interfaces/ICategoryEntity";
+import { IPaymentEntity } from "./interfaces/IPaymentEntity";
+import { IStockEntity } from "./interfaces/IStockEntity";
+import { IInvoiceEntity } from "./interfaces/InvoiceEntity";
+
 export const GLOBAL_LIST={
-    CUSTOMER_DATA:[],
-    INVOICE_DATA:[],
-    CATEGORY_DATA:[],
-    STOCK_DATA:[],
+    CUSTOMER_DATA:[] as ICustomerEntity[],
+    INVOICE_DATA:[] as IInvoiceEntity[],
+    CATEGORY_DATA:[] as ICategoryEntity[],
+    STOCK_DATA:[] as IStockEntity[],
+    PRODUCTCART_DATA:[] ,
+    PAYMENTS_DATA:[] as IPaymentEntity[],
 }

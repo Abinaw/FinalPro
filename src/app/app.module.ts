@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {NgxPrintModule} from 'ngx-print';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SideBarComponent } from './Template/side-bar/side-bar.component';
@@ -13,7 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button'
 import {MatCardModule} from '@angular/material/card';
 import { ToastrModule } from 'ngx-toastr';
-import {MatDialogModule} from '@angular/material/dialog'
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { LoginCompoComponent } from './Template/createData-forms/login-compo/login-compo.component'; 
 
@@ -72,7 +72,9 @@ import { DatePipe } from '@angular/common';
 import { InvoiceFinalizationComponent } from './custom-components/invoice-finalization/invoice-finalization.component';
 import { ProductSelectionToCartComponent } from './Template/expansion/product-selection-to-cart/product-selection-to-cart.component';
 import { ProductSelectionToCartFormComponent } from './Template/expansion/product-selection-to-cart-form/product-selection-to-cart-form.component';
-import { ProductCartActionComponent } from './custom-components/product-cart-action/product-cart-action.component';
+import { ProductCartActionComponent } from './custom-components/action-cell/product-cart-action/product-cart-action.component';
+import { InvoiceTemplateForCustomerComponent } from './Template/invoice-template-for-customer/invoice-template-for-customer.component';
+import { InvoicePaymentComponent } from './Template/payments/invoice-payment/invoice-payment.component';
 
 
 
@@ -115,6 +117,8 @@ import { ProductCartActionComponent } from './custom-components/product-cart-act
     ProductSelectionToCartComponent,
     ProductSelectionToCartFormComponent,
     ProductCartActionComponent,
+    InvoiceTemplateForCustomerComponent,
+    InvoicePaymentComponent,
   
 
     
@@ -156,7 +160,8 @@ import { ProductCartActionComponent } from './custom-components/product-cart-act
      HttpClientModule,
      FormsModule,
      BrowserAnimationsModule,
-     MatSlideToggleModule
+     MatSlideToggleModule,
+     NgxPrintModule
 
   ],
   //providers: [],

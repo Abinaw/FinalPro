@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { StockService } from 'src/app/service/stock-service/stock.service';
-import { ICategoryEntity } from '../../interfaces/ICategoryEntity';
+import { ICategoryEntity } from '../../../constants/interfaces/ICategoryEntity';
 import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ToastrService } from 'ngx-toastr';

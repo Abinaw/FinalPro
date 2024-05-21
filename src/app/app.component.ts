@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
+import { CustomerService } from './service/customer-service/customer.service';
+import { GLOBAL_LIST } from './constants/GlobalLists';
 
 @Component({
     selector: 'app-root',
@@ -17,8 +19,12 @@ export class AppComponent {
 
 
     constructor(
-        private router: Router , private renderer: Renderer2) {
+        private router: Router ,
+        private renderer: Renderer2,
+        private custService :CustomerService
+        ) {
              this.isSwitched = true
+             this.getAllToGlobalList()
                 
     }
     
@@ -48,6 +54,13 @@ export class AppComponent {
 
     toogleTheme(){
         document.documentElement.classList.toggle("dark");
+    }
+
+
+    getAllToGlobalList(){
+        this.custService.getAll().subscribe(res=>{
+            GLOBAL_LIST.CUSTOMER_DATA = res
+        })
     }
 }
 

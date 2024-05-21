@@ -42,7 +42,7 @@ export class CustomerActionComponent {
             title : "Delete Customer",
             subTitle: "Do you want to delete this customer?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container"});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
@@ -61,7 +61,7 @@ export class CustomerActionComponent {
             title: "Update",
             custData:this.dataFromRow
         }
-            const dialogRef = this.matDialog.open(CustomerFormComponent, {data});
+            const dialogRef = this.matDialog.open(CustomerFormComponent, {data, panelClass:"custom-dialog-container"});
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
             })

@@ -42,7 +42,7 @@ export class VendorActionComponent {
             title : "Delete Vendor",
             subTitle: "Do you want to delete this Vendor?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData});
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container"});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
@@ -61,7 +61,7 @@ export class VendorActionComponent {
             title: "Update",
             vendorData:this.dataFromRow
         }
-            const dialogRef = this.matDialog.open(VendorFormComponent, {data});
+            const dialogRef = this.matDialog.open(VendorFormComponent, {data, panelClass:"custom-dialog-container"});
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
             })

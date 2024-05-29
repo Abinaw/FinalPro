@@ -30,7 +30,7 @@
     
         <mat-form-field>
             <mat-label> Net Amount </mat-label>
-            <input matInput formControlName="netAmount" type="number" step=".01" class="" />
+            <input readonly matInput formControlName="netAmount" type="number" step=".01" class="" />
             <mat-error *ngIf="invoiceForm.get('netAmount')?.errors">This field is required!</mat-error>
         </mat-form-field>      
 

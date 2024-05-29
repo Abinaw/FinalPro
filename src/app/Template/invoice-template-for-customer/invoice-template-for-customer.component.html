@@ -1,6 +1,12 @@
 
-    <mat-dialog-content id="invoice" class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm ">
-        <div class="text-center">COMFORT LINEN</div>
+   <ng-container *ngIf="productCartItems.length>0"> 
+   <mat-dialog-actions align="center">
+    <button mat-raised-button  color="basic" (click)="makePayment()">Make a payment</button>
+        <button mat-raised-button  color="primary" (click)="completeInvoice()">Confirm Invoice</button>
+   </mat-dialog-actions>
+   <div id="invoice">
+    <mat-dialog-content  class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm ">
+        <div class="border-t-2 pt-4 text-sm text-black mt-16 text-center">Comfort Linen Company (Pvt) Ltd</div>
         <div class="grid grid-cols-2 items-center">
           <div>
             <!--  Company logo  -->
@@ -10,13 +16,10 @@
           <div class="text-right">
            
             <p class="text-gray-500 text-sm">
-              sales@tailwindcss.com
+                33/24 Hekita Lane, Wattala 11300
             </p>
             <p class="text-gray-500 text-sm mt-1">
-              +41-442341232
-            </p>
-            <p class="text-gray-500 text-sm mt-1">
-              VAT: 8657671212
+                0112 985 400
             </p>
           </div>
         </div>
@@ -88,20 +91,20 @@
                 <th scope="row" class="pl-6 pr-3 pt-6 text-right text-sm font-normal text-gray-500 sm:hidden">No. of Products</th>
                 <td class="pl-3 pr-6 pt-6 text-right text-sm text-gray-500 sm:pr-0">{{this.productCartItems.length}}</td>
               </tr>
-              <!-- <tr>
-                <th scope="row"  colspan="4" class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">Tax</th>
-                <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">Tax</th>
-                <td class="pl-3 pr-6 pt-4 text-right text-sm text-gray-500 sm:pr-0">$1,050.00</td>
-              </tr> -->
+              <tr>
+                <th scope="row" colspan="4" class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0">Total</th>
+                <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden">Total</th>
+                <td class="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">{{(this.total).toFixed(2)}}</td>
+              </tr>
               <tr>
                 <th scope="row"  colspan="4" class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">Paid Amount</th>
                 <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">Paid Amount</th>
                 <td class="pl-3 pr-6 pt-4 text-right text-sm text-gray-500 sm:pr-0">{{(this.paidAmount).toFixed(2)}}</td>
               </tr>
               <tr>
-                <th scope="row" colspan="4" class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0">Total</th>
-                <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden">Total</th>
-                <td class="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">{{(this.total).toFixed(2)}}</td>
+                <th scope="row" colspan="4" class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-500 sm:table-cell sm:pl-0">Balance</th>
+                <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-500 sm:hidden">Balance</th>
+                <td class="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-500 sm:pr-0">{{((this.total)-(this.paidAmount)).toFixed(2)}}</td>
               </tr>
             </tfoot>
           </table>
@@ -113,10 +116,21 @@
         </div>
       
     </mat-dialog-content>
+   </div>
    
-    <mat-dialog-actions align="center" class="flex flex-row justify-center">
+   
+    <mat-dialog-actions align="center" >
         <button mat-raised-button (click)="openPDF()" color="warn" >Print</button>
-        <button mat-raised-button  color="basic" (click)="makePayment()">Make a payment</button>
-        <button mat-raised-button  color="primary">Confirm Invoice</button>
     </mat-dialog-actions>
-   
+</ng-container>
+<ng-container *ngIf="productCartItems.length <= 0">
+    <mat-dialog-content class="bg-purple-100">
+        <div class="text-lg text-black font-sans text-center">
+           Add Products!
+        </div>
+        <div class="text-sm text-gray-500 font-sans text-center">
+            No Products has been added into the Cart. <br>
+            Add Products to generate an Invoice! 
+        </div>
+    </mat-dialog-content>
+</ng-container>

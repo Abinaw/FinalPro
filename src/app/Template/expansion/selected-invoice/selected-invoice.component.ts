@@ -76,7 +76,7 @@ export class SelectedInvoiceComponent  {
     
   
 
-    createInvoiceReciept(){
+    showInvoiceDetails(){
         const invoiceDta={
             invoiceDataParam:this.invoiceData
         }
@@ -84,6 +84,8 @@ export class SelectedInvoiceComponent  {
             data:invoiceDta,
             panelClass:"custom-dialog-container"
         })
+        
+        
     }
    
     
@@ -154,7 +156,19 @@ export class SelectedInvoiceComponent  {
             },
             hide:true
             
-        },{
+        },
+        // { 
+        //     field: "confirmInvoiceOBJ",
+        //     colId:"confirmInvoiceOBJ",
+        //     headerName:"Confirm Invoice ID",
+        //     valueFormatter:(params)=>{
+        //         const combinedvalue = params.value.tempInvoiceNumber
+        //         return combinedvalue
+        //     },
+        //     // hide:true
+            
+        // },
+        {
             field:"action",
             headerName:"Action",
             cellRenderer:ProductCartActionComponent ,

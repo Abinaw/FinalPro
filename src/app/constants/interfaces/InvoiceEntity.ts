@@ -4,5 +4,7 @@ export interface IInvoiceEntity{
     tempInvoiceId: number,
     date:string,
     netAmount:number,
-    customerData:ICustomerEntity
+    customerData:ICustomerEntity,
+    paidAmount:number
+
 }

@@ -26,11 +26,7 @@ export class ProductCartService {
     return this.http.get<any[]>(url,{responseType:'json'});
   }
 
-  loadAll():Observable<any>{
-    const url = `${this.baseUrl}/loadAll`;
-    return this.http.get<any[]>(url,{responseType:'json'});
-  }
-
+  
   delete(invoiceId:any) {
     // this.audService.playSoundDelete()
        const url =`${this.baseUrl}/delete/${invoiceId}`;

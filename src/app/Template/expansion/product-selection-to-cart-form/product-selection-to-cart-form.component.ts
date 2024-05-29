@@ -50,7 +50,8 @@ export class    ProductSelectionToCartFormComponent  {
             discount:new FormControl(0.0,Validators.required),
             netAmount:new FormControl(null),
             total:new FormControl(null),
-            tempInvoiceOBJ:new FormControl()
+            tempInvoiceOBJ:new FormControl(), 
+            // confirmInvoiceOBJ:new FormControl()
         })
     }
  
@@ -221,12 +222,16 @@ export class    ProductSelectionToCartFormComponent  {
        cartValue.stockOBJ = {stockId:this.stockOBJControl.value}
        cartValue.stockOBJ.categoryOBJ={categoryId:this.selectedItemsQty = this.selectedProduct?.[0]?.categoryOBJ.categoryId}
        cartValue.tempInvoiceOBJ = {tempInvoiceId:this.data.selectedInvoiceId}  
+    //    cartValue.confirmInvoiceOBJ = {confirmInvoiceId:this.data.selectedInvoiceId}
        cartValue.tempInvoiceOBJ.customerOBJ={custId:this.data.customerId}
+    //    cartValue.confirmInvoiceOBJ.customerOBJ={custId:this.data.customerId}
     }
+
     private setInvoiceDetailsForUpdation(){
         let cartValue = this.productSelectionForm.value;
         cartValue.tempInvoiceOBJ = this.data.selectedRowData.tempInvoiceOBJ
         cartValue.stockOBJ = this.data.selectedRowData.stockOBJ
+        // cartValue.confirmInvoiceOBJ = this.data.selectedRowData.confirmInvoiceOBJ
     }
     
 

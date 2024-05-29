@@ -9,8 +9,8 @@
     <div *ngIf="selectedOption === 'card'">
         <mat-form-field>
             <mat-label>Card Number</mat-label>
-            <input formControlName="cardNumber" matInput placeholder="Enter your card number">
-            <mat-error *ngIf="invoicePaymentForm.get('cardNumber')?.errors">This field is required!</mat-error>
+            <input formControlName="cardRefNo" matInput placeholder="Enter your card number">
+            <mat-error *ngIf="invoicePaymentForm.get('cardRefNo')?.errors">This field is required!</mat-error>
         </mat-form-field>
     </div>
     <div *ngIf="selectedOption === 'cash' || selectedOption ==='card' || selectedOption ==='cheque'">
@@ -23,8 +23,8 @@
     <div class="flex flex-col" *ngIf="selectedOption === 'cheque'">
         <mat-form-field>
             <mat-label>Ref. No</mat-label>
-            <input formControlName="refNo" matInput type="number"  placeholder="Enter the refNo">
-            <mat-error *ngIf="invoicePaymentForm.get('refNo')?.errors">This field is required!</mat-error>
+            <input formControlName="chequeRefNo" matInput type="number"  placeholder="Enter the Cheque Ref No">
+            <mat-error *ngIf="invoicePaymentForm.get('chequeRefNo')?.errors">This field is required!</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Cheque Due date</mat-label>

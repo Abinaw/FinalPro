@@ -73,7 +73,7 @@ export class InvoiceComponent {
             colId:"finalized",
             headerName:"Is Finalized",
             cellRenderer: InvoiceFinalizationComponent, 
-            // hide: true
+            hide: true
         },    
         {
             field:"action",
@@ -119,11 +119,11 @@ export class InvoiceComponent {
         })
     }
 
-    loadAllProductCart(){
-        this.productCartService.loadAll().subscribe((cartData)=>{
-           GLOBAL_LIST.PRODUCTCART_DATA =  cartData?.result?.[0]
-        })
-    }
+    // loadAllProductCart(){
+    //     this.productCartService.loadAll().subscribe((cartData)=>{
+    //        GLOBAL_LIST.PRODUCTCART_DATA =  cartData?.result?.[0]
+    //     })
+    // }
     public setDataIntoRow() {       
         this.invoiceService.getAll().subscribe((invoiceData) => {
             this.gridApi.setRowData(invoiceData);

@@ -78,7 +78,7 @@ isComplete!:boolean
     }
     
     calculatePaidAmount(){
-        if(this.paymentsList.length > 0){
+        if(this.paymentsList?.length > 0){
             this.paidAmount = this.paymentsList.reduce((accumulator,currValue)=>accumulator+currValue.paidAmount,0)
         }
     }
@@ -113,13 +113,24 @@ isComplete!:boolean
        
        if(invoiceDOC){
         
-            html2canvas(invoiceDOC, {scale:2}).then((canvas)=>{
+            html2canvas(invoiceDOC, {scale:10}).then((canvas)=>{
                 const img = canvas.toDataURL('image/jpeg');
                 const newPDF = new jsPDF('p','mm','a4');
                 const imgWidth = newPDF.internal.pageSize.getWidth();
-                const imgHeight = (canvas.height * imgWidth)/ canvas.width;
+                const imgHeight = (canvas.height * imgWidth);
                 newPDF.addImage(img, 'JPEG',0, 0, imgWidth, imgHeight);
-                newPDF.save(this.invoiceNumber+'.pdf');
+                const newWindow = window.open('','_blank')
+                if(newWindow){
+                    newWindow.document.open();
+                    newWindow.document.write('<html><head><title>Invoice</title></head><body>')
+                    newWindow.document.write('<img src="'+img+'"style="width:100%;height:auto;"></body></html>')
+                    newWindow.document.close();
+                    newWindow.onload=()=>{
+                        newWindow.print();
+                    }
+                    newWindow.onafterprint = ()=>newWindow.close();
+                    
+                }
             })
        } 
     

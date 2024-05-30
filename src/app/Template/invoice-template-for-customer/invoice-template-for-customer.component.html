@@ -1,11 +1,11 @@
-
+<section class="overflow-y-auto">
    <ng-container *ngIf="productCartItems.length>0"> 
    <mat-dialog-actions align="center">
     <button mat-raised-button  color="basic" (click)="makePayment()">Make a payment</button>
         <button mat-raised-button  color="primary" (click)="completeInvoice()">Confirm Invoice</button>
    </mat-dialog-actions>
-   <div id="invoice">
-    <mat-dialog-content  class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm ">
+   <div id="invoice" style="width: 100%;"  class="overflow-auto">
+    <mat-dialog-content class=" mx-auto p-6 bg-white rounded shadow-sm ">
         <div class="border-t-2 pt-4 text-sm text-black mt-16 text-center">Comfort Linen Company (Pvt) Ltd</div>
         <div class="grid grid-cols-2 items-center">
           <div>
@@ -134,3 +134,4 @@
         </div>
     </mat-dialog-content>
 </ng-container>
+</section>

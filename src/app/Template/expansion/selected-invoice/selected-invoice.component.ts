@@ -82,7 +82,7 @@ export class SelectedInvoiceComponent  {
         }
         const openInvoice = this.matDialog.open(InvoiceTemplateForCustomerComponent,{
             data:invoiceDta,
-            panelClass:"custom-dialog-container"
+            panelClass:["invoice-dialog-container",""],
         })
         
         

@@ -32,3 +32,6 @@ body{
     overflow: hidden ;
   }
   
+.invoice-dialog-container{
+   max-width: unset !important;
+}

@@ -110,15 +110,14 @@ isComplete!:boolean
     openPDF(){
     
        const invoiceDOC = document.getElementById('invoice');
-       
        if(invoiceDOC){
         
-            html2canvas(invoiceDOC, {scale:10}).then((canvas)=>{
+            html2canvas(invoiceDOC, {scale:5 , width: 540}).then((canvas)=>{
                 const img = canvas.toDataURL('image/jpeg');
-                const newPDF = new jsPDF('p','mm','a4');
-                const imgWidth = newPDF.internal.pageSize.getWidth();
-                const imgHeight = (canvas.height * imgWidth);
-                newPDF.addImage(img, 'JPEG',0, 0, imgWidth, imgHeight);
+                // const newPDF = new jsPDF('p','px','a4');
+                // const imgWidth = newPDF.internal.pageSize.getWidth();
+                // const imgHeight = (canvas.height * imgWidth);
+                // newPDF.addImage(img, 'JPEG',0, 0, 800, 786);
                 const newWindow = window.open('','_blank')
                 if(newWindow){
                     newWindow.document.open();

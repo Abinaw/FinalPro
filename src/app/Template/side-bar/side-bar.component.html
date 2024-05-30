@@ -1,10 +1,13 @@
-<div class="nav-container">
-    <nav class="rounded-xl flex flex-col justify-center nav" 
+<div class="w-full h-full bg-[#886cce46] dark:bg-[#382e59] rounded-[10px] p-[10px]">
+    <nav class="rounded-xl w-full h-full flex flex-col justify-between items-center" 
     [ngClass]="{
         'dark':isSwitched,'lite borderForNav':!isSwitched}"
   >
+  <div>
+    <app-user-deatils/>
+</div>
 
-        <ul class="settings-conts flex flex-row" 
+        <ul class="flex flex-col w-full items-center gap-y-[16px]" 
          [ngClass]="{
             'text-gray-200':isSwitched,'text-gray-600':!isSwitched
             }">
@@ -42,20 +45,10 @@
 
                 </a>
             </li>
-
-            <li>
-                <div class="logBtnCont">
-                    <button class="rounded-xl logout">
-                        <span class="material-symbols-rounded">
-                            logout
-                        </span>
-                    </button>
-                </div>
-            </li>
-
-            
         </ul>
-
+        <button class="bg-[#f77e88] flex items-center justify-center gap-x-[4px] w-full py-[8px] rounded-[5px]" type="button">
+            <span class="text-[11px] font-bold uppercase">Sign out</span>
+        </button>
     </nav>
 
 </div>

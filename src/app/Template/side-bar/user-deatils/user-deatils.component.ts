@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
 export class UserDeatilsComponent {
 
   role='Admin';
-  name = localStorage.getItem("userName");
+  name = localStorage.getItem("userName") ? localStorage.getItem("userName") : 'Jhon Doe';
+  imgUrl:string = 'https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800'
 }

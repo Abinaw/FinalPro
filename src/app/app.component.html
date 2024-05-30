@@ -1,13 +1,7 @@
 <div class="entirePageContainer flex flex-row" [ngClass]="{'logBackground':isLoginPageAvail}">
 
-    <div class="sideAndUser" *ngIf="ShowSidebarAndNotifiBar()">
-        <div class="user-container">
-            <app-user-deatils>
-            </app-user-deatils>
-        </div>
-        <div>
-            <app-side-bar [isSwitched]="isSwitched"></app-side-bar>
-        </div>
+    <div class="p-[16px]" *ngIf="ShowSidebarAndNotifiBar()">
+        <app-side-bar [isSwitched]="isSwitched"></app-side-bar>
     </div>
 
     <div class="notifiAndnonLoginDirectivesContainer min-h-[calc(100vh-40px)]">
@@ -27,8 +21,8 @@
         }" [ngClass]="{
             'darkMode':isSwitched,'liteMode':!isSwitched
             }">
-            <div class="flex flex-row justify-start p-1 ">
-                <div class="close" *ngIf="showCloseIcon()" [routerLink]='["/dash-board"]'>
+            <div class="flex flex-row justify-start p-1 "  *ngIf="showCloseIcon()" [routerLink]='["/dash-board"]'>
+                <div class="close">
                     <span class="material-symbols-outlined text-slate-300">
                         close
                     </span>

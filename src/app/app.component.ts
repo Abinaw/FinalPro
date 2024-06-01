@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerService } from './service/customer-service/customer.service';
 import { GLOBAL_LIST } from './constants/GlobalLists';
+import { VendorService } from './service/vendor-service/vendor.service';
 
 @Component({
     selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
 
 
     constructor(
+        private vendorService: VendorService,
         private router: Router ,
         private renderer: Renderer2,
         private custService :CustomerService
@@ -58,9 +60,13 @@ export class AppComponent {
 
 
     getAllToGlobalList(){
-        this.custService.getAll().subscribe(res=>{
+        this.custService.getAll().subscribe(res=>
             GLOBAL_LIST.CUSTOMER_DATA = res
-        })
+        )
+       
+      
+            
+        
     }
 }
 

@@ -1,4 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
+import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 
 /**
  * @title Card with multiple sections
@@ -8,8 +11,20 @@ import {Component, Input} from '@angular/core';
   templateUrl: 'dashboard-cards.component.html',
   styleUrls: ['dashboard-cards.component.css'],
 })
-export class DashboardCardsComponent {
+export class DashboardCardsComponent  {
     @Input() isSwitched!: boolean;
+
+constructor( private vendorService: VendorService,){
+this.loadAllVendor();
+}
+
+
+loadAllVendor(){
+    this.vendorService.getAll().subscribe(res=>{
+        GLOBAL_LIST.VENDOR_DATA = res
+        
+})
+}
 
   Cards=[
     {

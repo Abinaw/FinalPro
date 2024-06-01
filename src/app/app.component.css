@@ -80,14 +80,14 @@
     flex-direction: column;
 }
 
-.user-container{
+/* .user-container{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     height: 30vh;
     width: 7vw; 
     margin-left: .3rem;   
-}
+} */
 /* footer{
     position: absolute;
     bottom: 2px;

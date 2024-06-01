@@ -75,6 +75,7 @@ import { ProductSelectionToCartFormComponent } from './Template/expansion/produc
 import { ProductCartActionComponent } from './custom-components/action-cell/product-cart-action/product-cart-action.component';
 import { InvoiceTemplateForCustomerComponent } from './Template/invoice-template-for-customer/invoice-template-for-customer.component';
 import { InvoicePaymentComponent } from './Template/payments/invoice-payment/invoice-payment.component';
+import { PurchasedProductFormComponent } from './Template/createData-forms/purchased-product-form/purchased-product-form.component';
 
 
 
@@ -119,6 +120,7 @@ import { InvoicePaymentComponent } from './Template/payments/invoice-payment/inv
     ProductCartActionComponent,
     InvoiceTemplateForCustomerComponent,
     InvoicePaymentComponent,
+    PurchasedProductFormComponent,
   
 
     

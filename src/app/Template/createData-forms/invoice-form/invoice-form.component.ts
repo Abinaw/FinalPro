@@ -8,7 +8,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { ICustomerEntity } from '../../../constants/interfaces/CustomerEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { DatePipe } from '@angular/common';
+
 
 @Component({
     selector: 'app-invoice-form',

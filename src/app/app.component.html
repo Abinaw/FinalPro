@@ -17,7 +17,7 @@
         </div>
 
         <div  class="middleLogOrNonLogContainer" [ngClass]="{
-        'loginLoadDirectiveContainer':isLoginPageAvail ,'nonLoginDirectivesContainer':!isLoginPageAvail
+        '!shadow-none bg-[#b38cf8] !m-0 !rounded-none h-[calc(100vh-20px)] w-screen':isLoginPageAvail ,'nonLoginDirectivesContainer':!isLoginPageAvail
         }" [ngClass]="{
             'darkMode':isSwitched,'liteMode':!isSwitched
             }">

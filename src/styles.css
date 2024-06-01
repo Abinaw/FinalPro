@@ -38,3 +38,8 @@ body{
 .invoice-dialog-container{
    max-width: unset !important;
 }
+
+.system-login-form  .mat-mdc-form-field .mat-mdc-text-field-wrapper{
+    background-color: #efefef;
+    border-radius: 4px;
+}

@@ -1,38 +1,41 @@
-
-
-<mat-card-content class=" flex justify-center items-center min-w-full h-full">
-    <div class="main-container bg-neutral-100 shadow-2xl rounded-3xl">
-        <img src="../../../../assets/logo/logo2.png" class="opacity" class=" drop-shadow-2xl"> 
-        <div class="p-3 flex justify-center">
-           
-            <div Class="font-bold"> LogIn </div>
-           
+<div class=" border-x-slate-500 flex items-center justify-center flex-col gap-y-[50px] bg-white rounded-[5px] p-[24px] w-fit mx-auto">
+    <div class="flex flex-col items-center justify-center gap-y-[4px]">
+        <div class="w-[70px] h-[70px] overflow-hidden">
+            <img src="../../../../assets/logo/logo2.png" class="w-full h-full object-contain"> 
         </div>
-       
-        <form [formGroup]="logForm" class="flex flex-col items-center justify-center content-center">
-           
-            <mat-form-field class="w-2/3 ">
-                <mat-label class=""> Username </mat-label>
-                <input  name="username" matInput formControlName="userName" placeholder=""
-                    type="username" class=" rounded-lg shadow-md " required />
-            </mat-form-field>
-
-            <mat-form-field class="w-2/3">
-                <mat-label>Confirm your password</mat-label>
-                <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility': 'visibility_off'}}</mat-icon>
-                </button>
-            </mat-form-field>
-
-            <div>
-                <button mat-raised-button class="log" color="primary" (click)="loginUser()">Login</button>
-            </div>
-
-
-        </form>
-
-
+        <div class="text-center">
+            <h1 class="text-[18px] font-semibold text-[#673ab7]">Comfort Linen (pvt) ltd</h1>
+            <p class="text-[12px] opacity-[.6]">Transform Your Space: Stylish Tables, <span class="block text-[12px]">Cozy Pillows, and More</span></p>
+        </div>
     </div>
-</mat-card-content>
+   
+    <form [formGroup]="logForm" class="flex flex-col items-center justify-center content-center w-full md:w-[400px] system-login-form">
+        <h1 class="uppercase mb-[16px] font-semibold">Login</h1>
+        <mat-form-field class="w-full md:w-[calc(100%-32px)]">
+            <mat-label class=""> Username </mat-label>
+            <input  name="username" matInput formControlName="userName" placeholder=""
+                type="username" class=" rounded-lg shadow-md " required />
+        </mat-form-field>
+
+        <mat-form-field class="w-full md:w-[calc(100%-32px)]">
+            <mat-label>Confirm your password</mat-label>
+            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility': 'visibility_off'}}</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <div>
+            <div class="text-center flex flex-col items-center">
+                <button mat-raised-button class="w-fit" color="primary" (click)="loginUser()">Login</button>
+                <button type="button" class="mt-[16px]  text-[11px] font-semibold text-red-500  cursor-not-allowed opacity-[.6]" disabled>Forgot password ?</button>
+                <button type="button" class="text-[11px] font-semibold mt-[2px] cursor-not-allowed opacity-[.6]" disabled>Already have an account? <span class="text-blue-500">Create Account</span></button>
+            </div>           
+        </div>
+
+
+    </form>
+
+
+</div>

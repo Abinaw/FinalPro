@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+    NgZone,
+    ChangeDetectorRef,
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, map, startWith } from "rxjs";
@@ -21,47 +29,37 @@ import { PurchaseCartComponent } from "../purchase-cart/purchase-cart.component"
         "../../../../assets/CSS/ComponentCommDesign.css",
     ],
 })
-export class PurchaseComponent implements OnInit,AfterViewInit{
-    purchaseList:ITempPurchaseInvoice[] | undefined 
- 
+export class PurchaseComponent implements OnInit {
+    purchaseList: ITempPurchaseInvoice[] = [];
+    isLoaded: boolean = false;
+
     constructor(
         private vendorService: VendorService,
         private tempPurchaseInvoiceService: TempPurchaseService,
         private matDialog: MatDialog,
-        private router:Router
-        
+        private router: Router,
+        private cdr: ChangeDetectorRef
     ) {
         // this.loadAllPurchase();
         // this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA
         // this.loadAllVendor();
-               
     }
-    ngAfterViewInit(): void {
-        this.loadAllPurchase();
-        console.log(this.purchaseList)
-    }
-
 
     ngOnInit(): void {
-        // this.loadAllPurchase();
-        // console.log('list ', this.purchaseList)        
+        this.loadAllPurchase();
     }
 
-    
-
-
-
-    loadAllPurchase(){
-        this.tempPurchaseInvoiceService.getAllTempPurchase().subscribe(response=>{
-        //    GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result
-           this.purchaseList = response?.result
-            // console.log("Purchase invoice ,",response?.result)
-            // this.purchaseList = response?.result
-            // if(response?.result && response?.result.length){
-            //     this.purchaseList = response?.result;
-            // }
-        })
-  
+    loadAllPurchase() {
+        this.isLoaded = false;
+        this.tempPurchaseInvoiceService
+            .getAllTempPurchase()
+            .subscribe((response) => {
+                GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
+                this.purchaseList = response?.result;
+                this.isLoaded =
+                    response?.result && response?.result?.length ? true : false;
+                this.cdr.detectChanges();
+            });
     }
 
     loadAllVendor() {
@@ -69,9 +67,6 @@ export class PurchaseComponent implements OnInit,AfterViewInit{
             GLOBAL_LIST.VENDOR_DATA = res;
         });
     }
-   
-   
-   
 
     // setPurchaseDetailsToFields() {
     //     console.log("list2 ", this.purchaseList)
@@ -79,26 +74,29 @@ export class PurchaseComponent implements OnInit,AfterViewInit{
     //     console.log(this.invoiceId)
     //     const vendorId = this.purchaseList.vendorOBJ.vendorId
     //     const vendorName = this.purchaseList.vendorOBJ.vendorName
-        
+
     //     // const vendorname = this.purchaseList[0].vendorOBJ.vendorName
     //     // const purchaseId = this.purchaseList[0].
     //     // const purchaseInvoiceNo = this.purchaseList.purchaseInvoiceNO
     //     // const purchasedDate = this.purchaseList.purchasedDate
-    //     if(this.purchaseList){         
+    //     if(this.purchaseList){
     //         this.refNo.nativeElement.innerHTML = this.purchaseList.purchaseInvoiceNO;
     //         this.vendorOBJ.nativeElement.innerHTML =vendorId +" | "+ vendorName;
     //         this.InvoiceDate.nativeElement.innerHTML = this.purchaseList.purchasedDate;
     //     }
     // }
 
-openPurchaseInvoiceForm(){
-     this.matDialog.open(PurchaseInvoiceFormComponent,{panelClass:['custom-dialog-container','custom-form'],})
-}
-
-  
-openPurchaseCartForm(purchaseInvoiceDetails: any) {
-        const openForm = this.matDialog.open(PurchaseCartComponent, {data:purchaseInvoiceDetails,
-            panelClass: ["custom-dialog-container","temp-purchase-cart"],maxHeight:"80vh"
+    openPurchaseInvoiceForm() {
+        this.matDialog.open(PurchaseInvoiceFormComponent, {
+            panelClass: ["custom-dialog-container", "custom-form"],
         });
-}
+    }
+
+    openPurchaseCartForm(purchaseInvoiceDetails: any) {
+        const openForm = this.matDialog.open(PurchaseCartComponent, {
+            data: purchaseInvoiceDetails,
+            panelClass: ["custom-dialog-container", "temp-purchase-cart"],
+            maxHeight: "80vh",
+        });
+    }
 }

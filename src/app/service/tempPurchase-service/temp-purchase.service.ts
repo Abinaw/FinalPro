@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 })
 export class TempPurchaseService {
     private baseUrl = "http://localhost:8080/api/tempPurchase";
+
     constructor(private http: HttpClient) {}
 
     createPurchaseInvoice(purchaseData: any): Observable<any> {

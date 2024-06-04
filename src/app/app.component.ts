@@ -1,78 +1,72 @@
-import { ChangeDetectionStrategy, Component, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
-import { CustomerService } from './service/customer-service/customer.service';
-import { GLOBAL_LIST } from './constants/GlobalLists';
-import { VendorService } from './service/vendor-service/vendor.service';
-import { TempPurchaseService } from './service/tempPurchase-service/temp-purchase.service';
+import { ChangeDetectionStrategy, Component, Renderer2 } from "@angular/core";
+import { Router } from "@angular/router";
+import { CustomerService } from "./service/customer-service/customer.service";
+import { GLOBAL_LIST } from "./constants/GlobalLists";
+import { VendorService } from "./service/vendor-service/vendor.service";
+import { TempPurchaseService } from "./service/tempPurchase-service/temp-purchase.service";
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
+    selector: "app-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.css"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-
-    title = 'FinalPro';
+    title = "FinalPro";
     isLoginPageAvail: boolean = true;
-    showClose:boolean =false
+    showClose: boolean = false;
     isSwitched;
-    currentYear:number = new Date().getFullYear();
-
+    currentYear: number = new Date().getFullYear();
 
     constructor(
-        private router: Router ,
+        private router: Router,
         private renderer: Renderer2,
-        private custService :CustomerService,
-        private tempPurchaseInvoiceService: TempPurchaseService,
-        ) {
-             this.isSwitched = true
-             this.getAllToGlobalList()
-             this.loadAllPurchase()
+        private custService: CustomerService,
+        private tempPurchaseInvoiceService: TempPurchaseService
+    ) {
+        this.isSwitched = true;
+        this.getAllToGlobalList();
+        this.loadAllPurchase();
     }
-    
+
     ShowSidebarAndNotifiBar(): any {
-        
-        const currentRoute = this.router.url;//login
+        const currentRoute = this.router.url; //login
         // if (['/login'].includes(currentRoute)) {
-        if(currentRoute.includes('/login')){
+        if (currentRoute.includes("/login")) {
             this.isLoginPageAvail = true;
             return false;
-        }else{
+        } else {
             this.isLoginPageAvail = false;
             return true;
         }
     }
 
-    showCloseIcon(){
+    showCloseIcon() {
         const currentRoute = this.router.url;
-        if(['/login','/dash-board'].includes(currentRoute)){
-           this.showClose= false
+        if (["/login", "/dash-board"].includes(currentRoute)) {
+            this.showClose = false;
             return false;
         } else {
-           this.showClose = true
+            this.showClose = true;
             return true;
         }
     }
 
-    toogleTheme(){
+    toogleTheme() {
         document.documentElement.classList.toggle("dark");
     }
 
-
-    getAllToGlobalList(){
-        this.custService.getAll().subscribe(res=>
-            GLOBAL_LIST.CUSTOMER_DATA = res
-        )
-           
-        
+    getAllToGlobalList() {
+        this.custService
+            .getAll()
+            .subscribe((res) => (GLOBAL_LIST.CUSTOMER_DATA = res));
     }
 
-    loadAllPurchase(){
-        this.tempPurchaseInvoiceService.getAllTempPurchase().subscribe(response=>{
-           GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result
-        })
-  
+    loadAllPurchase() {
+        // this.tempPurchaseInvoiceService
+        //     .getAllTempPurchase()
+        //     .subscribe((response) => {
+        //         GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
+        //     });
     }
 }
-

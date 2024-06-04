@@ -1,17 +1,28 @@
-<div class="m-[20px]  h-[68vh] grid ">
-    <ng-container *ngIf="purchaseList?.length">
-    <mat-card class="!h-[68vh] !rounded-[20px] !bg-purple-100 flex flex-col items-center justify-center gap-[20px] ">
+<div class="m-[20px] h-[68vh] grid">
+    <mat-card
+        *ngIf="!isLoaded"
+        class="!h-[68vh] !rounded-[20px] !bg-purple-100 flex flex-col items-center justify-center gap-[20px]"
+    >
         <mat-card-content>
             <mat-card-header class="flex justify-center">
-                <!-- <mat-card-title class="font-bold text-white text-[50px]"> The Cart is Empty!</mat-card-title> -->
-                <mat-card-title class="font-semibold text-[#f77e88] text-[50px]"> The Purchase Invoice is Empty! <mat-icon>remove_shopping_cart</mat-icon></mat-card-title>
+                <mat-card-title
+                    class="font-semibold text-[#f77e88] text-[50px]"
+                >
+                    The Purchase Invoice is Empty!
+                    <mat-icon>remove_shopping_cart</mat-icon></mat-card-title
+                >
             </mat-card-header>
         </mat-card-content>
         <mat-card-actions align="end">
-            <button mat-raised-button color="primary" (click)="openPurchaseInvoiceForm()">Purchase Invoice
-                <mat-icon>add</mat-icon></button>
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="openPurchaseInvoiceForm()"
+            >
+                Purchase Invoice <mat-icon>add</mat-icon>
+            </button>
         </mat-card-actions>
     </mat-card>
- </ng-container>
 
+    <p *ngIf="isLoaded">cart</p>
 </div>

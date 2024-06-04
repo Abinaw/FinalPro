@@ -4,13 +4,13 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ProductCartService } from 'src/app/service/productCart-service/product-cart.service';
-import { ICustomerEntity } from '../../constants/interfaces/CustomerEntity';
+import { ICustomerEntity } from '../../../constants/interfaces/CustomerEntity';
 import { CustomerService } from 'src/app/service/customer-service/customer.service';
-import { IProCartEntity } from '../../constants/interfaces/IProCartEntity';
-import { InvoicePaymentComponent } from '../payments/invoice-payment/invoice-payment.component';
-import { IInvoiceEntity } from '../../constants/interfaces/InvoiceEntity';
+import { IProCartEntity } from '../../../constants/interfaces/IProCartEntity';
+import { InvoicePaymentComponent } from '../../payments/invoice-payment/invoice-payment.component';
+import { IInvoiceEntity } from '../../../constants/interfaces/InvoiceEntity';
 import { PaymentsService } from 'src/app/service/payments-service/payments.service';
-import { IPaymentEntity } from '../../constants/interfaces/IPaymentEntity';
+import { IPaymentEntity } from '../../../constants/interfaces/IPaymentEntity';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
@@ -63,7 +63,7 @@ isComplete!:boolean
    
     }
     ngOnInit(): void {
-    //   console.log("productCart " , this.productCartItems)
+    //   console.log("productCart " , this.productCartItems.length)
        
         
     }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CustomerService } from './service/customer-service/customer.service';
 import { GLOBAL_LIST } from './constants/GlobalLists';
 import { VendorService } from './service/vendor-service/vendor.service';
+import { TempPurchaseService } from './service/tempPurchase-service/temp-purchase.service';
 
 @Component({
     selector: 'app-root',
@@ -20,14 +21,14 @@ export class AppComponent {
 
 
     constructor(
-        private vendorService: VendorService,
         private router: Router ,
         private renderer: Renderer2,
-        private custService :CustomerService
+        private custService :CustomerService,
+        private tempPurchaseInvoiceService: TempPurchaseService,
         ) {
              this.isSwitched = true
              this.getAllToGlobalList()
-                
+             this.loadAllPurchase()
     }
     
     ShowSidebarAndNotifiBar(): any {
@@ -63,10 +64,15 @@ export class AppComponent {
         this.custService.getAll().subscribe(res=>
             GLOBAL_LIST.CUSTOMER_DATA = res
         )
-       
-      
-            
+           
         
+    }
+
+    loadAllPurchase(){
+        this.tempPurchaseInvoiceService.getAllTempPurchase().subscribe(response=>{
+           GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result
+        })
+  
     }
 }
 

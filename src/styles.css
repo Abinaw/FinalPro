@@ -38,6 +38,11 @@ body {
 }
 
 .custom-form {
-    width: 20rem;
-    height: 40rem;
+    width: 30rem;
+    height: 30rem;
+}
+
+.temp-purchase-cart{
+    width: 100%;
+    height: 70vh;
 }

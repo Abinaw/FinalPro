@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, map, startWith } from "rxjs";
@@ -7,6 +7,11 @@ import { IVendorEntity } from "src/app/constants/interfaces/IVendorEntity";
 import { TempPurchaseService } from "src/app/service/tempPurchase-service/temp-purchase.service";
 import { VendorService } from "src/app/service/vendor-service/vendor.service";
 import { PurchasedProductFormComponent } from "../../createData-forms/purchased-product-form/purchased-product-form.component";
+import { ITempPurchaseInvoice } from "src/app/constants/interfaces/ITempPurchaseInvoiceEntity";
+import { ToastrModule, ToastrService } from "ngx-toastr";
+import { PurchaseInvoiceFormComponent } from "../../createData-forms/purchase-invoice-form/purchase-invoice-form.component";
+import { Router } from "@angular/router";
+import { PurchaseCartComponent } from "../purchase-cart/purchase-cart.component";
 
 @Component({
     selector: "app-purchase",
@@ -16,70 +21,84 @@ import { PurchasedProductFormComponent } from "../../createData-forms/purchased-
         "../../../../assets/CSS/ComponentCommDesign.css",
     ],
 })
-export class PurchaseComponent implements OnInit {
-    purchaseInvocieForm: FormGroup;
-    vendorControl = new FormControl("");
-    vendorDataList: IVendorEntity[];
-    filterOptions!: Observable<IVendorEntity[]>;
-    isValid: boolean;
+export class PurchaseComponent implements OnInit,AfterViewInit{
+    purchaseList:ITempPurchaseInvoice[] | undefined 
+ 
     constructor(
-        private tempPurchaseInvoice: TempPurchaseService,
-        private matDialog: MatDialog
+        private vendorService: VendorService,
+        private tempPurchaseInvoiceService: TempPurchaseService,
+        private matDialog: MatDialog,
+        private router:Router
+        
     ) {
-        this.isValid = false;
-        this.vendorDataList = GLOBAL_LIST.VENDOR_DATA;
-        this.purchaseInvocieForm = new FormGroup({
-            purchaseInvoiceNO: new FormControl(null, Validators.required),
-            vendorOBJ: new FormControl({}, Validators.required),
-            purchasedDate: new FormControl({}, Validators.required),
-        });
+        // this.loadAllPurchase();
+        // this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA
+        // this.loadAllVendor();
+               
+    }
+    ngAfterViewInit(): void {
+        this.loadAllPurchase();
+        console.log(this.purchaseList)
     }
 
-    // validatePurchaseInvoice(){
-    //     let invoice = this.purchaseInvocieForm.get('invoiceRef')
-    //     let vendor = this.purchaseInvocieForm.get('vendorOBJ')
-    //     let timeStamp = this.purchaseInvocieForm.get('timeStamp')
-    //         if(invoice?.value !=null && vendor?.value!=null && timeStamp?.value!=null){
-    //                 this.isValid = true
-    //                 return
-    //         }
-    //         // invoice?.setValue(null)
-    //         // vendor?.setValue(null)
-    //         // timeStamp?.setValue(null)
-    //         this.isValid = false
-    // }
 
     ngOnInit(): void {
-        this.filterOptions = this.vendorControl.valueChanges.pipe(
-            startWith(""),
-            map((value) => this.listFilter(value || ""))
-        );
-    }
-    listFilter(value: string): IVendorEntity[] {
-        const searchValue = value.toString().toLowerCase();
-
-        return this.vendorDataList.filter(
-            (option) =>
-                option.vendorName.toLowerCase().includes(searchValue) ||
-                option.vendorId.toString().toLowerCase().includes(searchValue)
-        );
+        // this.loadAllPurchase();
+        // console.log('list ', this.purchaseList)        
     }
 
-    createTempPurchase() {
-        this.purchaseInvocieForm.value.vendorOBJ = {
-            vendorId: this.vendorControl.value,
-        };
-        // console.log(this.purchaseInvocieForm.value)
-        this.tempPurchaseInvoice
-            .createPurchaseInvoice(this.purchaseInvocieForm.value)
-            .subscribe((res) => {
-                console.log(res);
-            });
+    
+
+
+
+    loadAllPurchase(){
+        this.tempPurchaseInvoiceService.getAllTempPurchase().subscribe(response=>{
+        //    GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result
+           this.purchaseList = response?.result
+            // console.log("Purchase invoice ,",response?.result)
+            // this.purchaseList = response?.result
+            // if(response?.result && response?.result.length){
+            //     this.purchaseList = response?.result;
+            // }
+        })
+  
     }
 
-    openPurchaseCartForm() {
-        const openForm = this.matDialog.open(PurchasedProductFormComponent, {
-            panelClass: ["custom-dialog-container"],
+    loadAllVendor() {
+        this.vendorService.getAll().subscribe((res) => {
+            GLOBAL_LIST.VENDOR_DATA = res;
         });
     }
+   
+   
+   
+
+    // setPurchaseDetailsToFields() {
+    //     console.log("list2 ", this.purchaseList)
+    //     this.invoiceId = this.purchaseList.purchasedDate
+    //     console.log(this.invoiceId)
+    //     const vendorId = this.purchaseList.vendorOBJ.vendorId
+    //     const vendorName = this.purchaseList.vendorOBJ.vendorName
+        
+    //     // const vendorname = this.purchaseList[0].vendorOBJ.vendorName
+    //     // const purchaseId = this.purchaseList[0].
+    //     // const purchaseInvoiceNo = this.purchaseList.purchaseInvoiceNO
+    //     // const purchasedDate = this.purchaseList.purchasedDate
+    //     if(this.purchaseList){         
+    //         this.refNo.nativeElement.innerHTML = this.purchaseList.purchaseInvoiceNO;
+    //         this.vendorOBJ.nativeElement.innerHTML =vendorId +" | "+ vendorName;
+    //         this.InvoiceDate.nativeElement.innerHTML = this.purchaseList.purchasedDate;
+    //     }
+    // }
+
+openPurchaseInvoiceForm(){
+     this.matDialog.open(PurchaseInvoiceFormComponent,{panelClass:['custom-dialog-container','custom-form'],})
+}
+
+  
+openPurchaseCartForm(purchaseInvoiceDetails: any) {
+        const openForm = this.matDialog.open(PurchaseCartComponent, {data:purchaseInvoiceDetails,
+            panelClass: ["custom-dialog-container","temp-purchase-cart"],maxHeight:"80vh"
+        });
+}
 }

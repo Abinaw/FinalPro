@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { VendorService } from "src/app/service/vendor-service/vendor.service";
 import { StockService } from "src/app/service/stock-service/stock.service";
+import { TempPurchaseService } from "src/app/service/tempPurchase-service/temp-purchase.service";
 
 /**
  * @title Card with multiple sections
@@ -16,24 +17,21 @@ export class DashboardCardsComponent {
     @Input() isSwitched!: boolean;
 
     constructor(
-        private vendorService: VendorService,
-        private stockService: StockService
+       
+        private stockService: StockService,
+        
     ) {
-        this.loadAllVendor();
+     
         this.loadAllStock();
-    }
-
-    loadAllVendor() {
-        this.vendorService.getAll().subscribe((res) => {
-            GLOBAL_LIST.VENDOR_DATA = res;
-        });
+       
     }
     loadAllStock() {
         this.stockService.getAll().subscribe((res) => {
             GLOBAL_LIST.STOCK_DATA = res;
         });
     }
-
+   
+    
     Cards = [
         {
             name: "Customer",

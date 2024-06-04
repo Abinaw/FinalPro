@@ -13,7 +13,7 @@ import { ProductCartService } from 'src/app/service/productCart-service/product-
 import { InvoiceActionComponent } from 'src/app/custom-components/action-cell/invoice-action/invoice-action.component';
 import { ProductCartActionComponent } from 'src/app/custom-components/action-cell/product-cart-action/product-cart-action.component';
 import { ICellRendererParams } from 'ag-grid/dist/lib/rendering/cellRenderers/iCellRenderer';
-import { InvoiceTemplateForCustomerComponent } from '../../invoice-template-for-customer/invoice-template-for-customer.component';
+import { InvoiceTemplateForCustomerComponent } from '../invoice-template-for-customer/invoice-template-for-customer.component';
 import { IProCartEntity } from '../../../constants/interfaces/IProCartEntity';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { IInvoiceEntity } from 'src/app/constants/interfaces/InvoiceEntity';

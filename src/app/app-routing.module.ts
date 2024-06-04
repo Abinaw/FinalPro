@@ -20,6 +20,7 @@ import { SysInfoComponent } from './Template/side-bar/nav-settings/sys-info/sys-
 import { CategoryComponent } from './Template/modules/category/category.component';
 import { InvoiceComponent } from './Template/modules/invoice/invoice.component';
 import { SelectedInvoiceComponent } from './Template/expansion/selected-invoice/selected-invoice.component';
+import { PurchaseCartComponent } from './Template/modules/purchase-cart/purchase-cart.component';
 
 
 
@@ -75,6 +76,10 @@ const routes: Routes = [
   {
     path: 'dash-board/vendor',
     component: VendorComponent
+  },
+  {
+    path:'dash-board/purchase-cart',
+    component:PurchaseCartComponent
   },
 
   //----Modules End-----

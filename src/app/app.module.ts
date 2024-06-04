@@ -73,9 +73,12 @@ import { InvoiceFinalizationComponent } from './custom-components/invoice-finali
 import { ProductSelectionToCartComponent } from './Template/expansion/product-selection-to-cart/product-selection-to-cart.component';
 import { ProductSelectionToCartFormComponent } from './Template/expansion/product-selection-to-cart-form/product-selection-to-cart-form.component';
 import { ProductCartActionComponent } from './custom-components/action-cell/product-cart-action/product-cart-action.component';
-import { InvoiceTemplateForCustomerComponent } from './Template/invoice-template-for-customer/invoice-template-for-customer.component';
+import { InvoiceTemplateForCustomerComponent } from './Template/expansion/invoice-template-for-customer/invoice-template-for-customer.component';
 import { InvoicePaymentComponent } from './Template/payments/invoice-payment/invoice-payment.component';
 import { PurchasedProductFormComponent } from './Template/createData-forms/purchased-product-form/purchased-product-form.component';
+import { PurchaseInvoiceFormComponent } from './Template/createData-forms/purchase-invoice-form/purchase-invoice-form.component';
+import { PurchaseCartComponent } from './Template/modules/purchase-cart/purchase-cart.component';
+import { PurchaseCartActionComponent } from './custom-components/action-cell/purchase-cart-action/purchase-cart-action.component';
 
 
 
@@ -121,6 +124,9 @@ import { PurchasedProductFormComponent } from './Template/createData-forms/purch
     InvoiceTemplateForCustomerComponent,
     InvoicePaymentComponent,
     PurchasedProductFormComponent,
+    PurchaseInvoiceFormComponent,
+    PurchaseCartComponent,
+    PurchaseCartActionComponent,
   
 
     

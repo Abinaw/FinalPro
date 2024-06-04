@@ -1,66 +1,17 @@
-<div class="m-[20px] flex flex-row  justify-between h-[65vh]">
-<mat-card class="mr-[5px] w-[25vw] !rounded-[20px] !bg-[rgb(229, 231, 235)]">
-    <mat-card-header >
-      <mat-card-subtitle class="font-bold">Purchase Details</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content	 class="w-[full]  pt-[15px] px-[5px] flex flex-col justify-center ">
-    <form [formGroup]="purchaseInvocieForm">
+<div class="m-[20px]  h-[68vh] grid ">
+    <ng-container *ngIf="purchaseList?.length">
+    <mat-card class="!h-[68vh] !rounded-[20px] !bg-purple-100 flex flex-col items-center justify-center gap-[20px] ">
+        <mat-card-content>
+            <mat-card-header class="flex justify-center">
+                <!-- <mat-card-title class="font-bold text-white text-[50px]"> The Cart is Empty!</mat-card-title> -->
+                <mat-card-title class="font-semibold text-[#f77e88] text-[50px]"> The Purchase Invoice is Empty! <mat-icon>remove_shopping_cart</mat-icon></mat-card-title>
+            </mat-card-header>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-raised-button color="primary" (click)="openPurchaseInvoiceForm()">Purchase Invoice
+                <mat-icon>add</mat-icon></button>
+        </mat-card-actions>
+    </mat-card>
+ </ng-container>
 
-        <mat-form-field>
-            <mat-label>Invoice Ref</mat-label>
-            <input matInput type="text" formControlName="purchaseInvoiceNO">
-            <mat-error *ngIf="purchaseInvocieForm.get('purchaseInvoiceNO')?.errors">This field is required!</mat-error>
-
-        </mat-form-field>
-
-        <mat-form-field class="">
-            <mat-label>Vendor</mat-label>
-            <input  type="text"
-
-                   placeholder="Vendor"
-                   matInput
-                   formControlName="vendorOBJ"
-                   [formControl]="vendorControl"
-                   [matAutocomplete]="auto"
-                   >
-                   <mat-error *ngIf="purchaseInvocieForm.get('vendorOBJ')?.errors">This field is required!</mat-error>
-            <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete" >
-                <mat-option 
-                    *ngFor="let aVendor of filterOptions | async" 
-                    [value]="aVendor.vendorId"
-                    >
-                    {{aVendor.vendorId}}|{{aVendor.vendorName}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-
-     
-
-      <mat-form-field >
-        <mat-label>MM/DD/YYYY</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="purchasedDate">
-        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-error *ngIf="purchaseInvocieForm.get('purchasedDate')?.errors">This field is required!</mat-error>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </form>
-    </mat-card-content	>
-
-    <mat-card-actions align="end">
-      <button mat-raised-button color="primary"  (click)="createTempPurchase()">Create Purchase Invoice <span class="text-xl">+</span></button>
-    </mat-card-actions>
-  </mat-card>
-
- <mat-card class="!rounded-[20px] w-full !bg-purple-200 flex flex-row justify-center items-center">
-   <mat-card-header >
-    <mat-card-title class="font-sans font-bold text-3xl text-pink-500">====EMPTY CART <mat-icon>remove_shopping_cart</mat-icon>====</mat-card-title>
-       
-   </mat-card-header>
-
-   <mat-card-actions align="end" >
-    <button mat-raised-button color="primary" (click)="openPurchaseCartForm()">Add Items <mat-icon>add_shopping_cart</mat-icon></button>
-  </mat-card-actions>
- </mat-card>
-  
 </div>

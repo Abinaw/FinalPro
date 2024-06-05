@@ -26,7 +26,7 @@ export class AppComponent {
     ) {
         this.isSwitched = true;
         this.getAllToGlobalList();
-        this.loadAllPurchase();
+
     }
 
     ShowSidebarAndNotifiBar(): any {
@@ -62,11 +62,5 @@ export class AppComponent {
             .subscribe((res) => (GLOBAL_LIST.CUSTOMER_DATA = res));
     }
 
-    loadAllPurchase() {
-        // this.tempPurchaseInvoiceService
-        //     .getAllTempPurchase()
-        //     .subscribe((response) => {
-        //         GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
-        //     });
-    }
+   
 }

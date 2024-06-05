@@ -1,4 +1,4 @@
-<div class="m-[20px] h-[68vh] grid">
+<div class="mx-[20px] h-full grid !bg-transparent">
     <mat-card
         *ngIf="!isLoaded"
         class="!h-[68vh] !rounded-[20px] !bg-purple-100 flex flex-col items-center justify-center gap-[20px]"
@@ -24,5 +24,7 @@
         </mat-card-actions>
     </mat-card>
 
-    <p *ngIf="isLoaded">cart</p>
+    <mat-card *ngIf="isLoaded">
+        <app-purchase-cart></app-purchase-cart>
+    </mat-card>
 </div>

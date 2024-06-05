@@ -20,6 +20,7 @@ import { ToastrModule, ToastrService } from "ngx-toastr";
 import { PurchaseInvoiceFormComponent } from "../../createData-forms/purchase-invoice-form/purchase-invoice-form.component";
 import { Router } from "@angular/router";
 import { PurchaseCartComponent } from "../purchase-cart/purchase-cart.component";
+import { StockService } from "src/app/service/stock-service/stock.service";
 
 @Component({
     selector: "app-purchase",
@@ -38,7 +39,8 @@ export class PurchaseComponent implements OnInit {
         private tempPurchaseInvoiceService: TempPurchaseService,
         private matDialog: MatDialog,
         private router: Router,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private stockService : StockService 
     ) {
         // this.loadAllPurchase();
         // this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA
@@ -47,6 +49,7 @@ export class PurchaseComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadAllPurchase();
+        this.loadAllStock()
     }
 
     loadAllPurchase() {
@@ -68,6 +71,12 @@ export class PurchaseComponent implements OnInit {
         });
     }
 
+    loadAllStock(){
+        this.stockService.getAll().subscribe((res)=>{
+                GLOBAL_LIST.STOCK_DATA = res
+        })
+    }
+
     // setPurchaseDetailsToFields() {
     //     console.log("list2 ", this.purchaseList)
     //     this.invoiceId = this.purchaseList.purchasedDate
@@ -87,9 +96,13 @@ export class PurchaseComponent implements OnInit {
     // }
 
     openPurchaseInvoiceForm() {
-        this.matDialog.open(PurchaseInvoiceFormComponent, {
+      const purchaseFormOpen =  this.matDialog.open(PurchaseInvoiceFormComponent, {
             panelClass: ["custom-dialog-container", "custom-form"],
         });
+
+        purchaseFormOpen.afterClosed().subscribe(res=>{
+            
+        })
     }
 
     openPurchaseCartForm(purchaseInvoiceDetails: any) {

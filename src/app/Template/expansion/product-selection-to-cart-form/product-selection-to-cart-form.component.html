@@ -18,7 +18,7 @@
                         [matAutocomplete]="auto" >
                     <mat-error *ngIf="productSelectionForm.get('stockOBJ')?.hasError">This field is required!</mat-error>
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  >
-                        <mat-option *ngFor="let anItem of filterOptions | async"  [value]="anItem.stockId"  (blur)="getSelectedProduct_sList(anItem.stockId)">
+                        <mat-option *ngFor="let anItem of filterOptions | async"  [value]="anItem.stockId"  (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)">
                             {{anItem.stockId}} | {{anItem.itemName}}
                         </mat-option>
                     </mat-autocomplete>
@@ -26,7 +26,7 @@
 
                 <mat-form-field>
                     <mat-label> Quantity </mat-label>
-                    <input  matInput formControlName="quantity" type="number" step=".01" class="" (focus)="setTotal() "  />
+                    <input  matInput formControlName="quantity" type="number" step=".01" class="" (focus)="setTotal()"  />
                     <mat-error *ngIf="productSelectionForm.get('quantity')?.errors?.['required']">
                         This field is required!
                     </mat-error>

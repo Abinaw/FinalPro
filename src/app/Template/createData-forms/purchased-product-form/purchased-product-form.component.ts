@@ -1,10 +1,12 @@
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Observable, map, startWith } from "rxjs";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { IStockEntity } from "src/app/constants/interfaces/IStockEntity";
 import { TempPurchaseService } from "src/app/service/tempPurchase-service/temp-purchase.service";
 import { TempPurchaseCartService } from "./../../../service/tempPurchaseCart-service/temp-purchase-cart.service";
+import { ToastrService } from "ngx-toastr";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
     selector: "app-purchased-product-form",
@@ -24,7 +26,10 @@ export class PurchasedProductFormComponent {
 
     constructor(
         private tempPurchaseService: TempPurchaseService,
-        private tempPurchaseCartService: TempPurchaseCartService
+        private tempPurchaseCartService: TempPurchaseCartService,
+        private toastr: ToastrService,
+        private matDialogRef: MatDialogRef<PurchasedProductFormComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.stockDataList = GLOBAL_LIST.STOCK_DATA;
         this.purchaseProductCartForm = new FormGroup({
@@ -40,10 +45,32 @@ export class PurchasedProductFormComponent {
     }
 
     ngOnInit() {
+       if(this.data.title==="Update"){
+        this.setDataToInputForUpdation()
+       
+       }
         this.filterOptions = this.stockOBJControl.valueChanges.pipe(
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
+    }
+    private setDataToInputForUpdation() {
+       
+        this.purchaseProductCartForm.patchValue({
+            productCartId: this.data.selectedRowData.productCartId,
+            discount: this.data.selectedRowData.discount,
+            netAmount: this.data.selectedRowData.netAmount,
+            quantity: this.data.selectedRowData.quantity,
+            grossAmount: this.data.selectedRowData.grossAmount,
+        });
+        this.stockOBJControl.patchValue(
+            this.data.selectedRowData.stockOBJ.stockId
+        );
+        let cartValue = this.purchaseProductCartForm.value;
+        cartValue.stockOBJ = this.data.selectedRowData.stockOBJ
+        cartValue.tempPurchaseOBJ = this.data.selectedRowData.tempPurchaseOBJ
+
+       
     }
 
     private listFilter(value: string): IStockEntity[] {
@@ -62,13 +89,13 @@ export class PurchasedProductFormComponent {
         }
     }
 
-    getSelectedProduct_sList(stockId: number) {
-        this.selectedProduct = this.stockDataList.filter(
-            (list) => list?.stockId === stockId
-        );
-        // once the product has been selected the number of qty available of the product will get selected, stockId selected from the Blur property
-        this.selectedItemsQty = this.selectedProduct?.[0]?.quantity;
-    }
+    // getSelectedProduct_sList(stockId: number) {
+    //     this.selectedProduct = this.stockDataList.filter(
+    //         (list) => list?.stockId === stockId
+    //     );
+    //     // once the product has been selected the number of qty available of the product will get selected, stockId selected from the Blur property
+    //     this.selectedItemsQty = this.selectedProduct?.[0]?.quantity;
+    // }
 
     getAllPurchaseInvoice() {
         this.tempPurchaseService.getAllTempPurchase().subscribe((res) => {
@@ -77,15 +104,18 @@ export class PurchasedProductFormComponent {
     }
 
     selectOperation() {
+        console.log(this.purchaseProductCartForm.value)
         this.setvaluesToOBJFields();
         this.tempPurchaseCartService
             .createPurchaseInvoice(this.purchaseProductCartForm.value)
             .subscribe((response) => {
-                console.log(response);
+                this.toastr.success(response.successMessage)
             });
+            this.matDialogRef.close()
     }
 
     setTotal() {
+        console.log("selected row data",this.data.selectedRowData)
         const sellPrice = this.selectedProduct?.[0]?.sellingPrice;
         const qtyControl = this.purchaseProductCartForm.get("quantity");
         const totalControl = this.purchaseProductCartForm.get("grossAmount");
@@ -123,10 +153,5 @@ export class PurchasedProductFormComponent {
         cartValue.tempPurchaseOBJ = this.selectedPurchase;
     }
 
-    // private setInvoiceDetailsForUpdation() {
-    //     let cartValue = this.productSelectionForm.value;
-    //     cartValue.tempPurchaseOBJ = this.data.selectedRowData.tempInvoiceOBJ;
-    //     cartValue.stockOBJ = this.data.selectedRowData.stockOBJ;
-    //     // cartValue.confirmInvoiceOBJ = this.data.selectedRowData.confirmInvoiceOBJ
-    // }
+
 }

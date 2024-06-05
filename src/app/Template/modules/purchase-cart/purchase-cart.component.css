@@ -1,10 +1,35 @@
-.search-cont{
-    height: 5vh;
+.mat-card-header .mat-card-title {
+    text-align: center;
+}
+
+.mat-mdc-card-header{
+    padding: 0 !important;
+  }
+  
+      
+  .custDetailsContainer{
+width: 70%;
+display:flex;
+flex-direction: row;
+justify-content: space-evenly;
+  }
+
+  .paymentsContainer{
+    /* background-color: rgba(127, 255, 212, 0.521); */
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .search-cont{
+    height: 3vh;
    display: flex;
    flex-direction: row;
    justify-content: center;
    align-items: center;
-   margin-bottom: 1rem;
+   margin:1rem;
+   /* margin-bottom: 1rem; */
     }
 
 .box{

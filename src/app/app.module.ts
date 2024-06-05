@@ -13,7 +13,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { ToastrModule } from "ngx-toastr";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 
 import { LoginCompoComponent } from "./Template/createData-forms/login-compo/login-compo.component";
 
@@ -133,6 +133,7 @@ import { PurchaseCartActionComponent } from "./custom-components/action-cell/pur
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
+        
 
         // Dash-Board-Purpose
         MatButtonModule,
@@ -163,7 +164,9 @@ import { PurchaseCartActionComponent } from "./custom-components/action-cell/pur
         NgxPrintModule,
     ],
     //providers: [],
-    providers: [DatePipe],
+    providers: [DatePipe,    { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+    ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

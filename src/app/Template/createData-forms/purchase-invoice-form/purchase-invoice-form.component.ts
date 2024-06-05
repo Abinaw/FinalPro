@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
@@ -25,10 +26,11 @@ export class PurchaseInvoiceFormComponent {
     constructor(
         private toastr: ToastrService,
         private tempPurchaseInvoiceService: TempPurchaseService,
+        private matDialogRef: MatDialogRef<PurchaseInvoiceFormComponent>,
     ){
         this.vendorDataList = GLOBAL_LIST.VENDOR_DATA;
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
-        console.log(this.purchaseList)
+        // console.log(this.purchaseList)
         this.isValid = false;
         this.purchaseInvocieForm = new FormGroup({
             purchaseInvoiceNO: new FormControl(null, Validators.required),
@@ -54,8 +56,16 @@ export class PurchaseInvoiceFormComponent {
                 option.vendorId.toString().toLowerCase().includes(searchValue)
         );
     }
+    loadAllPurchase() {
+        this.tempPurchaseInvoiceService
+            .getAllTempPurchase()
+            .subscribe((response) => {
+                GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
+            });
+    }
 
     createTempPurchase() {
+        console.log("purchase created")
         this.purchaseInvocieForm.value.vendorOBJ = {
             vendorId: this.vendorControl.value,
         };
@@ -64,6 +74,8 @@ export class PurchaseInvoiceFormComponent {
             .subscribe((response) => {
                 if (response.result != null) {
                     this.toastr.success(response.successMessage)
+                    this.loadAllPurchase() 
+                    this.matDialogRef.close();
 
                 } else {
                     console.log(this.purchaseInvocieForm.value)

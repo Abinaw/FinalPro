@@ -51,14 +51,14 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
         private router: Router,
         private toastr: ToastrService
     ) {
-        this.paidAmount = this.data.invoiceDataParam.paidAmount;
-        this.balance = this.total - this.paidAmount;
-        this.getinvoiceDetails();
-        this.today = this.getInvoiceDate();
-        this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
-        this.calcValues(this.productCartItems);
-        this.getACustomerData();
-        this.getAllPayments();
+        // this.paidAmount = this.data.invoiceDataParam.paidAmount;
+        // this.balance = this.total - this.paidAmount;
+        // this.getinvoiceDetails();
+        // this.today = this.getInvoiceDate();
+        // this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
+        // this.calcValues(this.productCartItems);
+        // this.getACustomerData();
+        // this.getAllPayments();
     }
     ngOnInit(): void {
         //   console.log("productCart " , this.productCartItems.length)

@@ -42,7 +42,12 @@ body {
     height: 30rem;
 }
 
-.temp-purchase-cart{
+.temp-purchase-cart {
     width: 100%;
     height: 70vh;
+}
+
+ag-grid-angular {
+    border-radius: 10px !important;
+    overflow: hidden;
 }

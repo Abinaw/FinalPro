@@ -1,15 +1,21 @@
-<div  class="card-container flex justify-evenly">
-    <ng-container *ngFor="let card of Cards">
-      <ng-container>
-        <mat-card routerLink="/{{card.route}}" style="text-align: center;" >
-          <mat-card-header class="flex align-middle justify-center ">
-            <mat-card-subtitle class="font-bold text-[#382e59] dark:text-white">{{card.name | uppercase}}</mat-card-subtitle>
-          </mat-card-header>
-          <div class="img-cont flex items-center">
-            <img mat-card-image src="{{card.imageUrl}}" />
-          </div>
-        </mat-card>
-      </ng-container>
-    </ng-container>
- </div>
-  
+<div class="h-full w-full grid grid-cols-5 gap-[16px]">
+    <mat-card
+        *ngFor="let card of Cards"
+        routerLink="/{{ card.route }}"
+        class="!m-0 !h-full !w-full flex flex-col items-center justify-center gap-y-[16px] object-fill"
+    >
+        <mat-card-header class="flex align-middle justify-center !p-0">
+            <mat-card-subtitle
+                class="font-bold text-[#382e59] dark:text-white"
+                >{{ card.name | uppercase }}</mat-card-subtitle
+            >
+        </mat-card-header>
+        <div class="img-cont flex items-center">
+            <img
+                mat-card-image
+                src="{{ card.imageUrl }}"
+                class="object-contain"
+            />
+        </div>
+    </mat-card>
+</div>

@@ -50,4 +50,12 @@ body {
 ag-grid-angular {
     border-radius: 10px !important;
     overflow: hidden;
+    width: 100% !important;
+}
+
+.search-cont {
+    height: unset !important;
+    margin-bottom: 0 !important;
+    justify-content: end !important;
+    margin-top: 16px !important;
 }

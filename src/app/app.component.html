@@ -2,12 +2,39 @@
     class="entirePageContainer flex flex-row"
     [ngClass]="{ logBackground: isLoginPageAvail }"
 >
-    <div class="p-[16px]" *ngIf="ShowSidebarAndNotifiBar()">
+    <div class="p-[16px] pr-[0]" *ngIf="ShowSidebarAndNotifiBar()">
         <app-side-bar [isSwitched]="isSwitched"></app-side-bar>
     </div>
 
-    <div class="notifiAndnonLoginDirectivesContainer min-h-[calc(100vh-40px)]">
-        <div class="notifi-button-container" *ngIf="ShowSidebarAndNotifiBar()">
+    <div class="h-[calc(100vh-20px)] w-full">
+        <div
+            class="w-full h-full overflow-hidden p-[16px]"
+            [ngClass]="{
+                '!shadow-none bg-[#b38cf8] !m-0 !rounded-none h-[calc(100vh-20px)] w-screen':
+                    isLoginPageAvail
+            }"
+        >
+            <div
+                class="w-full h-full overflow-hidden p-[16px] rounded-[10px] relative"
+                [ngClass]="{
+                    'bg-[#382e59]': !isLoginPageAvail
+                }"
+            >
+                <div
+                    class="flex flex-row justify-start p-1 absolute left-[16px] top-[16px] z-[2]"
+                    *ngIf="showCloseIcon()"
+                    [routerLink]="['/dash-board']"
+                >
+                    <div class="close">
+                        <span class="material-symbols-outlined text-slate-300">
+                            close
+                        </span>
+                    </div>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <!-- <div class="notifi-button-container" *ngIf="ShowSidebarAndNotifiBar()">
             <button
                 mat-mini-fab
                 class="notifi"
@@ -22,33 +49,7 @@
                     (ngModelChange)="toogleTheme()"
                 ></mat-slide-toggle>
             </div>
-        </div>
-
-        <div
-            class="middleLogOrNonLogContainer"
-            [ngClass]="{
-                '!shadow-none bg-[#b38cf8] !m-0 !rounded-none h-[calc(100vh-20px)] w-screen':
-                    isLoginPageAvail,
-                nonLoginDirectivesContainer: !isLoginPageAvail
-            }"
-            [ngClass]="{
-                darkMode: isSwitched,
-                liteMode: !isSwitched
-            }"
-        >
-            <div
-                class="flex flex-row justify-start p-1"
-                *ngIf="showCloseIcon()"
-                [routerLink]="['/dash-board']"
-            >
-                <div class="close">
-                    <span class="material-symbols-outlined text-slate-300">
-                        close
-                    </span>
-                </div>
-            </div>
-            <router-outlet></router-outlet>
-        </div>
+        </div> -->
     </div>
 </div>
 

@@ -39,16 +39,16 @@ export class PurchaseComponent implements OnInit {
         private tempPurchaseInvoiceService: TempPurchaseService,
         private matDialog: MatDialog,
         private cdr: ChangeDetectorRef,
-        private stockService : StockService 
+        private stockService: StockService
     ) {
-        // this.loadAllPurchase();
-        // this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA
-        // this.loadAllVendor();
+        this.loadAllPurchase();
+        this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
+        this.loadAllVendor();
     }
 
     ngOnInit(): void {
-        this.loadAllPurchase();
-        this.loadAllStock()
+        // this.loadAllPurchase();
+        this.loadAllStock();
     }
 
     loadAllPurchase() {
@@ -70,10 +70,10 @@ export class PurchaseComponent implements OnInit {
         });
     }
 
-    loadAllStock(){
-        this.stockService.getAll().subscribe((res)=>{
-                GLOBAL_LIST.STOCK_DATA = res
-        })
+    loadAllStock() {
+        this.stockService.getAll().subscribe((res) => {
+            GLOBAL_LIST.STOCK_DATA = res;
+        });
     }
 
     // setPurchaseDetailsToFields() {
@@ -95,13 +95,15 @@ export class PurchaseComponent implements OnInit {
     // }
 
     openPurchaseInvoiceForm() {
-      const purchaseFormOpen =  this.matDialog.open(PurchaseInvoiceFormComponent, {
-            panelClass: ["custom-dialog-container", "custom-form"],
+        const purchaseFormOpen = this.matDialog.open(
+            PurchaseInvoiceFormComponent,
+            {
+                panelClass: ["custom-dialog-container", "custom-form"],
+            }
+        );
+        purchaseFormOpen.afterClosed().subscribe((res) => {
+            this.loadAllPurchase();
         });
-
-        purchaseFormOpen.afterClosed().subscribe(res=>{
-            
-        })
     }
 
     openPurchaseCartForm(purchaseInvoiceDetails: any) {

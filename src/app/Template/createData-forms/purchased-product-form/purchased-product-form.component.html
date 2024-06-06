@@ -32,7 +32,6 @@
                         formControlName="stockOBJ"
                         [formControl]="stockOBJControl"
                         [matAutocomplete]="auto"
-                        
                     />
                     <mat-error
                         *ngIf="
@@ -46,7 +45,10 @@
                     >
                         <mat-option
                             *ngFor="let anItem of filterOptions | async"
-                            [value]="anItem.stockId" (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)"
+                            [value]="anItem.stockId"
+                            (onSelectionChange)="
+                                getSelectedProduct_sList(anItem.stockId)
+                            "
                         >
                             {{ anItem.stockId }} | {{ anItem.itemName }}
                         </mat-option>
@@ -61,7 +63,7 @@
                         type="number"
                         step=".01"
                         class=""
-                        (focus)="setTotal()"
+                        (change)="setTotal()"
                     />
                     <mat-error
                         *ngIf="purchaseProductCartForm.get('quantity')?.errors?.['required']"

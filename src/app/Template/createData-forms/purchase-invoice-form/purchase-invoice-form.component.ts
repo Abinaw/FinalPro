@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { Observable, map, startWith } from 'rxjs';
-import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
-import { ITempPurchaseInvoice } from 'src/app/constants/interfaces/ITempPurchaseInvoiceEntity';
-import { IVendorEntity } from 'src/app/constants/interfaces/IVendorEntity';
-import { TempPurchaseService } from 'src/app/service/tempPurchase-service/temp-purchase.service';
+import { Component } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { ToastrService } from "ngx-toastr";
+import { Observable, map, startWith } from "rxjs";
+import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
+import { ITempPurchaseInvoice } from "src/app/constants/interfaces/ITempPurchaseInvoiceEntity";
+import { IVendorEntity } from "src/app/constants/interfaces/IVendorEntity";
+import { TempPurchaseService } from "src/app/service/tempPurchase-service/temp-purchase.service";
 
 @Component({
-  selector: 'app-purchase-invoice-form',
-  templateUrl: './purchase-invoice-form.component.html',
-  styleUrls: ['./purchase-invoice-form.component.css']
+    selector: "app-purchase-invoice-form",
+    templateUrl: "./purchase-invoice-form.component.html",
+    styleUrls: ["./purchase-invoice-form.component.css"],
 })
 export class PurchaseInvoiceFormComponent {
     purchaseInvocieForm: FormGroup;
@@ -19,15 +19,16 @@ export class PurchaseInvoiceFormComponent {
     vendorDataList: IVendorEntity[];
     filterOptions!: Observable<IVendorEntity[]>;
     isValid: boolean;
-    purchaseList: ITempPurchaseInvoice[] =[]
+    purchaseList: ITempPurchaseInvoice[] = [];
     // purchaseList: any
-    invoiceId!:number;
+    invoiceId!: number;
 
     constructor(
         private toastr: ToastrService,
         private tempPurchaseInvoiceService: TempPurchaseService,
-        private matDialogRef: MatDialogRef<PurchaseInvoiceFormComponent>,
-    ){
+        private matDialogRef: MatDialogRef<PurchaseInvoiceFormComponent>
+    ) {
+        this.loadAllPurchase();
         this.vendorDataList = GLOBAL_LIST.VENDOR_DATA;
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
         // console.log(this.purchaseList)
@@ -40,12 +41,10 @@ export class PurchaseInvoiceFormComponent {
     }
 
     ngOnInit(): void {
-
         this.filterOptions = this.vendorControl.valueChanges.pipe(
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
-
     }
 
     listFilter(value: string): IVendorEntity[] {
@@ -65,7 +64,6 @@ export class PurchaseInvoiceFormComponent {
     }
 
     createTempPurchase() {
-        console.log("purchase created")
         this.purchaseInvocieForm.value.vendorOBJ = {
             vendorId: this.vendorControl.value,
         };
@@ -73,15 +71,13 @@ export class PurchaseInvoiceFormComponent {
             .createPurchaseInvoice(this.purchaseInvocieForm.value)
             .subscribe((response) => {
                 if (response.result != null) {
-                    this.toastr.success(response.successMessage)
-                    this.loadAllPurchase() 
+                    this.toastr.success(response.successMessage);
+                    this.loadAllPurchase();
                     this.matDialogRef.close();
-
                 } else {
-                    console.log(this.purchaseInvocieForm.value)
-                    this.toastr.error(response.errors)
+                    console.log(this.purchaseInvocieForm.value);
+                    this.toastr.error(response.errors);
                 }
             });
     }
-
 }

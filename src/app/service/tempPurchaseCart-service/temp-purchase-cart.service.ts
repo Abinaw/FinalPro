@@ -41,4 +41,3 @@ export class TempPurchaseCartService {
         return this.http.get<any>(url, { responseType: "json" });
     }
 }
-

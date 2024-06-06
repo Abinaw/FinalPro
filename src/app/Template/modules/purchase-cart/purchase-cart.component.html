@@ -2,66 +2,95 @@
     <div>
         <div class="user-data-wrapper flex flex-col">
             <div class="search-cont">
-             <div class="box">
-                 <input type="text" placeholder="Search"  (input)="searchDataInRows()" [(ngModel)]="searchCharac">
-                     <mat-icon >search</mat-icon>
-                     
-             </div>
-           
-    </div>
-            
-   
-    <mat-card class="w-full rounded-xl overflow-hidden  h-2/4">
-        <mat-card-header  class="bg-purple-200  rounded-lg m-1 flex flex-col justify-center items-center ">
-          <div class="custDetailsContainer text-center rounded-lg bg-purple-100 mt-3 h-1/2 px-[20px]">
-          <mat-card-subtitle  class="font-semibold text-lg">Invoice No : <span class=" font-bold text-gray-700 text-lg">{{purchaseInvoiceNum}}</span></mat-card-subtitle>
-          <mat-card-subtitle  class="font-semibold text-lg">Vendor Name : <span class=" font-bold text-gray-700 text-lg">{{vendorList.vendorName}} </span></mat-card-subtitle>
-          <mat-card-subtitle  class="font-semibold text-lg">Customer Contact : <span class=" font-bold text-gray-700 text-lg">{{vendorList.contact}}</span></mat-card-subtitle>
-        </div>
-        <div class="paymentsContainer mt-3">
-            <mat-card-subtitle  class="font-semibold text-sm">Total Amount : <span class="font-bold "></span></mat-card-subtitle>
-            
-            <!-- <mat-card-subtitle  class="font-semibold text-sm">Advance Payment : <span class="font-bold text-green-500"></span></mat-card-subtitle>
+                <div class="box">
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        (input)="searchDataInRows()"
+                        [(ngModel)]="searchCharac"
+                    />
+                    <mat-icon>search</mat-icon>
+                </div>
+            </div>
+
+            <mat-card class="w-full rounded-xl overflow-hidden h-2/4">
+                <mat-card-header
+                    class="bg-purple-200 rounded-lg m-1 flex flex-col justify-center items-center"
+                >
+                    <div
+                        class="custDetailsContainer text-center rounded-lg bg-purple-100 mt-3 h-1/2 px-[20px]"
+                    >
+                        <mat-card-subtitle class="font-semibold text-lg"
+                            >Invoice No :
+                            <span class="font-bold text-gray-700 text-lg">{{
+                                purchaseInvoiceNum
+                            }}</span></mat-card-subtitle
+                        >
+                        <mat-card-subtitle class="font-semibold text-lg"
+                            >Vendor Name :
+                            <span class="font-bold text-gray-700 text-lg"
+                                >{{ vendorList.vendorName }}
+                            </span></mat-card-subtitle
+                        >
+                        <mat-card-subtitle class="font-semibold text-lg"
+                            >Customer Contact :
+                            <span class="font-bold text-gray-700 text-lg">{{
+                                vendorList.contact
+                            }}</span></mat-card-subtitle
+                        >
+                    </div>
+                    <div class="paymentsContainer mt-3">
+                        <mat-card-subtitle class="font-semibold text-sm"
+                            >Total Amount :
+                            <span class="font-bold">5000</span></mat-card-subtitle
+                        >
+
+                        <!-- <mat-card-subtitle  class="font-semibold text-sm">Advance Payment : <span class="font-bold text-green-500"></span></mat-card-subtitle>
           
             <mat-card-subtitle  class="font-semibold text-sm">Balance : <span class="font-bold text-red-500"></span></mat-card-subtitle> -->
+                    </div>
+                </mat-card-header>
+
+                <mat-card-actions
+                    class="flex flex-row justify-around align-middle"
+                >
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        (click)="insertTrigger()"
+                    >
+                        Add more products
+                    </button>
+                    <button
+                        mat-raised-button
+                        color="warn"
+                        (click)="completeInvoice()"
+                    >
+                        Complete Invoice
+                    </button>
+                </mat-card-actions>
+            </mat-card>
         </div>
-    
-        </mat-card-header>
-        
-        <mat-card-actions class="flex flex-row justify-around align-middle">
-        <button mat-raised-button color="primary" (click)="insertTrigger()">Add more products</button> 
-        <button mat-raised-button color="warn" (click)="completeInvoice()">Complete Invoice</button>     
-    </mat-card-actions>
-       
-       
-    
-       
-    
-      </mat-card>
-      </div>
-     
-    
-     <div class="table-cont flex justify-center" >
-         <ag-grid-angular 
-         class="ag-theme-alpine user-table cursor-pointer" 
-         [paginationAutoPageSize]="true"
-         style="margin-bottom: 1rem; height: 50vh; width:76vw;"
-         [rowData]="rowData$ | async" 
-         [columnDefs]="columnDef"
-         [rowSelection]="rowSelection" 
-         (cellClicked)="onCellClicked($event)"
-         (gridReady)="onGridReady($event)"
-         [pagination]="true"
-         >
-         </ag-grid-angular>
-     </div>
-     
-     
-     <!-- <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
+
+        <div class="table-cont flex justify-center">
+            <ag-grid-angular
+                class="ag-theme-alpine user-table cursor-pointer"
+                [paginationAutoPageSize]="true"
+                style="margin-bottom: 1rem; height: 50vh; width: 76vw"
+                [rowData]="rowData$ | async"
+                [columnDefs]="columnDef"
+                [rowSelection]="rowSelection"
+                (cellClicked)="onCellClicked($event)"
+                (gridReady)="onGridReady($event)"
+                [pagination]="true"
+            >
+            </ag-grid-angular>
+        </div>
+
+        <!-- <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
      <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" >Invoice
          <mat-icon>person_add</mat-icon>
      </button>
      </div> -->
     </div>
-    
-      </div>
+</div>

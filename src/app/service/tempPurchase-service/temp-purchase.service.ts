@@ -20,4 +20,6 @@ export class TempPurchaseService {
         const url = `${this.baseUrl}/getAllTempPurchase`;
         return this.http.get<any[]>(url, { responseType: "json" });
     }
+
+    
 }

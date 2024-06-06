@@ -32,6 +32,7 @@
                         formControlName="stockOBJ"
                         [formControl]="stockOBJControl"
                         [matAutocomplete]="auto"
+                        
                     />
                     <mat-error
                         *ngIf="
@@ -45,7 +46,7 @@
                     >
                         <mat-option
                             *ngFor="let anItem of filterOptions | async"
-                            [value]="anItem.stockId"
+                            [value]="anItem.stockId" (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)"
                         >
                             {{ anItem.stockId }} | {{ anItem.itemName }}
                         </mat-option>
@@ -60,7 +61,7 @@
                         type="number"
                         step=".01"
                         class=""
-                        (change)="setTotal()"
+                        (focus)="setTotal()"
                     />
                     <mat-error
                         *ngIf="purchaseProductCartForm.get('quantity')?.errors?.['required']"
@@ -86,14 +87,14 @@
             </mat-form-field>
 
             <mat-form-field>
-                <mat-label> Unit Discount </mat-label>
+                <mat-label> Unit Discount/ Unit Discount Percentage </mat-label>
                 <input
                     matInput
                     formControlName="discount"
-                    type="number"
+                    type="text"
                     step=".01"
                     class=""
-                    (change)="setNetAmount()"
+                    (focus)="setNetAmount()"
                 />
                 <mat-error
                     *ngIf="purchaseProductCartForm.get('discount')?.errors"

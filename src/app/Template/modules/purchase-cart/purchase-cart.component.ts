@@ -10,6 +10,10 @@ import { PurchasedProductFormComponent } from '../../createData-forms/purchased-
 import { TempPurchaseService } from 'src/app/service/tempPurchase-service/temp-purchase.service';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ITempPurchaseInvoice } from 'src/app/constants/interfaces/ITempPurchaseInvoiceEntity';
+import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
+import { state } from '@angular/animations';
+import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -19,7 +23,8 @@ import { ITempPurchaseInvoice } from 'src/app/constants/interfaces/ITempPurchase
 })
 export class PurchaseCartComponent implements OnInit {
 
-
+    purchaseInvoiceNum!: number 
+    vendorList!:any
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
     agGrid!: AgGridAngular
@@ -96,14 +101,18 @@ export class PurchaseCartComponent implements OnInit {
         private dialog: MatDialog,
         private tempPurchaseCartService: TempPurchaseCartService,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private tempPurchaseInvoiceService: TempPurchaseService
+        private tempPurchaseInvoiceService: TempPurchaseService,
+        private matDialog: MatDialog,
+        private confirmPurchaseAndCartService: ConfirmPurchaseAndCartServiceService,
+        private toastr: ToastrService
     ) {
         this.loadAllTempPurchase()
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA
         this.getTempPurchaseId()
     }
     ngOnInit(): void {
-
+        this.purchaseInvoiceNum=this.purchaseList?.[0].purchaseInvoiceNO
+        this.vendorList =this.purchaseList?.[0].vendorOBJ
     }
 
 
@@ -137,8 +146,8 @@ export class PurchaseCartComponent implements OnInit {
     public setDataIntoRow() {
         this.tempPurchaseCartService.getAllTempPurchaseCartItems(this.purchaseId).subscribe((purchaseCartData?) => {
             this.gridApi.setRowData(purchaseCartData?.result);
-            console.log("purchase ",purchaseCartData)
-            console.log("id ",this.purchaseId)
+            // console.log("purchase ",purchaseCartData)
+            // console.log("id ",this.purchaseId)
         }, (err) => {
         })
     }
@@ -175,6 +184,23 @@ export class PurchaseCartComponent implements OnInit {
                 this.purchaseId = response?.result?.[0].purchaseId;
 
             });
+    }
+
+
+    completeInvoice(){
+        const extraData = {
+            title : "Confirm",
+            subTitle: "Do you want to confirm the invoice?",
+        }
+       let openActionPop = this.matDialog.open(ActionPopComponent,{data: extraData,panelClass: ["custom-dialog-container"],})
+        openActionPop.afterClosed().subscribe((state: boolean) => {
+            if (!state) return;
+            this.confirmPurchaseAndCartService
+                .addToConfirmPurchase(this.purchaseId)
+                .subscribe((res) => {
+                    this.toastr.success(res.successMessage);
+                });
+        });
     }
 
 }

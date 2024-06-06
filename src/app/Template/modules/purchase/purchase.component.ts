@@ -38,7 +38,6 @@ export class PurchaseComponent implements OnInit {
         private vendorService: VendorService,
         private tempPurchaseInvoiceService: TempPurchaseService,
         private matDialog: MatDialog,
-        private router: Router,
         private cdr: ChangeDetectorRef,
         private stockService : StockService 
     ) {

@@ -49,17 +49,19 @@ export class InvoicePaymentComponent {
             this.loadAllPayment()
             if (enteredAmount && (enteredAmount) > this.data.balanceAmount){
                 if (this.paymentsList.length >0){
+                    this.toastr.clear()
                     this.toastr.warning("The amount exceeds the Balance Amount "+this.data.balanceAmount)
                     this.isValid = false
                     return
                 }else{
+                    this.toastr.clear()
                     this.toastr.warning("The amount exceeds the Total "+this.data.balanceAmount)
                     this.isValid = false
                     return
                 }
-               
             }else if (enteredAmount && enteredAmount<=0){
-                this.toastr.warning("Amount can't be less or equals to 0")
+                this.toastr.clear()
+                this.toastr.warning("Amount can't be less or equal to 0")
                 this.isValid = false
                 amountInput?.setValue(null) 
             }else if(enteredAmount == null){

@@ -150,8 +150,7 @@ export class PurchaseCartComponent implements OnInit {
             .subscribe(
                 (purchaseCartData?) => {
                     this.gridApi.setRowData(purchaseCartData?.result);
-                    // console.log("purchase ",purchaseCartData)
-                    // console.log("id ",this.purchaseId)
+                 
                 },
                 (err) => {}
             );
@@ -167,6 +166,7 @@ export class PurchaseCartComponent implements OnInit {
         });
         openForm.afterClosed().subscribe((res) => {
             this.setDataIntoRow();
+            this.loadAllTempPurchase()
         });
     }
 

@@ -10,6 +10,7 @@ import { Observable, map } from 'rxjs';
 import { PurchaseInvoiceFormComponent } from 'src/app/Template/createData-forms/purchase-invoice-form/purchase-invoice-form.component';
 import { PurchaseCartComponent } from 'src/app/Template/modules/purchase-cart/purchase-cart.component';
 import { PurchasedProductFormComponent } from 'src/app/Template/createData-forms/purchased-product-form/purchased-product-form.component';
+import { TempPurchaseService } from 'src/app/service/tempPurchase-service/temp-purchase.service';
 @Component({
   selector: 'app-purchase-cart-action',
   templateUrl: './purchase-cart-action.component.html',
@@ -23,7 +24,9 @@ export class PurchaseCartActionComponent {
     constructor(
         private toastr : ToastrService,
         public matDialog: MatDialog,
-        private tempPurchaseCartService:TempPurchaseCartService
+        private tempPurchaseCartService:TempPurchaseCartService,
+        private tempPurchaseService:TempPurchaseService,
+        
        
     ) {
 
@@ -59,7 +62,11 @@ export class PurchaseCartActionComponent {
             // console.log(res.result)
         })
     }
-    
+    loadAllPurchase() {
+        this.tempPurchaseService.getAllTempPurchase().subscribe((response) => {
+            GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
+        });
+    }
     openDelDialog(): void {
      
         const extraData = {
@@ -75,6 +82,7 @@ export class PurchaseCartActionComponent {
                 this.toastr.success(res.successMessage)
                 this.setDataIntoRow();  
                 this.getAllTempPurchaseCartData();
+                this.loadAllPurchase();
         })
        
     })
@@ -91,6 +99,7 @@ export class PurchaseCartActionComponent {
                 dialogRef.afterClosed().subscribe(()=>{
                     this.setDataIntoRow()
                     this.getAllTempPurchaseCartData();
+                    this.loadAllPurchase();
                 })
             }
 }

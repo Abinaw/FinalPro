@@ -63,7 +63,7 @@
                         type="number"
                         step=".01"
                         class=""
-                        (change)="setTotal()"
+                        (focus)="setTotal()"
                     />
                     <mat-error
                         *ngIf="purchaseProductCartForm.get('quantity')?.errors?.['required']"

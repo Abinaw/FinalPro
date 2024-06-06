@@ -44,7 +44,7 @@ export class PurchasedProductFormComponent {
             productCartId: new FormControl(),
             stockOBJ: new FormControl(Validators.required),
             quantity: new FormControl([Validators.required]),
-            discount: new FormControl("", Validators.required),
+            discount: new FormControl("0", Validators.required),
             netAmount: new FormControl(null),
             grossAmount: new FormControl(null),
             tempPurchaseOBJ: new FormControl(),
@@ -107,6 +107,7 @@ export class PurchasedProductFormComponent {
                 .subscribe((response) => {
                     this.toastr.success(response.successMessage);
                     this.matDialogRef.close();
+                    this.loadAllPurchase();
                 });
         } else if (this.data.title === "Update") {
             this.updatePopTrigger();
@@ -114,6 +115,7 @@ export class PurchasedProductFormComponent {
     }
 
     updatePopTrigger() {
+        // this.setvaluesToOBJFields()
         console.log("formValues ", this.purchaseProductCartForm.value);
         const extraData = {
             title: this.data.title,
@@ -133,17 +135,17 @@ export class PurchasedProductFormComponent {
                 .subscribe((res) => {
                     this.matDialogRef.close();
                     this.toastr.success(res.successMessage);
-                    // this.loadAllPurchase();
-                    this.tempPurchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
+                    this.loadAllPurchase();
+                    // this.tempPurchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
                 });
         });
     }
 
-    // loadAllPurchase() {
-    //     this.tempPurchaseService.getAllTempPurchase().subscribe((response) => {
-    //         GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
-    //     });
-    // }
+    loadAllPurchase() {
+        this.tempPurchaseService.getAllTempPurchase().subscribe((response) => {
+            GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
+        });
+    }
 
     setOBJFieldsForInsertion() {
         let cartValue = this.purchaseProductCartForm.value;
@@ -162,8 +164,11 @@ export class PurchasedProductFormComponent {
         let sellPrice: number;
         if (this.data.title === "Insert") {
             sellPrice = this.selectedProduct?.[0]?.sellingPrice;
+            console.log("Insert pro sell price ",sellPrice)
         } else if (this.data.title === "Update") {
             sellPrice = this.selectedProduct?.sellingPrice;
+            console.log("Update pro sell price ",sellPrice)
+
         }
 
         const qtyControl = this.purchaseProductCartForm.get("quantity");
@@ -198,7 +203,7 @@ export class PurchasedProductFormComponent {
             .subscribe((discount) => {
                 if (discountControl.value.toString().includes("%")) {
                     let discountPercentagePerUnit = parseFloat(
-                        discount.replace("%", "")
+                        discount.replace("%", '')
                     );
                     discount = (discountPercentagePerUnit / 100) * sellPrice;
                 }

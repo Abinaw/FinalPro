@@ -26,10 +26,10 @@ export class PaymentsService {
       return this.http.get<any[]>(url,{responseType:'json'});
     }
   
-    loadAll():Observable<any>{
-      const url = `${this.baseUrl}/loadAll`;
-      return this.http.get<any[]>(url,{responseType:'json'});
-    }
+    // loadAll():Observable<any>{
+    //   const url = `${this.baseUrl}/loadAll`;
+    //   return this.http.get<any[]>(url,{responseType:'json'});
+    // }
   
     deletePayment(payemntId:any) {
       // this.audService.playSoundDelete()

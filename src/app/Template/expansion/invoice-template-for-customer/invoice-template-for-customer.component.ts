@@ -108,31 +108,33 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
     openPDF() {
         const invoiceDOC = document.getElementById("invoice");
         if (invoiceDOC) {
-            html2canvas(invoiceDOC, { scale: 5, width: 540 }).then((canvas) => {
-                const img = canvas.toDataURL("image/jpeg");
-                // const newPDF = new jsPDF('p','px','a4');
-                // const imgWidth = newPDF.internal.pageSize.getWidth();
-                // const imgHeight = (canvas.height * imgWidth);
-                // newPDF.addImage(img, 'JPEG',0, 0, 800, 786);
-                const newWindow = window.open("", "_blank");
-                if (newWindow) {
-                    newWindow.document.open();
-                    newWindow.document.write(
-                        "<html><head><title>Invoice</title></head><body>"
-                    );
-                    newWindow.document.write(
-                        '<img src="' +
-                        img +
-                        '"style="width:100%;height:auto;"></body></html>'
-                    );
-                    newWindow.document.close();
-                    newWindow.onload = () => {
-                        newWindow.print();
-                    };
-                    newWindow.onafterprint = () => newWindow.close();
-                }
-            });
-        }
+            html2canvas(invoiceDOC, { scale: 3 }).then(canvas => {
+        
+                const imgData = canvas.toDataURL('image/jpeg');
+        
+                const pdf = new jsPDF('p', 'mm', 'a4');
+        
+                const imgWidth = pdf.internal.pageSize.getWidth();
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+                pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                
+                const pdfWindow = window.open('', '_blank');
+              if (pdfWindow) {
+                pdfWindow.document.open();
+                pdfWindow.document.write('<html><head><title>Invoice</title></head><body>');
+                pdfWindow.document.write('<img src="' + imgData + '" style="width:100%; height:auto;">');
+                pdfWindow.document.write('</body></html>');
+                pdfWindow.document.close();
+        
+                pdfWindow.onload = () => {
+                  pdfWindow.print();
+                };
+        
+                pdfWindow.onafterprint = () => pdfWindow.close();
+              }
+              });
+            }
     }
 
     completeInvoice() {

@@ -82,6 +82,7 @@ import { PurchaseCartActionComponent } from "./custom-components/action-cell/pur
 import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
 
 
+
 @NgModule({
     declarations: [
         AppComponent,

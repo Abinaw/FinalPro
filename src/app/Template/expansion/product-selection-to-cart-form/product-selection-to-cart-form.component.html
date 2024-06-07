@@ -44,7 +44,7 @@
             
                 <mat-form-field >
                     <mat-label > Discount </mat-label>
-                    <input  matInput formControlName="discount" type="number" step=".01"  class="" (focus)="setNetAmount()"/>
+                    <input  matInput formControlName="discount" type="text" step=".01"  class="" (focus)="setNetAmount()"/>
                     <mat-error *ngIf="productSelectionForm.get('discount')?.errors">This field is required!</mat-error>
                 </mat-form-field>
 

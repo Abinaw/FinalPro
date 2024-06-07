@@ -43,7 +43,7 @@ export class DashboardCardsComponent {
         {
             name: "Payments",
             imageUrl: "../../assets/New Set/sales.png",
-            route: "/dash-board/sales",
+            route: "/dash-board/commonPayments",
         },
         {
             name: "Return",

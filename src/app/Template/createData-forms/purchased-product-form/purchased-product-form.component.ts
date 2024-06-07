@@ -164,10 +164,10 @@ export class PurchasedProductFormComponent {
         let sellPrice: number;
         if (this.data.title === "Insert") {
             sellPrice = this.selectedProduct?.[0]?.sellingPrice;
-            console.log("Insert pro sell price ",sellPrice)
+            // console.log("Insert pro sell price ",sellPrice)
         } else if (this.data.title === "Update") {
             sellPrice = this.selectedProduct?.sellingPrice;
-            console.log("Update pro sell price ",sellPrice)
+            // console.log("Update pro sell price ",sellPrice)
 
         }
 

@@ -21,6 +21,7 @@ import { CategoryComponent } from './Template/modules/category/category.componen
 import { InvoiceComponent } from './Template/modules/invoice/invoice.component';
 import { SelectedInvoiceComponent } from './Template/expansion/selected-invoice/selected-invoice.component';
 import { PurchaseCartComponent } from './Template/modules/purchase-cart/purchase-cart.component';
+import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
 
 
 
@@ -62,8 +63,8 @@ const routes: Routes = [
     component: ReportComponent
   },
   {
-    path: 'dash-board/sales',
-    component: SalesComponent
+    path: 'dash-board/commonPayments',
+    component: CommonPaymentsComponent
   },
   {
     path: 'dash-board/stock',

@@ -13,7 +13,7 @@ import {
 } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { IStockEntity } from "../../../constants/interfaces/IStockEntity";
-import { Observable, map, startWith } from "rxjs";
+import { Observable, debounceTime, map, startWith } from "rxjs";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { ProductCartService } from "src/app/service/productCart-service/product-cart.service";
 import { StockService } from "src/app/service/stock-service/stock.service";
@@ -51,7 +51,7 @@ export class ProductSelectionToCartFormComponent {
             stockOBJ: new FormControl(Validators.required),
             quantity: new FormControl([Validators.required]),
             //#cmt  qty validation has been done below, since the qty for selection will only be filtered from the list once the stock has been selected
-            discount: new FormControl(0.0, Validators.required),
+            discount: new FormControl("0", Validators.required),
             netAmount: new FormControl(null),
             total: new FormControl(null),
             tempInvoiceOBJ: new FormControl(),
@@ -158,6 +158,7 @@ export class ProductSelectionToCartFormComponent {
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
+            this.setInvoiceDetailsForUpdation()
             this.productCartService
                 .update(this.productSelectionForm.value)
                 .subscribe((res) => {
@@ -207,7 +208,7 @@ export class ProductSelectionToCartFormComponent {
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
         const discountControl = this.productSelectionForm.get("discount");
-        qtyControl?.valueChanges.subscribe((qty) => {
+        qtyControl?.valueChanges.pipe(debounceTime(300)).subscribe((qty) => {
             totalControl?.patchValue(qty * sellPrice);
             if (discountControl) {
                 const discountVal = discountControl.value;
@@ -218,14 +219,24 @@ export class ProductSelectionToCartFormComponent {
         });
     }
     setNetAmount() {
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
         const discountControl = this.productSelectionForm.get("discount");
-        discountControl?.valueChanges.subscribe((discount) => {
+        discountControl?.valueChanges
+        .pipe(debounceTime(300))
+        .subscribe((discount) => {
+            if (discountControl.value.toString().includes("%")) {
+                let discountPercentagePerUnit = parseFloat(
+                    discount.replace("%", '')
+                );
+                discount = (discountPercentagePerUnit / 100) * sellPrice;
+            }
             let TotalDiscount = discount * qtyControl?.value;
             let netAmount = totalControl?.value - TotalDiscount;
             netAmountControl?.patchValue(netAmount);
+            discountControl?.patchValue(discount);
         });
     }
     private setvaluesToOBJFields() {

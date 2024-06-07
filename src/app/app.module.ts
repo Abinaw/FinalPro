@@ -79,6 +79,8 @@ import { PurchasedProductFormComponent } from "./Template/createData-forms/purch
 import { PurchaseInvoiceFormComponent } from "./Template/createData-forms/purchase-invoice-form/purchase-invoice-form.component";
 import { PurchaseCartComponent } from "./Template/modules/purchase-cart/purchase-cart.component";
 import { PurchaseCartActionComponent } from "./custom-components/action-cell/purchase-cart-action/purchase-cart-action.component";
+import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
+
 
 @NgModule({
     declarations: [
@@ -125,6 +127,8 @@ import { PurchaseCartActionComponent } from "./custom-components/action-cell/pur
         PurchaseInvoiceFormComponent,
         PurchaseCartComponent,
         PurchaseCartActionComponent,
+        CommonPaymentsComponent,
+
     ],
     imports: [
         BrowserModule,

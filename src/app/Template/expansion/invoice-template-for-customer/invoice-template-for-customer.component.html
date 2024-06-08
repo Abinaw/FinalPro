@@ -1,6 +1,7 @@
-<ng-container  class="grid grid-rows-3">
-    <div class="h-[700px] flex">
-        <div class="w-full h-auto p-[16px] relative overflow-auto" id="invoice">
+<ng-container  class="grid">
+    InvoiceTemplate
+    <div class="">
+        <div class="w-full h-auto p-[16px] relative" >
             <div class="flex items-center justify-between mb-[50px]">
                 <div class="w-[100px] h-[100px]">
                     <img src="../../../assets/logo/logo2.png" alt="company-logo" class="w-full h-full object-contain" />
@@ -53,27 +54,7 @@
                         <td class="py-[16px] px-[16px] w-[100px]">{{((item.discount/item.stockOBJ.sellingPrice)*100).toFixed(2)+"%"}}</td>
                         <td class="py-[16px] px-[16px] w-[200px]">{{(item.netAmount).toFixed(2)}}</td>
                     </tr>
-                   <!-- <tr class="border-b-2">
-                        <td class="py-[16px] px-[16px]">Flyer Design</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">4</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">$50</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">$3</td>
-                        <td class="py-[16px] px-[16px] w-[200px]">$200</td>
-                    </tr>
-                     <tr class="border-b-2">
-                        <td class="py-[16px] px-[16px]">Banner Design</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">1</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">$200</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">$3</td>
-                        <td class="py-[16px] px-[16px] w-[200px]">$200</td>
-                    </tr>
-                    <tr class="border-b-2">
-                        <td class="py-[16px] px-[16px]">Social Media Kit</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">1</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">$100</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">$5</td>
-                        <td class="py-[16px] px-[16px] w-[200px]">$100</td>
-                    </tr> -->
+       
                 </tbody>
             </table>
     
@@ -137,14 +118,14 @@
                 Thank you for purchase!
             </p>
         </div>
-        <div>
+         <!-- <div>
             <mat-dialog-actions align="center">
                 <button mat-raised-button color="basic" (click)="makePayment()">Make a payment</button>
                 <button mat-raised-button color="primary" (click)="completeInvoice()">Confirm Invoice</button>
                 <button mat-raised-button (click)="openPDF()" color="warn">Print</button>
             </mat-dialog-actions>
         
-        </div>
+        </div>  -->
     </div>
 </ng-container>
 

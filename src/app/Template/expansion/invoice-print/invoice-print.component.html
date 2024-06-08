@@ -1,0 +1,15 @@
+<mat-dialog-content>
+    <div class="h-[700px] w-[1000px] flex gap-[10px]">
+        <div class=" w-[20%]">
+            <mat-dialog-actions align="center">
+                <button mat-raised-button color="basic" (click)="makePayment()">Make a payment</button>
+                <button mat-raised-button color="primary" (click)="completeInvoice()">Confirm Invoice</button>
+                <button mat-raised-button (click)="openPDF()" color="warn">Print</button>
+            </mat-dialog-actions>
+        </div>
+        <div class=" w-[80%] overflow-auto">
+            <app-invoice-template-for-customer id="invoice">
+            </app-invoice-template-for-customer>
+        </div>
+    </div>
+</mat-dialog-content>

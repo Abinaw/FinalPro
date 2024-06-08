@@ -18,6 +18,7 @@ import { IProCartEntity } from '../../../constants/interfaces/IProCartEntity';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { IInvoiceEntity } from 'src/app/constants/interfaces/InvoiceEntity';
 import { PrintComponent } from '../../side-bar/nav-settings/print/print.component';
+import { InvoicePrintComponent } from '../invoice-print/invoice-print.component';
 
 
 @Component({
@@ -89,7 +90,7 @@ export class SelectedInvoiceComponent  {
         const invoiceDta={
             invoiceDataParam:this.invoiceData
         }
-        const openInvoice = this.matDialog.open(InvoiceTemplateForCustomerComponent,{
+        const openInvoice = this.matDialog.open(InvoicePrintComponent,{
             data:invoiceDta,
             panelClass:["invoice-dialog-container",""],
         })

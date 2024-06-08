@@ -80,6 +80,7 @@ import { PurchaseInvoiceFormComponent } from "./Template/createData-forms/purcha
 import { PurchaseCartComponent } from "./Template/modules/purchase-cart/purchase-cart.component";
 import { PurchaseCartActionComponent } from "./custom-components/action-cell/purchase-cart-action/purchase-cart-action.component";
 import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
+import { InvoicePrintComponent } from './Template/expansion/invoice-print/invoice-print.component';
 
 
 
@@ -129,6 +130,7 @@ import { CommonPaymentsComponent } from './Template/modules/common-payments/comm
         PurchaseCartComponent,
         PurchaseCartActionComponent,
         CommonPaymentsComponent,
+        InvoicePrintComponent,
 
     ],
     imports: [

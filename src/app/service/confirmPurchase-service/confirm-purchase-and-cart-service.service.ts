@@ -15,4 +15,9 @@ export class ConfirmPurchaseAndCartServiceService {
         const url = `${this.baseUrl}/addToConfirmPurchase`;
         return this.http.post<any>(url, purchaseId, { responseType: "json" });
     }
+
+    getAllConfirmPurchaseInvoices():Observable<any>{
+        const url = `${this.baseUrl}/getAllConfirmPurchaseInvoices`;
+        return this.http.get<any[]>(url,{responseType:'json'});
+      }
 }

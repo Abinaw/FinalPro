@@ -20,8 +20,8 @@ export class ConfirmInvoiceService {
     
   }
 
-//   getAll(invoiceId:any):Observable<any>{
-//     const url = `${this.baseUrl}/getAll/${invoiceId}`;
-//     return this.http.get<any[]>(url,{responseType:'json'});
-//   }
+  getAllConfirmedInvoices():Observable<any>{
+    const url = `${this.baseUrl}/getAllConfirmedInvoices`;
+    return this.http.get<any[]>(url,{responseType:'json'});
+  }
 }

@@ -43,6 +43,7 @@ import { MatInputModule } from "@angular/material/input";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import {MatButtonToggleModule,MatButtonToggleChange} from '@angular/material/button-toggle';
 // Table
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -81,6 +82,9 @@ import { PurchaseCartComponent } from "./Template/modules/purchase-cart/purchase
 import { PurchaseCartActionComponent } from "./custom-components/action-cell/purchase-cart-action/purchase-cart-action.component";
 import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
 import { InvoicePrintComponent } from './Template/expansion/invoice-print/invoice-print.component';
+import { ConfirmedPurchaseComponent } from './Template/modules/confirmed-purchase/confirmed-purchase.component';
+import { ConfirmedSalesInvoiceComponent } from './Template/modules/confirmed-sales-invoice/confirmed-sales-invoice.component';
+import { PaymentActionComponent } from './custom-components/action-cell/payment-action/payment-action.component';
 
 
 
@@ -131,6 +135,9 @@ import { InvoicePrintComponent } from './Template/expansion/invoice-print/invoic
         PurchaseCartActionComponent,
         CommonPaymentsComponent,
         InvoicePrintComponent,
+        ConfirmedPurchaseComponent,
+        ConfirmedSalesInvoiceComponent,
+        PaymentActionComponent,
 
     ],
     imports: [
@@ -154,6 +161,8 @@ import { InvoicePrintComponent } from './Template/expansion/invoice-print/invoic
         MatSelectModule,
         MatRadioModule,
         MatDialogModule,
+        MatButtonToggleModule,
+        
 
         //  Table
         MatTableModule,

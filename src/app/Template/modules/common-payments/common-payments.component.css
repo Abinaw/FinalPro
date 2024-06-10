@@ -1,0 +1,17 @@
+/* If using SCSS */
+::ng-deep .custom-toggle-group .mat-button-toggle-checked {
+    background-color: #d053e9; /* Example background color for checked state */
+    color: white;
+  }
+  
+  ::ng-deep .custom-toggle-group .mat-button-toggle-label-content {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .custom-toggle-button {
+    width: 50% !important;
+    height: 3rem; /* Example height */
+    font-size: 1.2rem; /* Example font size */
+  }
+  

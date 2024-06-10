@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, Input, OnInit } from "@angular/core";
 import {
     MAT_DIALOG_DATA,
     MatDialog,
@@ -32,44 +32,52 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
     paymentsList: IPaymentEntity[] = [];
     total: any;
     paidAmount!: number;
-    balance!: number;
+    // balance!: number;
     today: any;
     invoiceData!: IInvoiceEntity[];
     invoiceId!: number;
     invoiceNumber!: number;
     isComplete!: boolean;
-
+    @Input() items  :any
+    @Input() payList  :any
     constructor(
-        // private productCartService: ProductCartService,
-        // private custService :CustomerService,
+      
         @Inject(MAT_DIALOG_DATA) public data: any,
         private matDialogRef: MatDialogRef<InvoiceTemplateForCustomerComponent>,
         private matDialog: MatDialog,
         private paymentService: PaymentsService,
-        // private invoiceService: InvoiceService,
-        private confirmInvoice: ConfirmInvoiceService,
-        private router: Router,
-        private toastr: ToastrService
+        // private confirmInvoice: ConfirmInvoiceService,
+        // private router: Router,
+        private toastr: ToastrService,
+        // private invocieService: InvoiceService
     ) {
-        this.paidAmount = this.data.invoiceDataParam.paidAmount;
-        this.balance = this.total - this.paidAmount;
+        this.paymentsList = GLOBAL_LIST.PAYMENTS_DATA 
+        // this.paidAmount = this.data.invoiceDataParam.paidAmount;
+        // this.balance = this.total - this.paidAmount;
         this.getinvoiceDetails();
         this.today = this.getInvoiceDate();
         this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
         this.calcValues(this.productCartItems);
         this.getACustomerData();
-        this.getAllPayments();
+       
+        
     }
     ngOnInit(): void {
-        //   console.log("productCart " , this.productCartItems.length)
+        this.calculatePaidAmount();
+  
     }
+
+    
+    
+
     getAllPayments() {
-        this.paymentService.getAllPayments(this.invoiceId).subscribe((res) => {
+     
+        this.paymentService.getAllPayments(this.data.invoiceDataParam.tempInvoiceId).subscribe((res) => {
             // GLOBAL_LIST.PAYMENTS_DATA = res.result;
             this.paymentsList = res.result;
             //#cmt calculatePaidAmount has been called once the paymentList is initialized, tried calling it after the
             // 'getAllPayemnt()' in the makePayment(), the call timing is missing
-            this.calculatePaidAmount();
+            // this.calculatePaidAmount();
         });
     }
 
@@ -87,6 +95,7 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
     }
 
     getinvoiceDetails() {
+
         this.invoiceData = this.data.invoiceDataParam;
         this.invoiceNumber = this.data.invoiceDataParam.tempInvoiceNumber;
         this.invoiceId = this.data.invoiceDataParam.tempInvoiceId;
@@ -105,82 +114,6 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
         return `${day}-${month}-${year}`;
     }
 
-    openPDF() {
-        const invoiceDOC = document.getElementById("invoice");
-        if (invoiceDOC) {
-            html2canvas(invoiceDOC, { scale: 3 }).then(canvas => {
-        
-                const imgData = canvas.toDataURL('image/jpeg');
-        
-                const pdf = new jsPDF('p', 'mm', 'a4');
-        
-                const imgWidth = pdf.internal.pageSize.getWidth();
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        
-                pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-                
-                const pdfWindow = window.open('', '_blank');
-              if (pdfWindow) {
-                pdfWindow.document.open();
-                pdfWindow.document.write('<html><head><title>Invoice</title></head><body>');
-                pdfWindow.document.write('<img src="' + imgData + '" style="width:100%; height:auto;">');
-                pdfWindow.document.write('</body></html>');
-                pdfWindow.document.close();
-        
-                pdfWindow.onload = () => {
-                  pdfWindow.print();
-                };
-        
-                pdfWindow.onafterprint = () => pdfWindow.close();
-              }
-              });
-            }
-    }
-
-    completeInvoice() {
-        const extraData = {
-            title: "Confirm Invoice",
-            subTitle: "Do you want confirm this invoice?",
-        };
-        const popUpOpen = this.matDialog.open(ActionPopComponent, {
-            data: extraData,
-            panelClass: "custom-dialog-container",
-        });
-
-        popUpOpen.afterClosed().subscribe((state: boolean) => {
-            if (!state) return;
-            this.isComplete = true;
-            this.confirmInvoice
-                .addToConfirmInovie(this.invoiceId)
-                .subscribe((res) => {
-                    this.matDialogRef.close();
-                    if (this.isComplete) {
-                        this.router.navigate(["/dash-board/invoice/"]);
-                        this.toastr.success(res.successMessage);
-                    }
-                });
-        });
-    }
-
-    makePayment() {
-        const extraData = {
-            totalAmount: this.total,
-            invoiceData: this.invoiceData,
-            balanceAmount: this.total - this.paidAmount,
-        };
-        const invoicePaymentOpen = this.matDialog.open(
-            InvoicePaymentComponent,
-            { data: extraData, panelClass: ["custom-dialog-container"] }
-        );
-        invoicePaymentOpen.afterClosed().subscribe((res) => {
-            this.getAllPayments();
-        });
-    }
-
-    // getTheInvoiceData(){
-    //     this.invoiceService.getAll().subscribe(invoiceData=>{
-    //         GLOBAL_LIST.INVOICE_DATA = invoiceData
-    //         GLOBAL_LIST.INVOICE_DATA = GLOBAL_LIST.INVOICE_DATA.filter(list=>list.tempInvoiceId === this.invoiceId)
-    //     })
-    // }
+  
+  
 }

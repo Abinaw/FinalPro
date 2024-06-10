@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {  ToastrService } from 'ngx-toastr';
@@ -12,9 +12,8 @@ import { PaymentsService } from 'src/app/service/payments-service/payments.servi
   templateUrl: './invoice-payment.component.html',
   styleUrls: ['./invoice-payment.component.css']
 })
-export class InvoicePaymentComponent {
-
-
+export class InvoicePaymentComponent implements OnInit {
+  
     paymentOptions: any[] = [
         {value: 'cash', viewValue: 'Cash'},
         {value: 'cheque', viewValue: 'Cheque'},
@@ -24,6 +23,7 @@ export class InvoicePaymentComponent {
     invoicePaymentForm!: FormGroup<any>;
     isValid!:Boolean
     paymentsList :IPaymentEntity[] = []
+    totalPaidAmount:any
     constructor(
         private dialogRef:MatDialogRef<InvoicePaymentComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,6 +31,7 @@ export class InvoicePaymentComponent {
         private paymentService: PaymentsService,
         private matDialog : MatDialog)
     {
+        // this.paymentsList = GLOBAL_LIST.PAYMENTS_DATA
         this.isValid = false
         this.invoicePaymentForm = new FormGroup({
             paymentType: new FormControl(null,Validators.required),
@@ -41,21 +42,28 @@ export class InvoicePaymentComponent {
             paidDate:new FormControl( new Date().toISOString().substring(0, 10)),
         })
     }
+    ngOnInit(): void {
+        this.loadAllPayment();
+    }
 
     payableAmountValidate() {
        
         const amountInput = this.invoicePaymentForm.get('paidAmount')
         amountInput?.valueChanges.subscribe((enteredAmount)=>{
-            this.loadAllPayment()
-            if (enteredAmount && (enteredAmount) > this.data.balanceAmount){
+           
+           this.totalPaidAmount = this.getTotalPaidAmount()
+           let balance = this.data.totalAmount - this.totalPaidAmount
+         
+            if (enteredAmount && (enteredAmount) > balance){
+               
                 if (this.paymentsList.length >0){
                     this.toastr.clear()
-                    this.toastr.warning("The amount exceeds the Balance Amount "+this.data.balanceAmount)
+                    this.toastr.warning("The amount exceeds the Balance Amount "+balance)
                     this.isValid = false
                     return
                 }else{
                     this.toastr.clear()
-                    this.toastr.warning("The amount exceeds the Total "+this.data.balanceAmount)
+                    this.toastr.warning("The amount exceeds the Total "+balance)
                     this.isValid = false
                     return
                 }
@@ -66,7 +74,7 @@ export class InvoicePaymentComponent {
                 amountInput?.setValue(null) 
             }else if(enteredAmount == null){
                 this.isValid = false
-            }else if(enteredAmount && enteredAmount > 0 && enteredAmount <= this.data.balanceAmount){
+            }else if(enteredAmount && enteredAmount > 0 && enteredAmount <= balance){
                 this.isValid = true
             }
         })
@@ -77,10 +85,8 @@ export class InvoicePaymentComponent {
 
     getTotalPaidAmount(){
         let totalPaidAmount = 0;
-        console.log("PaymentList ", this.paymentsList)
         if(this.paymentsList.length > 0 ){
               totalPaidAmount = this.paymentsList.reduce((accumulator,currentValue)=>accumulator+currentValue.paidAmount,0)
-             console.log("totalPaidAmount ",totalPaidAmount)
         }
         return totalPaidAmount
     }
@@ -88,7 +94,7 @@ export class InvoicePaymentComponent {
     payAdvance() {
         let paymentData = this.invoicePaymentForm.value;
         paymentData.salesInvoice = this.data.invoiceData;
-        console.log("paymentData: ",paymentData)
+        // console.log("paymentData: ",paymentData)
         const extraData = {
             title: "Make a Payment",
             subTitle: "are you sure you want to make a payment?",
@@ -97,9 +103,7 @@ export class InvoicePaymentComponent {
         openAction.afterClosed().subscribe((state)=>{
             if(!state) return 
             this.paymentService.addPayment(paymentData).subscribe((paymentRes) => {
-                // console.log(paymentRes);
-                this.dialogRef.close()
-                this.loadAllPayment()
+                this.dialogRef.close();  
             },(err) => {
     
             })
@@ -112,7 +116,8 @@ export class InvoicePaymentComponent {
         this.paymentService.getAllPayments(this.data.invoiceData.tempInvoiceId).subscribe(retivedData=>{
             GLOBAL_LIST.PAYMENTS_DATA = retivedData?.result
             this.paymentsList = retivedData?.result
-            console.log("PaymentsList ", this.paymentsList)
+            
+            // console.log("PaymentsList in PaymentsComponent ", this.paymentsList)
         })
     }
 

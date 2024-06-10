@@ -19,6 +19,8 @@ import { InvoiceService } from 'src/app/service/invoice-service/invoice.service'
 import { IInvoiceEntity } from 'src/app/constants/interfaces/InvoiceEntity';
 import { PrintComponent } from '../../side-bar/nav-settings/print/print.component';
 import { InvoicePrintComponent } from '../invoice-print/invoice-print.component';
+import { PaymentsService } from 'src/app/service/payments-service/payments.service';
+import { InvoicePaymentComponent } from '../../payments/invoice-payment/invoice-payment.component';
 
 
 @Component({
@@ -54,7 +56,8 @@ export class SelectedInvoiceComponent  {
         private matDialog:MatDialog,
         private productCartService: ProductCartService,
         private cdr: ChangeDetectorRef ,
-        private invoiceService: InvoiceService
+        private invoiceService: InvoiceService,
+        private paymentService:PaymentsService
     ){
         
         this.getAllStockAndCatData()
@@ -73,6 +76,7 @@ export class SelectedInvoiceComponent  {
         })
         this.loadAllProductCart()
         this.getAllInvoiceData();
+        this.getAllPayments()
       
     }
     
@@ -92,11 +96,13 @@ export class SelectedInvoiceComponent  {
         }
         const openInvoice = this.matDialog.open(InvoicePrintComponent,{
             data:invoiceDta,
-            panelClass:["invoice-dialog-container",""],
+            panelClass:["invoice-dialog-container","custom-dialog-container"],
         })
         
         
     }
+
+    
    
     
     public columnDef: ColDef[] = [
@@ -216,8 +222,43 @@ export class SelectedInvoiceComponent  {
         })
     }
       
- 
+    makePayment() {
+       
+        const extraData = {
+            totalAmount: this.totalNetAmount,
+            invoiceData: this.invoiceData,
+        };
+        const invoicePaymentOpen = this.matDialog.open(
+            InvoicePaymentComponent,
+            { data: extraData, panelClass: ["custom-dialog-container"] }
+        );
+        invoicePaymentOpen.afterClosed().subscribe((res) => {
+            this.getAllPayments();
+          
+        });
+    }
+
+    getAllPayments() {
     
+        this.paymentService.getAllPayments(this.invoiceId).subscribe((res) => {
+            GLOBAL_LIST.PAYMENTS_DATA = res.result;
+           
+        });
+    }
+
+    getTotalPaidAmount(){
+        this.getAllPayments()
+        let paymentsList = GLOBAL_LIST.PAYMENTS_DATA
+        let totalPaidAmount = 0;
+        if(paymentsList.length > 0 ){
+              totalPaidAmount = paymentsList.reduce((accumulator,currentValue)=>accumulator+currentValue.paidAmount,0)
+            
+            
+        }
+        return totalPaidAmount
+        
+    }
+
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
        
@@ -286,11 +327,7 @@ export class SelectedInvoiceComponent  {
         }
     }
 
-    makePayment(){
-
-    }
-
-
+   
     getAllInvoiceData(){
         this.invoiceService.getAll().subscribe(invoiceData=>{
             GLOBAL_LIST.INVOICE_DATA=invoiceData

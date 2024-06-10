@@ -1,5 +1,5 @@
-<ng-container  class="grid">
-    InvoiceTemplate
+<ng-container  class="grid" >
+    <!-- InvoiceTemplate -->
     <div class="">
         <div class="w-full h-auto p-[16px] relative" >
             <div class="flex items-center justify-between mb-[50px]">
@@ -16,8 +16,8 @@
                         <h1 class="text-[18px] font-semibold"> {{this.selectedCustomer.custName}}</h1>
                     </div>
                     <div>
-                        <p class="text-[14px]">{{this.selectedCustomer.contact}}</p>
                         <p class="text-[14px]">{{this.selectedCustomer.address}}</p>
+                        <p class="text-[14px]">{{this.selectedCustomer.contact}}</p>
                         <p class="text-[14px]"> {{this.selectedCustomer.email}}</p>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     </div>
                     <div>
                         <p class="text-[14px]">Invoice No:</p>
-                        <h1 class="text-[14px] font-semibold">#{{this.invoiceNumber}}</h1>
+                        <h1 class="text-[14px] font-semibold">#CLC-{{this.invoiceNumber}}</h1>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of productCartItems" class="border-b-2">
+                    <tr *ngFor="let item of this.items" class="border-b-2">
                         <td class="py-[16px] px-[16px]">{{item.stockOBJ.itemName}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{(item.quantity).toFixed(2)}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{(item.stockOBJ.sellingPrice).toFixed(2)}}</td>
@@ -75,11 +75,11 @@
                             <p class="text-[14px]">Paid Amount:</p>
                         </div>
                         <div class="w-[200px] pl-[16px]">
-                            <p class="text-[14px] text-left">{{(this.paidAmount).toFixed(2)}}</p>
+                            <p class="text-[14px] text-left">{{(paidAmount).toFixed(2)}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="w-[500px] px-[16px]">
+                <!-- <div class="w-[500px] px-[16px]">
                     <div class="flex items-baseline justify-between">
                         <div class="w-[300px] pl-[100px]">
                             <p class="text-[14px]">Discount:</p>
@@ -88,14 +88,14 @@
                             <p class="text-[14px] text-left">$10</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="w-[500px] px-[16px]">
                     <div class="flex items-baseline justify-between">
                         <div class="w-[300px] pl-[100px]">
                             <p class="text-[18px] font-semibold">Total:</p>
                         </div>
                         <div class="w-[200px] pl-[16px]">
-                            <p class="text-[18px] font-semibold text-left"></p>
+                            <p class="text-[18px] font-semibold text-left"> {{(this.total-paidAmount).toFixed(2)}}</p>
                         </div>
                     </div>
                 </div>
@@ -130,14 +130,3 @@
 </ng-container>
 
 
-<!-- <ng-container *ngIf="productCartItems.length <= 0">
-<mat-dialog-content class="bg-purple-100">
-    <div class="text-lg text-black font-sans text-center">
-       Add Products!
-    </div>
-    <div class="text-sm text-gray-500 font-sans text-center">
-        No Products has been added into the Cart. <br>
-        Add Products to generate an Invoice! 
-    </div>
-</mat-dialog-content>
-</ng-container> -->

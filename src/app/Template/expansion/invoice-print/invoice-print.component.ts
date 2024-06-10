@@ -19,69 +19,37 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
   styleUrls: ['./invoice-print.component.css']
 })
 export class InvoicePrintComponent {
+    paymentsList: IPaymentEntity[] = [];
+
+
     selectedCustomer!: any;
     productCartItems: IProCartEntity[] = [];
-    paymentsList: IPaymentEntity[] = [];
+   
     total: any;
     paidAmount!: number;
     balance!: number;
-    today: any;
-    invoiceData!: IInvoiceEntity[];
-    invoiceId!: number;
-    invoiceNumber!: number;
+  
     isComplete!: boolean;
 
     constructor(
-        // private productCartService: ProductCartService,
-        // private custService :CustomerService,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private matDialogRef: MatDialogRef<InvoicePrintComponent>,
         private matDialog: MatDialog,
         private paymentService: PaymentsService,
-        // private invoiceService: InvoiceService,
         private confirmInvoice: ConfirmInvoiceService,
         private router: Router,
         private toastr: ToastrService
     ) {
-        this.paidAmount = this.data.invoiceDataParam.paidAmount;
-        this.balance = this.total - this.paidAmount;
-        this.getinvoiceDetails();
-        this.today = this.getInvoiceDate();
+        // this.paymentsList = GLOBAL_LIST.PAYMENTS_DATA
         this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
         this.calcValues(this.productCartItems);
-        this.getACustomerData();
-        this.getAllPayments();
+        this.paidAmount = this.data.invoiceDataParam.paidAmount;
+        this.balance = this.total - this.paidAmount;
+     
     }
     ngOnInit(): void {
-        //   console.log("productCart " , this.productCartItems.length)
-    }
-    getAllPayments() {
-        this.paymentService.getAllPayments(this.invoiceId).subscribe((res) => {
-            // GLOBAL_LIST.PAYMENTS_DATA = res.result;
-            this.paymentsList = res.result;
-            //#cmt calculatePaidAmount has been called once the paymentList is initialized, tried calling it after the
-            // 'getAllPayemnt()' in the makePayment(), the call timing is missing
-            this.calculatePaidAmount();
-        });
-    }
-
-    calculatePaidAmount() {
-        if (this.paymentsList?.length > 0) {
-            this.paidAmount = this.paymentsList.reduce(
-                (accumulator, currValue) => accumulator + currValue.paidAmount,
-                0
-            );
-        }
-    }
-
-    getACustomerData() {
-        this.selectedCustomer = this.data.invoiceDataParam.customerOBJ;
-    }
-
-    getinvoiceDetails() {
-        this.invoiceData = this.data.invoiceDataParam;
-        this.invoiceNumber = this.data.invoiceDataParam.tempInvoiceNumber;
-        this.invoiceId = this.data.invoiceDataParam.tempInvoiceId;
+        // console.log("payyyyyyyyyy",this.paymentsList) working 
+        console.log(this.productCartItems.length)
     }
 
     calcValues(list: IProCartEntity[]) {
@@ -89,13 +57,7 @@ export class InvoicePrintComponent {
             (subTotal, item) => subTotal + item.netAmount,0);
     }
 
-    getInvoiceDate() {
-        const now = new Date();
-        const day = now.getDate();
-        const month = now.getMonth();
-        const year = now.getFullYear();
-        return `${day}-${month}-${year}`;
-    }
+    
 
     openPDF() {
         const invoiceDOC = document.getElementById("invoice");
@@ -143,7 +105,7 @@ export class InvoicePrintComponent {
             if (!state) return;
             this.isComplete = true;
             this.confirmInvoice
-                .addToConfirmInovie(this.invoiceId)
+                .addToConfirmInovie(this.data.invoiceDataParam.tempInvoiceId)
                 .subscribe((res) => {
                     this.matDialogRef.close();
                     if (this.isComplete) {
@@ -154,18 +116,18 @@ export class InvoicePrintComponent {
         });
     }
 
-    makePayment() {
-        const extraData = {
-            totalAmount: this.total,
-            invoiceData: this.invoiceData,
-            balanceAmount: this.total - this.paidAmount,
-        };
-        const invoicePaymentOpen = this.matDialog.open(
-            InvoicePaymentComponent,
-            { data: extraData, panelClass: ["custom-dialog-container"] }
-        );
-        invoicePaymentOpen.afterClosed().subscribe((res) => {
-            this.getAllPayments();
+   
+    getAllPayments() {
+     
+        this.paymentService.getAllPayments(this.data.invoiceDataParam.tempInvoiceId).subscribe((res) => {
+            // GLOBAL_LIST.PAYMENTS_DATA = res.result;
+            this.paymentsList = res.result;
+            GLOBAL_LIST.PAYMENTS_DATA = res.result
+          
+            //#cmt calculatePaidAmount has been called once the paymentList is initialized, tried calling it after the
+            // 'getAllPayemnt()' in the makePayment(), the call timing is missing
+            // this.calculatePaidAmount();
         });
     }
+
 }

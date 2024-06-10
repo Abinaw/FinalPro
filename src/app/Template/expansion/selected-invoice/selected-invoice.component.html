@@ -47,7 +47,7 @@
                 <mat-card-subtitle class="font-semibold text-sm"
                     >Advance Payment :
                     <span class="font-bold text-green-500">{{
-                        this.invoiceNumber.toFixed(2)
+                        getTotalPaidAmount().toFixed(2)
                     }}</span></mat-card-subtitle
                 >
 
@@ -68,6 +68,7 @@
             >
                 InvoiceDetails
             </button>
+            <button mat-raised-button color="basic" (click)="makePayment()">Make a payment</button>
 
             <button mat-raised-button color="primary" (click)="insertTrigger()">
                 Add more products

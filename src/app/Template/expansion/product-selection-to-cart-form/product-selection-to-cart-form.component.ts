@@ -98,7 +98,7 @@ export class ProductSelectionToCartFormComponent {
                 if (currentQty && currentQty > selectedItemsQty) {
                     this.toastr.warning(
                         "Quantity should be either below or equals to " +
-                            selectedItemsQty
+                        selectedItemsQty
                     );
                     return { exceedsQty: true };
                 }
@@ -108,7 +108,7 @@ export class ProductSelectionToCartFormComponent {
                 if (qtyDiff > selectedItemsQty) {
                     this.toastr.warning(
                         "Quantity should be either below or equals to " +
-                            (selectedItemsQty + existingInThecart)
+                        (selectedItemsQty + existingInThecart)
                     );
                     return { exceedsQty: true };
                 }
@@ -125,6 +125,7 @@ export class ProductSelectionToCartFormComponent {
                 .subscribe((res) => {
                     console.log("response ", res);
                     this.getAllStockData();
+              
                     this.matDialogRef.close();
                 });
         } else if (this.data.title === "Update") {
@@ -138,13 +139,13 @@ export class ProductSelectionToCartFormComponent {
         });
     }
 
-    getAllCartData() {
-        this.productCartService
-            .getAll(this.data?.selectedRowData?.tempInvoiceOBJ?.tempInvoiceId)
-            .subscribe((res) => {
-                GLOBAL_LIST.PRODUCTCART_DATA = res.result[0];
-            });
-    }
+    // getAllCartData() {
+    //     this.productCartService
+    //         .getAll(this.data.selectedRowData.tempInvoiceOBJ.tempInvoiceId)
+    //         .subscribe((res) => {
+    //             GLOBAL_LIST.PRODUCTCART_DATA = res.result[0];
+    //         });
+    // }
 
     updatePopTrigger() {
         this.setInvoiceDetailsForUpdation();
@@ -162,6 +163,7 @@ export class ProductSelectionToCartFormComponent {
             this.productCartService
                 .update(this.productSelectionForm.value)
                 .subscribe((res) => {
+                    // this.getAllCartData()
                     this.matDialogRef.close();
                     this.toastr.success(res.successMessage);
                 });
@@ -225,19 +227,19 @@ export class ProductSelectionToCartFormComponent {
         const netAmountControl = this.productSelectionForm.get("netAmount");
         const discountControl = this.productSelectionForm.get("discount");
         discountControl?.valueChanges
-        .pipe(debounceTime(300))
-        .subscribe((discount) => {
-            if (discountControl.value.toString().includes("%")) {
-                let discountPercentagePerUnit = parseFloat(
-                    discount.replace("%", '')
-                );
-                discount = (discountPercentagePerUnit / 100) * sellPrice;
-            }
-            let TotalDiscount = discount * qtyControl?.value;
-            let netAmount = totalControl?.value - TotalDiscount;
-            netAmountControl?.patchValue(netAmount);
-            discountControl?.patchValue(discount);
-        });
+            .pipe(debounceTime(300))
+            .subscribe((discount) => {
+                if (discountControl.value.toString().includes("%")) {
+                    let discountPercentagePerUnit = parseFloat(
+                        discount.replace("%", '')
+                    );
+                    discount = (discountPercentagePerUnit / 100) * sellPrice;
+                }
+                let TotalDiscount = discount * qtyControl?.value;
+                let netAmount = totalControl?.value - TotalDiscount;
+                netAmountControl?.patchValue(netAmount);
+                discountControl?.patchValue(discount);
+            });
     }
     private setvaluesToOBJFields() {
         let cartValue = this.productSelectionForm.value;

@@ -38,8 +38,8 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
     invoiceId!: number;
     invoiceNumber!: number;
     isComplete!: boolean;
-    @Input() items  :any
-    @Input() payList  :any
+    // @Input("items") productItems  :any
+    // @Input() payList  :any
     constructor(
       
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -59,6 +59,7 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
         this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
         this.calcValues(this.productCartItems);
         this.getACustomerData();
+        // console.log(this.productCartItems)
        
         
     }

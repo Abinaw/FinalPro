@@ -88,6 +88,7 @@ import { PaymentActionComponent } from './custom-components/action-cell/payment-
 
 
 
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -138,6 +139,7 @@ import { PaymentActionComponent } from './custom-components/action-cell/payment-
         ConfirmedPurchaseComponent,
         ConfirmedSalesInvoiceComponent,
         PaymentActionComponent,
+        
 
     ],
     imports: [

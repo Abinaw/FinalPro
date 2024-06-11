@@ -37,7 +37,7 @@
             <table class="w-full">
                 <thead class="bg-black text-white">
                     <tr>
-                        <th class="py-[13px] px-[16px] text-left">Description</th>
+                        <th class="py-[13px] px-[16px]   text-left">Description</th>
                         <th class="py-[13px] px-[16px] w-[100px] text-left">Qty</th>
                         <th class="py-[13px] px-[16px] w-[100px] text-left">Price</th>
                         <th class="py-[13px] px-[16px] w-[100px] text-left">
@@ -47,9 +47,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of this.items" class="border-b-2">
+                    <tr *ngFor="let item of this.productCartItems" class="border-b-2">
                         <td class="py-[16px] px-[16px]">{{item.stockOBJ.itemName}}</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">{{(item.quantity).toFixed(2)}}</td>
+                        <td class="py-[16px] px-[16px] w-[100px]">{{item.quantity}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{(item.stockOBJ.sellingPrice).toFixed(2)}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{((item.discount/item.stockOBJ.sellingPrice)*100).toFixed(2)+"%"}}</td>
                         <td class="py-[16px] px-[16px] w-[200px]">{{(item.netAmount).toFixed(2)}}</td>
@@ -75,7 +75,7 @@
                             <p class="text-[14px]">Paid Amount:</p>
                         </div>
                         <div class="w-[200px] pl-[16px]">
-                            <p class="text-[14px] text-left">{{(paidAmount).toFixed(2)}}</p>
+                            <p class="text-[14px] text-left">{{ (paidAmount || 0).toFixed(2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                             <p class="text-[18px] font-semibold">Total:</p>
                         </div>
                         <div class="w-[200px] pl-[16px]">
-                            <p class="text-[18px] font-semibold text-left"> {{(this.total-paidAmount).toFixed(2)}}</p>
+                            <p class="text-[18px] font-semibold text-left"> {{((this.total-paidAmount)||this.total).toFixed(2)}}</p>
                         </div>
                     </div>
                 </div>

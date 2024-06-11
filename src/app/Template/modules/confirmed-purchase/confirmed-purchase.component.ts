@@ -4,6 +4,9 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
+import { PaymentActionComponent } from 'src/app/custom-components/action-cell/payment-action/payment-action.component';
+import { CustomerActionComponent } from 'src/app/custom-components/action-cell/customer-action/customer-action.component';
+
 @Component({
   selector: 'app-confirmed-purchase',
   templateUrl: './confirmed-purchase.component.html',
@@ -38,8 +41,8 @@ export class ConfirmedPurchaseComponent {
             headerName:"Purchase Invoice number"
          },
         { 
-            field: "totalAmount",
-            colId:"totalAmount",
+            field: "netAmount",
+            colId:"netAmount",
             headerName:"Total amount"
         
         },
@@ -63,13 +66,15 @@ export class ConfirmedPurchaseComponent {
             field: "isComplete",
             colId:"isComplete",
             headerName:"Is Complete",
-            // hide: true
+            hide: true
         },    
         {
             field:"action",
             headerName:"Action",
-            // cellRenderer: ,
-             
+            cellRenderer: PaymentActionComponent,
+            cellRendererParams: {
+                actionName: 'purchaseInvoice'
+            } 
         }
     ];
 
@@ -93,8 +98,8 @@ export class ConfirmedPurchaseComponent {
     private getRowData(): any {
         return new Promise((resolve) => {
             this.confirmPurchaseInvoiceService.getAllConfirmPurchaseInvoices().subscribe((invoiceData) => {
-                // resolve(invoiceData);
-                console.log(invoiceData)
+                resolve(invoiceData?.result);
+                // console.log(invoiceData)
             }, (err) => {
                 resolve([])
             })
@@ -108,8 +113,8 @@ export class ConfirmedPurchaseComponent {
     // }
     public setDataIntoRow() {       
         this.confirmPurchaseInvoiceService.getAllConfirmPurchaseInvoices().subscribe((invoiceData) => {
-            console.log(invoiceData)
-            // this.gridApi.setRowData(invoiceData);
+            // console.log(invoiceData?.result)
+            this.gridApi.setRowData(invoiceData?.result);
           }, (err) => {
           })
     }

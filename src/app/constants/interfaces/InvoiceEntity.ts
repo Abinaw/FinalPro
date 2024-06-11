@@ -5,6 +5,7 @@ export interface IInvoiceEntity{
     date:string,
     netAmount:number,
     customerData:ICustomerEntity,
-    paidAmount:number
+    paidAmount:number,
+    isComplete:boolean
 
 }

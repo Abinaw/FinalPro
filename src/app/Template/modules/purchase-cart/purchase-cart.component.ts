@@ -115,6 +115,7 @@ export class PurchaseCartComponent implements OnInit {
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
         this.getTempPurchaseId();
     }
+    
     ngOnInit(): void {
         this.purchaseInvoiceNum = this.purchaseList?.[0].purchaseInvoiceNO;
         this.vendorList = this.purchaseList?.[0].vendorOBJ;

@@ -4,6 +4,7 @@ export interface ITempPurchaseInvoice{
     purchaseId:number,
     purchaseInvoiceNO:number,
     purchasedDate:string,
-    totalAmount:number,
+    netAmount:number,
     vendorOBJ:IVendorEntity,
+    isComplete:boolean
 }

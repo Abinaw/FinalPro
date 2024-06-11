@@ -1,17 +1,22 @@
 /* If using SCSS */
 ::ng-deep .custom-toggle-group .mat-button-toggle-checked {
-    background-color: #d053e9; /* Example background color for checked state */
+    background-color: #7d2a8df8;
+    /* Example background color for checked state */
     color: white;
-  }
-  
-  ::ng-deep .custom-toggle-group .mat-button-toggle-label-content {
+}
+
+::ng-deep .custom-toggle-group .mat-button-toggle-label-content {
     display: flex;
     justify-content: center;
-  }
-  
-  .custom-toggle-button {
+}
+
+.mat-button-toggle-group {
+    border-radius: 2rem;
+
+}
+
+.custom-toggle-button {
     width: 50% !important;
-    height: 3rem; /* Example height */
-    font-size: 1.2rem; /* Example font size */
-  }
-  
+    height: 3rem;
+    font-size: 1.2rem;
+}

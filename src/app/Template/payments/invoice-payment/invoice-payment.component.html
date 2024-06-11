@@ -16,7 +16,7 @@
     <div *ngIf="selectedOption === 'cash' || selectedOption ==='card' || selectedOption ==='cheque'">
         <mat-form-field>
             <mat-label>Amount</mat-label>
-            <input formControlName="paidAmount" matInput type="number"  placeholder="Enter the amount" (focus)="payableAmountValidate()">
+            <input formControlName="paidAmount" matInput type="number"  placeholder="Enter the amount" (focus)="validateAmount()">
             <mat-error *ngIf="invoicePaymentForm.get('paidAmount')?.errors">This field is required!</mat-error>
         </mat-form-field>
     </div>

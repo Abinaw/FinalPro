@@ -106,11 +106,11 @@ export class PurchaseComponent implements OnInit {
         });
     }
 
-    openPurchaseCartForm(purchaseInvoiceDetails: any) {
-        const openForm = this.matDialog.open(PurchaseCartComponent, {
-            data: purchaseInvoiceDetails,
-            panelClass: ["custom-dialog-container", "temp-purchase-cart"],
-            maxHeight: "80vh",
-        });
-    }
+    // openPurchaseCartForm(purchaseInvoiceDetails: any) {
+    //     const openForm = this.matDialog.open(PurchaseCartComponent, {
+    //         data: purchaseInvoiceDetails,
+    //         panelClass: ["custom-dialog-container", "temp-purchase-cart"],
+    //         maxHeight: "80vh",
+    //     });
+    // }
 }

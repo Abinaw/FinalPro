@@ -41,4 +41,10 @@ export class InvoiceService {
     const url = `${this.baseUrl}/select/${dataChar}`;
     return this.http.get<any>(url)
   }
+
+  getTempInvocieById(tempInvoiceId:number):Observable<any>{
+    const url = `${this.baseUrl}/getTempInvoiceById/${tempInvoiceId}`;
+    return this.http.get<any[]>(url);
+  }
+
 }

@@ -25,7 +25,7 @@ export class ProductCartActionComponent {
         private productCartService:ProductCartService
        
     ) {
-
+      
     }
 
     agInit(params: ICellRendererParams): void {
@@ -35,7 +35,7 @@ export class ProductCartActionComponent {
      
 
      public setDataIntoRow() {
-        let invoiceId = this.dataFromRow.tempInvoiceOBJ.tempInvoiceId
+        let invoiceId = this.dataFromRow?.tempInvoiceOBJ?.tempInvoiceId
         this.productCartService.getAll(invoiceId).subscribe((cartData)=>{
             this.gridApi.setRowData(cartData.result[0])
             // GLOBAL_LIST.PRODUCTCART_DATA = cartData.result[0]

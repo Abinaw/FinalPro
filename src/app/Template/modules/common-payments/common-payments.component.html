@@ -1,15 +1,15 @@
 <div class="my-[50px] w-[100%]">
     <ng-container class="grid content-center"  >
-        <mat-button-toggle-group [(ngModel)]="fontStyle" name="fontStyle" aria-label="Font Style" class="custom-toggle-group">
+        <mat-button-toggle-group [(ngModel)]="invoiceType" name="invoiceType" aria-label="Font Style" class="custom-toggle-group">
             <mat-button-toggle class="custom-toggle-button w-[50%]" value="salesinvoice">Sales</mat-button-toggle>
             <mat-button-toggle class="custom-toggle-button w-[50%]" value="purchaseinvoice">Purchase</mat-button-toggle>
         </mat-button-toggle-group> 
-        <p>Chosen value is {{fontStyle}}</p>         
+           
     </ng-container>
-   <ng-container *ngIf="fontStyle ==='purchaseinvoice'">
+   <ng-container *ngIf="invoiceType ==='purchaseinvoice'" >
     <app-confirmed-purchase></app-confirmed-purchase>
    </ng-container>
-   <ng-container *ngIf="fontStyle ==='salesinvoice'">
+   <ng-container *ngIf="invoiceType ==='salesinvoice'">
     <app-confirmed-sales-invoice></app-confirmed-sales-invoice>
    </ng-container>
 </div>

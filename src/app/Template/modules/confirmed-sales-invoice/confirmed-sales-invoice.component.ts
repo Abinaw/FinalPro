@@ -4,6 +4,9 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
+import { PaymentActionComponent } from 'src/app/custom-components/action-cell/payment-action/payment-action.component';
+import { InvoiceActionComponent } from 'src/app/custom-components/action-cell/invoice-action/invoice-action.component';
+
 
 @Component({
   selector: 'app-confirmed-sales-invoice',
@@ -52,7 +55,7 @@ export class ConfirmedSalesInvoiceComponent {
             colId:"customerOBJ",
             headerName:"Customer",
             valueFormatter:(params)=>{
-                const combinedvalue = params.value.cusId+"-"+params.value.custName
+                const combinedvalue = params.value.custId+"-"+params.value.custName
                 return combinedvalue
             }
             
@@ -67,12 +70,16 @@ export class ConfirmedSalesInvoiceComponent {
             field: "isComplete",
             colId:"isComplete",
             headerName:"Is Complete",
-            // hide: true
+            hide: true
         },    
         {
             field:"action",
             headerName:"Action",
-            // cellRenderer: ,
+            // cellRenderer:,
+            cellRenderer :PaymentActionComponent,
+            cellRendererParams: {
+                actionName: 'salesInvoice'
+            }
              
         }
     ];
@@ -84,6 +91,7 @@ export class ConfirmedSalesInvoiceComponent {
         private confirmInvoiceService:ConfirmInvoiceService
        
     ) { 
+       
     }
 
     onGridReady(param: GridReadyEvent) {
@@ -93,14 +101,14 @@ export class ConfirmedSalesInvoiceComponent {
     
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
-       
+     
     }
     
     private getRowData(): any {
         return new Promise((resolve) => {
             this.confirmInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
-                console.log(invoiceData)
-                // resolve(invoiceData);
+                // console.log(invoiceData)
+                resolve(invoiceData?.result);
             }, (err) => {
                 resolve([])
             })
@@ -114,8 +122,8 @@ export class ConfirmedSalesInvoiceComponent {
     // }
     public setDataIntoRow() {       
         this.confirmInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
-            // this.gridApi.setRowData(invoiceData);
-            console.log(invoiceData)
+            this.gridApi.setRowData(invoiceData?.result);
+            // console.log(invoiceData)
           }, (err) => {
           })
     }

@@ -37,7 +37,7 @@
     <div *ngIf="selectedOption">
         <mat-dialog-actions align="center">
           <button mat-button (click)="onNoClick()">Cancel</button>
-          <button mat-button  cdkFocusInitial (click)="payAdvance()" disabled="{{!isValid}}">Pay</button>
+          <button mat-button  cdkFocusInitial (click)="payAmount()" disabled="{{!isValid}}">Pay</button>
         </mat-dialog-actions>
         </div>
 </mat-dialog-content>

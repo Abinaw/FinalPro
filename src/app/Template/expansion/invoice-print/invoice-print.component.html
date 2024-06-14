@@ -6,9 +6,10 @@
                 <button mat-raised-button (click)="openPDF()" class="w-full" color="warn">Print</button>
             </mat-dialog-actions>
         </div>
-        <div class=" w-[80%] overflow-auto" >
+        <div class=" w-[80%] h-[100%] overflow-auto" >
             <app-invoice-template-for-customer id="invoice" [payList]="paymentsList">
             </app-invoice-template-for-customer>
+            
         </div>
     </div>
     <ng-container *ngIf="productCartItems.length <= 0">

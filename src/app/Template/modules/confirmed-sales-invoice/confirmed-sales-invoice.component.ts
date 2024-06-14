@@ -123,7 +123,6 @@ export class ConfirmedSalesInvoiceComponent {
     public setDataIntoRow() {       
         this.confirmInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
             this.gridApi.setRowData(invoiceData?.result);
-            // console.log(invoiceData)
           }, (err) => {
           })
     }

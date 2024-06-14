@@ -3,18 +3,27 @@ import { Injectable } from '@angular/core';
 import { AudioService } from '../../audio-service/audio-service.service';
 import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
 import { Observable } from 'rxjs';
+import { IConfirmInvoicePaymentEntity } from 'src/app/constants/interfaces/IConfirmInvoicePaymentEntity';
+import { IConfirmSalesConfirmPayments } from 'src/app/constants/interfaces/IConfirmSalesConfirmPayments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfirmSalesInvociePaymentService {
-    private baseUrl = 'http://localhost:8080/api/ConfirmPayments/';
+    private baseUrl = 'http://localhost:8080/api/ConfirmSalesInvoicePayments';
     
     constructor(private http:HttpClient, public audService :AudioService,) { }
-    addToSalesInvoicePayment(salesInvoicePaymentsData: IConfirmInvoiceEntity):Observable<any>{
+
+
+
+      makePaymentToConfirmInvoice(salesInvoicePaymentsData: any): Observable<any> {
         // this.audService.playSoundInsert()
-        const url = `${this.baseUrl}/addPayment`;
-        return this.http.post<any>(url,salesInvoicePaymentsData,{responseType :'json'})
-        
-      }
+        const url = `${this.baseUrl}/makePaymentToConfirmInvoice`;
+        return this.http.post<any>(url, salesInvoicePaymentsData, { responseType: "json" });
+    }
+
+      getAllConfirmPaymentsOfConfirmInvoice(confirmSalesInvoiceId: number): Observable<any> {
+        const url = `${this.baseUrl}/getAllConfirmPaymentsOfConfirmInvoice/${confirmSalesInvoiceId}`;
+        return this.http.get<any[]>(url, { responseType: "json" });
+    }
 }

@@ -1,0 +1,77 @@
+<ng-container  class="grid" >
+    <!-- InvoiceTemplate -->
+    <div class="">
+        <div class="w-full h-auto p-[16px] relative" >
+            <div class="flex items-center justify-between mb-[50px]">
+                <div class="w-[100px] h-[100px]">
+                    <img src="../../../assets/logo/logo2.png" alt="company-logo" class="w-full h-full object-contain" />
+                </div>
+                <h1 class="uppercase font-bold text-[36px]">Receipt</h1>
+            </div>
+    
+            <div class="flex items-center justify-between mb-[30px]">
+                <div class="flex flex-col gap-y-[20px]">
+                    <div>
+                        <p class="text-[14px]">Billed to :</p>
+                        <h1 class="text-[18px] font-semibold">{{this.data.confirmInvoiceOBJ.customerOBJ.custName}}</h1>
+                    </div>
+                    <div>
+                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.address}}</p>
+                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.contact}}</p>
+                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.email}}</p>
+                    </div>
+                </div>
+    
+                <div class="flex flex-col gap-y-[20px] text-right">
+                    <div>
+                        <p class="text-[14px]">Date:</p>
+                        <h1 class="text-[14px] font-semibold">{{this.data.paidDate.split('T')[0]}}</h1>
+                    </div>
+                    <div>
+                        <p class="text-[14px]">Invoice No:</p>
+                        <h1 class="text-[14px] font-semibold">#CLC-{{this.data.receiptId}}</h1>
+                    </div>
+                </div>
+            </div>
+    
+            <table class="w-full">
+                <thead class="bg-black text-white">
+                    <tr>
+                        <th class="py-[13px] px-[16px]  w-[100px] text-left">Paid Date</th>
+                        <th class="py-[13px] px-[16px]  w-[100px] text-left">Paid Time</th>
+                        <th class="py-[13px] px-[16px] w-[100px] text-left">Payment Type</th>
+                        <th class="py-[13px] px-[16px] w-[100px] text-left">Paid Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  class="border-b-2">
+                        <td class="py-[16px] px-[16px]  w-[100px]">{{(this.paidDateTime).split(" ")[0]}}</td>
+                        <td class="py-[16px] px-[16px]  w-[100px]">{{(this.paidDateTime).split(" ")[1] + (this.paidDateTime).split(" ")[2]}}</td>
+                        <td class="py-[16px] px-[16px] w-[100px]">{{this.data.paymentType|uppercase}}</td>
+                        <td class="py-[16px] px-[16px] w-[100px]">{{(this.data.paidAmount).toFixed(2)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+    
+            
+    
+            <p class="text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center">
+                <span class="flex w-fit items-center gap-x-[24px] font-semibold">
+                    <span>33/24 Hekitta Lane, Wattala, Sri Lanka </span>
+                    <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
+                    <span>0112 985 400 </span>
+                    <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
+                    <span>info@comfortlinenco.com</span>
+                </span>
+                <span class="block text-[11px] mt-[10px]">Comfort Linen Company provides a wide range of products to meet
+                    the
+                    needs of every customer.</span>
+            </p>
+    
+            <p class="tex info@comfortlinenco.comt-[16px] font-semibold text-center pt-[16px] border-t-2">
+                Payment has been confirmed!
+            </p>
+        </div>
+       
+    </div>
+</ng-container>

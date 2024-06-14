@@ -17,4 +17,6 @@ export class ConfirmPurchasePaymentService {
         return this.http.post<any>(url,purchasePayData,{responseType :'json'})
         
       }
+
+      
 }

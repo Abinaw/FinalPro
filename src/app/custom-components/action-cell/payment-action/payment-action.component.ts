@@ -8,12 +8,16 @@ import { ConfirmPurchasePaymentService } from 'src/app/service/confirmPaymentSer
 import { CommonPaymentsComponent } from 'src/app/Template/modules/common-payments/common-payments.component';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IProCartEntity } from 'src/app/constants/interfaces/IProCartEntity';
+import { InvoicePaymentsHistoryProcessComponent } from 'src/app/Template/modules/invoice-payments-history-process/invoice-payments-history-process.component';
+import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
+import { ReceiptComponent } from 'src/app/Template/payments/receipt/receipt.component';
 @Component({
   selector: 'app-payment-action',
   templateUrl: './payment-action.component.html',
   styleUrls: ['./payment-action.component.css']
 })
 export class PaymentActionComponent {
+
     dataFromRow: any;
     gridApi: GridApi | any = {};
     params: any;
@@ -21,9 +25,16 @@ export class PaymentActionComponent {
 
     constructor( private matDialog: MatDialog,
         private confirmSalesInvociePaymentService :ConfirmSalesInvociePaymentService,
-        private confirmPurchaseInvociePayService:ConfirmPurchasePaymentService
+        private confirmPurchaseInvociePayService:ConfirmPurchasePaymentService,
+        private confirmedInvoiceService : ConfirmInvoiceService,
     ){
         
+    }
+
+    public setDataIntoRow() {
+        this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((retData)=>{
+            this.gridApi.setRowData(retData?.result)
+        })
     }
 
     agInit(params: ICellRendererParams): void {
@@ -36,12 +47,16 @@ export class PaymentActionComponent {
     makePayment() {
       
         if(this.params.actionName === "purchaseInvoice"){
-            this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})
-          
-            
+            this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})  
         }else if(this.params.actionName ==="salesInvoice"){
-            
-            this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})
+          const openPaymentDialog = this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})
+                openPaymentDialog.afterClosed().subscribe((response)=>{
+                    this.setDataIntoRow()
+                    if(response){
+                        const openReceiptForThePay = this.matDialog.open(ReceiptComponent,{data:response.result,panelClass:['custom-dialog-container']})
+                    }
+                   
+                })
         }
         // const extraData = {
         //     // totalAmount: this.totalNetAmount,
@@ -55,6 +70,23 @@ export class PaymentActionComponent {
         //     this.getAllPayments();
           
         // });
+    }
+
+    payHistory() {
+        
+        const extraData = {
+
+            invoiceData: this.dataFromRow,
+        };
+
+        if(this.params.actionName === "salesInvoice"){
+        const openInvoicePaymentHistory = this.matDialog.open(
+            InvoicePaymentComponent,
+            { data: extraData, panelClass: ["custom-dialog-container"] }
+        );
+        }else if(this.params.actionName ==="purchaseInvoice"){
+
+        }
     }
 
     // getAllPayments() {

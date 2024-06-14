@@ -85,7 +85,10 @@ import { InvoicePrintComponent } from './Template/expansion/invoice-print/invoic
 import { ConfirmedPurchaseComponent } from './Template/modules/confirmed-purchase/confirmed-purchase.component';
 import { ConfirmedSalesInvoiceComponent } from './Template/modules/confirmed-sales-invoice/confirmed-sales-invoice.component';
 import { PaymentActionComponent } from './custom-components/action-cell/payment-action/payment-action.component';
-
+import { InvoicePaymentsHistoryProcessComponent } from './Template/modules/invoice-payments-history-process/invoice-payments-history-process.component';
+import { InvoicePaymentsHistoryTemplateComponent } from './Template/modules/invoice-payments-history-process/invoice-payments-history-template/invoice-payments-history-template.component';
+import { ReceiptComponent } from './Template/payments/receipt/receipt.component';
+import { ReceiptVoucherPrintComponent } from './Template/modules/receipt-voucher-print/receipt-voucher-print.component';
 
 
 
@@ -139,6 +142,10 @@ import { PaymentActionComponent } from './custom-components/action-cell/payment-
         ConfirmedPurchaseComponent,
         ConfirmedSalesInvoiceComponent,
         PaymentActionComponent,
+        InvoicePaymentsHistoryProcessComponent,
+        InvoicePaymentsHistoryTemplateComponent,
+        ReceiptComponent,
+        ReceiptVoucherPrintComponent,
         
 
     ],

@@ -1,14 +1,13 @@
 import { IConfirmInvoiceEntity } from "./IConfirmInvoiceEntity"
 
-export interface IConfirmInvoicePaymentEntity{
+
+export interface IConfirmSalesConfirmPayments{
     paymentId:number,
     paymentType: string,
     paidDate: string
     paidAmount:number,
-    confirmInvoiceOBJ:IConfirmInvoiceEntity,
+    confirmInvoiceDto:IConfirmInvoiceEntity,
     chequeRefNo:number,
     chequeDueDate:string,
     cardRefNo:number,
-    isComplete:boolean
-   
 }

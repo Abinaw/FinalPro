@@ -12,13 +12,13 @@
             <div class="flex items-center justify-between mb-[30px]">
                 <div class="flex flex-col gap-y-[20px]">
                     <div>
-                        <p class="text-[14px]">Billed to :</p>
-                        <h1 class="text-[18px] font-semibold">{{this.data.confirmInvoiceOBJ.customerOBJ.custName}}</h1>
+                        <p class="text-[14px]">Supplied by :</p>
+                        <h1 class="text-[18px] font-semibold">{{this.data.confirmPurchaseOBJ.vendorOBJ.vendorName}}</h1>
                     </div>
                     <div>
-                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.address}}</p>
-                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.contact}}</p>
-                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.email}}</p>
+                        <p class="text-[14px]">{{this.data.confirmPurchaseOBJ.vendorOBJ.contact}}</p>
+                        <p class="text-[14px]">{{this.data.confirmPurchaseOBJ.vendorOBJ.address}}</p>
+                        <p class="text-[14px]">{{this.data.confirmPurchaseOBJ.vendorOBJ.email}}</p>
                     </div>
                 </div>
     
@@ -28,8 +28,8 @@
                         <h1 class="text-[14px] font-semibold">{{this.data.paidDate.split('T')[0]}}</h1>
                     </div>
                     <div>
-                        <p class="text-[14px]">Receipt No:</p>
-                        <h1 class="text-[14px] font-semibold">#CLC-R-{{this.data.receiptId}}</h1>
+                        <p class="text-[14px]">Voucher No:</p>
+                        <h1 class="text-[14px] font-semibold">#CLC-V-{{this.data.receiptId}}</h1>
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
 })
 export class CommonPaymentsComponent {
 
-    invoiceType: string="salesinvoice"
+    invoiceType: string="purchaseinvoice"
     // fontStyleControl = new FormControl('');
 
 

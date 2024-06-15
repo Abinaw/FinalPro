@@ -7,6 +7,7 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IPaymentEntity } from 'src/app/constants/interfaces/IPaymentEntity';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { ConfirmSalesInvociePaymentService } from 'src/app/service/confirmPaymentServices/ConfirmSalesInvoiceService/confirm-sales-invocie-payment.service';
+import { ConfirmPurchasePaymentService } from 'src/app/service/confirmPaymentServices/ConfirmedPurchaseInvoiceServices/confirm-purchase-payment.service';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
 import { PaymentsService } from 'src/app/service/payments-service/payments.service';
 
@@ -38,7 +39,8 @@ export class InvoicePaymentComponent implements OnInit {
         private paymentService: PaymentsService,
         private matDialog: MatDialog,
         private invoiceService: InvoiceService,
-        private confirmSalesInvociePaymentService: ConfirmSalesInvociePaymentService
+        private confirmSalesInvociePaymentService: ConfirmSalesInvociePaymentService,
+        private confirmPurchasePaymentService: ConfirmPurchasePaymentService
     ) {
         // this.paymentsList = GLOBAL_LIST.PAYMENTS_DATA
         this.isValid = false
@@ -142,16 +144,15 @@ export class InvoicePaymentComponent implements OnInit {
             title: "Make a Payment",
             subTitle: "are you sure you want to make a payment?",
         }
-        let paymentData = this.invoicePaymentForm.value;
+        let paymentFormData = this.invoicePaymentForm.value;
         if (this.data.tempInvoiceData) {
-            
-            paymentData.salesInvoice = this.data.tempInvoiceData;
-           
+
+            paymentFormData.salesInvoice = this.data.tempInvoiceData;
             const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
-                this.paymentService.addPayment(paymentData).subscribe((paymentRes) => {
-                    this.toastr.success(paymentRes?.successMessage)
+                this.paymentService.addPayment(paymentFormData).subscribe((advancePayRes) => {
+                    this.toastr.success(advancePayRes?.successMessage)
                     this.dialogRef.close();
                 }, (err) => {
                     
@@ -159,19 +160,44 @@ export class InvoicePaymentComponent implements OnInit {
             })
         } else if (this.data.confirmInvoiceId) {
            
-            paymentData.confirmInvoiceOBJ = this.data
+            paymentFormData.confirmInvoiceOBJ = this.data
             const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
-                this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentData).subscribe((payResponse) => {
-                    console.log("payres: ",payResponse)    
-                    this.toastr.success(payResponse?.successMessage)
-                    this.dialogRef.close(payResponse);
+                this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentFormData).subscribe((salesInvoicePaymentRes) => {
+                    if(salesInvoicePaymentRes?.successMessage!=null){
+                        this.toastr.success(salesInvoicePaymentRes?.successMessage)
+                        this.dialogRef.close(salesInvoicePaymentRes);
+                    }else{
+                        // console.log(salesInvoicePaymentRes)
+                        this.toastr.clear()
+                        this.toastr.error(salesInvoicePaymentRes?.errors)
+                    }
                 })
             },(err) => {
                 
             })
 
+        }else if (this.data.confirmPurchaseId) {
+            
+            paymentFormData.vendorOBJ = this.data.vendorOBJ
+            paymentFormData.ConfirmPurchaseOBJ = this.data
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+            openAction.afterClosed().subscribe((state) => {
+                if (!state) return
+                this.confirmPurchasePaymentService.addToPurchaseInvoicePayment(paymentFormData).subscribe((purchaseInvoiceRes) => {
+                    if(purchaseInvoiceRes?.successMessage!=null){
+                        this.toastr.success(purchaseInvoiceRes?.successMessage)
+                        this.dialogRef.close(purchaseInvoiceRes);
+                    }else{
+                        console.log(purchaseInvoiceRes)
+                        this.toastr.clear()
+                        this.toastr.error(purchaseInvoiceRes?.errors)
+                    }
+                })
+            },(err) => {
+                
+            })
         }
     }
 

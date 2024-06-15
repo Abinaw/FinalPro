@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-receipt-voucher-print',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./receipt-voucher-print.component.css']
 })
 export class ReceiptVoucherPrintComponent {
+
+    constructor(@Inject(MAT_DIALOG_DATA) public data:any){
+        console.log("ReceiptVoucherPrintComponent ",this.data)
+        if(this.data.confirmPurchaseOBJ){
+            console.log("Voucher")
+        }else if(this.data.confirmInvoiceOBJ){
+            console.log("Receipt")
+        }
+    }
 
 }

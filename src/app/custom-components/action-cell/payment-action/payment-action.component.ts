@@ -11,6 +11,9 @@ import { IProCartEntity } from 'src/app/constants/interfaces/IProCartEntity';
 import { InvoicePaymentsHistoryProcessComponent } from 'src/app/Template/modules/invoice-payments-history-process/invoice-payments-history-process.component';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { ReceiptComponent } from 'src/app/Template/payments/receipt/receipt.component';
+import { VoucherComponent } from 'src/app/Template/payments/voucher/voucher.component';
+import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
+import { ReceiptVoucherPrintComponent } from 'src/app/Template/modules/receipt-voucher-print/receipt-voucher-print.component';
 @Component({
   selector: 'app-payment-action',
   templateUrl: './payment-action.component.html',
@@ -27,15 +30,23 @@ export class PaymentActionComponent {
         private confirmSalesInvociePaymentService :ConfirmSalesInvociePaymentService,
         private confirmPurchaseInvociePayService:ConfirmPurchasePaymentService,
         private confirmedInvoiceService : ConfirmInvoiceService,
+        private confirmedPurchaseService :ConfirmPurchaseAndCartServiceService ,
     ){
         
     }
 
-    public setDataIntoRow() {
+    public setConfirmedInvoicesDataIntoRow() {
         this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((retData)=>{
             this.gridApi.setRowData(retData?.result)
         })
     }
+    public setConfirmedPurchaseDataIntoRow() {
+        this.confirmedPurchaseService.getAllConfirmPurchaseInvoices().subscribe((retData)=>{
+            this.gridApi.setRowData(retData?.result)
+        })
+    }
+
+
 
     agInit(params: ICellRendererParams): void {
         this.params = params;
@@ -47,13 +58,20 @@ export class PaymentActionComponent {
     makePayment() {
       
         if(this.params.actionName === "purchaseInvoice"){
-            this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})  
+            const openPaymentDialog =  this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})  
+            openPaymentDialog.afterClosed().subscribe((response)=>{
+                this.setConfirmedPurchaseDataIntoRow()
+                if(response){
+                    const openReceiptForThePay = this.matDialog.open(ReceiptVoucherPrintComponent,{data:response.result,panelClass:['custom-dialog-container']})
+                    return
+                }  
+            })
         }else if(this.params.actionName ==="salesInvoice"){
           const openPaymentDialog = this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})
                 openPaymentDialog.afterClosed().subscribe((response)=>{
-                    this.setDataIntoRow()
+                    this.setConfirmedInvoicesDataIntoRow()
                     if(response){
-                        const openReceiptForThePay = this.matDialog.open(ReceiptComponent,{data:response.result,panelClass:['custom-dialog-container']})
+                        const openReceiptForThePay = this.matDialog.open(ReceiptVoucherPrintComponent,{data:response.result,panelClass:['custom-dialog-container']})
                     }
                    
                 })

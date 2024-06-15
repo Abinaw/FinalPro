@@ -8,7 +8,7 @@ import { IPurchasePaymentEntity } from 'src/app/constants/interfaces/IPurchasePa
   providedIn: 'root'
 })
 export class ConfirmPurchasePaymentService {
-    private baseUrl = 'http://localhost:8080/api/purchasePayments/';
+    private baseUrl = 'http://localhost:8080/api/purchasePayments';
     
     constructor(private http:HttpClient, public audService :AudioService,) { }
     addToPurchaseInvoicePayment(purchasePayData: IPurchasePaymentEntity):Observable<any>{

@@ -1,1 +1,6 @@
-<p>receipt-voucher-print works!</p>
+<div *ngIf="this.data?.confirmInvoiceOBJ">
+    <app-receipt></app-receipt>
+</div>
+<div *ngIf="this.data?.confirmPurchaseOBJ">
+    <app-voucher></app-voucher>
+</div>

@@ -8,13 +8,11 @@ import moment from 'moment';
     styleUrls: ['./receipt.component.css']
 })
 export class ReceiptComponent {
-    paidDateTime!:any
-    paidTime!:any
+    paidDateTime!: any
+    paidTime!: any
     constructor(@Inject(MAT_DIALOG_DATA) public data: ISalesReceiptEntity) {
-     
-          this.paidDateTime = moment(new Date(this.data.paidDate)).format("DD/MM/YYYY hh:mm A");
-            console.log((this.paidDateTime).split(" ")[0])
-            console.log((this.paidDateTime).split(" ")[1][2])
-    
-}
+        console.log("receipt ",data)
+        this.paidDateTime = moment(new Date(this.data.paidDate)).format("DD/MM/YYYY hh:mm A");
+
+    }
 }

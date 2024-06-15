@@ -89,6 +89,7 @@ import { InvoicePaymentsHistoryProcessComponent } from './Template/modules/invoi
 import { InvoicePaymentsHistoryTemplateComponent } from './Template/modules/invoice-payments-history-process/invoice-payments-history-template/invoice-payments-history-template.component';
 import { ReceiptComponent } from './Template/payments/receipt/receipt.component';
 import { ReceiptVoucherPrintComponent } from './Template/modules/receipt-voucher-print/receipt-voucher-print.component';
+import { VoucherComponent } from './Template/payments/voucher/voucher.component';
 
 
 
@@ -146,6 +147,7 @@ import { ReceiptVoucherPrintComponent } from './Template/modules/receipt-voucher
         InvoicePaymentsHistoryTemplateComponent,
         ReceiptComponent,
         ReceiptVoucherPrintComponent,
+        VoucherComponent,
         
 
     ],

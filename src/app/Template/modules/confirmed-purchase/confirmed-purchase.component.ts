@@ -106,11 +106,7 @@ export class ConfirmedPurchaseComponent {
         })
     }
 
-    // loadAllProductCart(){
-    //     this.productCartService.loadAll().subscribe((cartData)=>{
-    //        GLOBAL_LIST.PRODUCTCART_DATA =  cartData?.result?.[0]
-    //     })
-    // }
+   
     public setDataIntoRow() {       
         this.confirmPurchaseInvoiceService.getAllConfirmPurchaseInvoices().subscribe((invoiceData) => {
             // console.log(invoiceData?.result)
@@ -120,18 +116,7 @@ export class ConfirmedPurchaseComponent {
     }
 
 
-    // insertTrigger() {
-        
-       
-    //     const extraData={
-    //         title:"Insert"
-    //     }
-    //     const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData , panelClass:"custom-dialog-container"})
-    //     openForm.afterClosed().subscribe(res=>{
-    //         this.setDataIntoRow();
-    //     })
-      
-    // }
+
 
     // searchDataInRows()
     // {
@@ -145,10 +130,5 @@ export class ConfirmedPurchaseComponent {
     //     }
     // }
 
-    // getAllCustomerData() {
-    //     this.customerService.getAll().subscribe(res => {
-    //         GLOBAL_LIST.CUSTOMER_DATA = res
-    //     })
-    // }
 
 }

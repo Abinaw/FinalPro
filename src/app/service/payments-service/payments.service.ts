@@ -17,7 +17,7 @@ export class PaymentsService {
     addPayment(regReq: any):Observable<any>{
       // this.audService.playSoundInsert()
       const url = `${this.baseUrl}/addPayment`;
-      return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
+      return this.http.post<any>(url,regReq,{responseType :'json'})
       
     }
   

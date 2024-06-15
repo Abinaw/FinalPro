@@ -86,15 +86,31 @@ export class InvoicePaymentComponent implements OnInit {
     confirmPurchaseOrSalesInvoicePayValidate() {
         const amountInput = this.invoicePaymentForm.get('paidAmount')
         amountInput?.valueChanges.pipe(debounceTime(300)).subscribe((enteredAmount) => {
-            this.totalPaidAmount = this.data.netAmount
-            console.log("totalPaidAmount ", this.totalPaidAmount)
-            this.isValid = true
-            return
+            this.totalPaidAmount = this.data.paidAmount
+            let balance = this.data.netAmount - this.totalPaidAmount
+            console.log("balance ", balance)
+            if(enteredAmount && (enteredAmount) > balance){
+                this.toastr.clear()
+                this.toastr.warning("The amount exceeds the Balance Amount " + balance)
+                this.isValid = false
+                return
+            }else if (enteredAmount && enteredAmount <= 0) {
+                this.toastr.clear()
+                this.toastr.warning("Amount can't be less or equal to 0")
+                this.isValid = false
+                amountInput?.setValue(null)
+            } else if (enteredAmount == null) {
+                this.isValid = false
+            } else if (enteredAmount && enteredAmount > 0 && enteredAmount <= balance) {
+                this.isValid = true
+            }
+         
         })
     }
 
+   
     tempSalesInvoicePayValidate() {
-
+        
         const amountInput = this.invoicePaymentForm.get('paidAmount')
         amountInput?.valueChanges.pipe(debounceTime(300)).subscribe((enteredAmount) => {
             console.log("netAmount ", this.tempInvoiceNetAmount)
@@ -139,66 +155,137 @@ export class InvoicePaymentComponent implements OnInit {
         return totalPaidAmount
     }
 
+    // payAmount() {
+    //     const extraData = {
+    //         title: "Make a Payment",
+    //         subTitle: "are you sure you want to make a payment?",
+    //     }
+    //     let paymentFormData = this.invoicePaymentForm.value;
+    //     if (this.data.tempInvoiceData) {
+
+    //         paymentFormData.salesInvoice = this.data.tempInvoiceData;
+    //         const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+    //         openAction.afterClosed().subscribe((state) => {
+    //             if (!state) return
+    //             this.paymentService.addPayment(paymentFormData).subscribe((advancePayRes) => {
+    //                 console.log(advancePayRes.successMessage)
+    //                 if(advancePayRes?.successMessage != null){
+    //                     this.toastr.success(advancePayRes?.successMessage)
+    //                     this.dialogRef.close();
+    //                 }else{
+    //                     this.toastr.clear()
+    //                     this.toastr.error(advancePayRes?.errors)
+    //                 }
+                    
+    //             }, (err) => {
+                    
+    //             })
+    //         })
+    //     } else if (this.data.confirmInvoiceId) {
+           
+    //         paymentFormData.confirmInvoiceOBJ = this.data
+    //         const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+    //         openAction.afterClosed().subscribe((state) => {
+    //             if (!state) return
+    //             this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentFormData).subscribe((salesInvoicePaymentRes) => {
+    //                 if(salesInvoicePaymentRes?.successMessage!=null){
+    //                     this.toastr.success(salesInvoicePaymentRes?.successMessage)
+    //                     this.dialogRef.close(salesInvoicePaymentRes);
+    //                 }else{
+    //                     // console.log(salesInvoicePaymentRes)
+    //                     this.toastr.clear()
+    //                     this.toastr.error(salesInvoicePaymentRes?.errors)
+    //                 }
+    //             })
+    //         },(err) => {
+                
+    //         })
+
+    //     }else if (this.data.confirmPurchaseId) {
+            
+    //         paymentFormData.vendorOBJ = this.data.vendorOBJ
+    //         paymentFormData.ConfirmPurchaseOBJ = this.data
+    //         const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+    //         openAction.afterClosed().subscribe((state) => {
+    //             if (!state) return
+    //             this.confirmPurchasePaymentService.addToPurchaseInvoicePayment(paymentFormData).subscribe((purchaseInvoiceRes) => {
+    //                 if(purchaseInvoiceRes?.successMessage!=null){
+    //                     this.toastr.success(purchaseInvoiceRes?.successMessage)
+    //                     this.dialogRef.close(purchaseInvoiceRes);
+    //                 }else{
+    //                     console.log(purchaseInvoiceRes)
+    //                     this.toastr.clear()
+    //                     this.toastr.error(purchaseInvoiceRes?.errors)
+    //                 }
+    //             })
+    //         },(err) => {
+                
+    //         })
+    //     }
+    // }
+
     payAmount() {
         const extraData = {
             title: "Make a Payment",
-            subTitle: "are you sure you want to make a payment?",
-        }
+            subTitle: "Are you sure you want to make a payment?",
+        };
+    
         let paymentFormData = this.invoicePaymentForm.value;
+    
         if (this.data.tempInvoiceData) {
-
             paymentFormData.salesInvoice = this.data.tempInvoiceData;
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
-            openAction.afterClosed().subscribe((state) => {
-                if (!state) return
-                this.paymentService.addPayment(paymentFormData).subscribe((advancePayRes) => {
-                    this.toastr.success(advancePayRes?.successMessage)
-                    this.dialogRef.close();
-                }, (err) => {
-                    
-                })
-            })
+            this.openActionDialog(extraData, () => {
+                this.paymentService.addPayment(paymentFormData).subscribe(
+                    (res) => this.handleResponse(res),
+                    (err) => this.handleError(err)
+                );
+            });
         } else if (this.data.confirmInvoiceId) {
-           
-            paymentFormData.confirmInvoiceOBJ = this.data
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
-            openAction.afterClosed().subscribe((state) => {
-                if (!state) return
-                this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentFormData).subscribe((salesInvoicePaymentRes) => {
-                    if(salesInvoicePaymentRes?.successMessage!=null){
-                        this.toastr.success(salesInvoicePaymentRes?.successMessage)
-                        this.dialogRef.close(salesInvoicePaymentRes);
-                    }else{
-                        // console.log(salesInvoicePaymentRes)
-                        this.toastr.clear()
-                        this.toastr.error(salesInvoicePaymentRes?.errors)
-                    }
-                })
-            },(err) => {
-                
-            })
-
-        }else if (this.data.confirmPurchaseId) {
-            
-            paymentFormData.vendorOBJ = this.data.vendorOBJ
-            paymentFormData.ConfirmPurchaseOBJ = this.data
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
-            openAction.afterClosed().subscribe((state) => {
-                if (!state) return
-                this.confirmPurchasePaymentService.addToPurchaseInvoicePayment(paymentFormData).subscribe((purchaseInvoiceRes) => {
-                    if(purchaseInvoiceRes?.successMessage!=null){
-                        this.toastr.success(purchaseInvoiceRes?.successMessage)
-                        this.dialogRef.close(purchaseInvoiceRes);
-                    }else{
-                        console.log(purchaseInvoiceRes)
-                        this.toastr.clear()
-                        this.toastr.error(purchaseInvoiceRes?.errors)
-                    }
-                })
-            },(err) => {
-                
-            })
+            paymentFormData.confirmInvoiceOBJ = this.data;
+            this.openActionDialog(extraData, () => {
+                this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentFormData).subscribe(
+                    (res) => this.handleResponse(res),
+                    (err) => this.handleError(err)
+                );
+            });
+        } else if (this.data.confirmPurchaseId) {
+            paymentFormData.vendorOBJ = this.data.vendorOBJ;
+            paymentFormData.ConfirmPurchaseOBJ = this.data;
+            this.openActionDialog(extraData, () => {
+                this.confirmPurchasePaymentService.addToPurchaseInvoicePayment(paymentFormData).subscribe(
+                    (res) => this.handleResponse(res),
+                    (err) => this.handleError(err)
+                );
+            });
         }
+    }
+    
+    openActionDialog(extraData: any, onConfirm: () => void) {
+        const openAction = this.matDialog.open(ActionPopComponent, {
+            data: extraData,
+            panelClass: ['custom-dialog-container']
+        });
+    
+        openAction.afterClosed().subscribe((state) => {
+            if (state) {
+                onConfirm();
+            }
+        });
+    }
+    
+    handleResponse(response: any) {
+        if (response?.successMessage) {
+            this.toastr.success(response.successMessage);
+            this.dialogRef.close(response);
+        } else {
+            this.toastr.clear();
+            this.toastr.error(response?.errors);
+        }
+    }
+    
+    handleError(error: any) {
+        this.toastr.error("An error occurred");
+        console.error(error);
     }
 
 

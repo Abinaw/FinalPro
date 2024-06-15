@@ -13,7 +13,7 @@ export class VoucherComponent {
     paidTime!: any
     constructor(@Inject(MAT_DIALOG_DATA) public data: IPurchaseVoucherEntity) {
 
-        this.paidDateTime = moment(new Date(this.data.paidDate)).format("DD/MM/YYYY hh:mm A");
+        this.paidDateTime = moment(new Date(this.data.paidDate)).format("DD/MM/YYYY HH:mm:ss");
         console.log("Voucher Dta  ",this.data)
     }
 }

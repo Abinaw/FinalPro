@@ -12,7 +12,7 @@ export class ReceiptComponent {
     paidTime!: any
     constructor(@Inject(MAT_DIALOG_DATA) public data: ISalesReceiptEntity) {
         console.log("receipt ",data)
-        this.paidDateTime = moment(new Date(this.data.paidDate)).format("DD/MM/YYYY hh:mm A");
+        this.paidDateTime = moment(new Date(this.data.paidDate)).format("DD/MM/YYYY HH:mm:ss");
 
     }
 }

@@ -115,11 +115,7 @@ export class ConfirmedSalesInvoiceComponent {
         })
     }
 
-    // loadAllProductCart(){
-    //     this.productCartService.loadAll().subscribe((cartData)=>{
-    //        GLOBAL_LIST.PRODUCTCART_DATA =  cartData?.result?.[0]
-    //     })
-    // }
+ 
     public setDataIntoRow() {       
         this.confirmInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
             this.gridApi.setRowData(invoiceData?.result);
@@ -128,18 +124,7 @@ export class ConfirmedSalesInvoiceComponent {
     }
 
 
-    // insertTrigger() {
-        
-       
-    //     const extraData={
-    //         title:"Insert"
-    //     }
-    //     const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData , panelClass:"custom-dialog-container"})
-    //     openForm.afterClosed().subscribe(res=>{
-    //         this.setDataIntoRow();
-    //     })
-      
-    // }
+
 
     // searchDataInRows()
     // {

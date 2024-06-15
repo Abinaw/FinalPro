@@ -2,15 +2,15 @@
     <!-- InvoiceTemplate -->
     <div class="">
         <div class="w-full h-auto p-[16px] relative" >
-            <div class="flex items-center justify-between mb-[50px]">
-                <div class="w-[100px] h-[100px]">
+            <div class="flex items-center justify-between mb-[20px]">
+                <div class="w-[80px] h-[80px]">
                     <img src="../../../assets/logo/logo2.png" alt="company-logo" class="w-full h-full object-contain" />
                 </div>
-                <h1 class="uppercase font-bold text-[36px]">Receipt</h1>
+                <h1 class="uppercase font-bold text-[30px]">Receipt</h1>
             </div>
     
-            <div class="flex items-center justify-between mb-[30px]">
-                <div class="flex flex-col gap-y-[20px]">
+            <div class="flex items-center justify-between mb-[12px]">
+                <div class="flex flex-col gap-y-[4px]">
                     <div>
                         <p class="text-[14px]">Supplied by :</p>
                         <h1 class="text-[18px] font-semibold">{{this.data.confirmPurchaseOBJ.vendorOBJ.vendorName}}</h1>
@@ -46,7 +46,7 @@
                 <tbody>
                     <tr  class="border-b-2">
                         <td class="py-[16px] px-[16px]  w-[100px]">{{(this.paidDateTime).split(" ")[0]}}</td>
-                        <td class="py-[16px] px-[16px]  w-[100px]">{{(this.paidDateTime).split(" ")[1] + (this.paidDateTime).split(" ")[2]}}</td>
+                        <td class="py-[16px] px-[16px]  w-[100px]">{{(this.paidDateTime).split(" ")[1]}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{this.data.paymentType|uppercase}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{(this.data.paidAmount).toFixed(2)}}</td>
                     </tr>
@@ -55,7 +55,7 @@
     
             
     
-            <p class="text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center">
+            <p class="text-center mb-[16px] mt-[30px] flex flex-col items-center justify-center">
                 <span class="flex w-fit items-center gap-x-[24px] font-semibold">
                     <span>33/24 Hekitta Lane, Wattala, Sri Lanka </span>
                     <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>

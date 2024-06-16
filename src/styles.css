@@ -48,7 +48,7 @@ body {
 }
 
 ag-grid-angular {
-    border-radius: 10px !important;
+    border-radius: 15px !important;
     overflow: hidden;
     width: 100% !important;
 }
@@ -63,11 +63,31 @@ ag-grid-angular {
 
 .ag-theme-alpine {
     
-    --ag-foreground-color: rgb(0, 0, 0);
-    --ag-background-color: #ffffff5b;
-    --ag-header-foreground-color: rgb(0, 0, 0);
-    --ag-header-background-color: rgba(255, 255, 255, 0.795);
-    --ag-odd-row-background-color: rgb(0, 0, 0, 0.03);
-    --ag-header-column-resize-handle-color: rgba(126, 46, 132, 0.397);
+    --ag-foreground-color: rgb(0, 0, 0) !important;
+    --ag-background-color: #ffffff98 !important;
+    --ag-header-foreground-color: rgb(0, 0, 0) !important;
+    --ag-header-background-color: rgba(255, 255, 255, 0.795) ;
+    --ag-odd-row-background-color: rgba(255, 255, 255, 0.445) !important;
+    --ag-header-column-resize-handle-color: rgba(0, 0, 0, 0.397) !important;
    
+}
+
+.ag-theme-alpine .ag-header-cell {
+    display: flex !important;
+    align-items: center !important; 
+    font-size: 20px !important; 
+   
+}
+.ag-theme-alpine .ag-row {
+    display: flex !important;
+    align-items: center !important;
+    height: 50px !important;
+}
+
+.ag-theme-alpine .ag-cell {
+    display: flex !important;
+    align-items: center !important;
+    line-height: 50px !important; 
+    font-weight:600 !important;
+    font-size: 16px;
 }

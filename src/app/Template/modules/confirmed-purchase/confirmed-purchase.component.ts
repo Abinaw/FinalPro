@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
 import { PaymentActionComponent } from 'src/app/custom-components/action-cell/payment-action/payment-action.component';
 import { CustomerActionComponent } from 'src/app/custom-components/action-cell/customer-action/customer-action.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-confirmed-purchase',
@@ -33,7 +34,13 @@ export class ConfirmedPurchaseComponent {
         { 
             field: "purchaseDate",
             colId:"purchaseDate",
-            headerName:"Date"
+            headerName:"Time Stamp",
+            valueFormatter: (params) => {
+                const val = (params.value)
+                let dateTime = moment(new Date(val)).format("DD/MM/YYYY HH:mm:ss");
+                dateTime = dateTime.split(' ')[0] +" | " +dateTime.split(' ')[1]
+                return dateTime
+            }
          },
          { 
             field: "purchaseInvoice",
@@ -43,8 +50,11 @@ export class ConfirmedPurchaseComponent {
         { 
             field: "netAmount",
             colId:"netAmount",
-            headerName:"Total amount"
-        
+            headerName:"Total amount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
         },
         { 
             field: "vendorOBJ",
@@ -59,7 +69,11 @@ export class ConfirmedPurchaseComponent {
         { 
             field: "paidAmount",
             colId:"paidAmount",
-            headerName:"Paid amount"
+            headerName:"Paid amount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
         
         },
         { 

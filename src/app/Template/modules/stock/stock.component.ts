@@ -8,6 +8,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { Observable } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { CetegoryService } from 'src/app/service/category-service/cetegory.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-stock',
@@ -32,7 +33,14 @@ export class StockComponent {
         } },
         { field: "itemName", },
         { field: "materialColour", },
-        { field: "arrivalDate", },
+        { field: "arrivalDate",
+            valueFormatter: (params) => {
+                const val = (params.value)
+                let dateTime = moment(new Date(val)).format("DD/MM/YYYY HH:mm:ss");
+                dateTime = dateTime.split(' ')[0] +" | " +dateTime.split(' ')[1]
+                return dateTime
+            } 
+        },
         { field: "purchasePrice",},
         { field: "sellingPrice",},
         { field: "reorderQty",width:100},

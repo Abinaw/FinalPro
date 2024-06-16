@@ -7,6 +7,7 @@ import { ICategoryEntity } from '../../../constants/interfaces/ICategoryEntity';
 import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ToastrService } from 'ngx-toastr';
+import moment from 'moment';
 
 @Component({
   selector: 'app-stock-form',
@@ -96,6 +97,8 @@ export class StockFormComponent implements OnInit {
     insertPopTrigger() {
         let stockFormValue = this.stockForm.value;
         stockFormValue.categoryOBJ = {categoryId:this.categoryControl.value};
+        this.stockForm.value.arrivalDate = moment(new Date(stockFormValue.arrivalDate)).toISOString();;
+        console.log("stockFormVal", stockFormValue)
         const extraData = {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",

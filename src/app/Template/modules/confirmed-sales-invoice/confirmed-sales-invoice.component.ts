@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { PaymentActionComponent } from 'src/app/custom-components/action-cell/payment-action/payment-action.component';
 import { InvoiceActionComponent } from 'src/app/custom-components/action-cell/invoice-action/invoice-action.component';
+import moment from 'moment';
 
 
 @Component({
@@ -37,7 +38,13 @@ export class ConfirmedSalesInvoiceComponent {
         { 
             field: "date",
             colId:"date",
-            headerName:"Date"
+            headerName:"Time Stamp",
+            valueFormatter: (params) => {
+                const val = (params.value)
+                let dateTime = moment(new Date(val)).format("DD/MM/YYYY HH:mm:ss");
+                dateTime = dateTime.split(' ')[0] +" | " +dateTime.split(' ')[1]
+                return dateTime
+            }
          },
          { 
             field: "invoiceNumber",
@@ -47,8 +54,11 @@ export class ConfirmedSalesInvoiceComponent {
         { 
             field: "netAmount",
             colId:"netAmount",
-            headerName:"Total amount"
-        
+            headerName:"Total amount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
         },
         { 
             field: "customerOBJ",
@@ -63,7 +73,11 @@ export class ConfirmedSalesInvoiceComponent {
         { 
             field: "paidAmount",
             colId:"paidAmount",
-            headerName:"Paid amount"
+            headerName:"Paid amount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
         
         },
         { 

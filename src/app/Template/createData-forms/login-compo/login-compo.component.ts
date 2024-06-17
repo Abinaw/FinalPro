@@ -44,11 +44,16 @@ logForm : FormGroup;
 
     this.authService.logInReq(this.logForm.value).subscribe((res) => {
         console.log(res)
+        console.log("entered!")
+
         var result = JSON.parse(res)
-        localStorage.setItem("userName",result.userName);
-        localStorage.setItem("token",result.token)  
-        this.router.navigateByUrl("/dash-board");
-        
+       
+        const token = result.token
+        if(this.authService.isValidJWT(token)){
+            console.log("working")
+            this.authService.login(result.token)    
+            this.router.navigate(["/dash-board"]);
+        }
     },(err)=>{
         alert("invalid")
     });

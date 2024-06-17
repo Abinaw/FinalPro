@@ -61,7 +61,7 @@ export class ConfirmedPurchaseComponent {
             colId:"vendorOBJ",
             headerName:"Vendor",
             valueFormatter:(params)=>{
-                const combinedvalue = params.value.vendorId+"-"+params.value.vendorName
+                const combinedvalue = params.value.vendorId+" | "+params.value.vendorName
                 return combinedvalue
             }
             
@@ -132,17 +132,17 @@ export class ConfirmedPurchaseComponent {
 
 
 
-    // searchDataInRows()
-    // {
-    //     // this.gridApi.setQuickFilter(this.searchCharac)
-    //     if(this.searchCharac!==""){
-    //     this.confirmPurchaseInvoiceService.findData(this.searchCharac).subscribe(res=>{
-    //       this.gridApi.setRowData(res) 
-    //        });   
-    //     }else if(this.searchCharac===""){
-    //        this.setDataIntoRow()
-    //     }
-    // }
+    searchDataInRows()
+    {
+      
+        // if(this.searchCharac!==""){
+        // this.confirmPurchaseInvoiceService.findData(this.searchCharac).subscribe(res=>{
+        //   this.gridApi.setRowData(res) 
+        //    });   
+        // }else if(this.searchCharac===""){
+        //    this.setDataIntoRow()
+        // }
+    }
 
 
 }

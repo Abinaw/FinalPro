@@ -13,6 +13,7 @@ import { ValueGetterParams } from 'ag-grid/dist/lib/entities/colDef';
 import { ActionCellComponent } from 'src/app/custom-components/action-cell/user-action/action-cell.component';
 import { IInvoiceEntity } from '../../../constants/interfaces/InvoiceEntity';
 import { ProductCartService } from 'src/app/service/productCart-service/product-cart.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-invoice',
@@ -39,7 +40,13 @@ export class InvoiceComponent {
         { 
             field: "date",
             colId:"date",
-            headerName:"Date"
+            headerName:"Date",
+            valueFormatter: (params) => {
+                const val = (params.value)
+                let dateTime = moment(new Date(val)).format("DD/MM/YYYY HH:mm:ss");
+                dateTime = dateTime.split(' ')[0] +" | " +dateTime.split(' ')[1]
+                return dateTime
+            }
          },
          { 
             field: "tempInvoiceNumber",
@@ -49,7 +56,11 @@ export class InvoiceComponent {
         { 
             field: "netAmount",
             colId:"netAmount",
-            headerName:"Net amount"
+            headerName:"Net amount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
         
         },
         { 
@@ -65,7 +76,11 @@ export class InvoiceComponent {
         { 
             field: "paidAmount",
             colId:"paidAmount",
-            headerName:"Paid amount"
+            headerName:"Paid amount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
         
         },
         { 

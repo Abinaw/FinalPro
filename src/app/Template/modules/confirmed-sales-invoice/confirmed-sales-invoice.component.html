@@ -19,6 +19,7 @@
      [rowData]="rowData$ | async" 
      [columnDefs]="columnDef"
      [rowSelection]="rowSelection" 
+     [pagination]="true"
      (cellClicked)="onCellClicked($event)"
      (gridReady)="onGridReady($event)">
      </ag-grid-angular>

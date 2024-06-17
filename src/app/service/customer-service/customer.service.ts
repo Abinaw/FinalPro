@@ -12,15 +12,21 @@ export class CustomerService {
    
     private baseUrl = 'http://localhost:8080/api/customer';
     
+    token:string = "";
+    header:any;
 
-    private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("token")}`);
+    //private headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem("token")}`);
     constructor(private http:HttpClient, public audService :AudioService,) {
-    
+        this.token = localStorage.getItem("token")!;
+        this.header = new HttpHeaders({
+            'Authorization': `Bearer ${this.token}`
+          });
    }
   
    getAll():Observable<any>{
+
     const url = `${this.baseUrl}/getAll`;
-    return this.http.get<any[]>(url, {});
+    return this.http.get<any[]>(url, {headers:this.header});
   }
 
   regiterReq(regReq: any):Observable<any>{

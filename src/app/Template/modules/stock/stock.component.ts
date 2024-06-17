@@ -11,9 +11,9 @@ import { CetegoryService } from 'src/app/service/category-service/cetegory.servi
 import moment from 'moment';
 
 @Component({
-  selector: 'app-stock',
-  templateUrl: './stock.component.html',
-styleUrls: ['./stock.component.css','../../../../assets/CSS/ComponentCommDesign.css']
+    selector: 'app-stock',
+    templateUrl: './stock.component.html',
+    styleUrls: ['./stock.component.css', '../../../../assets/CSS/ComponentCommDesign.css']
 })
 export class StockComponent {
     rowData$!: Observable<any[]>;
@@ -21,32 +21,57 @@ export class StockComponent {
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-    searchCharac : string=""
+    searchCharac: string = ""
     public columnDef: ColDef[] = [
         // 
         { field: "stockId", width: 90, hide: true, suppressColumnsToolPanel: true },
-        { field: "categoryOBJ",
-            headerName:"Category",
-            valueFormatter:(params)=>{
-                const combinedvalue = params.value.categoryId+"-"+params.value.categoryName
+        {
+            field: "categoryOBJ",
+            headerName: "Category",
+            valueFormatter: (params) => {
+                const combinedvalue = params.value.categoryId + " | " + params.value.categoryName
                 return combinedvalue
-        } },
+            }
+        },
         { field: "itemName", },
         { field: "materialColour", },
-        { field: "arrivalDate",
+        {
+            field: "arrivalDate",
             valueFormatter: (params) => {
                 const val = (params.value)
                 let dateTime = moment(new Date(val)).format("DD/MM/YYYY HH:mm:ss");
-                dateTime = dateTime.split(' ')[0] +" | " +dateTime.split(' ')[1]
+                dateTime = dateTime.split(' ')[0] + " | " + dateTime.split(' ')[1]
                 return dateTime
-            } 
+            }
         },
-        { field: "purchasePrice",},
-        { field: "sellingPrice",},
-        { field: "reorderQty",width:100},
-        { field: "quantity",width:90 },
-        { field: "remarks",},
-        { field: "Action",width: 90, cellRenderer: StockActionComponent, }
+        {
+            field: "purchasePrice",
+            valueFormatter: (params) => {
+                const val = "Rs. " + (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
+            field: "sellingPrice",
+            valueFormatter: (params) => {
+                const val = (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
+            field: "reorderQty", width: 100, valueFormatter: (params) => {
+                const val = (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
+            field: "quantity", width: 90, valueFormatter: (params) => {
+                const val = (params.value.toFixed(2))
+                return val
+            }
+        },
+        { field: "remarks", },
+        { field: "Action", width: 90, cellRenderer: StockActionComponent, }
     ];
 
     constructor(
@@ -55,7 +80,7 @@ export class StockComponent {
         private catService: CetegoryService
     ) { this.getAllCategoryData() }
 
-   
+
 
 
     onGridReady(param: GridReadyEvent) {
@@ -79,34 +104,33 @@ export class StockComponent {
 
     // every Time delete,add,update have been used this specific function should be used by classes(popups or etc) so kept public 
     // or else this should be created for every class 
-    public setDataIntoRow() {       
+    public setDataIntoRow() {
         this.stockService.getAll().subscribe((stockData) => {
             this.gridApi.setRowData(stockData);
-          }, (err) => {
-          })
+        }, (err) => {
+        })
     }
 
 
     insertTrigger() {
-        const extraData={
-            title:"Insert"
+        const extraData = {
+            title: "Insert"
         }
-        const openForm = this.dialog.open(StockFormComponent,{data:extraData, panelClass:"custom-dialog-container"})
-        openForm.afterClosed().subscribe(res=>{
+        const openForm = this.dialog.open(StockFormComponent, { data: extraData, panelClass: "custom-dialog-container" })
+        openForm.afterClosed().subscribe(res => {
             this.setDataIntoRow();
         })
-      
+
     }
 
-    searchDataInRows()
-    {
+    searchDataInRows() {
         // this.gridApi.setQuickFilter(this.searchCharac)
-        if(this.searchCharac!==""){
-        this.stockService.findData(this.searchCharac).subscribe(res=>{
-          this.gridApi.setRowData(res) 
-           });   
-        }else if(this.searchCharac===""){
-           this.setDataIntoRow()
+        if (this.searchCharac !== "") {
+            this.stockService.findData(this.searchCharac).subscribe(res => {
+                this.gridApi.setRowData(res)
+            });
+        } else if (this.searchCharac === "") {
+            this.setDataIntoRow()
         }
     }
 
@@ -114,7 +138,7 @@ export class StockComponent {
         this.catService.getAll().subscribe(res => {
             GLOBAL_LIST.CATEGORY_DATA = res
         })
-        
+
     }
 
 }

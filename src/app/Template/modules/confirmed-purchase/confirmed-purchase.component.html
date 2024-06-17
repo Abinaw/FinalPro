@@ -1,14 +1,14 @@
 <div class="user-data-wrapper flex flex-col">
     
         
-    <!-- <div class="search-cont -translate-y-4  ">
+    <div class="search-cont -translate-y-4  ">
      <div class="box">
          <input type="text" placeholder="Search"  (input)="searchDataInRows()" [(ngModel)]="searchCharac">
              <mat-icon >search</mat-icon>
              
      </div>
    
-    </div> -->
+    </div>
     
 
  <div class="table-cont flex justify-center" >
@@ -19,6 +19,7 @@
      [rowData]="rowData$ | async" 
      [columnDefs]="columnDef"
      [rowSelection]="rowSelection" 
+     [pagination]="true"
      (cellClicked)="onCellClicked($event)"
      (gridReady)="onGridReady($event)">
      </ag-grid-angular>

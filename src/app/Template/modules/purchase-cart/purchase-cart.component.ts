@@ -51,30 +51,43 @@ export class PurchaseCartComponent implements OnInit {
             hide: true,
         },
         {
-            field: "quantity",
-            colId: "quantity",
-            headerName: "Quantity",
-        },
-        {
-            field: "discount",
-            colId: "discount",
-            headerName: "Discount",
-        },
-        {
-            field: "grossAmount",
-            colId: "grossAmount",
-            headerName: "Gross amount",
-        },
-        {
             field: "stockOBJ",
             colId: "stockOBJ",
             headerName: "Stock",
             valueFormatter: (params) => {
                 const combinedvalue =
-                    params.value.stockId + "-" + params.value.itemName;
+                    params.value.stockId + " | " + params.value.itemName;
                 return combinedvalue;
             },
         },
+        {
+            field: "quantity",
+            colId: "quantity",
+            headerName: "Quantity",
+             valueFormatter: (params) => {
+                const val = (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
+            field: "discount",
+            colId: "discount",
+            headerName: "Discount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
+            field: "grossAmount",
+            colId: "grossAmount",
+            headerName: "Gross amount",
+            valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
+        },
+        
         {
             field: "tempPurchaseOBJ",
             colId: "tempPurchaseOBJ",
@@ -82,7 +95,7 @@ export class PurchaseCartComponent implements OnInit {
             valueFormatter: (params) => {
                 const combinedvalue =
                     params.value.purchaseId +
-                    "-" +
+                    " | " +
                     params.value.vendorOBJ.vendorName;
                 return combinedvalue;
             },
@@ -91,6 +104,10 @@ export class PurchaseCartComponent implements OnInit {
             field: "netAmount",
             colId: "netAmount",
             headerName: "Net amount",
+             valueFormatter: (params) => {
+                const val ="Rs. "+ (params.value.toFixed(2))
+                return val
+            }
         },
         {
             field: "action",

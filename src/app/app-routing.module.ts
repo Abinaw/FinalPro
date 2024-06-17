@@ -22,6 +22,7 @@ import { InvoiceComponent } from './Template/modules/invoice/invoice.component';
 import { SelectedInvoiceComponent } from './Template/expansion/selected-invoice/selected-invoice.component';
 import { PurchaseCartComponent } from './Template/modules/purchase-cart/purchase-cart.component';
 import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
+import { AuthGuard } from './service/auth/auth.guard';
 
 
 
@@ -32,94 +33,118 @@ const routes: Routes = [
     redirectTo:'login',
     pathMatch:'full'
   },
+  {
+    path: 'login',
+    component: LoginCompoComponent,
+    canActivate:[AuthGuard]
+  },
+ 
 
   //----Modules Start-----
   {
     path: 'dash-board',
     component: DashboardCardsComponent,
+    canActivate:[AuthGuard]
+
   },
   {
     path: 'dash-board/invoice',
-    component: InvoiceComponent
+    component: InvoiceComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'dash-board/category',
-    component: CategoryComponent
+    component: CategoryComponent,
+    canActivate:[AuthGuard]
+
   },
   {
     path: 'dash-board/customer',
-    component: CustomerComponent
+    component: CustomerComponent,
+    canActivate:[AuthGuard]
+
   },
   {
     path: 'dash-board/return',
-    component: EmployeeComponent
+    component: EmployeeComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'dash-board/purchase',
-    component: PurchaseComponent
+    component: PurchaseComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'dash-board/report',
-    component: ReportComponent
+    component: ReportComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'dash-board/commonPayments',
-    component: CommonPaymentsComponent
+    component: CommonPaymentsComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'dash-board/stock',
-    component: StockComponent
+    component: StockComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'dash-board/user',
-    component: UserDataComponent
+    component: UserDataComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'dash-board/vendor',
-    component: VendorComponent
+    component: VendorComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'dash-board/purchase-cart',
-    component:PurchaseCartComponent
+    component:PurchaseCartComponent,
+    canActivate:[AuthGuard]
   },
-
+   
   //----Modules End-----
 
 
-  {
-    path: 'login',
-    component: LoginCompoComponent
-  },
- 
 
 
   //----Nav settings-----
   {
     path: 'backup',
-    component: BackupComponent
+    component: BackupComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'company-details',
-    component: CompanyDetailsComponent
+    component: CompanyDetailsComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'print',
-    component: PrintComponent
+    component: PrintComponent,
+    canActivate:[AuthGuard]
   },
   {
     path: 'sys-info',
-    component: SysInfoComponent
+    component: SysInfoComponent,
+    canActivate:[AuthGuard]
   },
 
     //----others-----
   {
     path:'dash-board/invoice/selectedInvoice',
-    component:SelectedInvoiceComponent
-  }
+    component:SelectedInvoiceComponent,
+    canActivate:[AuthGuard]
+  },
+
 ];
 
+  
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[AuthGuard]
 })
 export class AppRoutingModule { }

@@ -65,7 +65,7 @@ export class ConfirmedSalesInvoiceComponent {
             colId:"customerOBJ",
             headerName:"Customer",
             valueFormatter:(params)=>{
-                const combinedvalue = params.value.custId+"-"+params.value.custName
+                const combinedvalue = params.value.custId+" | "+params.value.custName
                 return combinedvalue
             }
             

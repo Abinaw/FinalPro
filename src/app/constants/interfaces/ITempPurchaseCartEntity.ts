@@ -8,5 +8,7 @@ export interface ITempPurchaseCartEntity{
     grossAmount:number,
     netAmount:number,
     stockOBJ:IStockEntity,
-    tempPurchaseOBJ:ITempPurchaseInvoice
+    tempPurchaseOBJ:ITempPurchaseInvoice,
+    sellingPrice:number,
+    purchasePrice:number
 } 

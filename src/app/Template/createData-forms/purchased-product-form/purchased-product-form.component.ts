@@ -45,6 +45,8 @@ export class PurchasedProductFormComponent {
             stockOBJ: new FormControl(Validators.required),
             quantity: new FormControl([Validators.required]),
             discount: new FormControl("0", Validators.required),
+            sellingPrice: new FormControl("0", Validators.required),
+            purchasePrice: new FormControl("0", Validators.required),
             netAmount: new FormControl(null),
             grossAmount: new FormControl(null),
             tempPurchaseOBJ: new FormControl(),
@@ -70,6 +72,9 @@ export class PurchasedProductFormComponent {
             netAmount: this.data.selectedRowData.netAmount,
             quantity: this.data.selectedRowData.quantity,
             grossAmount: this.data.selectedRowData.grossAmount,
+            purchasePrice: this.data.selectedRowData.purchasePrice,
+            sellingPrice: this.data.selectedRowData.sellingPrice,
+           
         });
         this.stockOBJControl.patchValue(
             this.data.selectedRowData.stockOBJ.stockId
@@ -160,24 +165,16 @@ export class PurchasedProductFormComponent {
         );
     }
 
-    setTotal() {
-        let sellPrice: number;
-        if (this.data.title === "Insert") {
-            sellPrice = this.selectedProduct?.[0]?.sellingPrice;
-            // console.log("Insert pro sell price ",sellPrice)
-        } else if (this.data.title === "Update") {
-            sellPrice = this.selectedProduct?.sellingPrice;
-            // console.log("Update pro sell price ",sellPrice)
-
-        }
-
+    setTotalWhenQty() {
         const qtyControl = this.purchaseProductCartForm.get("quantity");
         const totalControl = this.purchaseProductCartForm.get("grossAmount");
         const netAmountControl = this.purchaseProductCartForm.get("netAmount");
         const discountControl = this.purchaseProductCartForm.get("discount");
+        const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
+    
 
         qtyControl?.valueChanges.pipe(debounceTime(300)).subscribe((qty) => {
-            totalControl?.patchValue(qty * sellPrice);
+            totalControl?.patchValue(qty * purchasePriceControl?.value|0);
             if (discountControl) {
                 const discountVal = discountControl.value;
                 let TotalDiscount = discountVal * qty;
@@ -187,17 +184,31 @@ export class PurchasedProductFormComponent {
         });
     }
 
-    setNetAmount() {
-        let sellPrice: number;
-        if (this.data.title === "Insert") {
-            sellPrice = this.selectedProduct?.[0]?.sellingPrice;
-        } else if (this.data.title === "Update") {
-            sellPrice = this.selectedProduct?.sellingPrice;
-        }
+    setTotalWhenPurchasePrice(){
         const qtyControl = this.purchaseProductCartForm.get("quantity");
         const totalControl = this.purchaseProductCartForm.get("grossAmount");
         const netAmountControl = this.purchaseProductCartForm.get("netAmount");
         const discountControl = this.purchaseProductCartForm.get("discount");
+        const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
+    
+
+        purchasePriceControl?.valueChanges.pipe(debounceTime(300)).subscribe((purchaseP) => {
+            totalControl?.patchValue(purchaseP * qtyControl?.value|0);
+            if (discountControl) {
+                const discountVal = discountControl?.value|0;
+                let TotalDiscount = discountVal * qtyControl?.value|0;
+                let netAmount = totalControl?.value|0 - TotalDiscount;
+                netAmountControl?.patchValue(netAmount);
+            }
+        });
+    }
+
+    setNetAmount() {
+        const qtyControl = this.purchaseProductCartForm.get("quantity");
+        const totalControl = this.purchaseProductCartForm.get("grossAmount");
+        const netAmountControl = this.purchaseProductCartForm.get("netAmount");
+        const discountControl = this.purchaseProductCartForm.get("discount");
+        const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
         discountControl?.valueChanges
             .pipe(debounceTime(300))
             .subscribe((discount) => {
@@ -205,7 +216,7 @@ export class PurchasedProductFormComponent {
                     let discountPercentagePerUnit = parseFloat(
                         discount.replace("%", '')
                     );
-                    discount = (discountPercentagePerUnit / 100) * sellPrice;
+                    discount = (discountPercentagePerUnit / 100) * purchasePriceControl?.value|0;
                 }
                 let TotalDiscount = discount * qtyControl?.value;
                 let netAmount = totalControl?.value - TotalDiscount;

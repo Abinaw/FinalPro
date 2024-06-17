@@ -64,7 +64,7 @@ export class PurchaseCartComponent implements OnInit {
             field: "quantity",
             colId: "quantity",
             headerName: "Quantity",
-             valueFormatter: (params) => {
+            valueFormatter: (params) => {
                 const val = (params.value.toFixed(2))
                 return val
             }
@@ -74,7 +74,25 @@ export class PurchaseCartComponent implements OnInit {
             colId: "discount",
             headerName: "Discount",
             valueFormatter: (params) => {
-                const val ="Rs. "+ (params.value.toFixed(2))
+                const val = "Rs. " + (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
+            field: "sellingPrice",
+            colId: "sellingPrice",
+            headerName: "Selling price",
+            valueFormatter: (params) => {
+                const val = "Rs. " + (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
+            field: "purchasePrice",
+            colId: "purchasePrice",
+            headerName: "Purchase price",
+            valueFormatter: (params) => {
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
         },
@@ -83,11 +101,11 @@ export class PurchaseCartComponent implements OnInit {
             colId: "grossAmount",
             headerName: "Gross amount",
             valueFormatter: (params) => {
-                const val ="Rs. "+ (params.value.toFixed(2))
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
         },
-        
+
         {
             field: "tempPurchaseOBJ",
             colId: "tempPurchaseOBJ",
@@ -104,8 +122,8 @@ export class PurchaseCartComponent implements OnInit {
             field: "netAmount",
             colId: "netAmount",
             headerName: "Net amount",
-             valueFormatter: (params) => {
-                const val ="Rs. "+ (params.value.toFixed(2))
+            valueFormatter: (params) => {
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
         },
@@ -116,7 +134,7 @@ export class PurchaseCartComponent implements OnInit {
         },
     ];
 
-    onCellClicked(cellClickedEvent: CellClickedEvent) {}
+    onCellClicked(cellClickedEvent: CellClickedEvent) { }
 
     constructor(
         private dialog: MatDialog,
@@ -132,7 +150,7 @@ export class PurchaseCartComponent implements OnInit {
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
         this.getTempPurchaseId();
     }
-    
+
     ngOnInit(): void {
         this.purchaseInvoiceNum = this.purchaseList?.[0].purchaseInvoiceNO;
         this.vendorList = this.purchaseList?.[0].vendorOBJ;
@@ -168,9 +186,11 @@ export class PurchaseCartComponent implements OnInit {
             .subscribe(
                 (purchaseCartData?) => {
                     this.gridApi.setRowData(purchaseCartData?.result);
-                 
+
                 },
-                (err) => {}
+                (err) => {
+
+                }
             );
     }
 

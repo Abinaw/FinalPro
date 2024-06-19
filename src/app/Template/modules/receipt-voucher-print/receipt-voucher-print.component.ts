@@ -8,9 +8,7 @@ import jsPDF from 'jspdf';
   styleUrls: ['./receipt-voucher-print.component.css']
 })
 export class ReceiptVoucherPrintComponent {
-openPDF() {
-throw new Error('Method not implemented.');
-}
+
 
     constructor(@Inject(MAT_DIALOG_DATA) public data:any){
         console.log("ReceiptVoucherPrintComponent ",this.data)

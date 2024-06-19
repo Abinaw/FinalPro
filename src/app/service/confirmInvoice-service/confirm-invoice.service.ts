@@ -24,4 +24,10 @@ export class ConfirmInvoiceService {
     const url = `${this.baseUrl}/getAllConfirmedInvoices`;
     return this.http.get<any[]>(url,{responseType:'json'});
   }
+
+  searchConfirmedSalesInvoice(characters:any):Observable<any>{
+    console.log("service ",characters)
+    const url = `${this.baseUrl}/searchConfirmedSalesInvoice/${characters}`;
+    return this.http.get<any[]>(url,{responseType:'json'});
+  }
 }

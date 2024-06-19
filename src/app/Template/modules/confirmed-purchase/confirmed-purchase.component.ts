@@ -19,7 +19,7 @@ export class ConfirmedPurchaseComponent {
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-    searchCharac : string=""
+    searchCharac : string = ""
 
 
     public columnDef: ColDef[] = [
@@ -135,13 +135,14 @@ export class ConfirmedPurchaseComponent {
     searchDataInRows()
     {
       
-        // if(this.searchCharac!==""){
-        // this.confirmPurchaseInvoiceService.findData(this.searchCharac).subscribe(res=>{
-        //   this.gridApi.setRowData(res) 
-        //    });   
-        // }else if(this.searchCharac===""){
-        //    this.setDataIntoRow()
-        // }
+        if(this.searchCharac!==""){
+        this.confirmPurchaseInvoiceService.searchConfirmInvoice(this.searchCharac).subscribe(res=>{
+          this.gridApi.setRowData(res?.result)
+                console.log(res?.result) 
+           });   
+        }else if(this.searchCharac===""){
+           this.setDataIntoRow()
+        }
     }
 
 

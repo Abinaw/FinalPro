@@ -1,5 +1,5 @@
-<div class="h-[400px] w-[1000px] grid gap-[10px]">
-    <div class="w-full h-[90%] overflow-auto">
+<div class="h-[500px] w-[900px] grid ">
+    <div class="w-full h-full overflow-auto">
         <div *ngIf="this.data?.confirmInvoiceOBJ">
             <app-receipt id="receipt"></app-receipt>
         </div>
@@ -10,7 +10,7 @@
         </div>
     </div>
     <div>
-        <mat-dialog-actions align="center" class="h-[10%] w-[100%]">
+        <mat-dialog-actions align="center" class="h-[5%] w-[100%]">
             <button mat-raised-button (click)="openPrintOperation()" class="w-[25%]" color="primary">Print</button>
         </mat-dialog-actions>
     </div>

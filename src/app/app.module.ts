@@ -6,7 +6,7 @@ import { AppComponent } from "./app.component";
 import { SideBarComponent } from "./Template/side-bar/side-bar.component";
 
 // import {MatIconModule} from '@angular/material/icon';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { DashboardCardsComponent } from "./Template/dashboard-cards/dashboard-cards.component";
 // Imports for Modules
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -90,6 +90,7 @@ import { InvoicePaymentsHistoryTemplateComponent } from './Template/modules/invo
 import { ReceiptComponent } from './Template/payments/receipt/receipt.component';
 import { ReceiptVoucherPrintComponent } from './Template/modules/receipt-voucher-print/receipt-voucher-print.component';
 import { VoucherComponent } from './Template/payments/voucher/voucher.component';
+import { AuthInterceptor } from "./service/intercepter/AuthInterceptor";
 
 
 
@@ -192,7 +193,8 @@ import { VoucherComponent } from './Template/payments/voucher/voucher.component'
     ],
     //providers: [],
     providers: [DatePipe,    { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
+        { provide: MatDialogRef, useValue: {} },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -140,17 +140,18 @@ export class ConfirmedSalesInvoiceComponent {
 
 
 
-    // searchDataInRows()
-    // {
-    //     // this.gridApi.setQuickFilter(this.searchCharac)
-    //     if(this.searchCharac!==""){
-    //     this.invoiceService.findData(this.searchCharac).subscribe(res=>{
-    //       this.gridApi.setRowData(res) 
-    //        });   
-    //     }else if(this.searchCharac===""){
-    //        this.setDataIntoRow()
-    //     }
-    // }
+    searchDataInRows()
+    {
+        // this.gridApi.setQuickFilter(this.searchCharac)
+        if(this.searchCharac!==""){
+        this.confirmInvoiceService.searchConfirmedSalesInvoice(this.searchCharac).subscribe(res=>{
+            console.log(res?.result)
+          this.gridApi.setRowData(res?.result) 
+           });   
+        }else if(this.searchCharac===""){
+           this.setDataIntoRow()
+        }
+    }
 
    
 

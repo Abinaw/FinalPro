@@ -1,2 +1,14 @@
+<div class=" border-solid border-l-pink-50 w-full h-[99%]  grid grid-cols-5 gap-[16px] p-[20px]">
+  
+    <mat-card *ngFor="let card of Cards" routerLink="/{{ card.route }}"
+        class="!m-0 !h-full !w-full flex flex-col items-center justify-center gap-y-[16px] object-fill !bg-slate-300">
+        <mat-card-header class="flex align-middle justify-center !p-0">
+            <mat-card-subtitle class="font-bold text-[#382e59] dark:text-white">{{ card.name | uppercase}}</mat-card-subtitle>
+        </mat-card-header>
+        <div class="img-cont flex items-center">
+            <!-- <img mat-card-image src="{{ card.imageUrl }}" class="object-contain" /> -->
+        </div>
+    </mat-card>
 
-<p>report works!</p>
+      
+</div>

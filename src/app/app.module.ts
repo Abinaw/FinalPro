@@ -36,7 +36,6 @@ import { PrintComponent } from "./Template/side-bar/nav-settings/print/print.com
 
 // Form Modules
 import { ReactiveFormsModule } from "@angular/forms";
-import { MatSelectModule } from "@angular/material/select";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatInputModule } from "@angular/material/input";
@@ -44,6 +43,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import {MatButtonToggleModule,MatButtonToggleChange} from '@angular/material/button-toggle';
+import {MatSelectModule} from '@angular/material/select';
 // Table
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -91,7 +91,10 @@ import { ReceiptComponent } from './Template/payments/receipt/receipt.component'
 import { ReceiptVoucherPrintComponent } from './Template/modules/receipt-voucher-print/receipt-voucher-print.component';
 import { VoucherComponent } from './Template/payments/voucher/voucher.component';
 import { AuthInterceptor } from "./service/intercepter/AuthInterceptor";
-
+import { StockReportComponent } from './Template/modules/report/stock-report/stock-report.component';
+import { EmptyReportComponent } from './Template/modules/report/empty-report/empty-report.component';
+import { ReportTemplateComponent } from './Template/modules/report/report-template/report-template.component';
+import { InvoiceReportComponent } from './Template/modules/report/invoice-report/invoice-report.component';
 
 
 @NgModule({
@@ -149,6 +152,10 @@ import { AuthInterceptor } from "./service/intercepter/AuthInterceptor";
         ReceiptComponent,
         ReceiptVoucherPrintComponent,
         VoucherComponent,
+        StockReportComponent,
+        EmptyReportComponent,
+        ReportTemplateComponent,
+        InvoiceReportComponent,
         
 
     ],
@@ -174,6 +181,7 @@ import { AuthInterceptor } from "./service/intercepter/AuthInterceptor";
         MatRadioModule,
         MatDialogModule,
         MatButtonToggleModule,
+        MatSelectModule,
         
 
         //  Table

@@ -54,10 +54,12 @@ export class AuthService {
     try {
       const payload = JSON.parse(atob(parts[1]));
       const currentTime = Math.floor(Date.now() / 1000);
-      console.log("Atob:",payload);
+    //   console.log("payload.exp:",payload.exp);
+    //   console.log("currentTime:",currentTime);
       if(payload.exp && payload.exp > currentTime){
         return true;
       }else{
+        this.toastr.clear()
         this.toastr.warning("Token Expired","Logged out")
         this.logout();
         return false;

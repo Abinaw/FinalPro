@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
+import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 
 @Component({
   selector: 'app-report',
@@ -6,16 +9,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./report.component.css','../../../../assets/CSS/ComponentCommDesign.css']
 })
 export class ReportComponent {
-
+    selectedCard: any;
+    reportName :string =''
+    reportView: boolean = true
+    constructor(private router:Router,
+        private confirmedInvoiceService: ConfirmInvoiceService,
+     ){
+        this.getAllConfirmInvoice()
+    }
   
     Cards = [
         {
-            name: " Stock Report ",
-            route: "/dash-board/customer",
+            name: "Stock Report",
         },
         {
-            name: "Sales Report",
-            route: "/dash-board/user",
+            name: "Invoice Report",
         },
         {
             name: "Purchase Report",
@@ -29,30 +37,21 @@ export class ReportComponent {
             name: "Vendor Report",
             route: "/dash-board/return",
         },
-        // {
-        //     name: "Stock",
-        //     imageUrl: "../../assets/New Set/stock.png",
-        //     route: "/dash-board/stock",
-        // },
-        // {
-        //     name: "Purchase",
-        //     imageUrl: "../../assets/New Set/purchase.png",
-        //     route: "/dash-board/purchase",
-        // },
-        // {
-        //     name: "Category",
-        //     imageUrl: "../../assets/New Set/category.png",
-        //     route: "/dash-board/category",
-        // },
-        // {
-        //     name: "Invoice",
-        //     imageUrl: "../../assets/New Set/invoice.png",
-        //     route: "/dash-board/invoice",
-        // },
-        // {
-        //     name: "Report",
-        //     imageUrl: "../../assets/New Set/report.png",
-        //     route: "/dash-board/report",
-        // },
+        {
+            name: "Customer Report",
+            route: "/dash-board/stock",
+        }
     ];
+
+    setValue(name:string){
+        this.reportName = name
+        this.reportView = false
+    }
+
+    getAllConfirmInvoice() {
+      
+        this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
+          GLOBAL_LIST.CONFIRM_SALES_DATA = invoiceData?.result
+        })
+    }
 }

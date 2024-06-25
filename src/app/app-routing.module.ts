@@ -23,6 +23,8 @@ import { SelectedInvoiceComponent } from './Template/expansion/selected-invoice/
 import { PurchaseCartComponent } from './Template/modules/purchase-cart/purchase-cart.component';
 import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
 import { AuthGuard } from './service/auth/auth.guard';
+import { StockReportComponent } from './Template/modules/report/stock-report/stock-report.component';
+
 
 
 
@@ -104,6 +106,12 @@ const routes: Routes = [
     component:PurchaseCartComponent,
     canActivate:[AuthGuard]
   },
+  {
+    path:'dash-board/report/stock_report',
+    component:StockReportComponent,
+    canActivate:[AuthGuard]
+  },
+
    
   //----Modules End-----
 

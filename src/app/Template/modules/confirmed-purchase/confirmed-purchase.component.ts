@@ -63,7 +63,9 @@ export class ConfirmedPurchaseComponent {
             valueFormatter:(params)=>{
                 const combinedvalue = params.value.vendorId+" | "+params.value.vendorName
                 return combinedvalue
-            }
+            },
+            width:190
+
             
         },
         { 

@@ -49,9 +49,9 @@
             <mat-form-field>
                 <mat-label>Role</mat-label>
                 <select formControlName="role" mat-select matNativeControl class="">
-                    <option value="admin" class="text-purple-700">Admin</option>
-                    <option value="technician" class="text-purple-700">Technician</option>
-                    <option value="user" class="text-purple-700">User</option>
+                    <option value="ADMIN" class="text-purple-700">ADMIN</option>
+                    <option value="USER" class="text-purple-700">USER</option>
+                    <option value="MANAGER" class="text-purple-700">MANAGER</option>
                 </select>
                 <mat-error *ngIf="userForm.get('role')?.errors">This field is required!</mat-error>
             </mat-form-field>

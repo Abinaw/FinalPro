@@ -9,6 +9,7 @@ import { ITempPurchaseCartEntity } from "./interfaces/ITempPurchaseCartEntity";
 import { IPurchasePaymentEntity } from "./interfaces/IPurchasePaymentEntity";
 import { IConfirmPurchaseEntity } from "./interfaces/IConfirmPurchaseEntity";
 import { IProCartEntity } from "./interfaces/IProCartEntity";
+import { IConfirmInvoiceEntity } from "./interfaces/IConfirmInvoiceEntity";
 export const GLOBAL_LIST={
     CUSTOMER_DATA:[] as ICustomerEntity[],
     INVOICE_DATA:[] as IInvoiceEntity[],
@@ -21,4 +22,5 @@ export const GLOBAL_LIST={
     TEMP_PURCHASE_CART_DATA:[] as ITempPurchaseCartEntity[],
     PURCHASE_PAYMENTS_DATA:[] as IPurchasePaymentEntity[],
     CONFIRM_PURCHASE_DATA:[] as IConfirmPurchaseEntity[],
+    CONFIRM_SALES_DATA:[] as IConfirmInvoiceEntity[],
 }

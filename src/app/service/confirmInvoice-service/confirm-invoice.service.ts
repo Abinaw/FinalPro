@@ -24,9 +24,16 @@ export class ConfirmInvoiceService {
     const url = `${this.baseUrl}/getAllConfirmedInvoices`;
     return this.http.get<any[]>(url,{responseType:'json'});
   }
+  getConfirmedInvoiceByInvoiceNumber(invoiceNum:number):Observable<any>{
+    const url = `${this.baseUrl}/getConfirmedInvoiceByInvoiceNumber/${invoiceNum}`;
+    return this.http.get<any[]>(url,{responseType:'json'});
+  }
+  getAllConfirmedProCartItemsByInvoiceId(invoiceNum:number):Observable<any>{
+    const url = `${this.baseUrl}/getAllConfirmedProCartItemsByInvoiceId/${invoiceNum}`;
+    return this.http.get<any[]>(url,{responseType:'json'});
+  }
 
   searchConfirmedSalesInvoice(characters:any):Observable<any>{
-    console.log("service ",characters)
     const url = `${this.baseUrl}/searchConfirmedSalesInvoice/${characters}`;
     return this.http.get<any[]>(url,{responseType:'json'});
   }

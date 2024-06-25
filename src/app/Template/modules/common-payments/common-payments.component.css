@@ -1,7 +1,5 @@
-/* If using SCSS */
 ::ng-deep .custom-toggle-group .mat-button-toggle-checked {
     background-color: #7d2a8df8;
-    /* Example background color for checked state */
     color: white;
 }
 

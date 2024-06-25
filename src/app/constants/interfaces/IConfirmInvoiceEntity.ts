@@ -7,6 +7,6 @@ export interface IConfirmInvoiceEntity{
     paidAmount:number,
     customerOBJ:ICustomerEntity,
     invoiceNumber:number,
-    isComplete:boolean
-   
+    isComplete:boolean,
+    advanceAmount:number
 }

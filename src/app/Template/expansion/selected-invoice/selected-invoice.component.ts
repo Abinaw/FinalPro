@@ -74,7 +74,7 @@ export class SelectedInvoiceComponent {
             this.invoiceNumber = dataString.tempInvoiceNumber
             this.paidAmount = dataString.paidAmount
         })
-        this.getAllProductCart()
+        this.getProductCartItemsOfTheInvoiceId()
         this.getAllInvoiceData();
         this.getAllPayments()
 
@@ -218,7 +218,7 @@ export class SelectedInvoiceComponent {
         this.cdr.detectChanges();
     }
 
-    getAllProductCart() {
+    getProductCartItemsOfTheInvoiceId() {
         this.productCartService.getAll(this.invoiceId).subscribe((cartData) => {
             GLOBAL_LIST.PRODUCTCART_DATA = cartData?.result?.[0]
         })

@@ -1,0 +1,220 @@
+<ng-container *ngIf="inputData.reportType != 'invoiceReprint'">
+<div class="grid ">
+    <!-- InvoiceTemplate -->
+    <div class="">
+        <div class="w-full h-auto p-[16px] relative">
+            <div class="flex flex-col items-center justify-between mb-[20px]">
+                <div class="w-[80px] h-[80px]">
+                    <img src="../../../assets/logo/logo2.png" alt="company-logo" class="w-full h-full object-contain" />
+                </div>
+                <p class="text-center mb-[16px] mt-[30px] flex flex-col items-center justify-center">
+                    <span class="flex w-fit items-center gap-x-[24px] font-semibold">
+                        <span>33/24 Hekitta Lane, Wattala, Sri Lanka </span>
+                        <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
+                        <span>0112 985 400 </span>
+                        <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
+                        <span>info@comfortlinenco.com</span>
+                    </span>
+                    <span class="block text-[11px] mt-[10px]">Comfort Linen Company provides a wide range of products to
+                        meet
+                        the
+                        needs of every customer.</span>
+                </p>
+                <!-- <h1 class="uppercase font-bold text-[30px]">Receipt</h1> -->
+                <p class=" font-semibold text-center pt-[16px] border-t-2">
+                    <span>{{tableData.title|uppercase}}</span> report as of <span>{{currentDate}}</span>
+                </p>
+            </div>
+
+            <!-- <div class="flex items-center justify-between mb-[12px]">
+                <div class="flex flex-col gap-y-[4px]">
+                    <div>
+                        <p class="text-[14px]">Billed to :</p>
+                        <h1 class="text-[18px] font-semibold">{{this.data.confirmInvoiceOBJ.customerOBJ.custName}}</h1>
+                    </div>
+                    <div>
+                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.address}}</p>
+                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.contact}}</p>
+                        <p class="text-[14px]">{{this.data.confirmInvoiceOBJ.customerOBJ.email}}</p>
+                    </div>
+                </div> 
+    
+                <div class="flex flex-col gap-y-[20px] text-right">
+                    <div>
+                        <p class="text-[14px]">Date:</p>
+                        <h1 class="text-[14px] font-semibold">{{this.data.paidDate.split('T')[0]}}</h1>
+                    </div>
+                    <div>
+                        <p class="text-[14px]">Receipt No:</p>
+                        <h1 class="text-[14px] font-semibold">#CLC-R-{{this.data.receiptId}}</h1>
+                    </div>
+                </div>
+            </div>-->
+
+            <table class="w-full">
+                <thead class="bg-black text-white">
+                    <tr>
+                        <th class="py-[13px] px-[16px]  w-[100px] text-left"
+                            *ngFor="let aColumn of tableData.tableHeader">{{aColumn}}</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b-2" *ngFor="let rowData of this.tableData.tableData">
+                        <td class="py-[16px] px-[16px] w-[100px]" *ngFor="let aRowData of rowData">{{aRowData}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+</ng-container>
+
+
+
+<ng-container *ngIf="inputData.reportType == 'invoiceReprint'">
+<div>
+    <ng-container  class="grid" >
+        <!-- InvoiceTemplate -->
+        <div class="">
+            <div class="w-full h-auto p-[16px] relative" >
+                <div class="flex items-center justify-between mb-[50px]">
+                    <div class="w-[100px] h-[100px]">
+                        <img src="../../../assets/logo/logo2.png" alt="company-logo" class="w-full h-full object-contain" />
+                    </div>
+                    <h1 class="uppercase font-bold text-[36px]">Invoice</h1>
+                </div>
+        
+                <!-- <div class="flex items-center justify-between mb-[30px]">
+                    <div class="flex flex-col gap-y-[20px]">
+                        <div>
+                            <p class="text-[14px]">Billed to :</p>
+                            <h1 class="text-[18px] font-semibold"> {{this.selectedCustomer.custName}}</h1>
+                        </div>
+                        <div>
+                            <p class="text-[14px]">{{this.selectedCustomer.address}}</p>
+                            <p class="text-[14px]">{{this.selectedCustomer.contact}}</p>
+                            <p class="text-[14px]"> {{this.selectedCustomer.email}}</p>
+                        </div>
+                    </div>
+        
+                    <div class="flex flex-col gap-y-[20px] text-right">
+                        <div>
+                            <p class="text-[14px]">Invoice Date:</p>
+                            <h1 class="text-[14px] font-semibold">{{this.today}}</h1>
+                        </div>
+                        <div>
+                            <p class="text-[14px]">Invoice No:</p>
+                            <h1 class="text-[14px] font-semibold">#CLC-{{this.invoiceNumber}}</h1>
+                        </div>
+                    </div>
+                </div> -->
+        
+                <table class="w-full">
+                    <thead class="bg-black text-white">
+                        <tr>
+                            <th class="py-[13px] px-[16px]   text-left">Description</th>
+                            <th class="py-[13px] px-[16px] w-[100px] text-left">Qty</th>
+                            <th class="py-[13px] px-[16px] w-[100px] text-left">Price</th>
+                            <th class="py-[13px] px-[16px] w-[100px] text-left">
+                                Discount
+                            </th>
+                            <th class="py-[13px] px-[16px] w-[200px] text-left">Total</th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody>
+                        <tr *ngFor="let item of this.productCartItems" class="border-b-2">
+                            <td class="py-[16px] px-[16px]">{{item.stockOBJ.itemName}}</td>
+                            <td class="py-[16px] px-[16px] w-[100px]">{{item.quantity}}</td>
+                            <td class="py-[16px] px-[16px] w-[100px]">{{(item.stockOBJ.sellingPrice).toFixed(2)}}</td>
+                            <td class="py-[16px] px-[16px] w-[100px]">{{((item.discount/item.stockOBJ.sellingPrice)*100).toFixed(2)+"%"}}</td>
+                            <td class="py-[16px] px-[16px] w-[200px]">{{(item.netAmount).toFixed(2)}}</td>
+                        </tr>
+           
+                    </tbody> -->
+                </table>
+        
+                <div class="flex flex-col items-end mt-[16px] gap-y-[8px]">
+                    <div class="w-[500px] px-[16px]">
+                        <div class="flex items-baseline justify-between">
+                            <div class="w-[300px] pl-[100px]">
+                                <p class="text-[14px]">Sub Total:</p>
+                            </div>
+                            <div class="w-[200px] pl-[16px]">
+                                <!-- <p class="text-[14px] text-left">{{(this.total).toFixed(2)}}</p> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-[500px] px-[16px]">
+                        <div class="flex items-baseline justify-between">
+                            <div class="w-[300px] pl-[100px]">
+                                <p class="text-[14px]">Paid Amount:</p>
+                            </div>
+                            <div class="w-[200px] pl-[16px]">
+                                <!-- <p class="text-[14px] text-left">{{ (paidAmount || 0).toFixed(2) }}</p> -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="w-[500px] px-[16px]">
+                        <div class="flex items-baseline justify-between">
+                            <div class="w-[300px] pl-[100px]">
+                                <p class="text-[14px]">Discount:</p>
+                            </div>
+                            <div class="w-[200px] pl-[16px]">
+                                <p class="text-[14px] text-left">$10</p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="w-[500px] px-[16px]">
+                        <div class="flex items-baseline justify-between">
+                            <div class="w-[300px] pl-[100px]">
+                                <p class="text-[18px] font-semibold">Total:</p>
+                            </div>
+                            <div class="w-[200px] pl-[16px]">
+                                <!-- <p class="text-[18px] font-semibold text-left"> {{((this.total-paidAmount)||this.total).toFixed(2)}}</p> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <p class="text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center">
+                    <span class="flex w-fit items-center gap-x-[24px] font-semibold">
+                        <span>33/24 Hekitta Lane, Wattala, Sri Lanka </span>
+                        <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
+                        <span>0112 985 400 </span>
+                        <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
+                        <span>info@comfortlinenco.com</span>
+                    </span>
+                    <span class="block text-[11px] mt-[10px]">Comfort Linen Company provides a wide range of products to meet
+                        the
+                        needs of every customer.</span>
+                </p>
+        
+                <p class="tex info@comfortlinenco.comt-[16px] font-semibold text-center pt-[16px] border-t-2">
+                    Thank you for purchase!
+                </p>
+            </div>
+             <!-- <div>
+                <mat-dialog-actions align="center">
+                    <button mat-raised-button color="basic" (click)="makePayment()">Make a payment</button>
+                    <button mat-raised-button color="primary" (click)="completeInvoice()">Confirm Invoice</button>
+                    <button mat-raised-button (click)="openPDF()" color="warn">Print</button>
+                </mat-dialog-actions>
+            
+            </div>  -->
+        </div>
+    </ng-container>
+    
+    
+    
+
+
+</div>
+</ng-container>

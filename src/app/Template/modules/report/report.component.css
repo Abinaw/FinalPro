@@ -16,6 +16,7 @@ mat-card:hover {
         rgba(0, 0, 0, 0.09) 0px -3px 5px;
     transform: translate(0px, 4px);
     border: 1px solid rgb(255, 255, 255);
+    background: yellow;
 }
 
 mat-card img {
@@ -31,7 +32,7 @@ mat-card:hover img {
 
 .card-container {
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto auto;
     row-gap: 1rem;
     column-gap: 0.5rem;
     text-align: center;

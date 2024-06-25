@@ -97,7 +97,7 @@ export class StockFormComponent implements OnInit {
     insertPopTrigger() {
         let stockFormValue = this.stockForm.value;
         stockFormValue.categoryOBJ = {categoryId:this.categoryControl.value};
-        this.stockForm.value.arrivalDate = moment(new Date(stockFormValue.arrivalDate)).toISOString();;
+        this.stockForm.value.arrivalDate = moment(new Date(stockFormValue.arrivalDate)).toISOString();
         console.log("stockFormVal", stockFormValue)
         const extraData = {
             title: "Insert",

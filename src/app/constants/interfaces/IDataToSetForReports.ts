@@ -1,4 +1,5 @@
 export interface IDataToSet{
     reportType: string,
-    result : any
+    result : any,
+    error:any
 }

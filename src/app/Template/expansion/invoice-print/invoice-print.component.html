@@ -1,15 +1,16 @@
 
-    <div class="h-[800px] w-[1100px] flex gap-[10px]" *ngIf="productCartItems.length > 0">
-        <div class=" w-[20%]">
-            <mat-dialog-actions align="center" class="w-[100%] grid">
+    <div class="h-[550px] w-[1100px] flex gap-[10px]" *ngIf="productCartItems.length > 0">
+        <div class=" w-[20%] h-[100%] border-r-[1px] ">
+            <mat-dialog-actions align="center" class="w-full flex flex-col justify-center">
                 <button mat-raised-button color="primary" class="w-full" (click)="completeInvoice()">Confirm Invoice</button>
                 <button mat-raised-button (click)="openPDF()" class="w-full" color="warn">Print</button>
             </mat-dialog-actions>
         </div>
-        <div class=" w-[80%] h-[100%] overflow-auto" >
+        <div class=" w-[80%] h-[100%]" >
+           
             <app-invoice-template-for-customer id="invoice" [payList]="paymentsList">
             </app-invoice-template-for-customer>
-            
+       
         </div>
     </div>
     <ng-container *ngIf="productCartItems.length <= 0">

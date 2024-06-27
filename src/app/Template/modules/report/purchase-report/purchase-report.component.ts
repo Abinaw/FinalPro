@@ -4,39 +4,38 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
-import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
+import { IConfirmPurchaseEntity } from 'src/app/constants/interfaces/IConfirmPurchaseEntity';
 import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
-import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
 
 @Component({
-    selector: 'app-invoice-report',
-    templateUrl: './invoice-report.component.html',
-    styleUrls: ['./invoice-report.component.css']
+  selector: 'app-purchase-report',
+  templateUrl: './purchase-report.component.html',
+  styleUrls: ['./purchase-report.component.css']
 })
-
-export class InvoiceReportComponent {
+export class PurchaseReportComponent {
 
     isReportGenerated!: boolean;
     selectedValue: string = '';
-    filterOptions!: Observable<IConfirmInvoiceEntity[]>
-    salesInvoiceDataList!: IConfirmInvoiceEntity[]
+    filterOptions!: Observable<IConfirmPurchaseEntity[]>
+    purchaseInvoiceDataList!: IConfirmPurchaseEntity[]
     invoiceNo! :number
-    dataToSet: IDataToSet = { reportType: '', result: null,error:null };
+    dataToSet: IDataToSet = { reportType: '', result: null ,error:null};
     reports: any[] = [
-        { value: 'invoiceReprint', viewValue: 'Invoice Re-print'},
-        { value: 'salesReport', viewValue: 'Sales Report'},
+        { value: 'voucherReprint', viewValue: 'Voucher Re-print'},
+        { value: 'purchaseReport', viewValue: 'Purchase Report'},
     ];
     invoiceSelection: FormGroup;
     invoiceNoControl = new FormControl('');
     range: FormGroup;
 
     constructor(
-        private confirmedInvoiceService: ConfirmInvoiceService,
+        // private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
         private reportsService:ReportsServiceService
     ) {
-        this.salesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
+        // this.dataToSet 
+        this.purchaseInvoiceDataList = GLOBAL_LIST.CONFIRM_PURCHASE_DATA
 
         this.invoiceSelection = new FormGroup({
             invoiceNo: new FormControl,
@@ -59,14 +58,14 @@ export class InvoiceReportComponent {
     }
 
 
-    private listFilter(value: string): IConfirmInvoiceEntity[] {
+    private listFilter(value: string): IConfirmPurchaseEntity[] {
 
         const searchValue = value.toString().toLowerCase();
-        return this.salesInvoiceDataList.filter(
+        return this.purchaseInvoiceDataList.filter(
             option =>
-                option.confirmInvoiceId.toString().toLowerCase().includes(searchValue)
+                option.confirmPurchaseId.toString().toLowerCase().includes(searchValue)
             ||
-            option.customerOBJ.custName.toString().toLowerCase().includes(searchValue)
+            option.vendorOBJ.vendorName.toString().toLowerCase().includes(searchValue)
         )
 
     }
@@ -77,55 +76,45 @@ export class InvoiceReportComponent {
         const endDate = this.range.get('end');
 
        
-        if(invoiceNum!=null && selectedOpt?.value=="invoiceReprint"){   
-            this.getConfirmedInvoiceByInvoiceNo()
+        if(invoiceNum!=null && selectedOpt?.value=="voucherReprint"){   
+            // this.getConfirmedInvoiceByInvoiceNo()
            
-        }else if(selectedOpt?.value=="salesReport" &&(startDate!=null && endDate !=null)){
+        }else if(selectedOpt?.value=="purchaseReport" &&(startDate!=null && endDate !=null)){
             this.getConfirmedInvoiceByRange(startDate.value,endDate.value)
         }
        
     }
 
 
-    getConfirmedInvoiceByInvoiceNo(){
-        this.confirmedInvoiceService.getAllConfirmedProCartItemsByInvoiceId(this.invoiceNo).subscribe((res) => {
-            
-            if(res?.result){
-                this.dataToSet = {
-                    reportType :"invoiceReprint",
-                    result: res?.result,
-                    error:null
-               }
-              
-            }else if(res?.errors){
-                this.dataToSet = {
-                    reportType :"invoiceReprint",
-                    result: null,
-                    error:res.errors
-               }
-            }
-            this.isReportGenerated = true
-            this.cdr.detectChanges();
-        })
-    }
+    // getConfirmedInvoiceByInvoiceNo(){
+    //     this.confirmedInvoiceService.getAllConfirmedProCartItemsByInvoiceId(this.invoiceNo).subscribe((res) => {
+    //        this.dataToSet = {
+    //             reportType :"voucherReprint",
+    //             result: res?.result
+    //        }
+    //         this.isReportGenerated = true
+    //         this.cdr.detectChanges();
+    //     })
+    // }
 
     getConfirmedInvoiceByRange(start: any, end: any){
-        this.reportsService.selectSalesReportWithInRange(start, end).subscribe(
+        this.reportsService.selectPurchaseReportWithInRange(start, end).subscribe(
             (res) => {
                 if(res?.result){
                     this.dataToSet = {
-                        reportType :"salesReport",
-                        result: res?.result,
+                        reportType :"purchaseReport",
+                        result: res.result,
                         error:null
                    }
-                  
                 }else if(res?.errors){
                     this.dataToSet = {
-                        reportType :"salesReport",
-                        result: null,
-                        error:res.errors
+                        reportType :"purchaseReport",
+                        error: res.errors,
+                        result:null
                    }
                 }
+                
+            
                this.isReportGenerated = true
                this.cdr.detectChanges();
             },
@@ -135,6 +124,20 @@ export class InvoiceReportComponent {
         );
     }
 
+    // getAllConfirmInvoice() {
+    //     this.isReportGenerated = true
+    //     this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
+    //         this.dataToSet = invoiceData?.result
+    //         // this.salesInvoiceDataList = invoiceData?.result 
+    //         // console.log(invoiceData?.result)
+
+    //     })
+    //     // this.stockService.getAll().subscribe((res)=>{
+    //     //     this.data = res
+    //     //     this.isReportGenerated = true
+    //     //     this.cdr.detectChanges();
+    //     // })
+    // }
 
     getTheSelectedInvoice(invoiceNumber: number) {
         this.invoiceNo = invoiceNumber

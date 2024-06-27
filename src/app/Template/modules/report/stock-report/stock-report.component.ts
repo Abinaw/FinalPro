@@ -17,7 +17,7 @@ export class StockReportComponent {
     selectedValue!: string;
     isReportGenerated!: boolean;
     stockList: IStockEntity[] = []
-    dataToSet: IDataToSet = { reportType: '', result: null };
+    dataToSet: IDataToSet = { reportType: '', result: null ,error:null};
     reports: any[] = [
         { value: 'stock', viewValue: 'STOCK REPORT' },
         { value: 'etc', viewValue: '...' },
@@ -45,8 +45,13 @@ export class StockReportComponent {
 
     getAllStock() {
         this.stockService.getAll().subscribe((res) => {
-            this.dataToSet.result = res
-            this.dataToSet.reportType = "stockReport"
+            this.dataToSet = {
+                reportType :"stockReport",
+                result: res,
+                error:null
+           }
+            // this.dataToSet.result = res
+            // this.dataToSet.reportType = "stockReport"
             this.isReportGenerated = true
             this.cdr.detectChanges();
         })

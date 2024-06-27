@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
+import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
 
 @Component({
   selector: 'app-report',
@@ -14,8 +15,11 @@ export class ReportComponent {
     reportView: boolean = true
     constructor(private router:Router,
         private confirmedInvoiceService: ConfirmInvoiceService,
+        private confirmedPurchaseInvoiceService: ConfirmPurchaseAndCartServiceService,
+
      ){
         this.getAllConfirmInvoice()
+        this.getAllConfirmPurchaseInvoice()
     }
   
     Cards = [
@@ -27,19 +31,19 @@ export class ReportComponent {
         },
         {
             name: "Purchase Report",
-            route: "/dash-board/vendor",
+       
         },
         {
             name: "Payments Report",
-            route: "/dash-board/commonPayments",
+      
         },
         {
             name: "Vendor Report",
-            route: "/dash-board/return",
+       
         },
         {
             name: "Customer Report",
-            route: "/dash-board/stock",
+      
         }
     ];
 
@@ -49,9 +53,14 @@ export class ReportComponent {
     }
 
     getAllConfirmInvoice() {
-      
         this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
           GLOBAL_LIST.CONFIRM_SALES_DATA = invoiceData?.result
         })
+    }
+
+    getAllConfirmPurchaseInvoice(){
+            this.confirmedPurchaseInvoiceService.getAllConfirmPurchaseInvoices().subscribe((purchaseData)=>{
+                GLOBAL_LIST.CONFIRM_PURCHASE_DATA = purchaseData?.result
+            })
     }
 }

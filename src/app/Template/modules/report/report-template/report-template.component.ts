@@ -4,7 +4,8 @@ import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/co
 interface IListOfData {
     title: string,
     tableHeader: string[],
-    tableData: string[][]
+    tableData: string[][],
+    error:any
 }
 @Component({
     selector: 'app-report-template',
@@ -21,14 +22,26 @@ export class ReportTemplateComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         
         if (changes['inputData']) {
+            
             console.log("after detect change ",this.inputData)
-            this.setDataIntoTable(this.inputData)
+            if(this.inputData?.result){
+                this.setDataIntoTable(this.inputData)
+            }else if(this.inputData.error != null){
+                this.tableData={
+                    title:"",
+                    tableHeader:[],
+                    tableData:[],
+                    error: this.inputData?.error.map((errMessage: any) => {
+                        return errMessage
+                    })
+                }
+            }
         }
         
     }
 
-    setDataIntoTable(inputData: any){
-        if(inputData.reportType == "stockReport"){
+    setDataIntoTable(inputData?: any){
+        if(inputData.result && inputData?.reportType == "stockReport"){
             this.tableData = {
                 title: "stock",
                 tableHeader: [
@@ -57,33 +70,113 @@ export class ReportTemplateComponent implements OnChanges {
                         res.quantity,
                         "'"+res.remarks+"'",
                     ]
-                })
+                }),
+                error:null
 
             }
-            debugger
-        }else if(inputData.reportType == "invoiceReprint"){
-            const res = this.inputData?.result;
-            const completedDate = moment(new Date(res.date)).toISOString();
-            const paidAmount = "Rs " + (res.paidAmount).toFixed(2);
-            const gross = "Rs " + (res.netAmount).toFixed(2);
+        }else if(inputData.result && inputData?.reportType == "invoiceReprint"){
             this.tableData = {
                 title: "invoice",
                 tableHeader: [
-                    'Customer',
-                    'Paid Amount',
-                    'Gross Amount',
-                    'Confirmed Date',
                     
                 ],
-                tableData: [[
-                    res.customerOBJ.custName,
-                    paidAmount,
-                    gross,
-                    completedDate.split("T")[0], 
-                ]]
-            };
+                tableData: this.inputData?.result.map((res: any) => {
+                    
+                   const confirmInvoiceOBJ = res.confirmInvoiceOBJ 
+                   const stockOBJ=res.stockOBJ
+                   const sellingPrice ="Rs " + (res.stockOBJ.sellingPrice).toFixed(2) 
+                   const totalAmount = "Rs " + (res.netAmount).toFixed(2)
+                    return [
+                        stockOBJ.itemName,
+                        res.quantity,
+                        sellingPrice,
+                        (((res.discount)/stockOBJ.sellingPrice)*100).toFixed(2)+"%",
+                        totalAmount,
+                    ]
+                }),
+                error:null
+            }
+        }else if(inputData.result && inputData?.reportType == "salesReport"){
+            this.tableData = {
+                title: "sales",
+                tableHeader: [
+                    // "Id",
+                    "Customer",
+                    "Invoice Number",
+                    "Confirmed Date",
+                    "Total Amount",
+                    "Total Paid Amount",
+                    "Advance Payment",
+                   
+
+                ],
+                tableData: this.inputData?.result.map((res: any) => {
+                    
+                   const customerOBJ = res.customerOBJ 
+                   const confirmedDate=moment(new Date(res.date)).toISOString();
+                   const netAmount ="Rs " + (res.netAmount).toFixed(2) 
+                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                   const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+                    return [
+                        // res.confirmInvoiceId,
+                        customerOBJ.custName,
+                        "#CLC-"+res.invoiceNumber,
+                        confirmedDate.split("T")[0],
+                        netAmount,
+                        paidAmount,
+                        advancePay,
+
+                    ]
+                }),error:null
+
+            }
+        }else if(inputData.result && inputData?.reportType == "purchaseReport"){
+            this.tableData = {
+                title: "purchase",
+                tableHeader: [
+                    // "Id",
+                    "Vendor",
+                    "Purchase Invoice Number",
+                    "Purchase Date",
+                    "Total Amount",
+                    "Total Paid Amount",
+                   
+
+                ],
+                tableData: this.inputData?.result.map((res: any) => {
+                    
+                   const vendorOBJ = res.vendorOBJ 
+                   const purchaseDate=moment(new Date(res.purchaseDate)).toISOString();
+                   const netAmount ="Rs " + (res.netAmount).toFixed(2) 
+                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+                    return [
+                        // res.confirmInvoiceId,
+                        vendorOBJ.vendorName,
+                        res.purchaseInvoice,
+                        purchaseDate.split("T")[0],
+                        netAmount,
+                        paidAmount,
+                       
+
+                    ]
+                }),error:null
+
+            }
         }
     }
-
-
+    getTotalNetAmount(): number {
+        if (!this.inputData?.result) return 0;
+        return this.inputData.result.reduce((total: number, item: any) => total + item.netAmount, 0);
+    }
+    isItemName(rowData: string[], aRowData: string): boolean {
+        return rowData.indexOf(aRowData) === 0;
+    }
+    getDateForInvoiceRePrint(){
+       return (moment(new Date(this.inputData?.result?.[0].confirmInvoiceOBJ?.date)).format("DD/MM/YYYY HH:mm:ss ")).split(" ")[0];
+    }
+    getTime(){
+      const date =  moment(new Date(this.inputData?.result?.[0].confirmInvoiceOBJ?.date)).format("DD/MM/YYYY HH:mm:ss");
+      return date.split(" ")[1]
+    }
 }

@@ -95,6 +95,7 @@ import { StockReportComponent } from './Template/modules/report/stock-report/sto
 import { EmptyReportComponent } from './Template/modules/report/empty-report/empty-report.component';
 import { ReportTemplateComponent } from './Template/modules/report/report-template/report-template.component';
 import { InvoiceReportComponent } from './Template/modules/report/invoice-report/invoice-report.component';
+import { PurchaseReportComponent } from './Template/modules/report/purchase-report/purchase-report.component';
 
 
 @NgModule({
@@ -156,6 +157,7 @@ import { InvoiceReportComponent } from './Template/modules/report/invoice-report
         EmptyReportComponent,
         ReportTemplateComponent,
         InvoiceReportComponent,
+        PurchaseReportComponent,
         
 
     ],

@@ -1,4 +1,4 @@
-<ng-container *ngIf="inputData.reportType != 'invoiceReprint'">
+<ng-container *ngIf="inputData.reportType != 'invoiceReprint' && inputData.result">
 <div class="grid ">
     <!-- InvoiceTemplate -->
     <div class="">
@@ -79,7 +79,7 @@
 
 
 
-<ng-container *ngIf="inputData.reportType == 'invoiceReprint'">
+<ng-container *ngIf="inputData.reportType == 'invoiceReprint' && inputData.result">
 <div>
     <ng-container  class="grid" >
         <!-- InvoiceTemplate -->
@@ -92,53 +92,59 @@
                     <h1 class="uppercase font-bold text-[36px]">Invoice</h1>
                 </div>
         
-                <!-- <div class="flex items-center justify-between mb-[30px]">
+                <div class="flex items-center justify-between mb-[30px]">
                     <div class="flex flex-col gap-y-[20px]">
                         <div>
                             <p class="text-[14px]">Billed to :</p>
-                            <h1 class="text-[18px] font-semibold"> {{this.selectedCustomer.custName}}</h1>
+                            <h1 class="text-[18px] font-semibold"> {{this.inputData?.result?.[0].confirmInvoiceOBJ?.customerOBJ?.custName
+                            }}</h1>
                         </div>
                         <div>
-                            <p class="text-[14px]">{{this.selectedCustomer.address}}</p>
-                            <p class="text-[14px]">{{this.selectedCustomer.contact}}</p>
-                            <p class="text-[14px]"> {{this.selectedCustomer.email}}</p>
+                            <p class="text-[14px]">{{this.inputData?.result?.[0].confirmInvoiceOBJ?.customerOBJ?.address}}</p>
+                            <p class="text-[14px]">{{this.inputData?.result?.[0].confirmInvoiceOBJ?.customerOBJ?.contact}}</p>
+                            <p class="text-[14px]"> {{this.inputData?.result?.[0].confirmInvoiceOBJ?.customerOBJ?.email}}</p>
                         </div>
                     </div>
         
                     <div class="flex flex-col gap-y-[20px] text-right">
                         <div>
                             <p class="text-[14px]">Invoice Date:</p>
-                            <h1 class="text-[14px] font-semibold">{{this.today}}</h1>
+                            <h1 class="text-[14px] font-semibold">{{getDateForInvoiceRePrint().split("T")[0]}}</h1>
+                            <p class="text-[14px]">Invoice Time:</p>
+                            <h1 class="text-[14px] font-semibold">{{ getTime()}}</h1>
                         </div>
                         <div>
                             <p class="text-[14px]">Invoice No:</p>
-                            <h1 class="text-[14px] font-semibold">#CLC-{{this.invoiceNumber}}</h1>
+                            <h1 class="text-[14px] font-semibold">#CLC-{{this.inputData?.result?.[0].confirmInvoiceOBJ?.invoiceNumber}}</h1>
                         </div>
                     </div>
-                </div> -->
+                </div>
         
                 <table class="w-full">
+                    
                     <thead class="bg-black text-white">
                         <tr>
-                            <th class="py-[13px] px-[16px]   text-left">Description</th>
+                            <th class="py-[13px] px-[16px]  text-left">Description</th>
                             <th class="py-[13px] px-[16px] w-[100px] text-left">Qty</th>
-                            <th class="py-[13px] px-[16px] w-[100px] text-left">Price</th>
+                            <th class="py-[13px] px-[20px] w-[150px] text-left">Price</th>
                             <th class="py-[13px] px-[16px] w-[100px] text-left">
                                 Discount
                             </th>
                             <th class="py-[13px] px-[16px] w-[200px] text-left">Total</th>
                         </tr>
                     </thead>
-                    <!-- <tbody>
-                        <tr *ngFor="let item of this.productCartItems" class="border-b-2">
-                            <td class="py-[16px] px-[16px]">{{item.stockOBJ.itemName}}</td>
-                            <td class="py-[16px] px-[16px] w-[100px]">{{item.quantity}}</td>
+                    <tbody>
+                        <tr *ngFor="let rowData of tableData.tableData" class="border-b-2">
+                            <td class="py-[16px] px-[16px] w-[100px]"   [ngClass]="{'w-[100px]': !isItemName(rowData, aRowData)}" 
+                            *ngFor="let aRowData of rowData">{{aRowData}}</td>
+                            
+                            <!-- <td class="py-[16px] px-[16px] w-[100px]">{{item.quantity}}</td>
                             <td class="py-[16px] px-[16px] w-[100px]">{{(item.stockOBJ.sellingPrice).toFixed(2)}}</td>
                             <td class="py-[16px] px-[16px] w-[100px]">{{((item.discount/item.stockOBJ.sellingPrice)*100).toFixed(2)+"%"}}</td>
-                            <td class="py-[16px] px-[16px] w-[200px]">{{(item.netAmount).toFixed(2)}}</td>
+                            <td class="py-[16px] px-[16px] w-[200px]">{{(item.netAmount).toFixed(2)}}</td> -->
                         </tr>
            
-                    </tbody> -->
+                    </tbody>
                 </table>
         
                 <div class="flex flex-col items-end mt-[16px] gap-y-[8px]">
@@ -148,7 +154,7 @@
                                 <p class="text-[14px]">Sub Total:</p>
                             </div>
                             <div class="w-[200px] pl-[16px]">
-                                <!-- <p class="text-[14px] text-left">{{(this.total).toFixed(2)}}</p> -->
+                                <p class="text-[14px] text-left">{{"Rs "+getTotalNetAmount().toFixed(2)}}</p>
                             </div>
                         </div>
                     </div>
@@ -158,7 +164,7 @@
                                 <p class="text-[14px]">Paid Amount:</p>
                             </div>
                             <div class="w-[200px] pl-[16px]">
-                                <!-- <p class="text-[14px] text-left">{{ (paidAmount || 0).toFixed(2) }}</p> -->
+                                <p class="text-[14px] text-left">{{"Rs "+(this.inputData?.result?.[0].confirmInvoiceOBJ?.advanceAmount).toFixed(2)}}</p>
                             </div>
                         </div>
                     </div>
@@ -178,7 +184,7 @@
                                 <p class="text-[18px] font-semibold">Total:</p>
                             </div>
                             <div class="w-[200px] pl-[16px]">
-                                <!-- <p class="text-[18px] font-semibold text-left"> {{((this.total-paidAmount)||this.total).toFixed(2)}}</p> -->
+                                <p class="text-[18px] font-semibold text-left"> {{"Rs "+((getTotalNetAmount()-(this.inputData?.result?.[0].confirmInvoiceOBJ?.advanceAmount)).toFixed(2))}}</p>
                             </div>
                         </div>
                     </div>
@@ -198,17 +204,9 @@
                 </p>
         
                 <p class="tex info@comfortlinenco.comt-[16px] font-semibold text-center pt-[16px] border-t-2">
-                    Thank you for purchase!
+                    Thank you for the purchase!
                 </p>
             </div>
-             <!-- <div>
-                <mat-dialog-actions align="center">
-                    <button mat-raised-button color="basic" (click)="makePayment()">Make a payment</button>
-                    <button mat-raised-button color="primary" (click)="completeInvoice()">Confirm Invoice</button>
-                    <button mat-raised-button (click)="openPDF()" color="warn">Print</button>
-                </mat-dialog-actions>
-            
-            </div>  -->
         </div>
     </ng-container>
     
@@ -217,4 +215,8 @@
 
 
 </div>
+</ng-container>
+
+<ng-container *ngIf="inputData?.error">
+    <h2 class="w-full h-full grid justify-center align-middle items-center font-extrabold text-center uppercase font-mono text-red-500 text-[25px]">{{tableData.error}}</h2>
 </ng-container>

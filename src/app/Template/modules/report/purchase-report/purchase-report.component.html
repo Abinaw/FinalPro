@@ -4,7 +4,7 @@
 
         <form [formGroup]="invoiceSelection" class="w-full ">
             <mat-form-field class="w-full">
-                <mat-label>SALES INVOICE</mat-label>
+                <mat-label>PURCHASE INVOICE</mat-label>
                 <mat-select formControlName="selectedOpt" name="report" class="font-mono">
                     <mat-option class="font-semibold font-mono" *ngFor="let option of reports"
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
@@ -13,20 +13,20 @@
 
             <mat-form-field class="w-full"
                 *ngIf="invoiceSelection.get('selectedOpt')?.value==='invoiceReprint'">
-                <mat-label>INVOICE NUMBER</mat-label>
+                <mat-label>VOUCHER NUMBER</mat-label>
                 <input type="text" placeholder="Product" matInput formControlName="invoiceNo"
                     [formControl]="invoiceNoControl" [matAutocomplete]="auto">
                 <mat-error *ngIf="invoiceSelection.get('invoiceNo')?.hasError">This field is required!</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async" (focus)=" getTheSelectedInvoice(anItem.confirmInvoiceId)"
-                        [value]="anItem.invoiceNumber">
-                        <!-- (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)"> -->
-                        {{anItem.invoiceNumber}} | {{anItem.customerOBJ.custName}}
+                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async" (focus)=" getTheSelectedInvoice(anItem.confirmPurchaseId)"
+                        [value]="anItem.purchaseInvoice">
+                       
+                        {{anItem.purchaseInvoice}} | {{anItem.vendorOBJ.vendorName}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='salesReport'">
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='purchaseReport'">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                     <input matStartDate formControlName="start" placeholder="Start date">

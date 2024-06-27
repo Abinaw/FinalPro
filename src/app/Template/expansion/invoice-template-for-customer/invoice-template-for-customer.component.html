@@ -26,6 +26,8 @@
                     <div>
                         <p class="text-[14px]">Invoice Date:</p>
                         <h1 class="text-[14px] font-semibold">{{this.today}}</h1>
+                        <p class="text-[14px]">Invoice Time:</p>
+                        <h1 class="text-[14px] font-semibold">{{getInvoiceTime()}}</h1>
                     </div>
                     <div>
                         <p class="text-[14px]">Invoice No:</p>
@@ -50,9 +52,9 @@
                     <tr *ngFor="let item of this.productCartItems" class="border-b-2">
                         <td class="py-[16px] px-[16px]">{{item.stockOBJ.itemName}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{item.quantity}}</td>
-                        <td class="py-[16px] px-[16px] w-[100px]">{{(item.stockOBJ.sellingPrice).toFixed(2)}}</td>
+                        <td class="py-[16px] px-[16px] w-[150px]">Rs {{(item.stockOBJ.sellingPrice).toFixed(2)}}</td>
                         <td class="py-[16px] px-[16px] w-[100px]">{{((item.discount/item.stockOBJ.sellingPrice)*100).toFixed(2)+"%"}}</td>
-                        <td class="py-[16px] px-[16px] w-[200px]">{{(item.netAmount).toFixed(2)}}</td>
+                        <td class="py-[16px] px-[16px] w-[200px]">Rs {{(item.netAmount).toFixed(2)}}</td>
                     </tr>
        
                 </tbody>
@@ -65,7 +67,7 @@
                             <p class="text-[14px]">Sub Total:</p>
                         </div>
                         <div class="w-[200px] pl-[16px]">
-                            <p class="text-[14px] text-left">{{(this.total).toFixed(2)}}</p>
+                            <p class="text-[14px] text-left">Rs {{(this.total).toFixed(2)}}</p>
                         </div>
                     </div>
                 </div>
@@ -75,7 +77,7 @@
                             <p class="text-[14px]">Paid Amount:</p>
                         </div>
                         <div class="w-[200px] pl-[16px]">
-                            <p class="text-[14px] text-left">{{ (paidAmount || 0).toFixed(2) }}</p>
+                            <p class="text-[14px] text-left">Rs {{ (paidAmount || 0).toFixed(2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -95,7 +97,7 @@
                             <p class="text-[18px] font-semibold">Total:</p>
                         </div>
                         <div class="w-[200px] pl-[16px]">
-                            <p class="text-[18px] font-semibold text-left"> {{((this.total-paidAmount)||this.total).toFixed(2)}}</p>
+                            <p class="text-[18px] font-semibold text-left">Rs {{((this.total-paidAmount)||this.total).toFixed(2)}}</p>
                         </div>
                     </div>
                 </div>
@@ -115,7 +117,7 @@
             </p>
     
             <p class="tex info@comfortlinenco.comt-[16px] font-semibold text-center pt-[16px] border-t-2">
-                Thank you for purchase!
+                Thank you for the purchase!
             </p>
         </div>
          <!-- <div>

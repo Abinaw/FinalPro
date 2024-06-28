@@ -23,6 +23,7 @@ export class ConfirmSalesInvociePaymentService {
     }
 
       getAllConfirmPaymentsOfConfirmInvoice(confirmSalesInvoiceId: number): Observable<any> {
+        console.log("confirmSalesInvoiceId", confirmSalesInvoiceId)
         const url = `${this.baseUrl}/getAllConfirmPaymentsOfConfirmInvoice/${confirmSalesInvoiceId}`;
         return this.http.get<any[]>(url, { responseType: "json" });
     }

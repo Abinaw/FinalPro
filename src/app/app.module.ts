@@ -96,6 +96,7 @@ import { EmptyReportComponent } from './Template/modules/report/empty-report/emp
 import { ReportTemplateComponent } from './Template/modules/report/report-template/report-template.component';
 import { InvoiceReportComponent } from './Template/modules/report/invoice-report/invoice-report.component';
 import { PurchaseReportComponent } from './Template/modules/report/purchase-report/purchase-report.component';
+import { PaymentsReportComponent } from './Template/modules/report/payments-report/payments-report.component';
 
 
 @NgModule({
@@ -158,6 +159,7 @@ import { PurchaseReportComponent } from './Template/modules/report/purchase-repo
         ReportTemplateComponent,
         InvoiceReportComponent,
         PurchaseReportComponent,
+        PaymentsReportComponent,
         
 
     ],

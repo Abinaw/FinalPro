@@ -22,7 +22,7 @@ export class PurchaseReportComponent {
     invoiceNo! :number
     dataToSet: IDataToSet = { reportType: '', result: null ,error:null};
     reports: any[] = [
-        { value: 'voucherReprint', viewValue: 'Voucher Re-print'},
+        // { value: 'voucherReprint', viewValue: 'Voucher Re-print'},
         { value: 'purchaseReport', viewValue: 'Purchase Report'},
     ];
     invoiceSelection: FormGroup;
@@ -50,6 +50,7 @@ export class PurchaseReportComponent {
     }
 
     ngOnInit() {
+        this.invoiceSelection.get('selectedOpt')?.setValue(this.reports[0].value)
         this.isReportGenerated = false
         this.filterOptions = this.invoiceNoControl.valueChanges.pipe(
             startWith(""),

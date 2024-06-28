@@ -4,7 +4,7 @@ import { CustomerService } from "./service/customer-service/customer.service";
 import { GLOBAL_LIST } from "./constants/GlobalLists";
 import { VendorService } from "./service/vendor-service/vendor.service";
 import { TempPurchaseService } from "./service/tempPurchase-service/temp-purchase.service";
-
+import { Location } from '@angular/common';
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
@@ -22,7 +22,8 @@ export class AppComponent {
         private router: Router,
         private renderer: Renderer2,
         private custService: CustomerService,
-        private tempPurchaseInvoiceService: TempPurchaseService
+        private tempPurchaseInvoiceService: TempPurchaseService,
+        private location: Location
     ) {
         this.isSwitched = true;
         this.getAllToGlobalList();
@@ -41,6 +42,9 @@ export class AppComponent {
         }
     }
 
+    // goBack() {
+    //     this.location.back();
+    //   }
     showCloseIcon() {
         const currentRoute = this.router.url;
         if (["/login", "/dash-board"].includes(currentRoute)) {

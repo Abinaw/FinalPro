@@ -106,6 +106,8 @@ export class InvoiceReportComponent {
             }
             this.isReportGenerated = true
             this.cdr.detectChanges();
+        }, error => {
+            console.error('Error fetching report:', error);
         })
     }
 

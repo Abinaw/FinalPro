@@ -42,7 +42,7 @@ export class PurchaseCartComponent implements OnInit {
     purchaseId!: number;
     purchaseList: ITempPurchaseInvoice[] = [];
     public columnDef: ColDef[] = [
-        //
+       
         {
             field: "productCartId",
             colId: "productCartId",

@@ -48,9 +48,9 @@ export class InvoicePaymentComponent implements OnInit {
             paymentType: new FormControl(null, Validators.required),
             cardRefNo: new FormControl(0, Validators.required),
             paidAmount: new FormControl(0.00, Validators.required),
-            chequeRefNo: new FormControl(null, Validators.required),
-            chequeDueDate: new FormControl(new Date().toISOString().substring(0, 10), Validators.required),
-            paidDate: new FormControl(new Date().toISOString().substring(0, 10)),
+            chequeRefNo: new FormControl(0, Validators.required),
+            chequeDueDate: new FormControl(new Date().toISOString(), Validators.required),
+            paidDate: new FormControl(new Date().toISOString()),
         })
     }
     ngOnInit(): void {
@@ -155,76 +155,76 @@ export class InvoicePaymentComponent implements OnInit {
         return totalPaidAmount
     }
 
-    // payAmount() {
-    //     const extraData = {
-    //         title: "Make a Payment",
-    //         subTitle: "are you sure you want to make a payment?",
-    //     }
-    //     let paymentFormData = this.invoicePaymentForm.value;
-    //     if (this.data.tempInvoiceData) {
-
-    //         paymentFormData.salesInvoice = this.data.tempInvoiceData;
-    //         const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
-    //         openAction.afterClosed().subscribe((state) => {
-    //             if (!state) return
-    //             this.paymentService.addPayment(paymentFormData).subscribe((advancePayRes) => {
-    //                 console.log(advancePayRes.successMessage)
-    //                 if(advancePayRes?.successMessage != null){
-    //                     this.toastr.success(advancePayRes?.successMessage)
-    //                     this.dialogRef.close();
-    //                 }else{
-    //                     this.toastr.clear()
-    //                     this.toastr.error(advancePayRes?.errors)
-    //                 }
-                    
-    //             }, (err) => {
-                    
-    //             })
-    //         })
-    //     } else if (this.data.confirmInvoiceId) {
-           
-    //         paymentFormData.confirmInvoiceOBJ = this.data
-    //         const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
-    //         openAction.afterClosed().subscribe((state) => {
-    //             if (!state) return
-    //             this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentFormData).subscribe((salesInvoicePaymentRes) => {
-    //                 if(salesInvoicePaymentRes?.successMessage!=null){
-    //                     this.toastr.success(salesInvoicePaymentRes?.successMessage)
-    //                     this.dialogRef.close(salesInvoicePaymentRes);
-    //                 }else{
-    //                     // console.log(salesInvoicePaymentRes)
-    //                     this.toastr.clear()
-    //                     this.toastr.error(salesInvoicePaymentRes?.errors)
-    //                 }
-    //             })
-    //         },(err) => {
-                
-    //         })
-
-    //     }else if (this.data.confirmPurchaseId) {
-            
-    //         paymentFormData.vendorOBJ = this.data.vendorOBJ
-    //         paymentFormData.ConfirmPurchaseOBJ = this.data
-    //         const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
-    //         openAction.afterClosed().subscribe((state) => {
-    //             if (!state) return
-    //             this.confirmPurchasePaymentService.addToPurchaseInvoicePayment(paymentFormData).subscribe((purchaseInvoiceRes) => {
-    //                 if(purchaseInvoiceRes?.successMessage!=null){
-    //                     this.toastr.success(purchaseInvoiceRes?.successMessage)
-    //                     this.dialogRef.close(purchaseInvoiceRes);
-    //                 }else{
-    //                     console.log(purchaseInvoiceRes)
-    //                     this.toastr.clear()
-    //                     this.toastr.error(purchaseInvoiceRes?.errors)
-    //                 }
-    //             })
-    //         },(err) => {
-                
-    //         })
-    //     }
-    // }
-
     payAmount() {
+        const extraData = {
+            title: "Make a Payment",
+            subTitle: "are you sure you want to make a payment?",
+        }
+        let paymentFormData = this.invoicePaymentForm.value;
+        if (this.data.tempInvoiceData) {
+
+            paymentFormData.salesInvoice = this.data.tempInvoiceData;
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+            openAction.afterClosed().subscribe((state) => {
+                if (!state) return
+                this.paymentService.addPayment(paymentFormData).subscribe((advancePayRes) => {
+                    console.log(advancePayRes.successMessage)
+                    if(advancePayRes?.successMessage != null){
+                        this.toastr.success(advancePayRes?.successMessage)
+                        this.dialogRef.close();
+                    }else{
+                        this.toastr.clear()
+                        this.toastr.error(advancePayRes?.errors)
+                    }
+                    
+                }, (err) => {
+                    
+                })
+            })
+        } else if (this.data.confirmInvoiceId) {
+           
+            paymentFormData.confirmInvoiceOBJ = this.data
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+            openAction.afterClosed().subscribe((state) => {
+                if (!state) return
+                this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentFormData).subscribe((salesInvoicePaymentRes) => {
+                    if(salesInvoicePaymentRes?.successMessage!=null){
+                        this.toastr.success(salesInvoicePaymentRes?.successMessage)
+                        this.dialogRef.close(salesInvoicePaymentRes);
+                    }else{
+                        // console.log(salesInvoicePaymentRes)
+                        this.toastr.clear()
+                        this.toastr.error(salesInvoicePaymentRes?.errors)
+                    }
+                })
+            },(err) => {
+                
+            })
+
+        }else if (this.data.confirmPurchaseId) {
+            
+            paymentFormData.vendorOBJ = this.data.vendorOBJ
+            paymentFormData.ConfirmPurchaseOBJ = this.data
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+            openAction.afterClosed().subscribe((state) => {
+                if (!state) return
+                this.confirmPurchasePaymentService.addToPurchaseInvoicePayment(paymentFormData).subscribe((purchaseInvoiceRes) => {
+                    if(purchaseInvoiceRes?.successMessage!=null){
+                        this.toastr.success(purchaseInvoiceRes?.successMessage)
+                        this.dialogRef.close(purchaseInvoiceRes);
+                    }else{
+                        console.log(purchaseInvoiceRes)
+                        this.toastr.clear()
+                        this.toastr.error(purchaseInvoiceRes?.errors)
+                    }
+                })
+            },(err) => {
+                
+            })
+        }
+    }
+
+   /*  payAmount() {
         const extraData = {
             title: "Make a Payment",
             subTitle: "Are you sure you want to make a payment?",
@@ -258,9 +258,9 @@ export class InvoicePaymentComponent implements OnInit {
                 );
             });
         }
-    }
+    } */
     
-    openActionDialog(extraData: any, onConfirm: () => void) {
+  /*   openActionDialog(extraData: any, onConfirm: () => void) {
         const openAction = this.matDialog.open(ActionPopComponent, {
             data: extraData,
             panelClass: ['custom-dialog-container']
@@ -286,7 +286,7 @@ export class InvoicePaymentComponent implements OnInit {
     handleError(error: any) {
         this.toastr.error("An error occurred");
         console.error(error);
-    }
+    } */
 
 
     loadAllPayment() {

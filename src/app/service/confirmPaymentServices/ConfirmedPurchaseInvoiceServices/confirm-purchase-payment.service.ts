@@ -19,9 +19,13 @@ export class ConfirmPurchasePaymentService {
       }
 
       getAllPurchaseInvoicePayments(confirmPurchaseInvoiceId: number): Observable<any> {
-        console.log("confirmPurchaseInvoiceId", confirmPurchaseInvoiceId)
         const url = `${this.baseUrl}/getAllPurchaseInvoicePayments/${confirmPurchaseInvoiceId}`;
         return this.http.get<any[]>(url, { responseType: "json" });
+    }
+
+    getAllVoucherOfTheSelectedRefNo(invoiceId:number){
+        const url = `http://localhost:8080/api/voucher/getAllVoucher/${invoiceId}`;
+        return this.http.get<any>(url, { responseType: "json" });
     }
 
       

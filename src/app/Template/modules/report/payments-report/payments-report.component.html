@@ -6,7 +6,7 @@
             <mat-form-field class="w-full">
                 <mat-label>REPORT TYPE</mat-label>
                 <mat-select formControlName="selectedOpt" name="report" class="font-mono">
-                    <mat-option (blur)="check()" class="font-semibold font-mono" *ngFor="let option of reports"
+                    <mat-option  class="font-semibold font-mono" *ngFor="let option of reports"
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -14,12 +14,12 @@
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='voucherReprint'">
                 <mat-label>VOUCHER REF NUMBER</mat-label>
 
-                <input type="text" placeholder="RefNo" matInput formControlName="refNo" [formControl]="refNoControl"
+                <input type="text" placeholder="RefNo" matInput formControlName="refNo" [formControl]="purchaseInvoiceControl"
                     [matAutocomplete]="auto">
                 <mat-error *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
-                        (focus)=" getTheSelectedInvoiceId(anItem.confirmPurchaseId)" [value]="anItem.purchaseInvoice">
+                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptionPurchase | async" 
+                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmPurchaseId)" [value]="anItem.purchaseInvoice">
 
                         {{anItem.purchaseInvoice}} | {{anItem.vendorOBJ.vendorName}}
                     </mat-option>
@@ -29,14 +29,14 @@
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='receiptReprint'">
                 <mat-label>RECEIPT REF NUMBER</mat-label>
 
-                <input type="text" placeholder="RefNo" matInput formControlName="refNo" [formControl]="refNoControl"
+                <input type="text" placeholder="RefNo" matInput formControlName="refNo" [formControl]="salesInvoiceNoControl"
                     [matAutocomplete]="auto">
                 <mat-error *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
-                        (focus)=" getTheSelectedInvoiceId(anItem.invoiceId)" [value]="anItem.salesInvoice">
+                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async" 
+                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmInvoiceId)" [value]="anItem.invoiceNumber">
 
-                      {{anItem.invoiceNumber}} | {{anItem.customerOBJ.custName}}
+                        {{anItem.invoiceNumber}} | {{anItem.customerOBJ.custName}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
@@ -47,7 +47,7 @@
                     <input matStartDate formControlName="start" placeholder="Start date">
                     <input matEndDate formControlName="end" placeholder="End date">
                 </mat-date-range-input>
-               
+
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
                 <mat-error *ngIf="range.get('end')?.hasError">End Date is required!</mat-error>
@@ -76,8 +76,40 @@
                 <app-empty-report></app-empty-report>
             </div>
         </ng-container>
-        <ng-container *ngIf="isReportGenerated">
-            <app-report-template id="stockTemp" [inputData]="dataToSet"></app-report-template>
+
+        <ng-container *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='voucherReprint'">
+
+            <div class="table-cont flex justify-center">
+                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" 
+                [paginationAutoPageSize]="true"
+                style="margin-bottom: 1rem; height: 50vh; width: 76vw" 
+                [rowData]="purchaseInvoiceRowData$| async"
+                [columnDefs]="voucherDef" 
+                [rowSelection]="rowSelection" 
+                (cellClicked)="onCellClicked($event)"
+                (gridReady)="onGridVoucherDataReady($event)" 
+                [pagination]="true">
+                </ag-grid-angular>
+            </div>
         </ng-container>
+
+        <ng-container *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='receiptReprint'">
+            <div class="table-cont flex justify-center">
+                
+                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" 
+                [paginationAutoPageSize]="true"
+                style="margin-bottom: 1rem; height: 50vh; width: 76vw" 
+                [rowData]="salesInvoiceRowData$ | async"     
+                [columnDefs]="receiptDef" 
+                [rowSelection]="rowSelection" 
+                (cellClicked)="onCellClicked($event)"
+                (gridReady)="onGridReceiptDataReady($event)"
+                [pagination]="true">
+                </ag-grid-angular>
+            </div>
+        </ng-container>
+        <!-- <ng-container *ngIf="isReportGenerated">
+            <app-report-template id="stockTemp" [inputData]="dataToSet"></app-report-template>
+        </ng-container> -->
     </div>
 </div>

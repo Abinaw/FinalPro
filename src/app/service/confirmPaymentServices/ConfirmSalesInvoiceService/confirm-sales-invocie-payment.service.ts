@@ -27,4 +27,10 @@ export class ConfirmSalesInvociePaymentService {
         const url = `${this.baseUrl}/getAllConfirmPaymentsOfConfirmInvoice/${confirmSalesInvoiceId}`;
         return this.http.get<any[]>(url, { responseType: "json" });
     }
+
+    getAllReceiptsOfTheSelectedRefNo(invoiceId:number){
+        const url = `http://localhost:8080/api/receipt/getAllReceipts/${invoiceId}`;
+        return this.http.get<any>(url, { responseType: "json" });
+    }
+
 }

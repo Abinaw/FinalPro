@@ -1,7 +1,7 @@
 import { IConfirmPurchaseEntity } from "./IConfirmPurchaseEntity";
 
 export interface IPurchaseVoucherEntity{
-    receiptId:number,
+    voucherId:number,
     confirmPurchaseOBJ:IConfirmPurchaseEntity,
     paidAmount:number,
     paidDate:string,

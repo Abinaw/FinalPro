@@ -2,11 +2,29 @@
     <div class="h-[550px] w-[1100px] flex gap-[10px]" *ngIf="productCartItems.length > 0">
         <div class=" w-[20%] h-[100%] border-r-[1px] ">
             <mat-dialog-actions align="center" class="w-full flex flex-col justify-center">
-                <button mat-raised-button color="primary" class="w-full" (click)="completeInvoice()">Confirm Invoice</button>
-                <button mat-raised-button (click)="openPDF()" class="w-full" color="warn">Print</button>
+              
+                <div class="flex flex-row mt-1 w-[13rem] h-[76px] justify-center border-solid border-black">
+                    <div  class="bg-purple-500  flex flex-row justify-center items-center text-sm text-center font-semibold rounded-md cursor-pointer h-full w-full" 
+                    (click)="completeInvoice()">
+                    <span class="material-symbols-outlined">
+                        receipt_long
+                        </span>
+                        <span class="text-black">Complete Invoice</span>
+                    </div>
+                   
+                    <div  class="bg-red-200  flex flex-row justify-center items-center text-sm text-center font-semibold rounded-md cursor-pointer h-full w-full" 
+                        (click)="openPDF()">
+                        <span class="material-symbols-outlined">
+                            request_quote
+                            </span>
+                        <span class="text-black">Print</span>
+                    </div>
+                    
+                 
+                </div>
             </mat-dialog-actions>
         </div>
-        <div class=" w-[80%] h-[100%]" >
+        <div class=" w-[80%] h-[100%] overflow-auto" >
            
             <app-invoice-template-for-customer id="invoice" [payList]="paymentsList">
             </app-invoice-template-for-customer>

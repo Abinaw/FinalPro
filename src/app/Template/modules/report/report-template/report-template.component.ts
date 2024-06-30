@@ -163,6 +163,70 @@ export class ReportTemplateComponent implements OnChanges {
                 }),error:null
 
             }
+        }else if(inputData.result && inputData?.reportType == "purchasePayments"){
+            this.tableData = {
+                title: "purchase",
+                tableHeader: [
+                    // "paymentId",
+                    "Purchase Invoice Number",
+                    "Vendor",
+                    "Time Stamp",
+                    "Total Paid Amount",
+                    "Payment Type",
+                   
+
+                ],
+                tableData: this.inputData?.result.map((res: any) => {
+                    
+                   const vendorOBJ = res.vendorOBJ 
+                   const purchaseDate=moment(new Date(res.paidDate)).toISOString();
+                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+                    return [
+                        // res.paymentId,
+                        res.ConfirmPurchaseOBJ.purchaseInvoice,
+                        vendorOBJ.vendorName,
+                        purchaseDate.split("T")[0] +"|"+ purchaseDate.split("T")[1] ,
+                        paidAmount,
+                        res.paymentType
+                       
+
+                    ]
+                }),error:null
+
+            }
+        }else if(inputData.result && inputData?.reportType == "salesPayments"){
+            this.tableData = {
+                title: "purchase",
+                tableHeader: [
+                    // "paymentId",
+                    "Sales Invoice Number",
+                    "Customer",
+                    "Time Stamp",
+                    "Total Paid Amount",
+                    "Payment Type",
+                   
+
+                ],
+                tableData: this.inputData?.result.map((res: any) => {
+                    
+                   const customerOBJ = res.confirmInvoiceOBJ.customerOBJ 
+                   const paidDate=moment(new Date(res.paidDate)).toISOString();
+                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+                    return [
+                        // res.paymentId,
+                        res.confirmInvoiceOBJ.invoiceNumber,
+                        customerOBJ.custName,
+                        paidDate.split("T")[0] +"|"+ paidDate.split("T")[1] ,
+                        paidAmount,
+                        res.paymentType
+                       
+
+                    ]
+                }),error:null
+
+            }
         }
     }
     getTotalNetAmount(): number {

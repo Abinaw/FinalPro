@@ -4,13 +4,19 @@
 
         <form [formGroup]="invoiceSelection" class="w-full ">
             <mat-form-field class="w-full">
-                <mat-label>REPORT TYPE</mat-label>
+                <mat-label>REPORT SELECT</mat-label>
                 <mat-select formControlName="selectedOpt" name="report" class="font-mono">
                     <mat-option  class="font-semibold font-mono" *ngFor="let option of reports"
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
-
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
+                <mat-label>REPROT TYPE</mat-label>
+                <mat-select formControlName="reportType" class="font-mono">
+                    <mat-option  class="font-semibold font-mono" *ngFor="let option of reportCategory"
+                        [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
+                </mat-select>
+            </mat-form-field>
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='voucherReprint'">
                 <mat-label>VOUCHER REF NUMBER</mat-label>
 
@@ -41,7 +47,7 @@
                 </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='purchaseReport'">
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                     <input matStartDate formControlName="start" placeholder="Start date">
@@ -69,7 +75,7 @@
         </section>
     </div>
 
-    <div class="border-solid  w-[78%]  rounded-r-xl overflow-auto">
+    <div class="border-solid  w-[78%]  rounded-r-xl overflow-auto flex flex-col justify-center" id="printSection">
 
         <ng-container *ngIf="!isReportGenerated" class="">
             <div class="w-full h-full grid justify-center align-middle items-center">
@@ -80,9 +86,9 @@
         <ng-container *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='voucherReprint'">
 
             <div class="table-cont flex justify-center">
-                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" 
+                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4" 
                 [paginationAutoPageSize]="true"
-                style="margin-bottom: 1rem; height: 50vh; width: 76vw" 
+                style="margin-bottom: 1rem; height: 52vh; width: 75vw" 
                 [rowData]="purchaseInvoiceRowData$| async"
                 [columnDefs]="voucherDef" 
                 [rowSelection]="rowSelection" 
@@ -96,9 +102,9 @@
         <ng-container *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='receiptReprint'">
             <div class="table-cont flex justify-center">
                 
-                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" 
+                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4" 
                 [paginationAutoPageSize]="true"
-                style="margin-bottom: 1rem; height: 50vh; width: 76vw" 
+                style="margin-bottom: 1rem; height: 52vh; width: 75vw" 
                 [rowData]="salesInvoiceRowData$ | async"     
                 [columnDefs]="receiptDef" 
                 [rowSelection]="rowSelection" 
@@ -108,8 +114,8 @@
                 </ag-grid-angular>
             </div>
         </ng-container>
-        <!-- <ng-container *ngIf="isReportGenerated">
+        <ng-container *ngIf="isReportGenerated && invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
             <app-report-template id="stockTemp" [inputData]="dataToSet"></app-report-template>
-        </ng-container> -->
+        </ng-container>
     </div>
 </div>

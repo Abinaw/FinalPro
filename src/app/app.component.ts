@@ -21,12 +21,12 @@ export class AppComponent {
     constructor(
         private router: Router,
         private renderer: Renderer2,
-        private custService: CustomerService,
+      
         private tempPurchaseInvoiceService: TempPurchaseService,
         private location: Location
     ) {
         this.isSwitched = true;
-        this.getAllToGlobalList();
+       
 
     }
 
@@ -60,11 +60,7 @@ export class AppComponent {
         document.documentElement.classList.toggle("dark");
     }
 
-    getAllToGlobalList() {
-        this.custService
-            .getAll()
-            .subscribe((res) => (GLOBAL_LIST.CUSTOMER_DATA = res));
-    }
+   
 
    
 }

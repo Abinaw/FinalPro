@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { VendorService } from "src/app/service/vendor-service/vendor.service";
 import { StockService } from "src/app/service/stock-service/stock.service";
+import { CustomerService } from "src/app/service/customer-service/customer.service";
 
 /**
  * @title Card with multiple sections
@@ -15,9 +16,13 @@ import { StockService } from "src/app/service/stock-service/stock.service";
 export class DashboardCardsComponent {
     @Input() isSwitched!: boolean;
 
-    constructor(private stockService: StockService) {
+    constructor(private stockService: StockService,  private custService: CustomerService,) {
         this.loadAllStock();
+        this.getAllToGlobalList();
     }
+    
+
+
     loadAllStock() {
         this.stockService.getAll().subscribe((res) => {
             GLOBAL_LIST.STOCK_DATA = res;
@@ -76,4 +81,11 @@ export class DashboardCardsComponent {
             route: "/dash-board/report",
         },
     ];
+
+
+    getAllToGlobalList() {
+        this.custService
+            .getAll()
+            .subscribe((res) => (GLOBAL_LIST.CUSTOMER_DATA = res));
+    }
 }

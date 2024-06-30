@@ -22,10 +22,36 @@ export class ReportsServiceService {
   return this.http.get<any>(url,{params:params,responseType:'json'});
   
   }
+
   selectPurchaseReportWithInRange(startDate:any, endDate:any){
     const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
     const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
     const url = `${this.baseUrl}/selectPurchaseReportWithInRange`;
+    let params = new HttpParams()
+    .set('startDate', formattedStartDate)
+    .set('endDate', formattedEndDate);
+
+  return this.http.get<any>(url,{params:params,responseType:'json'});
+  
+  }
+  selectAllPurchaseInvoicePaymentsWithInRange(startDate:any, endDate:any){
+    const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+    const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+   
+    const url = `${this.baseUrl}/selectAllPurchaseInvoicePaymentsWithInRange`;
+    let params = new HttpParams()
+    .set('startDate', formattedStartDate)
+    .set('endDate', formattedEndDate);
+
+  return this.http.get<any>(url,{params:params,responseType:'json'});
+  
+  }
+  selectAllSalesInvoicePaymentsWithInRange(startDate:any, endDate:any){
+    const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+    const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+   
+
+    const url = `${this.baseUrl}/selectAllSalesInvoicePaymentsWithInRange`;
     let params = new HttpParams()
     .set('startDate', formattedStartDate)
     .set('endDate', formattedEndDate);

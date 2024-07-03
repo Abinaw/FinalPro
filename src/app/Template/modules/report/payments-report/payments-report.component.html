@@ -6,26 +6,27 @@
             <mat-form-field class="w-full">
                 <mat-label>REPORT SELECT</mat-label>
                 <mat-select formControlName="selectedOpt" name="report" class="font-mono">
-                    <mat-option  class="font-semibold font-mono" *ngFor="let option of reports"
+                    <mat-option class="font-semibold font-mono" *ngFor="let option of reports"
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
                 <mat-label>REPROT TYPE</mat-label>
                 <mat-select formControlName="reportType" class="font-mono">
-                    <mat-option  class="font-semibold font-mono" *ngFor="let option of reportCategory"
+                    <mat-option class="font-semibold font-mono" *ngFor="let option of reportCategory"
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='voucherReprint'">
                 <mat-label>VOUCHER REF NUMBER</mat-label>
 
-                <input type="text" placeholder="RefNo" matInput formControlName="refNo" [formControl]="purchaseInvoiceControl"
-                    [matAutocomplete]="auto">
+                <input type="text" placeholder="RefNo" matInput formControlName="refNo"
+                    [formControl]="purchaseInvoiceControl" [matAutocomplete]="auto">
                 <mat-error *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptionPurchase | async" 
-                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmPurchaseId)" [value]="anItem.purchaseInvoice">
+                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptionPurchase | async"
+                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmPurchaseId)"
+                        [value]="anItem.purchaseInvoice">
 
                         {{anItem.purchaseInvoice}} | {{anItem.vendorOBJ.vendorName}}
                     </mat-option>
@@ -35,12 +36,13 @@
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='receiptReprint'">
                 <mat-label>RECEIPT REF NUMBER</mat-label>
 
-                <input type="text" placeholder="RefNo" matInput formControlName="refNo" [formControl]="salesInvoiceNoControl"
-                    [matAutocomplete]="auto">
+                <input type="text" placeholder="RefNo" matInput formControlName="refNo"
+                    [formControl]="salesInvoiceNoControl" [matAutocomplete]="auto">
                 <mat-error *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async" 
-                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmInvoiceId)" [value]="anItem.invoiceNumber">
+                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
+                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmInvoiceId)"
+                        [value]="anItem.invoiceNumber">
 
                         {{anItem.invoiceNumber}} | {{anItem.customerOBJ.custName}}
                     </mat-option>
@@ -75,47 +77,45 @@
         </section>
     </div>
 
-    <div class="border-solid  w-[78%]  rounded-r-xl overflow-auto flex flex-col justify-center" id="printSection">
+    <div class="border-solid w-[78%] rounded-r-xl">
 
+        <!-- <div class="w-[100%] h-full flex items-center"> -->
+
+            <ng-container
+                *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='voucherReprint'">
+
+                <div class="table-cont flex justify-center w-full overflow-auto">
+                    <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4"
+                        [paginationAutoPageSize]="true" style="margin-bottom: 1rem; height: 52vh; width: 75vw"
+                        [rowData]="purchaseInvoiceRowData$| async" [columnDefs]="voucherDef"
+                        [rowSelection]="rowSelection" (cellClicked)="onCellClicked($event)"
+                        (gridReady)="onGridVoucherDataReady($event)" [pagination]="true">
+                    </ag-grid-angular>
+                </div>
+            </ng-container>
+
+            <ng-container
+                *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='receiptReprint'">
+                <div class="table-cont flex justify-center  w-full overflow-auto">
+
+                    <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4"
+                        [paginationAutoPageSize]="true" style="margin-bottom: 1rem; height: 52vh; width: 75vw"
+                        [rowData]="salesInvoiceRowData$ | async" [columnDefs]="receiptDef" [rowSelection]="rowSelection"
+                        (cellClicked)="onCellClicked($event)" (gridReady)="onGridReceiptDataReady($event)"
+                        [pagination]="true">
+                    </ag-grid-angular>
+                </div>
+            </ng-container>
+        <!-- </div> -->
         <ng-container *ngIf="!isReportGenerated" class="">
             <div class="w-full h-full grid justify-center align-middle items-center">
                 <app-empty-report></app-empty-report>
             </div>
         </ng-container>
-
-        <ng-container *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='voucherReprint'">
-
-            <div class="table-cont flex justify-center">
-                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4" 
-                [paginationAutoPageSize]="true"
-                style="margin-bottom: 1rem; height: 52vh; width: 75vw" 
-                [rowData]="purchaseInvoiceRowData$| async"
-                [columnDefs]="voucherDef" 
-                [rowSelection]="rowSelection" 
-                (cellClicked)="onCellClicked($event)"
-                (gridReady)="onGridVoucherDataReady($event)" 
-                [pagination]="true">
-                </ag-grid-angular>
+        <ng-container *ngIf=" isReportGenerated && invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
+            <div class="w-full h-full  overflow-auto">
+                <app-report-template id="printSection" [inputData]="dataToSet"></app-report-template>
             </div>
-        </ng-container>
-
-        <ng-container *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='receiptReprint'">
-            <div class="table-cont flex justify-center">
-                
-                <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4" 
-                [paginationAutoPageSize]="true"
-                style="margin-bottom: 1rem; height: 52vh; width: 75vw" 
-                [rowData]="salesInvoiceRowData$ | async"     
-                [columnDefs]="receiptDef" 
-                [rowSelection]="rowSelection" 
-                (cellClicked)="onCellClicked($event)"
-                (gridReady)="onGridReceiptDataReady($event)"
-                [pagination]="true">
-                </ag-grid-angular>
-            </div>
-        </ng-container>
-        <ng-container *ngIf="isReportGenerated && invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
-            <app-report-template id="stockTemp" [inputData]="dataToSet"></app-report-template>
         </ng-container>
     </div>
 </div>

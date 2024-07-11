@@ -99,6 +99,7 @@ import { PurchaseReportComponent } from './Template/modules/report/purchase-repo
 import { PaymentsReportComponent } from './Template/modules/report/payments-report/payments-report.component';
 import { PrintActionComponent } from './custom-components/action-cell/print-action/print-action.component';
 import { CustomerReportComponent } from './Template/modules/report/customer-report/customer-report.component';
+import { VendorReportComponent } from './Template/modules/report/vendor-report/vendor-report.component';
 
 
 
@@ -165,6 +166,7 @@ import { CustomerReportComponent } from './Template/modules/report/customer-repo
         PaymentsReportComponent,
         PrintActionComponent,
         CustomerReportComponent,
+        VendorReportComponent,
 
         
 

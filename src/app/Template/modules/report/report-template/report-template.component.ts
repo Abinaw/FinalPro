@@ -291,6 +291,84 @@ export class ReportTemplateComponent implements OnChanges {
                 }),error:null
 
             }
+        }else if(inputData.result && inputData?.reportType == "customerReport"){
+            console.log("Report Type", inputData?.reportType)
+            console.log("Report Results", inputData?.result)
+            this.tableData = {
+                title: "Customer Report",
+                tableHeader: [
+                    // "paymentId",
+                    // "Sales Invoice Number",
+                    // "Customer",
+                    "Paid Date & Time",
+                    "Description",
+                    "Total Amount To be paid",
+                    "Paid amount",
+                   
+
+                ],
+                tableData: inputData.result.flatMap((group: any[]) => 
+                    group.flatMap((res: any) => {
+                      const confirmInvoiceOBJ = res.confirmInvoiceOBJ;
+                      const customerOBJ = confirmInvoiceOBJ.customerOBJ;
+                      const paidDate = new Date(res.paidDate);
+                      const datePart = paidDate.toISOString().split("T")[0];
+                      const timePart = paidDate.toISOString().split("T")[1].split(".")[0];
+                      const paidAmount = `Rs ${res.paidAmount.toFixed(2)}`;
+                      const totalAmount = `Rs ${confirmInvoiceOBJ.netAmount.toFixed(2)}`;
+                  
+                      return [
+                        [
+                          `${datePart} | ${timePart}`,
+                          `${"#CLC-"+confirmInvoiceOBJ.invoiceNumber} | ${res.paymentType}`,
+                          totalAmount,
+                          paidAmount
+                        ]
+                      ];
+                    })
+                  ),
+                  error: null
+                  
+            }
+        }else if(inputData.result && inputData?.reportType == "vendorReport"){
+            console.log("Report Type", inputData?.reportType)
+            console.log("Report Results", inputData?.result)
+            this.tableData = {
+                title: "Vendor Report",
+                tableHeader: [
+                    // "paymentId",
+                    // "Sales Invoice Number",
+                    // "Customer",
+                    "Paid Date & Time",
+                    "Description",
+                    "Total Amount To be paid",
+                    "Paid amount",
+                   
+
+                ],
+                tableData: inputData.result.flatMap((group: any[]) => 
+                    group.flatMap((res: any) => {
+                      const confirmInvoiceOBJ = res.ConfirmPurchaseOBJ;
+                      const vendorOBJ = res.ConfirmPurchaseOBJ?.vendorOBJ;
+                      const paidDate = new Date(res.paidDate);
+                      const datePart = paidDate.toISOString().split("T")[0];
+                      const timePart = paidDate.toISOString().split("T")[1].split(".")[0];
+                      const paidAmount = `Rs ${res.paidAmount.toFixed(2)}`;
+                      const totalAmount = `Rs ${confirmInvoiceOBJ.netAmount.toFixed(2)}`;
+                  
+                      return [
+                        [
+                          `${datePart} | ${timePart}`,
+                          `${"#CLC-"+confirmInvoiceOBJ.purchaseInvoice} | ${res.paymentType}`,
+                          totalAmount,
+                          paidAmount
+                        ]
+                      ];
+                    })
+                  ),
+                  error: null
+                  
+            }
         }
     }
     getTotalNetAmount(): number {

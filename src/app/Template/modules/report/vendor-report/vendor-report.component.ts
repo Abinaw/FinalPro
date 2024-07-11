@@ -1,0 +1,138 @@
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { map, Observable, startWith } from 'rxjs';
+import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
+import { IVendorEntity } from 'src/app/constants/interfaces/IVendorEntity';
+import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
+@Component({
+  selector: 'app-vendor-report',
+  templateUrl: './vendor-report.component.html',
+  styleUrls: ['./vendor-report.component.css']
+})
+export class VendorReportComponent {
+    vendorReportForm: FormGroup; 
+    filterOptions!: Observable<IVendorEntity[]>;
+    isReportGenerated!: boolean;
+    vendorId! :number
+    dataToSet: any = { reportType: '', result: null,error:null };
+    range: FormGroup;
+    vendorDataList!: IVendorEntity[]
+    reports: any[] = [
+        { value: 'vendorReport', viewValue: 'Vendor Report With in Range'},
+     
+    ];
+    vendorControl = new FormControl('');
+    constructor(
+        // private confirmedInvoiceService: ConfirmInvoiceService,
+        private cdr: ChangeDetectorRef,
+        private reportsService:ReportsServiceService
+    ) {
+        this.vendorDataList = GLOBAL_LIST.VENDOR_DATA
+    
+        this.vendorReportForm = new FormGroup({
+            selectedOpt: new FormControl(this.reports[0].value),
+            vendor: new FormControl('',[Validators.required,]),
+        });
+    
+        this.range = new FormGroup({
+            start: new FormControl({}, [Validators.required,]),
+            end: new FormControl({}, [Validators.required,]),
+        });
+    
+    }
+    ngOnInit() {
+        this.isReportGenerated = false
+        // this.customerReportForm.get('selectedOpt')?.setValue(this.reports[0].value);
+        this.filterOptions = this.vendorControl.valueChanges.pipe(
+            startWith(""),
+            map((value) => this.listFilter(value || ""))
+        );
+    }
+    
+    private listFilter(value: string): IVendorEntity[] {
+    
+        const searchValue = value.toString().toLowerCase();
+        return this.vendorDataList.filter(
+            option =>
+                option.vendorId.toString().toLowerCase().includes(searchValue)
+            ||
+            option.vendorName.toString().toLowerCase().includes(searchValue)
+        )
+    
+    }
+    
+    generateReport() {
+        const selectedCustomer = this.vendorReportForm.get('customer');
+        const startDate = this.range.get('start');
+        const endDate = this.range.get('end');
+    
+        if (startDate&& endDate) {
+            this.selectAllPaymentsOfaVendorWithInRange(this.vendorId,startDate.value, endDate.value)
+        } else {
+            console.log("Emptyyyy");
+        }
+       
+    }
+    getVendorId(vendorId:number){
+    this.vendorId=vendorId
+    }
+    selectAllPaymentsOfaVendorWithInRange(id:number,startDate: any, endDate: any){
+        this.reportsService.selectAllPaymentsOfaVendorWithInRange(this.vendorId,startDate,endDate).subscribe(res=>{
+            if(res?.result){
+                this.dataToSet = {
+                    dateRange:startDate +"-"+ endDate,
+                    reportType :"vendorReport",
+                    result: res?.result,
+                    error:null
+               }
+              
+            }else if(res?.errors){
+                this.dataToSet = {
+                    reportType :"vendorReport",
+                    result: null,
+                    error:res.errors
+               }
+            }
+           this.isReportGenerated = true
+           this.cdr.detectChanges();
+        },
+        error => {
+            console.error('Error fetching report:', error);
+        }
+        )
+    }
+    
+    printReport() {
+        const stockTempDoc = document.getElementById("stockTemp");
+        if (stockTempDoc) {
+            html2canvas(stockTempDoc, { scale: 3 }).then(canvas => {
+    
+                const imgData = canvas.toDataURL('image/jpeg');
+    
+                const pdf = new jsPDF('p', 'mm', 'a4');
+    
+                const imgWidth = pdf.internal.pageSize.getWidth();
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
+                pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+    
+                const pdfWindow = window.open('', '_blank');
+                if (pdfWindow) {
+                    pdfWindow.document.open();
+                    pdfWindow.document.write('<html><head><title>Report</title></head><body>');
+                    pdfWindow.document.write('<img src="' + imgData + '" style="width:100%; height:auto;">');
+                    pdfWindow.document.write('</body></html>');
+                    pdfWindow.document.close();
+    
+                    pdfWindow.onload = () => {
+                        pdfWindow.print();
+                    };
+    
+                    pdfWindow.onafterprint = () => pdfWindow.close();
+                }
+            });
+        }
+    }
+}

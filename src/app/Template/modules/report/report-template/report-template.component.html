@@ -36,15 +36,27 @@
                     </div>
                     <div class="w-[100%]" *ngIf="inputData.reportType == 'customSalesPayments'&& inputData?.result">
                         
-                            <div>Sales
-                                Invoice: </div><div>#CLC-{{inputData?.result[0].confirmInvoiceOBJ?.invoiceNumber}}</div>
-                            <div>Customer
-                                Name: </div><div>{{inputData?.result[0].confirmInvoiceOBJ?.customerOBJ?.custName}}</div>
+                        <div>Sales
+                            Invoice: </div><div>#CLC-{{inputData?.result[0].confirmInvoiceOBJ?.invoiceNumber}}</div>
+                        <div>Customer
+                            Name: </div><div>{{inputData?.result[0].confirmInvoiceOBJ?.customerOBJ?.custName}}</div>
+                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}} To</span>
+                        <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
+                    </div>
+                    <div class="w-[100%] flex justify-center gap-[20px]" *ngIf="inputData.reportType ==='vendorReport'&& inputData?.result">
+                            <div>Vendor Name: </div><div>{{inputData?.result[0][0].ConfirmPurchaseOBJ?.vendorOBJ?.vendorName}}|</div>
                             <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}} To</span>
                             <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
-
                        
                     </div>
+                    <div class="w-[100%] flex justify-center gap-[20px]" *ngIf="inputData.reportType ==='customerReport'&& inputData?.result">
+                        <div>Customer Name: </div><div>{{inputData?.result[0][0].confirmInvoiceOBJ?.customerOBJ?.custName}}|</div>
+                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}} To</span>
+                        <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
+                   
+                    </div>
+                    
+                    
                 </div>
 
                 <table class="w-full">

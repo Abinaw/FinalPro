@@ -5,7 +5,6 @@ import jsPDF from 'jspdf';
 import { map, Observable, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ICustomerEntity } from 'src/app/constants/interfaces/CustomerEntity';
-import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
 import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
 
 @Component({
@@ -17,8 +16,8 @@ export class CustomerReportComponent {
 customerReportForm: FormGroup; 
 filterOptions!: Observable<ICustomerEntity[]>;
 isReportGenerated!: boolean;
-invoiceNo! :number
-dataToSet: IDataToSet = { reportType: '', result: null,error:null };
+custId! :number
+dataToSet: any = { reportType: '', result: null,error:null };
 range: FormGroup;
 customerDataList!: ICustomerEntity[]
 reports: any[] = [
@@ -34,8 +33,8 @@ constructor(
     this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA
 
     this.customerReportForm = new FormGroup({
-        selectedOpt: new FormControl,
-        customer: new FormControl,
+        selectedOpt: new FormControl(this.reports[0].value),
+        customer: new FormControl('',[Validators.required,]),
     });
 
     this.range = new FormGroup({
@@ -46,7 +45,7 @@ constructor(
 }
 ngOnInit() {
     this.isReportGenerated = false
-    this.customerReportForm.get('selectedOpt')?.setValue(this.reports[0].value);
+    // this.customerReportForm.get('selectedOpt')?.setValue(this.reports[0].value);
     this.filterOptions = this.customerControl.valueChanges.pipe(
         startWith(""),
         map((value) => this.listFilter(value || ""))
@@ -66,19 +65,44 @@ private listFilter(value: string): ICustomerEntity[] {
 }
 
 generateReport() {
-    // const invoiceNum = this.invoiceSelection.get('invoiceNo');
-    // const selectedOpt = this.invoiceSelection.get('selectedOpt');
-    // const startDate = this.range.get('start');
-    // const endDate = this.range.get('end');
+    const selectedCustomer = this.customerReportForm.get('customer');
+    const startDate = this.range.get('start');
+    const endDate = this.range.get('end');
 
+    if (startDate&& endDate) {
+        this.selectAllPaymentsOfaCustomerWithInRange(this.custId,startDate.value, endDate.value)
+    } else {
+        console.log("Emptyyyy");
+    }
    
-    // if(invoiceNum!=null && selectedOpt?.value=="invoiceReprint"){   
-    //     this.getConfirmedInvoiceByInvoiceNo()
-       
-    // }else if(selectedOpt?.value=="salesReport" &&(startDate!=null && endDate !=null)){
-    //     this.getConfirmedInvoiceByRange(startDate.value,endDate.value)
-    // }
-   
+}
+getCustId(custId:number){
+this.custId=custId
+}
+selectAllPaymentsOfaCustomerWithInRange(id:number,startDate: any, endDate: any){
+    this.reportsService.selectAllPaymentsOfaCustomerWithInRange(this.custId,startDate,endDate).subscribe(res=>{
+        if(res?.result){
+            this.dataToSet = {
+                dateRange:startDate +"-"+ endDate,
+                reportType :"customerReport",
+                result: res?.result,
+                error:null
+           }
+          
+        }else if(res?.errors){
+            this.dataToSet = {
+                reportType :"customerReport",
+                result: null,
+                error:res.errors
+           }
+        }
+       this.isReportGenerated = true
+       this.cdr.detectChanges();
+    },
+    error => {
+        console.error('Error fetching report:', error);
+    }
+    )
 }
 
 printReport() {

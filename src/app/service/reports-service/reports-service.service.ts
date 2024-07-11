@@ -83,6 +83,30 @@ export class ReportsServiceService {
   return this.http.get<any>(url,{params:params,responseType:'json'});
   
   }
+  selectAllPaymentsOfaCustomerWithInRange(customerId:number,startDate:any, endDate:any){
+    const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+    const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+   
+    const url = `${this.baseUrl}/selectAllPaymentsOfaCustomerWithInRange/${customerId}`;
+    let params = new HttpParams()
+    .set('startDate', formattedStartDate)
+    .set('endDate', formattedEndDate);
+
+  return this.http.get<any>(url,{params:params,responseType:'json'});
+  
+  }
+  selectAllPaymentsOfaVendorWithInRange(vendorId:number,startDate:any, endDate:any){
+    const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+    const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+   
+    const url = `${this.baseUrl}/selectAllPaymentsOfaVendorWithInRange/${vendorId}`;
+    let params = new HttpParams()
+    .set('startDate', formattedStartDate)
+    .set('endDate', formattedEndDate);
+
+  return this.http.get<any>(url,{params:params,responseType:'json'});
+  
+  }
 
 
 }

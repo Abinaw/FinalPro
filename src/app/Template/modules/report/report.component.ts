@@ -4,6 +4,7 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
 import { CustomerService } from 'src/app/service/customer-service/customer.service';
+import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 
 @Component({
   selector: 'app-report',
@@ -18,11 +19,13 @@ export class ReportComponent {
         private confirmedInvoiceService: ConfirmInvoiceService,
         private confirmedPurchaseInvoiceService: ConfirmPurchaseAndCartServiceService,
         private customerService: CustomerService,
+        private vendorService:VendorService
 
      ){
         this.getAllConfirmInvoice()
         this.getAllConfirmPurchaseInvoice()
         this.getAllCustomers()
+        this.getAllVendors()
     }
   
     Cards = [
@@ -71,5 +74,14 @@ export class ReportComponent {
         this.customerService.getAll().subscribe((customerData)=>{
             GLOBAL_LIST.CUSTOMER_DATA = customerData
         })
-}
+    
+    }
+    getAllVendors(){
+        this.vendorService.getAll().subscribe((vendorData)=>{
+            GLOBAL_LIST.VENDOR_DATA = vendorData
+        })
+    
+    }
+
+
 }

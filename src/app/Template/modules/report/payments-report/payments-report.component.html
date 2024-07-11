@@ -10,7 +10,7 @@
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'||'customPaymentsReport'">
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'||invoiceSelection.get('selectedOpt')?.value==='customPaymentsReport'">
                 <mat-label>REPROT TYPE</mat-label>
                 <mat-select formControlName="reportType" class="font-mono">
                     <mat-option class="font-semibold font-mono" *ngFor="let option of reportCategory"

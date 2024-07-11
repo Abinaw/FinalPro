@@ -98,6 +98,7 @@ import { InvoiceReportComponent } from './Template/modules/report/invoice-report
 import { PurchaseReportComponent } from './Template/modules/report/purchase-report/purchase-report.component';
 import { PaymentsReportComponent } from './Template/modules/report/payments-report/payments-report.component';
 import { PrintActionComponent } from './custom-components/action-cell/print-action/print-action.component';
+import { CustomerReportComponent } from './Template/modules/report/customer-report/customer-report.component';
 
 
 
@@ -163,6 +164,7 @@ import { PrintActionComponent } from './custom-components/action-cell/print-acti
         PurchaseReportComponent,
         PaymentsReportComponent,
         PrintActionComponent,
+        CustomerReportComponent,
 
         
 

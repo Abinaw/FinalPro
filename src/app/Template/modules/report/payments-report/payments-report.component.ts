@@ -41,7 +41,7 @@ export class PaymentsReportComponent{
     confirmPurchaseDataList!: IConfirmPurchaseEntity[]
     confirmSalesInvoiceDataList!: IConfirmInvoiceEntity[]
     invoiceId!: number
-    dataToSet: IDataToSet = { reportType: '', result: null, error: null };
+    dataToSet:any = { reportType: '', result: null, error: null, };
     reports: any[] = [
         { value: 'voucherReprint', viewValue: 'Voucher Re-print' },
         { value: 'receiptReprint', viewValue: 'Receipt Re-print' },
@@ -77,9 +77,9 @@ export class PaymentsReportComponent{
         this.confirmPurchaseDataList = GLOBAL_LIST.CONFIRM_PURCHASE_DATA
         this.confirmSalesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
         this.invoiceSelection = new FormGroup({
-            refNo: new FormControl,
-            selectedOpt: new FormControl,
-            reportType: new FormControl,
+            refNo: new FormControl(null),
+            selectedOpt: new FormControl(null),
+            reportType: new FormControl(null),
         });
 
         this.range = new FormGroup({
@@ -128,29 +128,7 @@ export class PaymentsReportComponent{
     }
 
 
-    // getAllPurchasePaymentsForThePurchaseInvoice() {
-        // this.confirmPurchasePaymentService.getAllVoucherOfTheSelectedRefNo(this.invoiceId).subscribe((res) => {
-        //     console.log(res)
-    //         if (res?.result) {
-    //             this.dataToSet = {
-    //                 reportType: "voucherReprint",
-    //                 result: res.result,
-    //                 error: null
-    //             }
-    //         } else if (res?.errors) {
-    //             this.dataToSet = {
-    //                 reportType: "voucherReprint",
-    //                 error: res.errors,
-    //                 result: null
-    //             }
-    //         }
-    //         this.isReportGenerated = true
-    //         this.cdr.detectChanges()
-    //     },
-    //         error => {
-    //             console.error('Error fetching report:', error);
-    //         })
-    // }
+  
     getPurchaseInvoicePayments(start: any, end: any) {
        
         this.reportsService.selectAllPurchaseInvoicePaymentsWithInRange(start,end).subscribe((res) => {
@@ -204,6 +182,59 @@ export class PaymentsReportComponent{
         );
     }
 
+    getSelectedPurchaseInvoicePayments(purchaseInvoiceId:number,start: any, end: any) {
+        this.reportsService.selectAllPaymentsOfThePurchaseInvoiceWithInTheRange(purchaseInvoiceId,start,end).subscribe((res) => {
+            if (res?.result) {
+                this.dataToSet = {
+                    dateRange:start +"-"+ end,
+                    reportType: "customPurchasePayments",
+                    result: res.result,
+                    error: null
+                }
+            } else if (res?.errors) {
+                this.dataToSet = {
+                    reportType: "customPurchasePayments",
+                    error: res.errors,
+                    result: null
+                }
+            }
+            this.isReportGenerated = true
+            this.cdr.detectChanges()
+        },
+            error => {
+                console.error('Error fetching report:', error);
+            })
+    }
+
+    getSelectedSalesInvoicePayments(invoiceId:number,start: any, end: any) {
+       
+
+        this.reportsService.selectAllPaymentsOfTheSalesInvoiceWithInTheRange(invoiceId,start, end).subscribe(
+            (res) => {
+                if (res?.result) {
+                    this.dataToSet = {
+                        dateRange:start +"-"+ end,
+                        reportType: "customSalesPayments",
+                        result: res.result,
+                        error: null
+                    }
+                } else if (res?.errors) {
+                    this.dataToSet = {
+                        reportType: "customSalesPayments",
+                        error: res.errors,
+                        result: null
+                    }
+                }
+    
+    
+                this.isReportGenerated = true
+                this.cdr.detectChanges();
+            },
+            error => {
+                console.error('Error fetching report:', error);
+            }
+        );
+    }
 
     getTheSelectedInvoiceId(invoice: number) {
         this.invoiceId = invoice
@@ -436,6 +467,13 @@ export class PaymentsReportComponent{
                         break;
                     case 'customPaymentsReport':
                         console.log('Generating custom Reports for')
+                        switch(reportType?.value){
+                            case 'purchaseInvoice':
+                                this.getSelectedPurchaseInvoicePayments(this.invoiceId,startDate,endDate)
+                                break;
+                            case 'salesInvoice':
+                                this.getSelectedSalesInvoicePayments(this.invoiceId,startDate,endDate)
+                        }
                         break;
                     default:
                         console.error('Invalid report type selected');

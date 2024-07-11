@@ -22,7 +22,7 @@ export class ReportTemplateComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         
         if (changes['inputData']) {
-            
+           
             console.log("after detect change ",this.inputData)
             if(this.inputData?.result){
                 this.setDataIntoTable(this.inputData)
@@ -180,13 +180,15 @@ export class ReportTemplateComponent implements OnChanges {
                     
                    const vendorOBJ = res.vendorOBJ 
                    const purchaseDate=moment(new Date(res.paidDate)).toISOString();
+                   const datePart = purchaseDate.split("T")[0];
+                   const timePart = purchaseDate.split("T")[1].split(".")[0];
                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
                 //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
                     return [
                         // res.paymentId,
                         res.ConfirmPurchaseOBJ.purchaseInvoice,
                         vendorOBJ.vendorName,
-                        purchaseDate.split("T")[0] +"|"+ purchaseDate.split("T")[1] ,
+                        `${datePart}|${timePart}`,
                         paidAmount,
                         res.paymentType
                        
@@ -197,7 +199,7 @@ export class ReportTemplateComponent implements OnChanges {
             }
         }else if(inputData.result && inputData?.reportType == "salesPayments"){
             this.tableData = {
-                title: "purchase",
+                title: "sales",
                 tableHeader: [
                     // "paymentId",
                     "Sales Invoice Number",
@@ -212,17 +214,79 @@ export class ReportTemplateComponent implements OnChanges {
                     
                    const customerOBJ = res.confirmInvoiceOBJ.customerOBJ 
                    const paidDate=moment(new Date(res.paidDate)).toISOString();
+                   const datePart = paidDate.split("T")[0];
+                   const timePart = paidDate.split("T")[1].split(".")[0];
                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
                 //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
                     return [
                         // res.paymentId,
                         res.confirmInvoiceOBJ.invoiceNumber,
                         customerOBJ.custName,
-                        paidDate.split("T")[0] +"|"+ paidDate.split("T")[1] ,
+                        `${datePart}|${timePart}`,
                         paidAmount,
                         res.paymentType
                        
 
+                    ]
+                }),error:null
+
+            }
+        }else if(inputData.result && inputData?.reportType == "customSalesPayments"){
+            this.tableData = {
+                title: "sales payemnts",
+                tableHeader: [
+                    // "paymentId",
+                    // "Sales Invoice Number",
+                    // "Customer",
+                    "Paid Date & Time",
+                    "Paid Amount",
+                    "Payment Type",
+                   
+
+                ],
+                tableData: this.inputData?.result.map((res: any) => {
+                    
+                   const customerOBJ = res.confirmInvoiceOBJ.customerOBJ 
+                   const paidDate=moment(new Date(res.paidDate)).toISOString();
+                   const datePart = paidDate.split("T")[0];
+                   const timePart = paidDate.split("T")[1].split(".")[0];
+                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                    return [
+                       
+                       `${datePart}|${timePart}`,
+                        paidAmount,
+                        res.paymentType
+                       
+                    ]
+                }),error:null
+
+            }
+        }else if(inputData.result && inputData?.reportType == "customPurchasePayments"){
+            this.tableData = {
+                title: "purchase payemnts",
+                tableHeader: [
+                    // "paymentId",
+                    // "Sales Invoice Number",
+                    // "Customer",
+                    "Paid Date & Time",
+                    "Paid Amount",
+                    "Payment Type",
+                   
+
+                ],
+                tableData: this.inputData?.result.map((res: any) => {
+                    
+                   const vendorOBJ = res.ConfirmPurchaseOBJ.vendorOBJ 
+                   const paidDate=moment(new Date(res.paidDate)).toISOString();
+                   const datePart = paidDate.split("T")[0];
+                   const timePart = paidDate.split("T")[1].split(".")[0];
+                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                    return [
+                       
+                       `${datePart}|${timePart}`,
+                        paidAmount,
+                        res.paymentType
+                       
                     ]
                 }),error:null
 

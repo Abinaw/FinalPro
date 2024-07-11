@@ -10,16 +10,17 @@
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'||'customPaymentsReport'">
                 <mat-label>REPROT TYPE</mat-label>
                 <mat-select formControlName="reportType" class="font-mono">
                     <mat-option class="font-semibold font-mono" *ngFor="let option of reportCategory"
                         [value]="option.value">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='voucherReprint'">
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='voucherReprint'|| 
+           invoiceSelection.get('selectedOpt')?.value==='customPaymentsReport' && 
+           invoiceSelection.get('reportType')?.value==='purchaseInvoice'">
                 <mat-label>VOUCHER REF NUMBER</mat-label>
-
                 <input type="text" placeholder="RefNo" matInput formControlName="refNo"
                     [formControl]="purchaseInvoiceControl" [matAutocomplete]="auto">
                 <mat-error *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
@@ -33,7 +34,10 @@
                 </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='receiptReprint'">
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='receiptReprint' || 
+             invoiceSelection.get('selectedOpt')?.value==='customPaymentsReport' &&
+             invoiceSelection.get('reportType')?.value==='salesInvoice'
+             ">
                 <mat-label>RECEIPT REF NUMBER</mat-label>
 
                 <input type="text" placeholder="RefNo" matInput formControlName="refNo"
@@ -49,7 +53,11 @@
                 </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
+            <mat-form-field class="w-full" *ngIf="
+            invoiceSelection.get('selectedOpt')?.value === 'allPaymentsReports' ||
+            (invoiceSelection.get('selectedOpt')?.value === 'customPaymentsReport' &&
+             (invoiceSelection.get('reportType')?.value === 'purchaseInvoice' || 
+              invoiceSelection.get('reportType')?.value === 'salesInvoice'))">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                     <input matStartDate formControlName="start" placeholder="Start date">
@@ -112,7 +120,10 @@
                 <app-empty-report></app-empty-report>
             </div>
         </ng-container>
-        <ng-container *ngIf=" isReportGenerated && invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports'">
+        <ng-container *ngIf=" isReportGenerated && invoiceSelection.get('selectedOpt')?.value==='allPaymentsReports' || 
+         (invoiceSelection.get('selectedOpt')?.value === 'customPaymentsReport' &&
+        (invoiceSelection.get('reportType')?.value === 'purchaseInvoice' || 
+         invoiceSelection.get('reportType')?.value === 'salesInvoice'))">
             <div class="w-full h-full  overflow-auto">
                 <app-report-template id="printSection" [inputData]="dataToSet"></app-report-template>
             </div>

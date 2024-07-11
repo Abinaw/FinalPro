@@ -59,4 +59,30 @@ export class ReportsServiceService {
   return this.http.get<any>(url,{params:params,responseType:'json'});
   
   }
+  selectAllPaymentsOfTheSalesInvoiceWithInTheRange(invoiceId:number,startDate:any, endDate:any){
+    const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+    const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+   
+    const url = `${this.baseUrl}/selectAllPaymentsOfTheSalesInvoiceWithInTheRange/${invoiceId}`;
+    let params = new HttpParams()
+    .set('startDate', formattedStartDate)
+    .set('endDate', formattedEndDate);
+
+  return this.http.get<any>(url,{params:params,responseType:'json'});
+  
+  }
+  selectAllPaymentsOfThePurchaseInvoiceWithInTheRange(purchaseInvoiceId:number,startDate:any, endDate:any){
+    const formattedStartDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+    const formattedEndDate = moment(endDate).format('YYYY-MM-DDTHH:mm:ss');
+   
+    const url = `${this.baseUrl}/selectAllPaymentsOfThePurchaseInvoiceWithInTheRange/${purchaseInvoiceId}`;
+    let params = new HttpParams()
+    .set('startDate', formattedStartDate)
+    .set('endDate', formattedEndDate);
+
+  return this.http.get<any>(url,{params:params,responseType:'json'});
+  
+  }
+
+
 }

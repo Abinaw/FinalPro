@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
+import { CustomerService } from 'src/app/service/customer-service/customer.service';
 
 @Component({
   selector: 'app-report',
@@ -16,10 +17,12 @@ export class ReportComponent {
     constructor(private router:Router,
         private confirmedInvoiceService: ConfirmInvoiceService,
         private confirmedPurchaseInvoiceService: ConfirmPurchaseAndCartServiceService,
+        private customerService: CustomerService,
 
      ){
         this.getAllConfirmInvoice()
         this.getAllConfirmPurchaseInvoice()
+        this.getAllCustomers()
     }
   
     Cards = [
@@ -63,4 +66,10 @@ export class ReportComponent {
                 GLOBAL_LIST.CONFIRM_PURCHASE_DATA = purchaseData?.result
             })
     }
+
+    getAllCustomers(){
+        this.customerService.getAll().subscribe((customerData)=>{
+            GLOBAL_LIST.CUSTOMER_DATA = customerData
+        })
+}
 }

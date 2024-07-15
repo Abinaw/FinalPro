@@ -8,7 +8,7 @@ import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 
 import { IProCartEntity } from "../../../constants/interfaces/IProCartEntity";
 
-import { IInvoiceEntity } from "../../../constants/interfaces/InvoiceEntity";
+import { IInvoiceEntity } from "../../../constants/interfaces/IInvoiceEntity";
 import { PaymentsService } from "src/app/service/payments-service/payments.service";
 import { IPaymentEntity } from "../../../constants/interfaces/IPaymentEntity";
 

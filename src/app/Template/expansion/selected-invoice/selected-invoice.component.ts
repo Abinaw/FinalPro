@@ -16,7 +16,7 @@ import { ICellRendererParams } from 'ag-grid/dist/lib/rendering/cellRenderers/iC
 import { InvoiceTemplateForCustomerComponent } from '../invoice-template-for-customer/invoice-template-for-customer.component';
 import { IProCartEntity } from '../../../constants/interfaces/IProCartEntity';
 import { InvoiceService } from 'src/app/service/invoice-service/invoice.service';
-import { IInvoiceEntity } from 'src/app/constants/interfaces/InvoiceEntity';
+import { IInvoiceEntity } from 'src/app/constants/interfaces/IInvoiceEntity';
 import { PrintComponent } from '../../side-bar/nav-settings/print/print.component';
 import { InvoicePrintComponent } from '../invoice-print/invoice-print.component';
 import { PaymentsService } from 'src/app/service/payments-service/payments.service';

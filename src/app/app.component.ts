@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, Renderer2 } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Renderer2 } from "@angular/core";
 import { Router } from "@angular/router";
 import { CustomerService } from "./service/customer-service/customer.service";
 import { GLOBAL_LIST } from "./constants/GlobalLists";
 import { VendorService } from "./service/vendor-service/vendor.service";
 import { TempPurchaseService } from "./service/tempPurchase-service/temp-purchase.service";
 import { Location } from '@angular/common';
+import { NotificationService } from "./service/notification-service/notification.service";
+import { SalesInvocieChequeService } from "./service/salesInvoiceCheque-service/sales-invocie-cheque.service";
+import { IDataToSet } from "./constants/interfaces/IDataToSetForReports";
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
@@ -16,20 +19,20 @@ export class AppComponent {
     isLoginPageAvail: boolean = true;
     showClose: boolean = false;
     isSwitched;
-    currentYear: number = new Date().getFullYear();
-
+    currentYear: number = new Date().getFullYear()
+    dueChequeData :any = {result:null}
     constructor(
         private router: Router,
-        private renderer: Renderer2,
-      
-        private tempPurchaseInvoiceService: TempPurchaseService,
-        private location: Location
+        private notificationService: NotificationService,
+        
     ) {
         this.isSwitched = true;
-       
+    
 
     }
-
+    ngOnInit() {
+        this.notificationService.fetchDueCheques();
+      }
     ShowSidebarAndNotifiBar(): any {
         const currentRoute = this.router.url; //login
         // if (['/login'].includes(currentRoute)) {
@@ -42,9 +45,7 @@ export class AppComponent {
         }
     }
 
-    // goBack() {
-    //     this.location.back();
-    //   }
+  
     showCloseIcon() {
         const currentRoute = this.router.url;
         if (["/login", "/dash-board"].includes(currentRoute)) {
@@ -60,7 +61,7 @@ export class AppComponent {
         document.documentElement.classList.toggle("dark");
     }
 
-   
-
+  
+ 
    
 }

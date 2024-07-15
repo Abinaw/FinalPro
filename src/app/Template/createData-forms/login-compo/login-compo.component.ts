@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { SalesInvocieChequeService } from 'src/app/service/salesInvoiceCheque-service/sales-invocie-cheque.service';
+import { NotificationService } from 'src/app/service/notification-service/notification.service';
 
 
 
@@ -19,20 +21,20 @@ logForm : FormGroup;
 
 
 
-
   ngOnInit(): void {
-
   }
 
   constructor(
     private router: Router,
     private authService: AuthService,
+    private notificationService:NotificationService
   ) { 
 
     this.logForm=new FormGroup({
         userName:new FormControl(null,Validators.required),
         password: new FormControl(null,Validators.required)
         })
+  
 
   }
 
@@ -40,7 +42,7 @@ logForm : FormGroup;
 
 
   loginUser(): void {
-    
+    this.notificationService.fetchDueCheques();
 
     this.authService.logInReq(this.logForm.value).subscribe((res) => {
         console.log(res)
@@ -51,7 +53,9 @@ logForm : FormGroup;
         const token = result.token
         if(this.authService.isValidJWT(token)){
             console.log("working")
-            this.authService.login(result.token)    
+            
+            this.authService.login(result.token)   
+            this.notificationService.fetchDueCheques(); 
             this.router.navigate(["/dash-board"]);
         }
     },(err)=>{

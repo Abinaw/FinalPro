@@ -1,4 +1,4 @@
-import { IInvoiceEntity } from "./InvoiceEntity"
+import { IInvoiceEntity } from "./IInvoiceEntity"
 
 export interface IPaymentEntity{
     paymentId:number,

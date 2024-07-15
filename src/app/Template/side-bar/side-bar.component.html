@@ -1,24 +1,16 @@
-<div
-    class="w-full h-full bg-[#886cce46] dark:bg-[#382e59] rounded-[10px] p-[10px]"
->
-    <nav
-        class="rounded-xl w-full h-full flex flex-col justify-between items-center"
-        [ngClass]="{
+<div class="w-full h-full bg-[#886cce46] dark:bg-[#382e59] rounded-[10px] p-[10px]">
+    <nav class="rounded-xl w-full h-full flex flex-col justify-between items-center" [ngClass]="{
             dark: isSwitched,
             'lite borderForNav': !isSwitched
-        }"
-    >
+        }">
         <div>
             <app-user-deatils />
         </div>
 
-        <ul
-            class="flex flex-col w-full items-center gap-y-[16px]"
-            [ngClass]="{
+        <ul class="flex flex-col w-full items-center gap-y-[16px]" [ngClass]="{
                 'text-gray-200': isSwitched,
                 'text-gray-600': !isSwitched
-            }"
-        >
+            }">
             <li>
                 <a [routerLink]="['/sys-info']">
                     <span class="material-symbols-rounded"> info </span>
@@ -41,12 +33,16 @@
                     <span class="material-symbols-rounded"> backup </span>
                 </a>
             </li>
+            <li>
+                <a href="#" [routerLink]="['/']">
+                    <app-notification [notifications]="dueChequeData"></app-notification>
+                </a>
+                
+            </li>
         </ul>
-        <button
-            class="bg-[#f77e88] flex items-center justify-center gap-x-[4px] w-full py-[8px] rounded-[5px]"
-            type="button"
-        >
-            <span class="text-[11px] font-bold uppercase" (click)="logout()">Sign out</span>
+        <button class="bg-[#f77e88] flex items-center justify-center gap-x-[4px] w-full py-[8px] rounded-[5px]"
+            type="button" (click)="logout()">
+            <span class="text-[11px] font-bold uppercase" >Sign out</span>
         </button>
     </nav>
 </div>

@@ -11,7 +11,7 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { InvoiceFinalizationComponent } from 'src/app/custom-components/invoice-finalization/invoice-finalization.component';
 import { ValueGetterParams } from 'ag-grid/dist/lib/entities/colDef';
 import { ActionCellComponent } from 'src/app/custom-components/action-cell/user-action/action-cell.component';
-import { IInvoiceEntity } from '../../../constants/interfaces/InvoiceEntity';
+import { IInvoiceEntity } from '../../../constants/interfaces/IInvoiceEntity';
 import { ProductCartService } from 'src/app/service/productCart-service/product-cart.service';
 import moment from 'moment';
 

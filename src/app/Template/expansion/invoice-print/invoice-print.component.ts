@@ -9,7 +9,7 @@ import { PaymentsService } from 'src/app/service/payments-service/payments.servi
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IInvoiceEntity } from 'src/app/constants/interfaces/InvoiceEntity';
+import { IInvoiceEntity } from 'src/app/constants/interfaces/IInvoiceEntity';
 import { IPaymentEntity } from 'src/app/constants/interfaces/IPaymentEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 

@@ -32,7 +32,7 @@ export class CustomerService {
   regiterReq(regReq: any):Observable<any>{
     // this.audService.playSoundInsert()
     const url = `${this.baseUrl}/register`;
-    return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
+    return this.http.post<any>(url,regReq,{responseType :'json'})
   }
  
 

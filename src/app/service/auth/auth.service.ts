@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { LoginRequest } from 'src/app/Template/createData-forms/login-compo/LoginRequest';
+import { NotificationService } from '../notification-service/notification.service';
+import { SalesInvocieChequeService } from '../salesInvoiceCheque-service/sales-invocie-cheque.service';
 
 
 
@@ -54,8 +56,6 @@ export class AuthService {
     try {
       const payload = JSON.parse(atob(parts[1]));
       const currentTime = Math.floor(Date.now() / 1000);
-    //   console.log("payload.exp:",payload.exp);
-    //   console.log("currentTime:",currentTime);
       if(payload.exp && payload.exp > currentTime){
         return true;
       }else{

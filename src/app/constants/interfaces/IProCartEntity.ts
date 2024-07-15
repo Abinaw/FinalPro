@@ -1,5 +1,5 @@
 import { IStockEntity } from "./IStockEntity";
-import { IInvoiceEntity } from "./InvoiceEntity";
+import { IInvoiceEntity } from "./IInvoiceEntity";
 
 export interface IProCartEntity{
     proCartId:number,

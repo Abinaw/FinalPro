@@ -100,7 +100,9 @@ import { PaymentsReportComponent } from './Template/modules/report/payments-repo
 import { PrintActionComponent } from './custom-components/action-cell/print-action/print-action.component';
 import { CustomerReportComponent } from './Template/modules/report/customer-report/customer-report.component';
 import { VendorReportComponent } from './Template/modules/report/vendor-report/vendor-report.component';
-
+import { NotificationComponent } from './Template/side-bar/nav-settings/notification/notification.component';
+import {MatBadgeModule} from '@angular/material/badge';
+import { NotifiExpansionComponent } from './Template/side-bar/nav-settings/notification/notifi-expansion/notifi-expansion.component';
 
 
 @NgModule({
@@ -167,6 +169,8 @@ import { VendorReportComponent } from './Template/modules/report/vendor-report/v
         PrintActionComponent,
         CustomerReportComponent,
         VendorReportComponent,
+        NotificationComponent,
+        NotifiExpansionComponent,
 
         
 
@@ -178,7 +182,7 @@ import { VendorReportComponent } from './Template/modules/report/vendor-report/v
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        
+        MatBadgeModule,
 
         // Dash-Board-Purpose
         MatButtonModule,

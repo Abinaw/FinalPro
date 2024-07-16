@@ -15,7 +15,7 @@ import { SalesInvocieChequeService } from '../salesInvoiceCheque-service/sales-i
 export class AuthService {
 
 
-  constructor(private http: HttpClient, private router:Router,private toastr:ToastrService) {}
+  constructor(private http: HttpClient, private router:Router,private toastr:ToastrService,private notificationService:NotificationService) {}
 
   private baseUrl = 'http://localhost:8080/api/authentication/login';
 
@@ -45,6 +45,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user')
     this.router.navigate(['/login']);
+    this.notificationService.clearData()
   }
 
   isValidJWT(token: string): boolean {

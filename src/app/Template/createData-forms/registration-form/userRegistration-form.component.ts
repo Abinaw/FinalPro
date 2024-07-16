@@ -31,7 +31,7 @@ export class UserRegistrationForm implements OnInit {
             username: new FormControl(null, Validators.required),
             gender: new FormControl("male", Validators.required),
             role: new FormControl(null, Validators.required),
-            email: new FormControl("cap@gmail.com", [Validators.required, Validators.email]),
+            email: new FormControl(null, [Validators.required, Validators.email]),
             password:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,Validators.required),
             confirmPw:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,Validators.required),
             
@@ -88,6 +88,8 @@ export class UserRegistrationForm implements OnInit {
         }
 
     }
+
+
     insertPopTrigger() {
             
         const extraData = {
@@ -97,10 +99,15 @@ export class UserRegistrationForm implements OnInit {
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
-            this.userService.regiterReq(this.userForm.value).subscribe(res => {
-                console.log(res)
-                this.matDialogRef.close()
-                this.toastr.success(res)
+            this.userService.insertNewUser(this.userForm.value).subscribe(res => {
+                if(res?.successMessage!=null){
+                    this.toastr.success(res?.successMessage)
+                    this.matDialogRef.close();
+                }else{
+                    console.log(res)
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors)
+                }
             })
 
         })
@@ -127,16 +134,6 @@ export class UserRegistrationForm implements OnInit {
 
     }
 
-    //--------------- Form Validation------------------
-
-    doNotAddSpace(control: FormControl) {
-        if (control.value != "" && control.value.indexOf(' ') != -1) {
-            console.log(control)
-            return control
-            // return { noSpace: true };
-        } else {
-            return null;
-        }
-    }
+   
 
 }

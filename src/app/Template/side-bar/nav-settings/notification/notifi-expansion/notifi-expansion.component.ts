@@ -7,11 +7,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./notifi-expansion.component.css']
 })
 export class NotifiExpansionComponent {
-
+receivedData:any[]=[]
     constructor(@Inject(MAT_DIALOG_DATA) public data: any){
-        console.log(this.data)
+        this.receivedData =data
+        console.log(this.receivedData)
     }
-
-    
-
 }

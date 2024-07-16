@@ -27,7 +27,8 @@ logForm : FormGroup;
   constructor(
     private router: Router,
     private authService: AuthService,
-    private notificationService:NotificationService
+    private notificationService:NotificationService,
+    private toastr:ToastrService
   ) { 
 
     this.logForm=new FormGroup({
@@ -42,24 +43,19 @@ logForm : FormGroup;
 
 
   loginUser(): void {
-    this.notificationService.fetchDueCheques();
-
-    this.authService.logInReq(this.logForm.value).subscribe((res) => {
-        console.log(res)
-        console.log("entered!")
-
-        var result = JSON.parse(res)
-       
-        const token = result.token
+       this.authService.logInReq(this.logForm.value).subscribe((res) => {
+         var result = JSON.parse(res)
+         const token = result.token
         if(this.authService.isValidJWT(token)){
-            console.log("working")
-            
+          
             this.authService.login(result.token)   
             this.notificationService.fetchDueCheques(); 
             this.router.navigate(["/dash-board"]);
+            this.toastr.clear()
+            this.toastr.success("Successfully loggedin!")
         }
     },(err)=>{
-        alert("invalid")
+        this.toastr.error("Login Failed, Check the credentials!")
     });
   }
 }

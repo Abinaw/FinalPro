@@ -16,14 +16,13 @@ export class UserService {
     
 
 
-  constructor(private http:HttpClient, public audService :AudioService,) { }
+  constructor(private http:HttpClient) { }
   
  
 
-  regiterReq(regReq: any):Observable<any>{
-    // this.audService.playSoundInsert()
-    const url = `${this.baseUrl}/register`;
-    return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
+  insertNewUser(regReq: any):Observable<any>{
+    const url = `${this.baseUrl}/insertNewUser`;
+    return this.http.post<any>(url,regReq,{responseType :'json' as 'json'})
   }
 
   getAllUser():Observable<any>{

@@ -1,7 +1,12 @@
 <div>
     <table>
-        <tr *ngFor="let notification of this.data">
-            <td>{{notification.chequeDueDate}}</td>
+        <tr *ngFor="let entry of receivedData | keyvalue" class="border-b-2">
+            <td>{{entry.key}}</td>
+            <td>
+                <ul>
+                    <li *ngFor="let item of entry.value">{{ item }}</li>
+                </ul>
+            </td>
         </tr>
     </table>
 </div>

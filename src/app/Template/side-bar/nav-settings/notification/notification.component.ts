@@ -10,7 +10,8 @@ import { NotifiExpansionComponent } from './notifi-expansion/notifi-expansion.co
 })
 export class NotificationComponent  implements OnInit {
 
-    @Input() notifications!: any[];
+    @Input() purchaseNotifications!: any[];
+    @Input() salesNotifications!: any[];
   
     constructor( public matDialog: MatDialog) {}
   
@@ -20,7 +21,7 @@ export class NotificationComponent  implements OnInit {
 
 
     openNotification() {
-        // const extraData = this.notifications 
-        const openNotifi = this.matDialog.open(NotifiExpansionComponent, {data: this.notifications, panelClass:""}); 
+        const data = {'purchase':this.purchaseNotifications , 'sales':this.salesNotifications}
+        const openNotifi = this.matDialog.open(NotifiExpansionComponent, {data:data, panelClass:""}); 
         }
   }

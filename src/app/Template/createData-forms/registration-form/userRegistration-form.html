@@ -1,49 +1,51 @@
-<div class="main-container-userform bg-neutral-200 shadow-2xl flex flex-col items-center justify-center">
-     <!-- <img src="../../../../assets/logo/logoo.png" class="pt-5" width="90px">  -->
-     <div mat-dialog-title   class=" text-sm ">
+<div class="bg-neutral-200 shadow-2xl flex flex-col items-center justify-center">
+    <!-- <img src="../../../../assets/logo/logoo.png" class="pt-5" width="90px">  -->
+    <div mat-dialog-title class=" text-sm ">
         {{this.data.title}} Data
-    </div> 
+    </div>
 
-    <div mat-dialog-content class="mat overflow-hidden">
-        <form [formGroup]="userForm"  class="overflow-hidden flex flex-col" (ngSubmit)="selectOperation()">
-         <!-- <div class="flex flex-row gap-2 ">  -->
+    <div mat-dialog-content class="overflow-hidden">
+        <form [formGroup]="userForm" class="overflow-hidden flex flex-col" (ngSubmit)="selectOperation()">
             <mat-form-field class="cdk-visually-hidden">
-                <mat-label > Id </mat-label>
-                <input matInput formControlName="userId"  type="text" class=""/>
+                <mat-label> Id </mat-label>
+                <input matInput formControlName="userId" type="text" class="" />
             </mat-form-field>
 
-            <mat-form-field>
-                <mat-label > First Name </mat-label>
-                <input matInput formControlName="firstname" type="text" class=""/>
-                <mat-error *ngIf="userForm.get('firstname')?.errors">This field is required!</mat-error>
-                <mat-error *ngIf="">This field is required!</mat-error>
-            </mat-form-field>
+            <div class="flex flex-row gap-[10px] justify-between">
+                <mat-form-field class="w-[100%]">
+                    <mat-label> First Name </mat-label>
+                    <input matInput formControlName="firstname" type="text" class="" />
+                    <mat-error *ngIf="userForm.get('firstname')?.errors">This field is required!</mat-error>
+                    <mat-error *ngIf="">This field is required!</mat-error>
+                </mat-form-field>
 
-            <mat-form-field>
-                <mat-label> Last Name </mat-label>
-                <input matInput formControlName="lastname" type="text" class="" />
-                <mat-error *ngIf="userForm.get('lastname')?.errors">This field is required!</mat-error>
-            </mat-form-field>
-            <!-- </div> -->
-            <mat-form-field>
-                <mat-label> User Name </mat-label>
-                <input matInput formControlName="username" type="text" class="" />
-                <mat-error *ngIf="userForm.get('username')?.errors">This field is required!</mat-error>
-            </mat-form-field>
+                <mat-form-field class="w-[100%]">
+                    <mat-label> Last Name </mat-label>
+                    <input matInput formControlName="lastname" type="text" class="" />
+                    <mat-error *ngIf="userForm.get('lastname')?.errors">This field is required!</mat-error>
+                </mat-form-field>
+            </div>
 
-            <mat-form-field >
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" type="email">
-                <mat-error *ngIf="userForm.get('email')?.errors">This field is required!</mat-error>
-            </mat-form-field>
+            <div class="flex flex-row gap-[10px] justify-between">
+                <mat-form-field class="w-[100%]">
+                    <mat-label> User Name </mat-label>
+                    <input matInput formControlName="username" type="text" class="" />
+                    <mat-error *ngIf="userForm.get('username')?.errors">This field is required!</mat-error>
+                </mat-form-field>
 
+                <mat-form-field class="w-[100%]">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" type="email">
+                    <mat-error *ngIf="userForm.get('email')?.errors">This field is required!</mat-error>
+                </mat-form-field>
+            </div>
             <mat-radio-group class="text-sm flex flex-row justify-evenly" name="gender" formControlName="gender"
                 color="primary">
-                    <mat-label> Gender </mat-label>
-                    <mat-radio-button id="male" value="male" name="male">Male</mat-radio-button>
-                    <mat-radio-button id="female" value="female">Female</mat-radio-button>
-                    <mat-radio-button id="others" value="others">Others</mat-radio-button>
-                    <mat-error *ngIf="userForm.get('gender')?.errors">This field is required!</mat-error>
+                <mat-label> Gender </mat-label>
+                <mat-radio-button id="male" value="male" name="male">Male</mat-radio-button>
+                <mat-radio-button id="female" value="female">Female</mat-radio-button>
+                <mat-radio-button id="others" value="others">Others</mat-radio-button>
+                <mat-error *ngIf="userForm.get('gender')?.errors">This field is required!</mat-error>
             </mat-radio-group>
 
             <mat-form-field>
@@ -56,39 +58,38 @@
                 <mat-error *ngIf="userForm.get('role')?.errors">This field is required!</mat-error>
             </mat-form-field>
 
-            
-            <mat-form-field>
-                <mat-label>Enter your password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide" type="button">
-                    <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="this.data.title=='Insert' && userForm.get('password')?.errors">This field is required!</mat-error>
-            </mat-form-field>
+            <div class="flex flex-row gap-[10px]">
+                <mat-form-field>
+                    <mat-label>Enter your password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide" type="button">
+                        <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="this.data.title=='Insert' && userForm.get('password')?.errors">This field is
+                        required!</mat-error>
+                </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Confirm your password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirmPw">
-                <button mat-icon-button matSuffix  (click)="hide = !hide" [attr.aria-label]="'Hide confirmPw'"
-                    [attr.aria-pressed]="hide" type="button">
-                    <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="this.data.title=='Insert' && userForm.get('confirmPw')?.errors">This field is required!</mat-error>
-            </mat-form-field>
-            
+                <mat-form-field>
+                    <mat-label>Confirm your password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirmPw">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide confirmPw'"
+                        [attr.aria-pressed]="hide" type="button">
+                        <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="this.data.title=='Insert' && userForm.get('confirmPw')?.errors">This field is
+                        required!</mat-error>
+                </mat-form-field>
+            </div>
 
-            <div mat-dialog-actions class="button-wrapper flex flex-row">
+            <div mat-dialog-actions class="button-wrapper flex flex-row" align="center">
                 <button mat-flat-button color="primary" class="save" type="submit">
                     {{data.title}}
                 </button>
-                <!-- <button mat-flat-button color="basic"  class="save" type="button">
-                    cancel
-                </button> -->
             </div>
         </form>
     </div>
 
-    
+
 
 </div>

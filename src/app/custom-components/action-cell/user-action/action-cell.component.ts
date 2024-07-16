@@ -52,9 +52,14 @@ export class ActionCellComponent {
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.userService.deleteUser(this.dataFromRow.userId).subscribe((res)=>{
-                console.log(res)
-                this.setDataIntoRow();
-                this.toastr.success(res)
+                if(res?.successMessage!=null){
+                    this.toastr.success(res?.successMessage)
+                    this.setDataIntoRow();
+                }else{
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors)
+                }
+                
             })
         })
        

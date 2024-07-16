@@ -32,7 +32,6 @@ export class SideBarComponent {
 
       }
   
-  name = "Krishnakabilan";
-  role = "admin";
+ 
    
 }

@@ -126,9 +126,14 @@ export class UserRegistrationForm implements OnInit {
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
             this.userService.updateUserDetails(this.userForm.value).subscribe((res) => {
-                this.matDialogRef.close()
-                console.log(res)
-                this.toastr.success(res)
+                if(res?.successMessage!=null){
+                    this.toastr.success(res?.successMessage)
+                    this.matDialogRef.close();
+                }else{
+                    console.log(res)
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors)
+                }
             })
         })
 

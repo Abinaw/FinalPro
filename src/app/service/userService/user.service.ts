@@ -33,13 +33,13 @@ export class UserService {
   deleteUser(userId:any) {
     // this.audService.playSoundDelete()
        const url =`${this.baseUrl}/delete/${userId}`;
-       return this.http.delete<any>(url,{responseType :'text' as 'json'});
+       return this.http.delete<any>(url,{responseType :'json' as 'json'});
   }
 
   updateUserDetails(updateRequestData: UserRegistrationForm):Observable<any>{
     // this.audService.playSoundUpdate()
     const url = `${this.baseUrl}/update`;
-    return this.http.put<UserRegistrationForm>(url,updateRequestData,{responseType :'text' as 'json'})
+    return this.http.put<UserRegistrationForm>(url,updateRequestData,{responseType :'json' as 'json'})
   }
 
   findData(dataChar:any) {

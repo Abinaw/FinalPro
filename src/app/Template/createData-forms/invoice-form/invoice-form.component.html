@@ -19,7 +19,7 @@
             </mat-form-field>
 
          
-           <mat-form-field >
+           <mat-form-field class="cdk-visually-hidden">
             <mat-label>MM/DD/YYYY</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="date">
             <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
@@ -28,7 +28,7 @@
           </mat-form-field>
 
     
-        <mat-form-field>
+        <mat-form-field class="cdk-visually-hidden">
             <mat-label> Net Amount </mat-label>
             <input readonly matInput formControlName="netAmount" type="number" step=".01" class="" />
             <mat-error *ngIf="invoiceForm.get('netAmount')?.errors">This field is required!</mat-error>
@@ -56,7 +56,7 @@
         
           
 
-           <div mat-dialog-actions class="button-wrapper flex flex-row">
+           <div mat-dialog-actions class="button-wrapper flex flex-row" align="center">
                <button mat-flat-button color="primary" class="save" type="submit">
                    {{data.title}}
                </button>

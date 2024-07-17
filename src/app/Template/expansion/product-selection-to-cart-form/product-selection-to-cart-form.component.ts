@@ -121,12 +121,16 @@ export class ProductSelectionToCartFormComponent {
         this.setvaluesToOBJFields();
         if (this.data.title === "Add") {
             this.productCartService
-                .regiterReq(this.productSelectionForm.value)
+                .addProductsToCart(this.productSelectionForm.value)
                 .subscribe((res) => {
-                    console.log("response ", res);
-                    this.getAllStockData();
-              
-                    this.matDialogRef.close();
+                    if(res?.successMessage!=null){
+                        this.toastr.success(res?.successMessage)
+                        this.getAllStockData();
+                        this.matDialogRef.close()
+                    }else{
+                        this.toastr.clear()
+                        this.toastr.error(res?.errors)
+                    }
                 });
         } else if (this.data.title === "Update") {
             this.updatePopTrigger();
@@ -139,13 +143,7 @@ export class ProductSelectionToCartFormComponent {
         });
     }
 
-    // getAllCartData() {
-    //     this.productCartService
-    //         .getAll(this.data.selectedRowData.tempInvoiceOBJ.tempInvoiceId)
-    //         .subscribe((res) => {
-    //             GLOBAL_LIST.PRODUCTCART_DATA = res.result[0];
-    //         });
-    // }
+
 
     updatePopTrigger() {
         this.setInvoiceDetailsForUpdation();

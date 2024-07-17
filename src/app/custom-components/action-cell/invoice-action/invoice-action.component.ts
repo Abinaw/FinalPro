@@ -61,9 +61,16 @@ export class InvoiceActionComponent  {
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
-            this.invoiceService.delete(this.dataFromRow.tempInvoiceId).subscribe((res)=>{
-                this.toastr.success(res)
-                this.setDataIntoRow();
+            this.invoiceService.deleteTempSalesInvoice(this.dataFromRow.tempInvoiceId).subscribe((res)=>{
+                
+                if(res?.successMessage!=null){
+                    this.toastr.success(res?.successMessage)
+                    this.setDataIntoRow();
+                }else{
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors)
+                }
+               
             })
         })
        

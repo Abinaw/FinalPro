@@ -51,7 +51,11 @@ export class InvoiceComponent {
          { 
             field: "tempInvoiceNumber",
             colId:"tempInvoiceNumber",
-            headerName:"Invoice number"
+            headerName:"Invoice number",
+            valueFormatter: (params) => {
+                const val ="#CLC-"+ (params.value)
+                return val
+            }
          },
         { 
             field: "netAmount",

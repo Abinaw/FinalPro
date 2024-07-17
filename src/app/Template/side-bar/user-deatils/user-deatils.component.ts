@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrentLoggedInUserService } from 'src/app/service/current-logged-user-service/current-logged-in-user.service';
 
 @Component({
   selector: 'app-user-deatils',
@@ -8,33 +9,17 @@ import { Component, OnInit } from '@angular/core';
 export class UserDeatilsComponent implements OnInit {
 userName:string = '' 
 role :string =''
-    constructor(){
-      
+    constructor(private currentLoggedInUserService:CurrentLoggedInUserService){
+       
     }
 
     ngOnInit(): void {
         const token = localStorage.getItem('token');
-      this.userNameSplit(token)
+        this.currentLoggedInUserService.userNameSplit(token)
+        this.userName = this.currentLoggedInUserService.getUsername()
+        this.role = this.currentLoggedInUserService.getRole()
     }
-    userNameSplit(token: string | null): void {
-        try {
-          if (token) {
-            const parts = token.split('.');
-            if (parts.length !== 3) {
-              throw new Error('Invalid token');
-            }
-            const payload = JSON.parse(atob(parts[1]));
-            this.userName =payload.sub
-            this.role = payload.roles
-            console.log(payload);
-          } else {
-            console.log('No token found');
-          }
-        } catch (e) {
-          console.error('Failed to parse token', e);
-        }
-      }
-//   role='Admin';
-  name = localStorage.getItem("username") ? localStorage.getItem("username") : 'Jhon Doe';
+   
+
   imgUrl:string = 'https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800'
 }

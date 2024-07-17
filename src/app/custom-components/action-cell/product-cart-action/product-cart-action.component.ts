@@ -67,10 +67,16 @@ export class ProductCartActionComponent {
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
           
-            this.productCartService.delete(this.dataFromRow.proCartId).subscribe((res)=>{
-                this.toastr.success(res.successMessage)
-                this.setDataIntoRow();  
-                this.getAllCartData();
+            this.productCartService.deleteProductFromTheCart(this.dataFromRow.proCartId).subscribe((res)=>{
+                if(res?.successMessage!=null){
+                    this.toastr.success(res?.successMessage)
+                    this.setDataIntoRow();  
+                    this.getAllCartData();
+                }else{
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors)
+                }
+                
         })
        
     })

@@ -14,10 +14,10 @@ export class ProductCartService {
   
  
 
-  regiterReq(regReq: any):Observable<any>{
+  addProductsToCart(regReq: any):Observable<any>{
     // this.audService.playSoundInsert()
-    const url = `${this.baseUrl}/register`;
-    return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
+    const url = `${this.baseUrl}/addProductsToCart`;
+    return this.http.post<any>(url,regReq,{responseType :'json' as 'json'})
     
   }
 
@@ -27,9 +27,9 @@ export class ProductCartService {
   }
 
   
-  delete(invoiceId:any) {
+  deleteProductFromTheCart(invoiceId:any) {
     // this.audService.playSoundDelete()
-       const url =`${this.baseUrl}/delete/${invoiceId}`;
+       const url =`${this.baseUrl}/deleteProductFromTheCart/${invoiceId}`;
        return this.http.delete<any>(url,{responseType :'json'});
   }
 

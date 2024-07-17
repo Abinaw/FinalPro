@@ -14,10 +14,10 @@ export class InvoiceService {
   
  
 
-  regiterReq(regReq: any):Observable<any>{
+  createTempSalesInvoice(regReq: any):Observable<any>{
     // this.audService.playSoundInsert()
-    const url = `${this.baseUrl}/register`;
-    return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
+    const url = `${this.baseUrl}/createTempSalesInvoice`;
+    return this.http.post<any>(url,regReq,{responseType :'json' as 'json'})
   }
 
   getAll():Observable<any>{
@@ -25,10 +25,10 @@ export class InvoiceService {
     return this.http.get<any[]>(url);
   }
 
-  delete(invoiceId:any) {
+  deleteTempSalesInvoice(invoiceId:any) {
     // this.audService.playSoundDelete()
-       const url =`${this.baseUrl}/delete/${invoiceId}`;
-       return this.http.delete<any>(url,{responseType :'text' as 'json'});
+       const url =`${this.baseUrl}/deleteTempSalesInvoice/${invoiceId}`;
+       return this.http.delete<any>(url,{responseType :'json' as 'json'});
   }
 
   update(updateRequestData: any):Observable<any>{

@@ -37,8 +37,8 @@ export class InvoiceFormComponent implements OnInit {
         this.invoiceForm = new FormGroup({
             tempInvoiceId: new FormControl,
             tempInvoiceNumber:new FormControl(Date.now()),
-            date: new FormControl(null, Validators.required),
-            netAmount: new FormControl(0.00, Validators.required),
+            date: new FormControl(null),
+            netAmount: new FormControl(0.00),
             customerOBJ: new FormControl({}, Validators.required),
             paidAmount: new FormControl(0.00)
         })
@@ -106,9 +106,15 @@ export class InvoiceFormComponent implements OnInit {
         const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
-            this.invoiceService.regiterReq(tempInvoiceFormValue).subscribe(res => {
-                this.matDialogRef.close()
-                this.toastr.success(res)
+            this.invoiceService.createTempSalesInvoice(tempInvoiceFormValue).subscribe(res => {
+
+                if(res?.successMessage!=null){
+                    this.toastr.success(res?.successMessage)
+                    this.matDialogRef.close();
+                }else{
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors)
+                }
             })
 
         })

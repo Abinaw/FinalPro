@@ -29,7 +29,8 @@ body {
 }
 
 .invoice-dialog-container {
-    max-width: unset !important;
+    height: 800px;
+    width: 1200px;
 }
 
 .system-login-form .mat-mdc-form-field .mat-mdc-text-field-wrapper {

@@ -1,5 +1,5 @@
 
-    <mat-dialog-content class="w-[full] pt-[15px] px-[5px] flex flex-col justify-center">
+    <mat-dialog-content class="w-[full] pt-[15px] px-[5px]  flex flex-col justify-center">
         <div mat-dialog-title class="text-sm text-center">
             Create Purchase invoice
         </div>
@@ -12,8 +12,8 @@
                     required!</mat-error>
 
             </mat-form-field>
-
-            <mat-form-field class="">
+            <div class="flex flex-row w-[100%] gap-[10px]">
+            <mat-form-field class="w-full">
                 <!-- [readonly]="purchaseList !== undefined" -->
                 <mat-label>Vendor</mat-label>
                 <input type="text" placeholder="Vendor" matInput formControlName="vendorOBJ"
@@ -29,7 +29,7 @@
 
 
 
-            <mat-form-field>
+            <mat-form-field class="w-full">
                 <mat-label>MM/DD/YYYY</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="purchasedDate">
 
@@ -38,6 +38,7 @@
                     required!</mat-error>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+            </div>
         </form>
 
 

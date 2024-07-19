@@ -1,6 +1,6 @@
 <div class="mx-[20px] h-full grid items-center !bg-transparent">
     <mat-card *ngIf="!isLoaded"
-        class="!h-[68vh] !rounded-[20px] !bg-purple-100 flex flex-col items-center justify-center gap-[20px]">
+        class="!h-[68vh] !rounded-[20px] !bg-white flex flex-col items-center justify-center gap-[20px]">
         <mat-card-content>
             <mat-card-header class="flex justify-center">
                 <mat-card-title class="font-semibold text-[#f77e88] text-[50px]">
@@ -10,7 +10,7 @@
         </mat-card-content>
         <mat-card-actions align="end">
             <button mat-raised-button color="primary" (click)="openPurchaseInvoiceForm()">
-                Purchase Invoice <mat-icon>add</mat-icon>
+                Create Purchase Invoice <mat-icon>add</mat-icon>
             </button>
         </mat-card-actions>
     </mat-card>

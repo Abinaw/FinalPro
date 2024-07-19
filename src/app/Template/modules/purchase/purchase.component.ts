@@ -97,7 +97,7 @@ export class PurchaseComponent implements OnInit {
         const purchaseFormOpen = this.matDialog.open(
             PurchaseInvoiceFormComponent,
             {
-                panelClass: ["custom-dialog-container", "custom-form"],
+                panelClass: ["custom-dialog-container"],
             }
         );
         purchaseFormOpen.afterClosed().subscribe((res) => {

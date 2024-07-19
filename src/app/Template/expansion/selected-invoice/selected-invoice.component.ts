@@ -83,20 +83,14 @@ export class SelectedInvoiceComponent {
 
 
     showInvoiceDetails() {
-        // const invoiceDta={
-        //     invoiceDataParam:this.invoiceData
-        // }
-        // const openInvoice = this.matDialog.open(,{ data:invoiceDta,}).afterClosed().subscribe((res) => {
-        //     //console.log("Working")
-        // })
-
+      
 
         const invoiceDta = {
             invoiceDataParam: this.invoiceData
         }
         const openInvoice = this.matDialog.open(InvoicePrintComponent, {
             data: invoiceDta,
-            panelClass: ["invoice-dialog-container", "custom-dialog-container"],
+            panelClass: ["invoice-dialog-container", ],
         })
         console.log("invoiceData ",this.invoiceData)
 

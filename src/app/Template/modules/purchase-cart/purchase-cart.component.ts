@@ -61,6 +61,15 @@ export class PurchaseCartComponent implements OnInit {
             },
         },
         {
+            field: "purchasePrice",
+            colId: "purchasePrice",
+            headerName: "Purchase price",
+            valueFormatter: (params) => {
+                const val = "Rs. " + (params.value.toFixed(2))
+                return val
+            }
+        },
+        {
             field: "quantity",
             colId: "quantity",
             headerName: "Quantity",
@@ -87,15 +96,7 @@ export class PurchaseCartComponent implements OnInit {
                 return val
             }
         },
-        {
-            field: "purchasePrice",
-            colId: "purchasePrice",
-            headerName: "Purchase price",
-            valueFormatter: (params) => {
-                const val = "Rs. " + (params.value.toFixed(2))
-                return val
-            }
-        },
+       
         {
             field: "grossAmount",
             colId: "grossAmount",
@@ -104,8 +105,15 @@ export class PurchaseCartComponent implements OnInit {
                 const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
+        }, {
+            field: "netAmount",
+            colId: "netAmount",
+            headerName: "Net amount",
+            valueFormatter: (params) => {
+                const val = "Rs. " + (params.value.toFixed(2))
+                return val
+            }
         },
-
         {
             field: "tempPurchaseOBJ",
             colId: "tempPurchaseOBJ",
@@ -117,16 +125,9 @@ export class PurchaseCartComponent implements OnInit {
                     params.value.vendorOBJ.vendorName;
                 return combinedvalue;
             },
+            hide:true
         },
-        {
-            field: "netAmount",
-            colId: "netAmount",
-            headerName: "Net amount",
-            valueFormatter: (params) => {
-                const val = "Rs. " + (params.value.toFixed(2))
-                return val
-            }
-        },
+       
         {
             field: "action",
             headerName: "Action",

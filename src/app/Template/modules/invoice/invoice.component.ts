@@ -46,7 +46,9 @@ export class InvoiceComponent {
                 let dateTime = moment(new Date(val)).format("DD/MM/YYYY HH:mm:ss");
                 dateTime = dateTime.split(' ')[0] +" | " +dateTime.split(' ')[1]
                 return dateTime
-            }
+            },
+         width:250   
+
          },
          { 
             field: "tempInvoiceNumber",
@@ -55,7 +57,7 @@ export class InvoiceComponent {
             valueFormatter: (params) => {
                 const val ="#CLC-"+ (params.value)
                 return val
-            }
+            },width: 220, 
          },
         { 
             field: "netAmount",
@@ -64,7 +66,7 @@ export class InvoiceComponent {
             valueFormatter: (params) => {
                 const val ="Rs. "+ (params.value.toFixed(2))
                 return val
-            }
+            },width: 245, 
         
         },
         { 
@@ -74,7 +76,8 @@ export class InvoiceComponent {
             valueFormatter:(params)=>{
                 const combinedvalue = params.value.custId+"-"+params.value.custName
                 return combinedvalue
-            }
+            },
+         width:220    
             
         },
         { 
@@ -84,7 +87,8 @@ export class InvoiceComponent {
             valueFormatter: (params) => {
                 const val ="Rs. "+ (params.value.toFixed(2))
                 return val
-            }
+            },width: 200, 
+    
         
         },
         { 
@@ -98,7 +102,7 @@ export class InvoiceComponent {
             field:"action",
             headerName:"Action",
             cellRenderer: InvoiceActionComponent,
-             
+         width:220    
         }
     ];
 

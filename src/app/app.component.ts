@@ -24,7 +24,7 @@ export class AppComponent {
     constructor(
         private router: Router,
         private notificationService: NotificationService,
-        
+        private location:Location
     ) {
         this.isSwitched = true;
     
@@ -61,7 +61,9 @@ export class AppComponent {
         document.documentElement.classList.toggle("dark");
     }
 
-  
+    goBack(){
+        this.location.back()
+    }
  
    
 }

@@ -1,4 +1,4 @@
-<div class="h-full w-full grid grid-cols-5 gap-[16px]">
+<div class="h-full w-full grid grid-cols-5 gap-[16px]" [ngClass]="{'grid-cols-4': userRole === 'user'}">
     <mat-card  *ngFor="let card of filteredCards" routerLink="/{{ card.route }}"
         class="!m-0 !h-full !w-full flex flex-col items-center justify-center gap-y-[16px] object-fill">
         <mat-card-header class="flex align-middle justify-center !p-0">

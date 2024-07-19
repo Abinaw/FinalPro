@@ -46,7 +46,7 @@ export class DashboardCardsComponent implements OnInit{
             name: "User",
             imageUrl: "../../assets/New Set/user.png",
             route: "/dash-board/user",
-            access:'user'
+            // access:'user'
         },
         {
             name: "Vendor",

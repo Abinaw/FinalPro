@@ -46,13 +46,13 @@ logForm : FormGroup;
        this.authService.logInReq(this.logForm.value).subscribe((res) => {
          var result = JSON.parse(res)
          const token = result.token
-        if(this.authService.isValidJWT(token)){
-          
-            this.authService.login(result.token)   
-            this.notificationService.fetchDueCheques(); 
+         
+        if (this.authService.isValidJWT(token)) {
+            this.authService.login(result.token);
+            this.notificationService.fetchDueCheques();
             this.router.navigate(["/dash-board"]);
-            this.toastr.clear()
-            this.toastr.success("Successfully loggedin!")
+            this.toastr.clear();
+            this.toastr.success("Successfully loggedin!");
         }
     },(err)=>{
         this.toastr.error("Login Failed, Check the credentials!")

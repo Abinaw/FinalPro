@@ -18,7 +18,14 @@
                 <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center">
-                <button mat-stroked-button class="w-[95%]" color="warn" (click)="onClickSendMail()">Send an email</button>
+                <button mat-stroked-button class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center" (click)="onClickSendMail()" [disabled]="isLoading">
+                    <span *ngIf="isLoading" class="">
+                      <div class="w-4 h-4 border-2 border-t-2 border-black border-solid border-r-[transparent] rounded-full animate-spin"></div>
+                    </span>
+                    <span *ngIf="!isLoading">
+                        Send an email
+                    </span>
+                  </button>
             </div>
         </section>
     </div>

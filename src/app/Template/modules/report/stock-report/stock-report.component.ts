@@ -8,6 +8,7 @@ import jsPDF from 'jspdf';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports'
 import { EmailService } from 'src/app/service/email-service/email.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-stock-report',
@@ -24,12 +25,14 @@ export class StockReportComponent {
         { value: 'etc', viewValue: '...' },
     ];
     stockReport:FormGroup;
+    isLoading:boolean = false; 
 
 
     constructor(
         private stockService: StockService,
         private cdr: ChangeDetectorRef,
-        private emailService: EmailService
+        private emailService: EmailService,
+        private toastr: ToastrService
     ) {
         this.stockReport = new FormGroup({
             stockOption: new FormControl,
@@ -93,16 +96,22 @@ export class StockReportComponent {
 
     }
 
-      onClickSendMail() {
+    async onClickSendMail() {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {
-          this.emailService.onClickSendMail(stockTempDoc).then((status) => {
-            console.log("status :" , status)
-          })
+            this.isLoading = true;
+        try {
+            await this.emailService.onClickSendMail(stockTempDoc);
+            this.isLoading = false;
+          } catch (error) {
+            this.isLoading = false;
+          } finally {
+            this.isLoading = false;
+          }
         }else{
-          console.error("no element found")
+        this.toastr.warning("Please generate report to send mail." , "No PDF found");
         }
-        
+        this.cdr.detectChanges();
       }
 
 }

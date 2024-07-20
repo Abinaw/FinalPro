@@ -6,7 +6,8 @@ import { ReportTemplateComponent } from '../report-template/report-template.comp
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
+import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports'
+import { EmailService } from 'src/app/service/email-service/email.service';
 
 @Component({
     selector: 'app-stock-report',
@@ -27,7 +28,8 @@ export class StockReportComponent {
 
     constructor(
         private stockService: StockService,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private emailService: EmailService
     ) {
         this.stockReport = new FormGroup({
             stockOption: new FormControl,
@@ -90,5 +92,17 @@ export class StockReportComponent {
 
 
     }
+
+      onClickSendMail() {
+        const stockTempDoc = document.getElementById("stockTemp");
+        if (stockTempDoc) {
+          this.emailService.onClickSendMail(stockTempDoc).then((status) => {
+            console.log("status :" , status)
+          })
+        }else{
+          console.error("no element found")
+        }
+        
+      }
 
 }

@@ -7,6 +7,7 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
 import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
+import { EmailService } from 'src/app/service/email-service/email.service';
 import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
 
 @Component({
@@ -34,7 +35,8 @@ export class InvoiceReportComponent {
     constructor(
         private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
-        private reportsService:ReportsServiceService
+        private reportsService:ReportsServiceService,
+        private emailService: EmailService
     ) {
         this.salesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
 
@@ -174,6 +176,16 @@ export class InvoiceReportComponent {
             });
         }
     }
+
+    onClickSendMail() {
+        const stockTempDoc = document.getElementById("stockTemp");
+        if (stockTempDoc) {
+          this.emailService.onClickSendMail(stockTempDoc)
+        }else{
+          console.error("no element found")
+        }
+        
+      }
 
     
 }

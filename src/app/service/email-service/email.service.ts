@@ -15,8 +15,8 @@ export class EmailService {
 
   async onClickSendMail(
     element: HTMLElement,
-    title?: string,
     emailId?: string,
+    title?: string,
     subject: string = "Report Document",
     body: string = "Please find the attached PDF document."
   ): Promise<void> {
@@ -27,7 +27,7 @@ export class EmailService {
   
     try {
       // Generate the canvas
-      const canvas = await html2canvas(element, { scale: 1 });
+      const canvas = await html2canvas(element, { scale: 3 });
   
       // Convert canvas to Blob
       const pdfBlob = await new Promise<Blob>((resolve, reject) => {
@@ -63,8 +63,10 @@ export class EmailService {
   
       // Create FormData and append the PDF Blob
       const formData = new FormData();
-      formData.append('file', pdfBlobFinal, title || 'document.pdf');
+      formData.append('file', pdfBlobFinal, title+'.pdf' || 'document.pdf');
       formData.append('mail', emailId || 'default@example.com');
+      formData.append('subject',subject);
+      formData.append('title',title||'title.pdf');
   
       // Send PDF to the backend
       await this.http.post(this.baseUrl, formData, { responseType: 'text' }).toPromise();

@@ -103,6 +103,7 @@ import { VendorReportComponent } from './Template/modules/report/vendor-report/v
 import { NotificationComponent } from './Template/side-bar/nav-settings/notification/notification.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import { NotifiExpansionComponent } from './Template/side-bar/nav-settings/notification/notifi-expansion/notifi-expansion.component';
+import { EmailFormComponent } from './Template/createData-forms/email-form/email-form.component';
 
 
 @NgModule({
@@ -171,6 +172,7 @@ import { NotifiExpansionComponent } from './Template/side-bar/nav-settings/notif
         VendorReportComponent,
         NotificationComponent,
         NotifiExpansionComponent,
+        EmailFormComponent,
 
         
 

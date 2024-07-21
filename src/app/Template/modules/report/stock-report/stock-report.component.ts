@@ -9,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports'
 import { EmailService } from 'src/app/service/email-service/email.service';
 import { ToastrService } from 'ngx-toastr';
+import { EmailFormComponent } from 'src/app/Template/createData-forms/email-form/email-form.component';
 
 @Component({
     selector: 'app-stock-report',
@@ -25,14 +26,14 @@ export class StockReportComponent {
         { value: 'etc', viewValue: '...' },
     ];
     stockReport:FormGroup;
-    isLoading:boolean = false; 
 
 
     constructor(
         private stockService: StockService,
         private cdr: ChangeDetectorRef,
         private emailService: EmailService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private matDialog : MatDialog
     ) {
         this.stockReport = new FormGroup({
             stockOption: new FormControl,
@@ -96,22 +97,14 @@ export class StockReportComponent {
 
     }
 
-    async onClickSendMail() {
+    openMailForm() {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {
-            this.isLoading = true;
-        try {
-            await this.emailService.onClickSendMail(stockTempDoc);
-            this.isLoading = false;
-          } catch (error) {
-            this.isLoading = false;
-          } finally {
-            this.isLoading = false;
-          }
-        }else{
-        this.toastr.warning("Please generate report to send mail." , "No PDF found");
+          const openForm = this.matDialog.open(EmailFormComponent, {
+            data: { reportPic: stockTempDoc },panelClass:['custom-dialog-container']
+          });
+        } else {
+          this.toastr.error('Error occurred while generating the report');
         }
-        this.cdr.detectChanges();
       }
-
 }

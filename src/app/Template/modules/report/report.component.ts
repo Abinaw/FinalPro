@@ -13,7 +13,7 @@ import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 })
 export class ReportComponent {
     selectedCard: any;
-    reportName :string =''
+    reportName! :string 
     reportView: boolean = true
     constructor(private router:Router,
         private confirmedInvoiceService: ConfirmInvoiceService,

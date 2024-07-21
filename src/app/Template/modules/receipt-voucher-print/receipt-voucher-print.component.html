@@ -9,10 +9,20 @@
         <div>
         </div>
     </div>
+
     <div>
         <mat-dialog-actions align="center" class="h-[5%] w-[100%]">
             <button mat-raised-button (click)="openPrintOperation()" class="w-[25%]" color="primary">Print</button>
+            <div class="w-full flex flex-col justify-center items-center" *ngIf="this.data?.confirmInvoiceOBJ">
+                <button mat-stroked-button
+                        class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center"
+                        (click)="openMailForm()">
+                <span>Open Email Form</span>
+                </button>
+            </div>
         </mat-dialog-actions>
+        
     </div>
+    
 
 </div>

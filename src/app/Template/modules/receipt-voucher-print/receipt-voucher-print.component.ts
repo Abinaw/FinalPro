@@ -1,7 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { EmailFormComponent } from '../../createData-forms/email-form/email-form.component';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-receipt-voucher-print',
   templateUrl: './receipt-voucher-print.component.html',
@@ -10,7 +12,7 @@ import jsPDF from 'jspdf';
 export class ReceiptVoucherPrintComponent {
 
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data:any){
+    constructor(@Inject(MAT_DIALOG_DATA) public data:any, private matDialog:MatDialog,private toastr:ToastrService){
         console.log("ReceiptVoucherPrintComponent ",this.data)
         if(this.data.confirmPurchaseOBJ){
             console.log("Voucher")
@@ -51,5 +53,18 @@ export class ReceiptVoucherPrintComponent {
               });
             }
     }
+
+    openMailForm() {
+        
+        const invoiceDOC = document.getElementById('receipt');
+        if (invoiceDOC) {
+          const openForm = this.matDialog.open(EmailFormComponent, {
+            data: { reportPic: invoiceDOC, reportType:"Receipt", },panelClass:['custom-dialog-container']
+          });
+        } else {
+          this.toastr.error('Error occurred while generating the report');
+        }
+      }
+
 
 }

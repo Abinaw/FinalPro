@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
@@ -9,6 +11,7 @@ import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { EmailService } from 'src/app/service/email-service/email.service';
 import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
+import { EmailFormComponent } from 'src/app/Template/createData-forms/email-form/email-form.component';
 
 @Component({
     selector: 'app-invoice-report',
@@ -36,7 +39,10 @@ export class InvoiceReportComponent {
         private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
         private reportsService:ReportsServiceService,
-        private emailService: EmailService
+        private emailService: EmailService,
+        private matDialog: MatDialog,
+        private toastr :ToastrService
+
     ) {
         this.salesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
 
@@ -177,14 +183,15 @@ export class InvoiceReportComponent {
         }
     }
 
-    onClickSendMail() {
+    openMailForm() {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {
-          this.emailService.onClickSendMail(stockTempDoc)
-        }else{
-          console.error("no element found")
+          const openForm = this.matDialog.open(EmailFormComponent, {
+            data: { reportPic: stockTempDoc, reportType:this.invoiceSelection.get('invoiceNo')?.value },panelClass:['custom-dialog-container']
+          });
+        } else {
+          this.toastr.error('Error occurred while generating the report');
         }
-        
       }
 
     

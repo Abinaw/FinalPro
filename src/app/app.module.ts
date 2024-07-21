@@ -186,7 +186,7 @@ import { EmailFormComponent } from './Template/createData-forms/email-form/email
         MatAutocompleteModule,
         MatBadgeModule,
 
-        // Dash-Board-Purpose
+        // Dash_Board-Purpose
         MatButtonModule,
         MatCardModule,
         MatIconModule,

@@ -24,6 +24,11 @@ import { PurchaseCartComponent } from './Template/modules/purchase-cart/purchase
 import { CommonPaymentsComponent } from './Template/modules/common-payments/common-payments.component';
 import { AuthGuard } from './service/auth/auth.guard';
 import { StockReportComponent } from './Template/modules/report/stock-report/stock-report.component';
+import { InvoiceReportComponent } from './Template/modules/report/invoice-report/invoice-report.component';
+import { PurchaseReportComponent } from './Template/modules/report/purchase-report/purchase-report.component';
+import { PaymentsReportComponent } from './Template/modules/report/payments-report/payments-report.component';
+import { VendorReportComponent } from './Template/modules/report/vendor-report/vendor-report.component';
+import { CustomerReportComponent } from './Template/modules/report/customer-report/customer-report.component';
 
 
 
@@ -44,76 +49,101 @@ const routes: Routes = [
 
   //----Modules Start-----
   {
-    path: 'dash-board',
+    path: 'dash_board',
     component: DashboardCardsComponent,
     canActivate:[AuthGuard]
 
   },
   {
-    path: 'dash-board/invoice',
+    path: 'dash_board/invoice',
     component: InvoiceComponent,
     canActivate:[AuthGuard]
   },
   {
-    path: 'dash-board/category',
+    path: 'dash_board/category',
     component: CategoryComponent,
     canActivate:[AuthGuard]
 
   },
   {
-    path: 'dash-board/customer',
+    path: 'dash_board/customer',
     component: CustomerComponent,
     canActivate:[AuthGuard]
 
   },
   {
-    path: 'dash-board/return',
+    path: 'dash_board/return',
     component: EmployeeComponent,
     canActivate:[AuthGuard]
   },
   {
-    path: 'dash-board/purchase',
+    path: 'dash_board/purchase',
     component: PurchaseComponent,
     canActivate:[AuthGuard]
   },
   {
-    path: 'dash-board/report',
+    path: 'dash_board/report',
     component: ReportComponent,
     canActivate:[AuthGuard]
   },
   {
-    path: 'dash-board/commonPayments',
+    path: 'dash_board/commonPayments',
     component: CommonPaymentsComponent,
     canActivate:[AuthGuard]
   },
   {
-    path: 'dash-board/stock',
+    path: 'dash_board/stock',
     component: StockComponent,
     canActivate:[AuthGuard]
   },
   {
-    path: 'dash-board/user',
+    path: 'dash_board/user',
     component: UserDataComponent,
     canActivate:[AuthGuard]
   },
   {
-    path: 'dash-board/vendor',
+    path: 'dash_board/vendor',
     component: VendorComponent,
     canActivate:[AuthGuard]
   },
   {
-    path:'dash-board/purchase-cart',
+    path:'dash_board/purchase_cart',
     component:PurchaseCartComponent,
     canActivate:[AuthGuard]
   },
   {
-    path:'dash-board/report/stock_report',
+    path:'dash_board/report/stock_report',
     component:StockReportComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'dash_board/report/invoice_report',
+    component:InvoiceReportComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'dash_board/report/purchase_report',
+    component:PurchaseReportComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'dash_board/report/payments_report',
+    component:PaymentsReportComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'dash_board/report/vendor_report',
+    component:VendorReportComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'dash_board/report/customer_report',
+    component:CustomerReportComponent,
     canActivate:[AuthGuard]
   },
 
    
-  //----Modules End-----
+  //_---Modules End-----
 
 
 
@@ -142,7 +172,7 @@ const routes: Routes = [
 
     //----others-----
   {
-    path:'dash-board/invoice/selectedInvoice',
+    path:'dash_board/invoice/selectedInvoice',
     component:SelectedInvoiceComponent,
     canActivate:[AuthGuard]
   },

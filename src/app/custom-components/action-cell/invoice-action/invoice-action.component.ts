@@ -47,7 +47,7 @@ export class InvoiceActionComponent  {
     }
     openSelectedInvoice() {
         const dataString = JSON.stringify(this.params.data);
-        this.router.navigate(['/dash-board/invoice/selectedInvoice'], { queryParams: { data: dataString } });
+        this.router.navigate(['/dash_board/invoice/selectedInvoice'], { queryParams: { data: dataString } });
         
     }
     

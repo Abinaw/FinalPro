@@ -48,7 +48,7 @@ export class AppComponent {
   
     showCloseIcon() {
         const currentRoute = this.router.url;
-        if (["/login", "/dash-board"].includes(currentRoute)) {
+        if (["/login", "/dash_board", "/dash_board/report/"].includes(currentRoute)) {
             this.showClose = false;
             return false;
         } else {

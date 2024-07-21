@@ -45,7 +45,6 @@ constructor(
 }
 ngOnInit() {
     this.isReportGenerated = false
-    // this.customerReportForm.get('selectedOpt')?.setValue(this.reports[0].value);
     this.filterOptions = this.customerControl.valueChanges.pipe(
         startWith(""),
         map((value) => this.listFilter(value || ""))

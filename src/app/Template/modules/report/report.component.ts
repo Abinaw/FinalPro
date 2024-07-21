@@ -27,28 +27,41 @@ export class ReportComponent {
         this.getAllCustomers()
         this.getAllVendors()
     }
+    
+    goBack(){
+        this.reportView = true
+    }
   
     Cards = [
         {
             name: "Stock Report",
+            route: "/dash_board/report/stock_report",
         },
         {
             name: "Invoice Report",
+            route: "/dash_board/report/invoice_report",
+
         },
         {
             name: "Purchase Report",
+            route: "/dash_board/report/purchase_report",
+
        
         },
         {
             name: "Payments Report",
+            route: "/dash_board/report/payments_report",
+
       
         },
         {
             name: "Vendor Report",
+            route: "/dash_board/report/vendor_report",
        
         },
         {
             name: "Customer Report",
+            route: "/dash_board/report/customer_report",
       
         }
     ];
@@ -73,6 +86,7 @@ export class ReportComponent {
     getAllCustomers(){
         this.customerService.getAll().subscribe((customerData)=>{
             GLOBAL_LIST.CUSTOMER_DATA = customerData
+            localStorage.setItem('customerData',(JSON.stringify(customerData)))
         })
     
     }

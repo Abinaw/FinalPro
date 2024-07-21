@@ -31,7 +31,6 @@ export class StockReportComponent {
     constructor(
         private stockService: StockService,
         private cdr: ChangeDetectorRef,
-        private emailService: EmailService,
         private toastr: ToastrService,
         private matDialog : MatDialog
     ) {
@@ -56,8 +55,7 @@ export class StockReportComponent {
                 result: res,
                 error:null
            }
-            // this.dataToSet.result = res
-            // this.dataToSet.reportType = "stockReport"
+        
             this.isReportGenerated = true
             this.cdr.detectChanges();
         })
@@ -101,10 +99,11 @@ export class StockReportComponent {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {
           const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: stockTempDoc },panelClass:['custom-dialog-container']
+            data: { reportPic: stockTempDoc, reportType:this.stockReport.get('stockOption')?.value },panelClass:['custom-dialog-container']
           });
         } else {
           this.toastr.error('Error occurred while generating the report');
         }
       }
+      
 }

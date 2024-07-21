@@ -250,7 +250,7 @@ export class PurchaseCartComponent implements OnInit {
                     this.toastr.clear();
                     this.toastr.success(res.successMessage);
                     // this.loadAllTempPurchase()
-                    this.router.navigate(["/dash-board"]);
+                    this.router.navigate(["/dash_board"]);
 
                 });
 

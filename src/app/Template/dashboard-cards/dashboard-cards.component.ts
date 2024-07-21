@@ -39,59 +39,59 @@ export class DashboardCardsComponent implements OnInit{
         {
             name: "Customer",
             imageUrl: "../../assets/New Set/customer.png",
-            route: "/dash-board/customer",
+            route: "/dash_board/customer",
             access:'user'
         },
         {
             name: "User",
             imageUrl: "../../assets/New Set/user.png",
-            route: "/dash-board/user",
+            route: "/dash_board/user",
             // access:'user'
         },
         {
             name: "Vendor",
             imageUrl: "../../assets/New Set/vendor.png",
-            route: "/dash-board/vendor",
+            route: "/dash_board/vendor",
             access:'user'
         },
         {
             name: "Payments",
             imageUrl: "../../assets/New Set/sales.png",
-            route: "/dash-board/commonPayments",
+            route: "/dash_board/commonPayments",
             access:'user'
         },
         {
             name: "Return",
             imageUrl: "../../assets/New Set/return.png",
-            route: "/dash-board/return",
+            route: "/dash_board/return",
             access:'user'
         
         },
         {
             name: "Stock",
             imageUrl: "../../assets/New Set/stock.png",
-            route: "/dash-board/stock",
+            route: "/dash_board/stock",
         },
         {
             name: "Purchase",
             imageUrl: "../../assets/New Set/purchase.png",
-            route: "/dash-board/purchase",
+            route: "/dash_board/purchase",
         },
         {
             name: "Category",
             imageUrl: "../../assets/New Set/category.png",
-            route: "/dash-board/category",
+            route: "/dash_board/category",
         },
         {
             name: "Sales",
             imageUrl: "../../assets/New Set/invoice.png",
-            route: "/dash-board/invoice",
+            route: "/dash_board/invoice",
             access:'user'
         },
         {
             name: "Report",
             imageUrl: "../../assets/New Set/report.png",
-            route: "/dash-board/report",
+            route: "/dash_board/report",
         },
     ];
     filteredCards = this.Cards;

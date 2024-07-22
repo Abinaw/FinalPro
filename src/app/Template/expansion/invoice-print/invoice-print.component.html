@@ -3,19 +3,27 @@
         <div class=" w-[20%] h-[100%] border-r-[1px] ">
             <mat-dialog-actions align="center" class=" w-full flex flex-col justify-center">
               
-                <div class="flex flex-col mt-1 w-[13rem] h-[76px]  justify-center items-center border-solid border-black">
-                    <div  class="bg-purple-500  flex flex-row justify-center items-center text-sm text-center font-semibold rounded-md cursor-pointer h-full w-full" 
-                    (click)="completeInvoice()">
-                    
-                        <span class="text-black">Complete Invoice</span>
-                    </div>
-                   
-                    <div  class="bg-red-200  flex flex-row justify-center items-center text-sm text-center font-semibold rounded-md cursor-pointer h-full w-full" 
-                        (click)="openPDF()">
-                    <span class="text-black">Open Pdf</span>
-                    </div>
-                    
-                 
+                <div class="flex flex-col mt-1 gap-[20px] w-[13rem] h-[100%]  justify-center items-center ">
+                    <div class="w-full flex flex-col justify-center items-center" >
+                        <button mat-stroked-button color="primary"
+                                class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center"
+                                (click)="completeInvoice()"
+                               >
+                            <span>Complte Invoice</span>
+                        </button>
+                        <button mat-stroked-button color="warn"
+                                class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center"
+                                (click)="openPDF()"
+                               >
+                            <span>Open Email Form</span>
+                        </button>
+                        <button mat-stroked-button color="accent"
+                                class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center"
+                                (click)="openMailForm()"
+                               >
+                            <span>Open Email Form</span>
+                        </button>
+                    </div>               
                 </div>
             </mat-dialog-actions>
         </div>

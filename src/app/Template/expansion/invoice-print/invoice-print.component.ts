@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IInvoiceEntity } from 'src/app/constants/interfaces/IInvoiceEntity';
 import { IPaymentEntity } from 'src/app/constants/interfaces/IPaymentEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
+import { EmailFormComponent } from '../../createData-forms/email-form/email-form.component';
 
 @Component({
   selector: 'app-invoice-print',
@@ -129,5 +130,16 @@ export class InvoicePrintComponent {
             // this.calculatePaidAmount();
         });
     }
+
+    openMailForm() {
+        const generateReport = document.getElementById("invoice");
+        if (generateReport) {
+          const openForm = this.matDialog.open(EmailFormComponent, {
+            data: { reportPic: generateReport, reportType: "Invoice" },panelClass:['custom-dialog-container']
+          });
+        } else {
+          this.toastr.error('Error occurred while generating the report');
+        }
+      }
 
 }

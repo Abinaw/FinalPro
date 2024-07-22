@@ -88,23 +88,24 @@
     <div class="border-solid w-[78%] rounded-r-xl">
 
         <!-- <div class="w-[100%] h-full flex items-center"> -->
-
             <ng-container
-                *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='voucherReprint'">
-
-                <div class="table-cont flex justify-center w-full overflow-auto">
+            *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='voucherReprint'">
+            <div class="flex items-center justify-center w-full" style="height: 100vh;">
+                <div class="table-cont flex flex-row items-center justify-center h- w-full overflow-auto ">
                     <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4"
                         [paginationAutoPageSize]="true" style="margin-bottom: 1rem; height: 52vh; width: 75vw"
-                        [rowData]="purchaseInvoiceRowData$| async" [columnDefs]="voucherDef"
+                        [rowData]="purchaseInvoiceRowData$ | async" [columnDefs]="voucherDef"
                         [rowSelection]="rowSelection" (cellClicked)="onCellClicked($event)"
                         (gridReady)="onGridVoucherDataReady($event)" [pagination]="true">
                     </ag-grid-angular>
                 </div>
-            </ng-container>
+            </div>
+        </ng-container>
+        
 
             <ng-container
                 *ngIf="isReportGenerated && this.invoiceSelection.get('selectedOpt')?.value=='receiptReprint'">
-                <div class="table-cont flex justify-center  w-full overflow-auto">
+                <div class="flex items-center justify-center w-full" style="height: 100vh;">
 
                     <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer border-solid border-4"
                         [paginationAutoPageSize]="true" style="margin-bottom: 1rem; height: 52vh; width: 75vw"

@@ -43,7 +43,7 @@
             </div>
 
             <table class="w-full">
-                <thead class="bg-slate-300 text-black">
+                <thead class="bg-slate-300 text-black border-[2px] ">
                     <tr>
                         <th class="py-[13px] px-[16px]   text-left">Description</th>
                         <th class="py-[13px] px-[16px] w-[100px] text-left">Qty</th>
@@ -98,21 +98,24 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="w-[500px] px-[16px]">
-                    <div class="flex items-baseline justify-between">
-                        <div class="w-[300px] pl-[100px]">
-                            <p class="text-[18px] font-semibold">Total:</p>
+                <div class="w-[500px] px-[16px] flex flex-col">
+                    <div class="flex flex-row items-center justify-between ">
+                        <div class="w-[300px] pl-[100px]  ">
+                            <p class="text-[18px] font-semibold">Balance:</p>
                         </div>
-                        <div class="w-[200px] pl-[16px]">
+                        <div class="w-[200px] pl-[16px] ">
                             <p class="text-[18px] font-semibold text-left">Rs
                                 {{((this.total-paidAmount)||this.total).toFixed(2)}}</p>
                         </div>
+                        
                     </div>
+                    
+                    
                 </div>
             </div>
 
-            <p class="text-semibold text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center">
-                Thank you for the purchase!
+            <p class="font-semibold text-lg text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center uppercase">
+                Thank you!
               
             </p>
 

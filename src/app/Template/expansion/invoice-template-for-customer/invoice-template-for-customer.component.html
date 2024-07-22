@@ -2,7 +2,7 @@
     <!-- InvoiceTemplate -->
     <div class="">
         <div class="w-full h-auto p-[16px] relative">
-            <div class="flex flex-row mb-[50px] gap-[8px] border-b-2 border-black">
+            <div class="flex flex-row mb-[25px] gap-[8px] border-b-2 border-black">
                 <div class="w-[100px] h-[100px]">
                     <img src="../../../assets/logo/logo2.png" alt="company-logo" class="w-full h-full object-contain" />
                 </div>
@@ -11,7 +11,9 @@
                     <div class="text-[20px] pb-[5px]">Manufacturer of quilt & bed Linen</div>
                 </div>
             </div>
-            
+            <div class="text-center">
+                <h2 class="text-[30px] uppercase">Invoice</h2>
+            </div>
 
             <div class="flex items-center justify-between mb-[30px]">
                 <div class="flex flex-col gap-y-[20px]">
@@ -41,7 +43,7 @@
             </div>
 
             <table class="w-full">
-                <thead class="bg-black text-white">
+                <thead class="bg-slate-300 text-black">
                     <tr>
                         <th class="py-[13px] px-[16px]   text-left">Description</th>
                         <th class="py-[13px] px-[16px] w-[100px] text-left">Qty</th>
@@ -111,10 +113,7 @@
 
             <p class="text-semibold text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center">
                 Thank you for the purchase!
-                <!-- <span class="block text-[11px] mt-[10px]">Comfort Linen Company provides a wide range of products to
-                    meet
-                    the
-                    needs of every customer.</span> -->
+              
             </p>
 
             <p class=" font-semibold text-sm text-center pt-[16px] border-t-2 border-black">
@@ -122,13 +121,5 @@
                <span>Office : #33/24, Hekitta Lane, Wattala | Tel: 011-2985400 | Hot Line: 076-1382156 | Email : info@comfortlinenlk.com | www.cherryb.co</span>
             </p>
         </div>
-        <!-- <div>
-            <mat-dialog-actions align="center">
-                <button mat-raised-button color="basic" (click)="makePayment()">Make a payment</button>
-                <button mat-raised-button color="primary" (click)="completeInvoice()">Confirm Invoice</button>
-                <button mat-raised-button (click)="openPDF()" color="warn">Print</button>
-            </mat-dialog-actions>
-        
-        </div>  -->
     </div>
 </ng-container>

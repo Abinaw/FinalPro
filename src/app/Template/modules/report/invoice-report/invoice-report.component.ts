@@ -26,7 +26,7 @@ export class InvoiceReportComponent {
     filterOptions!: Observable<IConfirmInvoiceEntity[]>
     salesInvoiceDataList!: IConfirmInvoiceEntity[]
     invoiceNo! :number
-    dataToSet: IDataToSet = { reportType: '', result: null,error:null };
+    dataToSet:any = { reportType: '', result: null,error:null };
     reports: any[] = [
         { value: 'invoiceReprint', viewValue: 'Invoice Re-print'},
         { value: 'salesReport', viewValue: 'Sales Report'},
@@ -124,6 +124,7 @@ export class InvoiceReportComponent {
             (res) => {
                 if(res?.result){
                     this.dataToSet = {
+                        dateRange: start +"-"+ end,
                         reportType :"salesReport",
                         result: res?.result,
                         error:null

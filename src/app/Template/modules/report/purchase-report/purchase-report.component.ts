@@ -20,7 +20,7 @@ export class PurchaseReportComponent {
     filterOptions!: Observable<IConfirmPurchaseEntity[]>
     purchaseInvoiceDataList!: IConfirmPurchaseEntity[]
     invoiceNo! :number
-    dataToSet: IDataToSet = { reportType: '', result: null ,error:null};
+    dataToSet: any = { reportType: '', result: null ,error:null};
     reports: any[] = [
         // { value: 'voucherReprint', viewValue: 'Voucher Re-print'},
         { value: 'purchaseReport', viewValue: 'Purchase Report'},
@@ -103,6 +103,7 @@ export class PurchaseReportComponent {
             (res) => {
                 if(res?.result){
                     this.dataToSet = {
+                        dateRange:start +"-"+ end,
                         reportType :"purchaseReport",
                         result: res.result,
                         error:null

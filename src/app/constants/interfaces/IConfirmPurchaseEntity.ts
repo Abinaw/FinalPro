@@ -6,6 +6,6 @@ export interface IConfirmPurchaseEntity{
     purchaseDate: string
     paidAmount:number,
     vendorOBJ:IVendorEntity,
-    totalAmount:number,
+    netAmount:number,
     isComplete:boolean
 }

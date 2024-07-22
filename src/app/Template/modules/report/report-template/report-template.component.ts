@@ -1,12 +1,111 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import moment from 'moment';
+import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
+import { IConfirmPurchaseEntity } from 'src/app/constants/interfaces/IConfirmPurchaseEntity';
+import { IConfirmSalesConfirmPayments } from 'src/app/constants/interfaces/IConfirmSalesConfirmPayments';
+import { IPurchasePaymentEntity } from 'src/app/constants/interfaces/IPurchasePaymentEntity';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 interface IListOfData {
     title: string,
     tableHeader: string[],
     tableData: string[][],
-    error:any
+    error: any
 }
+
+interface VendorData {
+    purchaseInvoiceData: IConfirmPurchaseEntity[];
+    paymentsOfThePurchase: IPurchasePaymentEntity[];
+}
+interface CustomerData {
+    salesInvoiceData: IConfirmInvoiceEntity[];
+    paymentsOfTheSales: IConfirmSalesConfirmPayments[];
+}
+
+const formatVendorData = (data: VendorData): string[][] => {
+    // console.log(data)
+    const combineDataEntries: string[][] = []
+    let totalNetAmount = 0
+    let totalPaidAmount = 0
+    data.paymentsOfThePurchase?.filter(aPay => {
+        totalPaidAmount = totalPaidAmount + aPay.paidAmount
+    })
+
+    data.purchaseInvoiceData?.filter(aPurchaseInvoice => {
+        totalNetAmount = totalNetAmount + aPurchaseInvoice.netAmount
+    })
+
+    data.purchaseInvoiceData?.forEach(anInvoice => {
+        combineDataEntries.push([
+            moment(new Date(anInvoice.purchaseDate)).format('DD/MM/YYYY HH:mm '),
+            `Invoice Ref No.  ${anInvoice.purchaseInvoice}`,
+            `Rs. ${anInvoice?.netAmount?.toFixed(2)}`,
+            ''
+        ])
+        const payments = data.paymentsOfThePurchase?.filter(aPayment => {
+            return aPayment.ConfirmPurchaseOBJ.confirmPurchaseId == anInvoice.confirmPurchaseId
+        })
+        payments?.forEach((aPay: IPurchasePaymentEntity) => {
+            combineDataEntries.push([
+                moment(new Date(aPay?.paidDate)).format('DD/MM/YYYY HH:mm '),
+                `${aPay.paymentType} Payment- Invoice Ref No. ${aPay?.ConfirmPurchaseOBJ?.purchaseInvoice}`,
+                '',
+                `Rs. ${aPay.paidAmount.toFixed(2)}`
+            ])
+        })
+    })
+
+    combineDataEntries.push([
+        '',
+        '',
+        `Rs. ${totalNetAmount.toFixed(2)}`,
+        `Rs. ${totalPaidAmount.toFixed(2)}`,
+    ])
+    return combineDataEntries;
+}
+
+const formatCustomerData = (data: CustomerData): string[][] => {
+    console.log(data)
+    const combineDataEntries: string[][] = []
+    let totalNetAmount = 0
+    let totalPaidAmount = 0
+    data?.paymentsOfTheSales?.filter(aPay=>{
+        totalPaidAmount = totalPaidAmount + aPay.paidAmount
+    })
+
+    data?.salesInvoiceData?.filter(anInvoice=>{
+        totalNetAmount = totalNetAmount +anInvoice.netAmount
+    })
+    
+    data?.salesInvoiceData?.forEach(anInvoice=>{
+        combineDataEntries.push([
+            moment(new Date(anInvoice.date)).format('DD/MM/YYYY HH:mm'),
+            `Invoice Ref No. #CLC-${anInvoice.invoiceNumber}`,
+            `Rs. ${anInvoice?.netAmount?.toFixed(2)}`,
+            ''
+        ])
+        const payments = data?.paymentsOfTheSales?.filter(aPayment=>{
+            return aPayment?.confirmInvoiceOBJ?.confirmInvoiceId == anInvoice?.confirmInvoiceId
+        })
+
+        payments?.forEach((aPay: IConfirmSalesConfirmPayments) => {
+            console.log(aPay)
+            combineDataEntries.push([
+                moment(new Date(aPay?.paidDate)).format('DD/MM/YYYY HH:mm '),
+                `${aPay.paymentType} Payment- Invoice Ref No. #CLC-${aPay?.confirmInvoiceOBJ?.invoiceNumber}`,
+                '',
+                `Rs. ${aPay.paidAmount.toFixed(2)}`
+            ])
+        })
+    })
+
+    combineDataEntries.push([
+        '',
+        '',
+        `Rs. ${totalNetAmount.toFixed(2)}`,
+        `Rs. ${totalPaidAmount.toFixed(2)}`,
+    ])
+    return combineDataEntries;
+ }
 @Component({
     selector: 'app-report-template',
     templateUrl: './report-template.component.html',
@@ -15,33 +114,34 @@ interface IListOfData {
 export class ReportTemplateComponent implements OnChanges {
     @Input('inputData') inputData!: any
     tableData!: IListOfData
-    currentDate:any = new Date()
+    currentDate: any = new Date()
+
     constructor() {
 
     }
     ngOnChanges(changes: SimpleChanges): void {
-        
+
         if (changes['inputData']) {
-           
-            console.log("after detect change ",this.inputData)
-            if(this.inputData?.result){
+
+            console.log("after detect change ", this.inputData)
+            if (this.inputData?.result) {
                 this.setDataIntoTable(this.inputData)
-            }else if(this.inputData.error != null){
-                this.tableData={
-                    title:"",
-                    tableHeader:[],
-                    tableData:[],
+            } else if (this.inputData.error != null) {
+                this.tableData = {
+                    title: "",
+                    tableHeader: [],
+                    tableData: [],
                     error: this.inputData?.error.map((errMessage: any) => {
                         return errMessage
                     })
                 }
             }
         }
-        
+
     }
 
-    setDataIntoTable(inputData?: any){
-        if(inputData.result && inputData?.reportType == "stockReport"){
+    setDataIntoTable(inputData?: any) {
+        if (inputData.result && inputData?.reportType == "stockReport") {
             this.tableData = {
                 title: "stock",
                 tableHeader: [
@@ -56,9 +156,9 @@ export class ReportTemplateComponent implements OnChanges {
                     'Remarks',
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                   const arrivalDate = moment(new Date(res.arrivalDate)).toISOString();
-                   const purchasePrice ="Rs " + (res.purchasePrice).toFixed(2)
-                   const sellingPrice = "Rs "+(res.sellingPrice).toFixed(2)
+                    const arrivalDate = moment(new Date(res.arrivalDate)).toISOString();
+                    const purchasePrice = "Rs " + (res.purchasePrice).toFixed(2)
+                    const sellingPrice = "Rs " + (res.sellingPrice).toFixed(2)
                     return [
                         // res.stockId,
                         res.itemName,
@@ -68,35 +168,35 @@ export class ReportTemplateComponent implements OnChanges {
                         sellingPrice,
                         // res.reorderQty,
                         res.quantity,
-                        "'"+res.remarks+"'",
+                        "'" + res.remarks + "'",
                     ]
                 }),
-                error:null
+                error: null
 
             }
-        }else if(inputData.result && inputData?.reportType == "invoiceReprint"){
+        } else if (inputData.result && inputData?.reportType == "invoiceReprint") {
             this.tableData = {
                 title: "invoice",
                 tableHeader: [
-                    
+
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                    
-                   const confirmInvoiceOBJ = res.confirmInvoiceOBJ 
-                   const stockOBJ=res.stockOBJ
-                   const sellingPrice ="Rs " + (res.stockOBJ.sellingPrice).toFixed(2) 
-                   const totalAmount = "Rs " + (res.netAmount).toFixed(2)
+
+                    const confirmInvoiceOBJ = res.confirmInvoiceOBJ
+                    const stockOBJ = res.stockOBJ
+                    const sellingPrice = "Rs " + (res.stockOBJ.sellingPrice).toFixed(2)
+                    const totalAmount = "Rs " + (res.netAmount).toFixed(2)
                     return [
                         stockOBJ.itemName,
                         res.quantity,
                         sellingPrice,
-                        (((res.discount)/stockOBJ.sellingPrice)*100).toFixed(2)+"%",
+                        (((res.discount) / stockOBJ.sellingPrice) * 100).toFixed(2) + "%",
                         totalAmount,
                     ]
                 }),
-                error:null
+                error: null
             }
-        }else if(inputData.result && inputData?.reportType == "salesReport"){
+        } else if (inputData.result && inputData?.reportType == "salesReport") {
             this.tableData = {
                 title: "sales",
                 tableHeader: [
@@ -107,30 +207,30 @@ export class ReportTemplateComponent implements OnChanges {
                     "Total Amount",
                     "Total Paid Amount",
                     "Advance Payment",
-                   
+
 
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                    
-                   const customerOBJ = res.customerOBJ 
-                   const confirmedDate=moment(new Date(res.date)).toISOString();
-                   const netAmount ="Rs " + (res.netAmount).toFixed(2) 
-                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
-                   const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+
+                    const customerOBJ = res.customerOBJ
+                    const confirmedDate = moment(new Date(res.date)).toISOString();
+                    const netAmount = "Rs " + (res.netAmount).toFixed(2)
+                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
                     return [
                         // res.confirmInvoiceId,
                         customerOBJ.custName,
-                        "#CLC-"+res.invoiceNumber,
+                        "#CLC-" + res.invoiceNumber,
                         confirmedDate.split("T")[0],
                         netAmount,
                         paidAmount,
                         advancePay,
 
                     ]
-                }),error:null
+                }), error: null
 
             }
-        }else if(inputData.result && inputData?.reportType == "purchaseReport"){
+        } else if (inputData.result && inputData?.reportType == "purchaseReport") {
             this.tableData = {
                 title: "purchase",
                 tableHeader: [
@@ -140,16 +240,16 @@ export class ReportTemplateComponent implements OnChanges {
                     "Purchase Date",
                     "Total Amount",
                     "Total Paid Amount",
-                   
+
 
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                    
-                   const vendorOBJ = res.vendorOBJ 
-                   const purchaseDate=moment(new Date(res.purchaseDate)).toISOString();
-                   const netAmount ="Rs " + (res.netAmount).toFixed(2) 
-                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
-                //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+
+                    const vendorOBJ = res.vendorOBJ
+                    const purchaseDate = moment(new Date(res.purchaseDate)).toISOString();
+                    const netAmount = "Rs " + (res.netAmount).toFixed(2)
+                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                    //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
                     return [
                         // res.confirmInvoiceId,
                         vendorOBJ.vendorName,
@@ -157,13 +257,13 @@ export class ReportTemplateComponent implements OnChanges {
                         purchaseDate.split("T")[0],
                         netAmount,
                         paidAmount,
-                       
+
 
                     ]
-                }),error:null
+                }), error: null
 
             }
-        }else if(inputData.result && inputData?.reportType == "purchasePayments"){
+        } else if (inputData.result && inputData?.reportType == "purchasePayments") {
             this.tableData = {
                 title: "purchase",
                 tableHeader: [
@@ -173,17 +273,17 @@ export class ReportTemplateComponent implements OnChanges {
                     "Time Stamp",
                     "Total Paid Amount",
                     "Payment Type",
-                   
+
 
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                    
-                   const vendorOBJ = res.vendorOBJ 
-                   const purchaseDate=moment(new Date(res.paidDate)).toISOString();
-                   const datePart = purchaseDate.split("T")[0];
-                   const timePart = purchaseDate.split("T")[1].split(".")[0];
-                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
-                //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+
+                    const vendorOBJ = res.vendorOBJ
+                    const purchaseDate = moment(new Date(res.paidDate)).toISOString();
+                    const datePart = purchaseDate.split("T")[0];
+                    const timePart = purchaseDate.split("T")[1].split(".")[0];
+                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                    //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
                     return [
                         // res.paymentId,
                         res.ConfirmPurchaseOBJ.purchaseInvoice,
@@ -191,13 +291,13 @@ export class ReportTemplateComponent implements OnChanges {
                         `${datePart}|${timePart}`,
                         paidAmount,
                         res.paymentType
-                       
+
 
                     ]
-                }),error:null
+                }), error: null
 
             }
-        }else if(inputData.result && inputData?.reportType == "salesPayments"){
+        } else if (inputData.result && inputData?.reportType == "salesPayments") {
             this.tableData = {
                 title: "sales",
                 tableHeader: [
@@ -207,17 +307,17 @@ export class ReportTemplateComponent implements OnChanges {
                     "Time Stamp",
                     "Total Paid Amount",
                     "Payment Type",
-                   
+
 
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                    
-                   const customerOBJ = res.confirmInvoiceOBJ.customerOBJ 
-                   const paidDate=moment(new Date(res.paidDate)).toISOString();
-                   const datePart = paidDate.split("T")[0];
-                   const timePart = paidDate.split("T")[1].split(".")[0];
-                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
-                //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
+
+                    const customerOBJ = res.confirmInvoiceOBJ.customerOBJ
+                    const paidDate = moment(new Date(res.paidDate)).toISOString();
+                    const datePart = paidDate.split("T")[0];
+                    const timePart = paidDate.split("T")[1].split(".")[0];
+                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+                    //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
                     return [
                         // res.paymentId,
                         res.confirmInvoiceOBJ.invoiceNumber,
@@ -225,13 +325,13 @@ export class ReportTemplateComponent implements OnChanges {
                         `${datePart}|${timePart}`,
                         paidAmount,
                         res.paymentType
-                       
+
 
                     ]
-                }),error:null
+                }), error: null
 
             }
-        }else if(inputData.result && inputData?.reportType == "customSalesPayments"){
+        } else if (inputData.result && inputData?.reportType == "customSalesPayments") {
             this.tableData = {
                 title: "sales payemnts",
                 tableHeader: [
@@ -241,27 +341,27 @@ export class ReportTemplateComponent implements OnChanges {
                     "Paid Date & Time",
                     "Paid Amount",
                     "Payment Type",
-                   
+
 
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                    
-                   const customerOBJ = res.confirmInvoiceOBJ.customerOBJ 
-                   const paidDate=moment(new Date(res.paidDate)).toISOString();
-                   const datePart = paidDate.split("T")[0];
-                   const timePart = paidDate.split("T")[1].split(".")[0];
-                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+
+                    const customerOBJ = res.confirmInvoiceOBJ.customerOBJ
+                    const paidDate = moment(new Date(res.paidDate)).toISOString();
+                    const datePart = paidDate.split("T")[0];
+                    const timePart = paidDate.split("T")[1].split(".")[0];
+                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
                     return [
-                       
-                       `${datePart}|${timePart}`,
+
+                        `${datePart}|${timePart}`,
                         paidAmount,
                         res.paymentType
-                       
+
                     ]
-                }),error:null
+                }), error: null
 
             }
-        }else if(inputData.result && inputData?.reportType == "customPurchasePayments"){
+        } else if (inputData.result && inputData?.reportType == "customPurchasePayments") {
             this.tableData = {
                 title: "purchase payemnts",
                 tableHeader: [
@@ -271,104 +371,69 @@ export class ReportTemplateComponent implements OnChanges {
                     "Paid Date & Time",
                     "Paid Amount",
                     "Payment Type",
-                   
+
 
                 ],
                 tableData: this.inputData?.result.map((res: any) => {
-                    
-                   const vendorOBJ = res.ConfirmPurchaseOBJ.vendorOBJ 
-                   const paidDate=moment(new Date(res.paidDate)).toISOString();
-                   const datePart = paidDate.split("T")[0];
-                   const timePart = paidDate.split("T")[1].split(".")[0];
-                   const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
+
+                    const vendorOBJ = res.ConfirmPurchaseOBJ.vendorOBJ
+                    const paidDate = moment(new Date(res.paidDate)).toISOString();
+                    const datePart = paidDate.split("T")[0];
+                    const timePart = paidDate.split("T")[1].split(".")[0];
+                    const paidAmount = "Rs " + (res.paidAmount).toFixed(2)
                     return [
-                       
-                       `${datePart}|${timePart}`,
+
+                        `${datePart}|${timePart}`,
                         paidAmount,
                         res.paymentType
-                       
+
                     ]
-                }),error:null
+                }), error: null
 
             }
-        }else if(inputData.result && inputData?.reportType == "customerReport"){
+        } else if (inputData.result && inputData?.reportType == "customerReport") {
             console.log("Report Type", inputData?.reportType)
             console.log("Report Results", inputData?.result)
+            const formattedCustomerData = formatCustomerData(inputData.result);
             this.tableData = {
                 title: "Customer Report",
                 tableHeader: [
                     // "paymentId",
-                    // "Sales Invoice Number",
+                    // "Purchase Invoice Number",
                     // "Customer",
                     "Paid Date & Time",
                     "Description",
-                    "Total Amount To be paid",
-                    "Paid amount",
-                   
+                    "Purchase Amount",
+                    "Paid Amount",
+
 
                 ],
-                tableData: inputData.result.flatMap((group: any[]) => 
-                    group.flatMap((res: any) => {
-                      const confirmInvoiceOBJ = res.confirmInvoiceOBJ;
-                      const customerOBJ = confirmInvoiceOBJ.customerOBJ;
-                      const paidDate = new Date(res.paidDate);
-                      const datePart = paidDate.toISOString().split("T")[0];
-                      const timePart = paidDate.toISOString().split("T")[1].split(".")[0];
-                      const paidAmount = `Rs ${res.paidAmount.toFixed(2)}`;
-                      const totalAmount = `Rs ${confirmInvoiceOBJ.netAmount.toFixed(2)}`;
-                  
-                      return [
-                        [
-                          `${datePart} | ${timePart}`,
-                          `${"#CLC-"+confirmInvoiceOBJ.invoiceNumber} | ${res.paymentType}`,
-                          totalAmount,
-                          paidAmount
-                        ]
-                      ];
-                    })
-                  ),
-                  error: null
-                  
+                tableData: formattedCustomerData
+                , error: null
+
             }
-        }else if(inputData.result && inputData?.reportType == "vendorReport"){
-            console.log("Report Type", inputData?.reportType)
-            console.log("Report Results", inputData?.result)
+
+        } else if (inputData.result && inputData?.reportType == "vendorReport") {
+
+            const formattedData = formatVendorData(inputData.result);
             this.tableData = {
                 title: "Vendor Report",
                 tableHeader: [
                     // "paymentId",
-                    // "Sales Invoice Number",
+                    // "Purchase Invoice Number",
                     // "Customer",
                     "Paid Date & Time",
                     "Description",
-                    "Total Amount To be paid",
-                    "Paid amount",
-                   
+                    "Purchase Amount",
+                    "Paid Amount",
+
 
                 ],
-                tableData: inputData.result.flatMap((group: any[]) => 
-                    group.flatMap((res: any) => {
-                      const confirmInvoiceOBJ = res.ConfirmPurchaseOBJ;
-                      const vendorOBJ = res.ConfirmPurchaseOBJ?.vendorOBJ;
-                      const paidDate = new Date(res.paidDate);
-                      const datePart = paidDate.toISOString().split("T")[0];
-                      const timePart = paidDate.toISOString().split("T")[1].split(".")[0];
-                      const paidAmount = `Rs ${res.paidAmount.toFixed(2)}`;
-                      const totalAmount = `Rs ${confirmInvoiceOBJ.netAmount.toFixed(2)}`;
-                  
-                      return [
-                        [
-                          `${datePart} | ${timePart}`,
-                          `${"#CLC-"+confirmInvoiceOBJ.purchaseInvoice} | ${res.paymentType}`,
-                          totalAmount,
-                          paidAmount
-                        ]
-                      ];
-                    })
-                  ),
-                  error: null
-                  
+                tableData: formattedData
+                , error: null
+
             }
+            console.log("tabledata ", this.tableData)
         }
     }
     getTotalNetAmount(): number {
@@ -378,11 +443,11 @@ export class ReportTemplateComponent implements OnChanges {
     isItemName(rowData: string[], aRowData: string): boolean {
         return rowData.indexOf(aRowData) === 0;
     }
-    getDateForInvoiceRePrint(){
-       return (moment(new Date(this.inputData?.result?.[0].confirmInvoiceOBJ?.date)).format("DD/MM/YYYY HH:mm:ss ")).split(" ")[0];
+    getDateForInvoiceRePrint() {
+        return (moment(new Date(this.inputData?.result?.[0].confirmInvoiceOBJ?.date)).format("DD/MM/YYYY HH:mm:ss ")).split(" ")[0];
     }
-    getTime(){
-      const date =  moment(new Date(this.inputData?.result?.[0].confirmInvoiceOBJ?.date)).format("DD/MM/YYYY HH:mm:ss");
-      return date.split(" ")[1]
+    getTime() {
+        const date = moment(new Date(this.inputData?.result?.[0].confirmInvoiceOBJ?.date)).format("DD/MM/YYYY HH:mm:ss");
+        return date.split(" ")[1]
     }
 }

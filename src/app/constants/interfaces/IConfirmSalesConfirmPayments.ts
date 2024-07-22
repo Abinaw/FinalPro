@@ -6,7 +6,7 @@ export interface IConfirmSalesConfirmPayments{
     paymentType: string,
     paidDate: string
     paidAmount:number,
-    confirmInvoiceDto:IConfirmInvoiceEntity,
+    confirmInvoiceOBJ:IConfirmInvoiceEntity,
     chequeRefNo:number,
     chequeDueDate:string,
     cardRefNo:number,

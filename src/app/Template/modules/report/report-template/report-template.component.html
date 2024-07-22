@@ -4,67 +4,87 @@
         <div class="">
             <div class="w-full h-auto p-[16px] relative">
                 <div class="flex flex-col items-center justify-between mb-[20px]">
-                    <div class="w-[80px] h-[80px]">
-                        <img src="../../../assets/logo/logo2.png" alt="company-logo"
-                            class="w-full h-full object-contain" />
+                    <div class="flex flex-row mb-[25px] gap-[8px]  ">
+                        <div class="w-[100px] h-[100px]">
+                            <img src="../../../assets/logo/logo2.png" alt="company-logo"
+                                class="w-full h-full object-contain" />
+                        </div>
+                        <div class="h-[101px] flex flex-col mb-[10px]">
+                            <div class="uppercase text-[36px] font-thin">COMFORT LINEN COMPANY (PVT) LTD</div>
+                            <div class="text-[20px] pb-[5px]">Manufacturer of quilt & bed Linen</div>
+                        </div>
                     </div>
-                    <p class="text-center mb-[16px] mt-[30px] flex flex-col items-center justify-center">
-                        <span class="flex w-fit items-center gap-x-[24px] font-semibold">
-                            <span>33/24 Hekitta Lane, Wattala, Sri Lanka </span>
-                            <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
-                            <span>0112 985 400 </span>
-                            <span class="h-[4px] w-[4px] rounded-[2px] bg-black"></span>
-                            <span>info@comfortlinenco.com</span>
-                        </span>
-                        <span class="block text-[11px] mt-[10px]">Comfort Linen Company provides a wide range of
-                            products to
-                            meet
-                            the
-                            needs of every customer.</span>
-                    </p>
                     <!-- <h1 class="uppercase font-bold text-[30px]">Receipt</h1> -->
-                    <p class=" font-semibold text-center pt-[16px] border-t-2">
-                        <span>{{tableData.title|uppercase}}</span> report as of <span>{{currentDate}}</span>
-                    </p>
-                    <div class="w-[100%] flex justify-center gap-[20px]" *ngIf="inputData.reportType ==='customPurchasePayments'&& inputData?.result">
-                       
-                            <div>Purchase Invoice: </div><div>{{inputData?.result[0].ConfirmPurchaseOBJ?.purchaseInvoice}}|</div>
-                            <div>Vendor Name: </div><div>{{inputData?.result[0].ConfirmPurchaseOBJ?.vendorOBJ?.vendorName}}|</div>
-                            <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}} To</span>
-                            <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
-                       
+                     <ng-container *ngIf="inputData.result">
+                     <div class="text-center font-semiboldpu"><div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
+                            To </span><span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span></div>
+
+                        </ng-container>
+
+                    <div class="w-[100%] flex justify-center gap-[20px]"
+                        *ngIf="inputData.reportType ==='customPurchasePayments'&& inputData?.result">
+
+                        <div>Purchase Invoice: </div>
+                        <div>{{inputData?.result[0].ConfirmPurchaseOBJ?.purchaseInvoice}}|</div>
+                        <div>Vendor Name: </div>
+                        <div>{{inputData?.result[0].ConfirmPurchaseOBJ?.vendorOBJ?.vendorName}}|</div>
+                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
+                            To</span>
+                        <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
+
                     </div>
                     <div class="w-[100%]" *ngIf="inputData.reportType == 'customSalesPayments'&& inputData?.result">
-                        
+
                         <div>Sales
-                            Invoice: </div><div>#CLC-{{inputData?.result[0].confirmInvoiceOBJ?.invoiceNumber}}</div>
+                            Invoice: </div>
+                        <div>#CLC-{{inputData?.result[0].confirmInvoiceOBJ?.invoiceNumber}}</div>
                         <div>Customer
-                            Name: </div><div>{{inputData?.result[0].confirmInvoiceOBJ?.customerOBJ?.custName}}</div>
-                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}} To</span>
+                            Name: </div>
+                        <div>{{inputData?.result[0].confirmInvoiceOBJ?.customerOBJ?.custName}}</div>
+                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
+                            To</span>
                         <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
                     </div>
-                    <div class="w-[100%] flex justify-center gap-[20px]" *ngIf="inputData.reportType ==='vendorReport'&& inputData?.result">
-                            <div>Vendor Name: </div><div>{{inputData?.result[0][0].ConfirmPurchaseOBJ?.vendorOBJ?.vendorName}}|</div>
-                            <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}} To</span>
-                            <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
-                       
-                    </div>
-                    <div class="w-[100%] flex justify-center gap-[20px]" *ngIf="inputData.reportType ==='customerReport'&& inputData?.result">
-                        <div>Customer Name: </div><div>{{inputData?.result[0][0].confirmInvoiceOBJ?.customerOBJ?.custName}}|</div>
-                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}} To</span>
+                    <div class="w-[100%] flex justify-center gap-[20px]"
+                        *ngIf="inputData.reportType ==='vendorReport'&& inputData?.result">
+                        <div>Vendor Name: </div>
+                        <div>{{inputData.result?.purchaseInvoiceData?.[0]?.vendorOBJ?.vendorName}}|</div>
+                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
+                            To</span>
                         <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
-                   
+
                     </div>
-                    
-                    
+                    <div class="w-[100%] flex justify-center gap-[20px]"
+                        *ngIf="inputData.reportType ==='customerReport'&& inputData?.result">
+                        <div>Customer Name: </div>
+                        <div>{{inputData?.result?.salesInvoiceData?.[0]?.customerOBJ?.custName}}|</div>
+                        <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
+                            To</span>
+                        <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
+
+                    </div>
+
+
                 </div>
 
+                <!--  <table class="w-full">
+                    <thead class="bg-slate-300 text-black border-[2px] ">
+                        <tr>
+                            <th class="py-[13px] px-[16px]  w-[100px] text-left"
+                                *ngFor="let aColumn of tableData.tableHeader">{{aColumn}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b-2" *ngFor="let rowData of this.tableData.tableData">
+                            <td class="py-[16px] px-[16px] w-[100px]" *ngFor="let aRowData of rowData">{{aRowData}}</td>
+                        </tr>
+                    </tbody>
+                </table> -->
                 <table class="w-full">
                     <thead class="bg-slate-300 text-black border-[2px] ">
                         <tr>
                             <th class="py-[13px] px-[16px]  w-[100px] text-left"
                                 *ngFor="let aColumn of tableData.tableHeader">{{aColumn}}</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -74,6 +94,13 @@
                     </tbody>
                 </table>
 
+
+                <p class=" font-semibold text-sm text-center pt-[16px] border-t-2 border-black">
+                    <span> PILLOWS | DUVETS | BEDQUILTS | BEDSHEETS | MATTERS PROTECTORS | PREGNANCY & FEEDING PILLOW |
+                        TRAVELLING MAT | SLEEPING BAG</span><br>
+                    <span>Office : #33/24, Hekitta Lane, Wattala | Tel: 011-2985400 | Hot Line: 076-1382156 | Email :
+                        info@comfortlinenlk.com | www.cherryb.co</span>
+                </p>
 
 
 
@@ -96,7 +123,8 @@
                 <div class="w-full h-auto p-[16px] relative">
                     <div class="flex flex-row mb-[25px] gap-[8px] border-b-2 border-black">
                         <div class="w-[100px] h-[100px]">
-                            <img src="../../../assets/logo/logo2.png" alt="company-logo" class="w-full h-full object-contain" />
+                            <img src="../../../assets/logo/logo2.png" alt="company-logo"
+                                class="w-full h-full object-contain" />
                         </div>
                         <div class="h-[101px] flex flex-col mb-[10px]">
                             <div class="uppercase text-[36px] font-thin">COMFORT LINEN COMPANY (PVT) LTD</div>
@@ -216,14 +244,17 @@
                         </div>
                     </div>
 
-                    <p class="font-semibold text-lg text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center uppercase">
+                    <p
+                        class="font-semibold text-lg text-center mb-[16px] mt-[100px] flex flex-col items-center justify-center uppercase">
                         Thank you!
-                      
+
                     </p>
-        
+
                     <p class=" font-semibold text-sm text-center pt-[16px] border-t-2 border-black">
-                       <span> PILLOWS | DUVETS | BEDQUILTS | BEDSHEETS | MATTERS PROTECTORS | PREGNANCY & FEEDING PILLOW | TRAVELLING MAT | SLEEPING BAG</span><br >
-                       <span>Office : #33/24, Hekitta Lane, Wattala | Tel: 011-2985400 | Hot Line: 076-1382156 | Email : info@comfortlinenlk.com | www.cherryb.co</span>
+                        <span> PILLOWS | DUVETS | BEDQUILTS | BEDSHEETS | MATTERS PROTECTORS | PREGNANCY & FEEDING
+                            PILLOW | TRAVELLING MAT | SLEEPING BAG</span><br>
+                        <span>Office : #33/24, Hekitta Lane, Wattala | Tel: 011-2985400 | Hot Line: 076-1382156 | Email
+                            : info@comfortlinenlk.com | www.cherryb.co</span>
                     </p>
                 </div>
             </div>

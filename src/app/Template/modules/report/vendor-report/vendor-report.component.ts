@@ -6,6 +6,7 @@ import { map, Observable, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IVendorEntity } from 'src/app/constants/interfaces/IVendorEntity';
 import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
+import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 @Component({
   selector: 'app-vendor-report',
   templateUrl: './vendor-report.component.html',
@@ -18,7 +19,7 @@ export class VendorReportComponent {
     vendorId! :number
     dataToSet: any = { reportType: '', result: null,error:null };
     range: FormGroup;
-    vendorDataList!: IVendorEntity[]
+    vendorDataList: IVendorEntity[] = []
     reports: any[] = [
         { value: 'vendorReport', viewValue: 'Vendor Report With in Range'},
      
@@ -27,9 +28,10 @@ export class VendorReportComponent {
     constructor(
         // private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
-        private reportsService:ReportsServiceService
+        private reportsService:ReportsServiceService,
+        private vendorService:VendorService
     ) {
-        this.vendorDataList = GLOBAL_LIST.VENDOR_DATA
+        // this.vendorDataList = GLOBAL_LIST.VENDOR_DATA
     
         this.vendorReportForm = new FormGroup({
             selectedOpt: new FormControl(this.reports[0].value),
@@ -43,12 +45,22 @@ export class VendorReportComponent {
     
     }
     ngOnInit() {
+        if(this.vendorDataList.length == 0){
+            this.getAllVendors()
+        }
         this.isReportGenerated = false
         // this.customerReportForm.get('selectedOpt')?.setValue(this.reports[0].value);
         this.filterOptions = this.vendorControl.valueChanges.pipe(
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
+    }
+
+    getAllVendors(){
+        this.vendorService.getAll().subscribe((vendorData)=>{
+            this.vendorDataList = vendorData
+        })
+    
     }
     
     private listFilter(value: string): IVendorEntity[] {
@@ -62,6 +74,7 @@ export class VendorReportComponent {
         )
     
     }
+
     
     generateReport() {
         const selectedCustomer = this.vendorReportForm.get('customer');
@@ -78,19 +91,25 @@ export class VendorReportComponent {
     getVendorId(vendorId:number){
     this.vendorId=vendorId
     }
+
+    onVendorFocus(){
+        if(!this.vendorControl?.value){
+            this.vendorControl.setValue('')
+        }
+    }
     selectAllPaymentsOfaVendorWithInRange(id:number,startDate: any, endDate: any){
         this.reportsService.selectAllPaymentsOfaVendorWithInRange(this.vendorId,startDate,endDate).subscribe(res=>{
             if(res?.result){
                 this.dataToSet = {
                     dateRange:startDate +"-"+ endDate,
-                    reportType :"vendorReport",
+                    reportType :"Vendor Report",
                     result: res?.result,
                     error:null
                }
               
             }else if(res?.errors){
                 this.dataToSet = {
-                    reportType :"vendorReport",
+                    reportType :"Vendor Report",
                     result: null,
                     error:res.errors
                }

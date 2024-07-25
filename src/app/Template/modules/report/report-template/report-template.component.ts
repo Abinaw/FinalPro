@@ -26,14 +26,15 @@ const formatVendorData = (data: VendorData): string[][] => {
     const combineDataEntries: string[][] = []
     let totalNetAmount = 0
     let totalPaidAmount = 0
+     // Calculate total paid amount
     data.paymentsOfThePurchase?.filter(aPay => {
         totalPaidAmount = totalPaidAmount + aPay.paidAmount
     })
-
+ // Calculate total net amount
     data.purchaseInvoiceData?.filter(aPurchaseInvoice => {
         totalNetAmount = totalNetAmount + aPurchaseInvoice.netAmount
     })
-
+ // Combine data entries
     data.purchaseInvoiceData?.forEach(anInvoice => {
         combineDataEntries.push([
             moment(new Date(anInvoice.purchaseDate)).format('DD/MM/YYYY HH:mm '),
@@ -141,7 +142,7 @@ export class ReportTemplateComponent implements OnChanges {
     }
 
     setDataIntoTable(inputData?: any) {
-        if (inputData.result && inputData?.reportType == "stockReport") {
+        if (inputData.result && inputData?.reportType == "Stock Report") {
             this.tableData = {
                 title: "stock",
                 tableHeader: [
@@ -174,7 +175,7 @@ export class ReportTemplateComponent implements OnChanges {
                 error: null
 
             }
-        } else if (inputData.result && inputData?.reportType == "invoiceReprint") {
+        } else if (inputData.result && inputData?.reportType == "Invoice Reprint") {
             this.tableData = {
                 title: "invoice",
                 tableHeader: [
@@ -196,7 +197,7 @@ export class ReportTemplateComponent implements OnChanges {
                 }),
                 error: null
             }
-        } else if (inputData.result && inputData?.reportType == "salesReport") {
+        } else if (inputData.result && inputData?.reportType == "Sales Report") {
             this.tableData = {
                 title: "sales",
                 tableHeader: [
@@ -230,7 +231,7 @@ export class ReportTemplateComponent implements OnChanges {
                 }), error: null
 
             }
-        } else if (inputData.result && inputData?.reportType == "purchaseReport") {
+        } else if (inputData.result && inputData?.reportType == "Purchase Report") {
             this.tableData = {
                 title: "purchase",
                 tableHeader: [
@@ -263,7 +264,7 @@ export class ReportTemplateComponent implements OnChanges {
                 }), error: null
 
             }
-        } else if (inputData.result && inputData?.reportType == "purchasePayments") {
+        } else if (inputData.result && inputData?.reportType == "Purchase Payments") {
             this.tableData = {
                 title: "purchase",
                 tableHeader: [
@@ -297,7 +298,7 @@ export class ReportTemplateComponent implements OnChanges {
                 }), error: null
 
             }
-        } else if (inputData.result && inputData?.reportType == "salesPayments") {
+        } else if (inputData.result && inputData?.reportType == "Sales Payments") {
             this.tableData = {
                 title: "sales",
                 tableHeader: [
@@ -331,7 +332,7 @@ export class ReportTemplateComponent implements OnChanges {
                 }), error: null
 
             }
-        } else if (inputData.result && inputData?.reportType == "customSalesPayments") {
+        } else if (inputData.result && inputData?.reportType == "Custom Sales Payments") {
             this.tableData = {
                 title: "sales payemnts",
                 tableHeader: [
@@ -361,7 +362,7 @@ export class ReportTemplateComponent implements OnChanges {
                 }), error: null
 
             }
-        } else if (inputData.result && inputData?.reportType == "customPurchasePayments") {
+        } else if (inputData.result && inputData?.reportType == "Custom Purchase Payments") {
             this.tableData = {
                 title: "purchase payemnts",
                 tableHeader: [
@@ -391,7 +392,7 @@ export class ReportTemplateComponent implements OnChanges {
                 }), error: null
 
             }
-        } else if (inputData.result && inputData?.reportType == "customerReport") {
+        } else if (inputData.result && inputData?.reportType == "Customer Report") {
             console.log("Report Type", inputData?.reportType)
             console.log("Report Results", inputData?.result)
             const formattedCustomerData = formatCustomerData(inputData.result);
@@ -413,7 +414,7 @@ export class ReportTemplateComponent implements OnChanges {
 
             }
 
-        } else if (inputData.result && inputData?.reportType == "vendorReport") {
+        } else if (inputData.result && inputData?.reportType == "Vendor Report") {
 
             const formattedData = formatVendorData(inputData.result);
             this.tableData = {

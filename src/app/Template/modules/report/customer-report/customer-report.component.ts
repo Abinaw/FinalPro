@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { map, Observable, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ICustomerEntity } from 'src/app/constants/interfaces/CustomerEntity';
+import { CustomerService } from 'src/app/service/customer-service/customer.service';
 import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
 
 @Component({
@@ -12,14 +13,14 @@ import { ReportsServiceService } from 'src/app/service/reports-service/reports-s
   templateUrl: './customer-report.component.html',
   styleUrls: ['./customer-report.component.css']
 })
-export class CustomerReportComponent {
+export class CustomerReportComponent implements OnInit{
 customerReportForm: FormGroup; 
 filterOptions!: Observable<ICustomerEntity[]>;
 isReportGenerated!: boolean;
 custId! :number
 dataToSet: any = { reportType: '', result: null,error:null };
 range: FormGroup;
-customerDataList!: ICustomerEntity[]
+customerDataList: ICustomerEntity[] = []
 reports: any[] = [
     { value: 'customerReport', viewValue: 'Customer Report With in Range'},
  
@@ -28,13 +29,15 @@ customerControl = new FormControl('');
 constructor(
     // private confirmedInvoiceService: ConfirmInvoiceService,
     private cdr: ChangeDetectorRef,
-    private reportsService:ReportsServiceService
-) {
-    this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA
+    private reportsService:ReportsServiceService,
+    private customerService: CustomerService,
 
+) {
+    // this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA
+ 
     this.customerReportForm = new FormGroup({
         selectedOpt: new FormControl(this.reports[0].value),
-        customer: new FormControl('',[Validators.required,]),
+        customer: new FormControl([Validators.required,]),
     });
 
     this.range = new FormGroup({
@@ -44,13 +47,23 @@ constructor(
 
 }
 ngOnInit() {
+    if(this.customerDataList.length ==0){
+        this.getAllCustomers();
+    }
     this.isReportGenerated = false
     this.filterOptions = this.customerControl.valueChanges.pipe(
         startWith(""),
         map((value) => this.listFilter(value || ""))
     );
+   
+      
 }
-
+ getAllCustomers(){
+        this.customerService.getAll().subscribe((customerData)=>{
+            this.customerDataList = customerData
+        })
+    
+    }
 private listFilter(value: string): ICustomerEntity[] {
 
     const searchValue = value.toString().toLowerCase();
@@ -78,19 +91,28 @@ generateReport() {
 getCustId(custId:number){
 this.custId=custId
 }
+
+onCustomerFocus() {
+    // Check if the customerControl value is empty or not
+    if (!this.customerControl.value) {
+         // If the value is empty, set it to an empty string to trigger autocomplete options
+      this.customerControl.setValue('');
+    }
+  }
+
 selectAllPaymentsOfaCustomerWithInRange(id:number,startDate: any, endDate: any){
     this.reportsService.selectAllPaymentsOfaCustomerWithInRange(this.custId,startDate,endDate).subscribe(res=>{
         if(res?.result){
             this.dataToSet = {
                 dateRange:startDate +"-"+ endDate,
-                reportType :"customerReport",
+                reportType :"Customer Report",
                 result: res?.result,
                 error:null
            }
           
         }else if(res?.errors){
             this.dataToSet = {
-                reportType :"customerReport",
+                reportType :"Customer Report",
                 result: null,
                 error:res.errors
            }

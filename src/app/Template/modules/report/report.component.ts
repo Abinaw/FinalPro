@@ -22,10 +22,10 @@ export class ReportComponent {
         private vendorService:VendorService
 
      ){
-        this.getAllConfirmInvoice()
+        /* this.getAllConfirmInvoice()
         this.getAllConfirmPurchaseInvoice()
         this.getAllCustomers()
-        this.getAllVendors()
+        this.getAllVendors() */
     }
     
     goBack(){
@@ -71,7 +71,7 @@ export class ReportComponent {
         this.reportView = false
     }
 
-    getAllConfirmInvoice() {
+  /*   getAllConfirmInvoice() {
         this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
           GLOBAL_LIST.CONFIRM_SALES_DATA = invoiceData?.result
         })
@@ -86,7 +86,6 @@ export class ReportComponent {
     getAllCustomers(){
         this.customerService.getAll().subscribe((customerData)=>{
             GLOBAL_LIST.CUSTOMER_DATA = customerData
-            localStorage.setItem('customerData',(JSON.stringify(customerData)))
         })
     
     }
@@ -95,7 +94,7 @@ export class ReportComponent {
             GLOBAL_LIST.VENDOR_DATA = vendorData
         })
     
-    }
+    } */
 
 
 }

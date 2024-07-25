@@ -1,4 +1,4 @@
-<ng-container *ngIf="inputData.reportType != 'invoiceReprint' && inputData.result">
+<ng-container *ngIf="inputData.reportType != 'Invoice Reprint' && inputData.result">
     <div class="grid ">
         <!-- InvoiceTemplate -->
         <div class="">
@@ -15,14 +15,23 @@
                         </div>
                     </div>
                     <!-- <h1 class="uppercase font-bold text-[30px]">Receipt</h1> -->
-                     <ng-container *ngIf="inputData.result">
-                     <div class="text-center font-semiboldpu"><div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
-                            To </span><span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span></div>
+                    <ng-container *ngIf="
+                    inputData.reportType!='Custom Purchase Payments'&&
+                    inputData.reportType!='Custom Sales Payments'
+                     && inputData.reportType!='Vendor Report' 
+                     && inputData.reportType!='Customer Report'
+                      && inputData?.dateRange ">
+                        <div class="text-center font-bold">
+                            <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
+                                To </span><span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="inputData.reportType=='Stock Report'">
+                        <div>{{inputData?.reportType}} On {{currentDate}}</div>
+                    </ng-container>
 
-                        </ng-container>
-
-                    <div class="w-[100%] flex justify-center gap-[20px]"
-                        *ngIf="inputData.reportType ==='customPurchasePayments'&& inputData?.result">
+                    <div class="w-[100%] flex justify-center gap-[20px] font-bold"
+                        *ngIf="inputData.reportType ==='Custom Purchase Payments'&& inputData?.result">
 
                         <div>Purchase Invoice: </div>
                         <div>{{inputData?.result[0].ConfirmPurchaseOBJ?.purchaseInvoice}}|</div>
@@ -33,7 +42,7 @@
                         <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
 
                     </div>
-                    <div class="w-[100%]" *ngIf="inputData.reportType == 'customSalesPayments'&& inputData?.result">
+                    <div class="w-[100%] flex justify-center gap-[20px] font-bold" *ngIf="inputData.reportType == 'Custom Sales Payments'&& inputData?.result">
 
                         <div>Sales
                             Invoice: </div>
@@ -45,8 +54,8 @@
                             To</span>
                         <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
                     </div>
-                    <div class="w-[100%] flex justify-center gap-[20px]"
-                        *ngIf="inputData.reportType ==='vendorReport'&& inputData?.result">
+                    <div class="w-[100%] flex justify-center gap-[20px] font-bold"
+                        *ngIf="inputData.reportType ==='Vendor Report'&& inputData?.result">
                         <div>Vendor Name: </div>
                         <div>{{inputData.result?.purchaseInvoiceData?.[0]?.vendorOBJ?.vendorName}}|</div>
                         <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
@@ -54,8 +63,8 @@
                         <span>{{(inputData?.dateRange).split("-")[1]|date:'yyyy-MM-dd'}}</span>
 
                     </div>
-                    <div class="w-[100%] flex justify-center gap-[20px]"
-                        *ngIf="inputData.reportType ==='customerReport'&& inputData?.result">
+                    <div class="w-[100%] flex justify-center gap-[20px] font-bold"
+                        *ngIf="inputData.reportType ==='Customer Report'&& inputData?.result">
                         <div>Customer Name: </div>
                         <div>{{inputData?.result?.salesInvoiceData?.[0]?.customerOBJ?.custName}}|</div>
                         <div>Date Range: </div><span>{{(inputData?.dateRange).split("-")[0]|date:'yyyy-MM-dd'}}
@@ -115,7 +124,7 @@
 
 
 
-<ng-container *ngIf="inputData.reportType == 'invoiceReprint' && inputData.result">
+<ng-container *ngIf="inputData.reportType == 'Invoice Reprint' && inputData.result">
     <div>
         <ng-container class="grid">
             <!-- InvoiceTemplate -->

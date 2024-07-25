@@ -104,13 +104,13 @@ export class PurchaseReportComponent {
                 if(res?.result){
                     this.dataToSet = {
                         dateRange:start +"-"+ end,
-                        reportType :"purchaseReport",
+                        reportType :"Purchase Report",
                         result: res.result,
                         error:null
                    }
                 }else if(res?.errors){
                     this.dataToSet = {
-                        reportType :"purchaseReport",
+                        reportType :"Purchase Report",
                         error: res.errors,
                         result:null
                    }

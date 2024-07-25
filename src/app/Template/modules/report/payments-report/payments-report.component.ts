@@ -20,8 +20,10 @@ import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
 import { IReceiptEntity } from 'src/app/constants/interfaces/IReceiptEntity';
 import { IVoucherEntity } from 'src/app/constants/interfaces/IVoucherEntity';
 import { PrintActionComponent } from 'src/app/custom-components/action-cell/print-action/print-action.component';
+import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { ConfirmSalesInvociePaymentService } from 'src/app/service/confirmPaymentServices/ConfirmSalesInvoiceService/confirm-sales-invocie-payment.service';
 import { ConfirmPurchasePaymentService } from 'src/app/service/confirmPaymentServices/ConfirmedPurchaseInvoiceServices/confirm-purchase-payment.service';
+import { ConfirmPurchaseAndCartServiceService } from 'src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service';
 import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
 
 @Component({
@@ -38,8 +40,8 @@ export class PaymentsReportComponent{
     filterOptions!: Observable<any[]>
     filterOptionPurchase!: Observable<any[]>
     public rowSelection: "single" | "multiple" = "single";
-    confirmPurchaseDataList!: IConfirmPurchaseEntity[]
-    confirmSalesInvoiceDataList!: IConfirmInvoiceEntity[]
+    confirmPurchaseDataList: IConfirmPurchaseEntity[] = []
+    confirmSalesInvoiceDataList: IConfirmInvoiceEntity[] =[]
     invoiceId!: number
     dataToSet:any = { reportType: '', result: null, error: null, };
     reports: any[] = [
@@ -72,10 +74,12 @@ export class PaymentsReportComponent{
         private reportsService: ReportsServiceService,
         private confirmSalesPurchasePaymentsService: ConfirmSalesInvociePaymentService,
         private confirmPurchasePaymentService: ConfirmPurchasePaymentService,
+        private confirmedInvoiceService: ConfirmInvoiceService,
+        private confirmedPurchaseInvoiceService: ConfirmPurchaseAndCartServiceService,
 
     ) {
-        this.confirmPurchaseDataList = GLOBAL_LIST.CONFIRM_PURCHASE_DATA
-        this.confirmSalesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
+        // this.confirmPurchaseDataList = GLOBAL_LIST.CONFIRM_PURCHASE_DATA
+        // this.confirmSalesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
         this.invoiceSelection = new FormGroup({
             refNo: new FormControl(null),
             selectedOpt: new FormControl(null),
@@ -90,6 +94,10 @@ export class PaymentsReportComponent{
     }
 
     ngOnInit() {
+        if(this.confirmPurchaseDataList.length == 0 && this.confirmSalesInvoiceDataList.length == 0){
+            this.getAllConfirmInvoice()
+            this.getAllConfirmPurchaseInvoice()
+        }
         this.isReportGenerated = false
         this.filterOptionPurchase = this.purchaseInvoiceControl.valueChanges.pipe(
             startWith(""),
@@ -100,6 +108,17 @@ export class PaymentsReportComponent{
             startWith(""),
             map((value) => this.listFilterSalesInvoice(value || ""))
         );
+    }
+    getAllConfirmInvoice() {
+        this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
+          this.confirmSalesInvoiceDataList = invoiceData?.result
+        })
+    }
+
+    getAllConfirmPurchaseInvoice(){
+            this.confirmedPurchaseInvoiceService.getAllConfirmPurchaseInvoices().subscribe((purchaseData)=>{
+                this.confirmPurchaseDataList = purchaseData?.result
+            })
     }
 
    
@@ -134,13 +153,14 @@ export class PaymentsReportComponent{
         this.reportsService.selectAllPurchaseInvoicePaymentsWithInRange(start,end).subscribe((res) => {
             if (res?.result) {
                 this.dataToSet = {
-                    reportType: "purchasePayments",
+                    dateRange:start +"-"+ end,
+                    reportType: "Purchase Payments",
                     result: res.result,
                     error: null
                 }
             } else if (res?.errors) {
                 this.dataToSet = {
-                    reportType: "purchasePayments",
+                    reportType: "Purchase Payments",
                     error: res.errors,
                     result: null
                 }
@@ -160,13 +180,14 @@ export class PaymentsReportComponent{
             (res) => {
                 if (res?.result) {
                     this.dataToSet = {
-                        reportType: "salesPayments",
+                        dateRange:start +"-"+ end,
+                        reportType: "Sales Payments",
                         result: res.result,
                         error: null
                     }
                 } else if (res?.errors) {
                     this.dataToSet = {
-                        reportType: "salesPayments",
+                        reportType: "Sales Payments",
                         error: res.errors,
                         result: null
                     }
@@ -187,13 +208,13 @@ export class PaymentsReportComponent{
             if (res?.result) {
                 this.dataToSet = {
                     dateRange:start +"-"+ end,
-                    reportType: "customPurchasePayments",
+                    reportType: "Custom Purchase Payments",
                     result: res.result,
                     error: null
                 }
             } else if (res?.errors) {
                 this.dataToSet = {
-                    reportType: "customPurchasePayments",
+                    reportType: "Custom Purchase Payments",
                     error: res.errors,
                     result: null
                 }
@@ -214,13 +235,13 @@ export class PaymentsReportComponent{
                 if (res?.result) {
                     this.dataToSet = {
                         dateRange:start +"-"+ end,
-                        reportType: "customSalesPayments",
+                        reportType: "Custom Sales Payments",
                         result: res.result,
                         error: null
                     }
                 } else if (res?.errors) {
                     this.dataToSet = {
-                        reportType: "customSalesPayments",
+                        reportType: "Custom Sales Payments",
                         error: res.errors,
                         result: null
                     }

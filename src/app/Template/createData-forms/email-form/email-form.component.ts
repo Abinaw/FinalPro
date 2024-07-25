@@ -18,44 +18,38 @@ export class EmailFormComponent implements OnInit{
 
 emailForm:FormGroup;
 isLoading:boolean = false; 
-customerControl = new FormControl('');
-customerDataList!: ICustomerEntity[]
+// customerControl = new FormControl('');
 filterOptions!: Observable<ICustomerEntity[]>;
 
 constructor( 
-    @Inject(MAT_DIALOG_DATA) public data: { reportPic: HTMLElement ,reportType:string},
+    @Inject(MAT_DIALOG_DATA) public data: { reportPic: HTMLElement,extraDetails:{reportType:string,custEmail:string} },
     private matDialogRef:MatDialogRef<EmailFormComponent>,
     private emailService: EmailService,
     private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
 ){
     this.emailForm = new FormGroup({
-        emailId: new FormControl(),
+        emailId: new FormControl(this.data.extraDetails.custEmail),
         title:new FormControl,
-        subject: new FormControl((this.data.reportType+" report").toUpperCase()),
+        subject: new FormControl((this.data.extraDetails.reportType).toUpperCase()),
     })
-    const jsonString =localStorage.getItem('customerData')
-    if (jsonString) {
-        const customerData = JSON.parse(jsonString);
-        this.customerDataList =customerData
-      } else {
-        console.log('No customer data found.');
-      }
+    console.log(data)
+
    
 
 }
 
 setMail(email:string){
-    this.emailForm.get('emailId')?.setValue(email);
+    // this.emailForm.get('emailId')?.setValue(this.data.custEmail);
 }
 ngOnInit() {
  
-    this.filterOptions = this.customerControl.valueChanges.pipe(
+   /*  this.filterOptions = this.customerControl.valueChanges.pipe(
         startWith(""),
         map((value) => this.listFilter(value || ""))
-    );
+    ); */
 }
-private listFilter(value: string): ICustomerEntity[] {
+/* private listFilter(value: string): ICustomerEntity[] {
 
     const searchValue = value.toString().toLowerCase();
     return this.customerDataList.filter(
@@ -65,7 +59,7 @@ private listFilter(value: string): ICustomerEntity[] {
         option.email.toString().toLowerCase().includes(searchValue)
     )
 
-}
+} */
     async sendEmail() {
         const generatedReport = this.data.reportPic;
         if (generatedReport) {

@@ -18,7 +18,8 @@
                     [formControl]="invoiceNoControl" [matAutocomplete]="auto">
                 <mat-error *ngIf="invoiceSelection.get('invoiceNo')?.hasError">This field is required!</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async" (focus)=" getTheSelectedInvoice(anItem.confirmInvoiceId)"
+                    <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
+                     (focus)=" getTheCustomerDetails(anItem.confirmInvoiceId, anItem.customerOBJ.email); "
                         [value]="anItem.invoiceNumber">
                         <!-- (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)"> -->
                         {{anItem.invoiceNumber}} | {{anItem.customerOBJ.custName}}
@@ -48,7 +49,7 @@
                 <button mat-raised-button class="w-[95%]" color="primary" (click)="generateReport()">Generate
                     Report</button>
             </div>
-            <div class="w-full flex flex-col justify-center items-center">
+            <div class="w-full flex flex-col justify-center items-center" *ngIf="isReportGenerated">
                 <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="invoiceSelection.get('selectedOpt')?.value==='invoiceReprint'">

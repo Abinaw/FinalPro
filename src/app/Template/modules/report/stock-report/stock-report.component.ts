@@ -20,7 +20,7 @@ export class StockReportComponent {
     selectedValue!: string;
     isReportGenerated!: boolean;
     stockList: IStockEntity[] = []
-    dataToSet: IDataToSet = { reportType: '', result: null ,error:null};
+    dataToSet: IDataToSet = { reportType: '', result: null ,error:null, dateRange:''};
     reports: any[] = [
         { value: 'stock', viewValue: 'STOCK REPORT' },
         { value: 'etc', viewValue: '...' },
@@ -51,7 +51,8 @@ export class StockReportComponent {
     getAllStock() {
         this.stockService.getAll().subscribe((res) => {
             this.dataToSet = {
-                reportType :"stockReport",
+                dateRange:"",
+                reportType :"Stock Report",
                 result: res,
                 error:null
            }

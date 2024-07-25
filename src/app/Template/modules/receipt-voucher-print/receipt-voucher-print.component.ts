@@ -57,9 +57,12 @@ export class ReceiptVoucherPrintComponent {
     openMailForm() {
         
         const invoiceDOC = document.getElementById('receipt');
+        const data={
+            // custEmail : this.custEmailId
+        }
         if (invoiceDOC) {
           const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: invoiceDOC, reportType:"Receipt", },panelClass:['custom-dialog-container']
+            data: { reportPic: invoiceDOC, extraDetails:{reportType:"Receipt",custEmail:this.data.confirmInvoiceOBJ.customerOBJ.email} },panelClass:['custom-dialog-container']
           });
         } else {
           this.toastr.error('Error occurred while generating the report');

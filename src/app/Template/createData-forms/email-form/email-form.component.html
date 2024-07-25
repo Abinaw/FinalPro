@@ -1,6 +1,6 @@
 <mat-dialog-content>
 <form [formGroup]="emailForm" class="overflow-hidden flex flex-col" (ngSubmit)="sendEmail()">
-    <mat-form-field class="w-full"> 
+    <!-- <mat-form-field class="w-full"> 
         <mat-label>Customer</mat-label>
         <input type="text" placeholder="emailId" matInput formControlName="emailId"
             [formControl]="customerControl" [matAutocomplete]="auto">
@@ -10,6 +10,12 @@
                 {{aCust.custName}} | {{aCust.email}}
             </mat-option>
         </mat-autocomplete>
+    </mat-form-field> -->
+    <mat-form-field class="w-[100%]">
+        <mat-label> Email Id </mat-label>
+        <input readonly matInput formControlName="emailId" type="text" class="" />
+        <mat-error *ngIf="emailForm.get('emailId')?.errors">This field is required!</mat-error>
+        <mat-error *ngIf="">This field is required!</mat-error>
     </mat-form-field>
 
     <mat-form-field class="w-[100%]">

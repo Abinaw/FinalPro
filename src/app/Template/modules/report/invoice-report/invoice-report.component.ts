@@ -24,7 +24,7 @@ export class InvoiceReportComponent {
     isReportGenerated!: boolean;
     selectedValue: string = '';
     filterOptions!: Observable<IConfirmInvoiceEntity[]>
-    salesInvoiceDataList!: IConfirmInvoiceEntity[]
+    salesInvoiceDataList: IConfirmInvoiceEntity[] = []
     invoiceNo! :number
     dataToSet:any = { reportType: '', result: null,error:null };
     reports: any[] = [
@@ -34,7 +34,7 @@ export class InvoiceReportComponent {
     invoiceSelection: FormGroup;
     invoiceNoControl = new FormControl('');
     range: FormGroup;
-
+    custEmailId!:string;
     constructor(
         private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
@@ -44,8 +44,9 @@ export class InvoiceReportComponent {
         private toastr :ToastrService
 
     ) {
-        this.salesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
+        // this.salesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
 
+       
         this.invoiceSelection = new FormGroup({
             invoiceNo: new FormControl,
             selectedOpt: new FormControl,
@@ -59,6 +60,11 @@ export class InvoiceReportComponent {
     }
 
     ngOnInit() {
+        // if the page is refreshed, the list becomes empty, so this makes sure to stream the data again into the list,
+        // which prevents us to go back to report to load the data again
+        if(this.salesInvoiceDataList.length ==0){
+            this.getAllSalesInvoice()
+        }
         this.isReportGenerated = false
         this.filterOptions = this.invoiceNoControl.valueChanges.pipe(
             startWith(""),
@@ -66,6 +72,11 @@ export class InvoiceReportComponent {
         );
     }
 
+    getAllSalesInvoice() {
+        this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
+          this.salesInvoiceDataList = invoiceData?.result
+        })
+    }
 
     private listFilter(value: string): IConfirmInvoiceEntity[] {
 
@@ -100,14 +111,14 @@ export class InvoiceReportComponent {
             
             if(res?.result){
                 this.dataToSet = {
-                    reportType :"invoiceReprint",
+                    reportType :"Invoice Reprint",
                     result: res?.result,
                     error:null
                }
               
             }else if(res?.errors){
                 this.dataToSet = {
-                    reportType :"invoiceReprint",
+                    reportType :"Invoice Reprint",
                     result: null,
                     error:res.errors
                }
@@ -125,14 +136,14 @@ export class InvoiceReportComponent {
                 if(res?.result){
                     this.dataToSet = {
                         dateRange: start +"-"+ end,
-                        reportType :"salesReport",
+                        reportType :"Sales Report",
                         result: res?.result,
                         error:null
                    }
                   
                 }else if(res?.errors){
                     this.dataToSet = {
-                        reportType :"salesReport",
+                        reportType :"Sales Report",
                         result: null,
                         error:res.errors
                    }
@@ -147,8 +158,9 @@ export class InvoiceReportComponent {
     }
 
 
-    getTheSelectedInvoice(invoiceNumber: number) {
+    getTheCustomerDetails(invoiceNumber: number, custEmailId:string) {
         this.invoiceNo = invoiceNumber
+        this.custEmailId = custEmailId
     }
    
     
@@ -186,9 +198,13 @@ export class InvoiceReportComponent {
 
     openMailForm() {
         const stockTempDoc = document.getElementById("stockTemp");
+        const data={
+            reportType: this.invoiceSelection.get('selectedOpt')?.value,
+            custEmail : this.custEmailId
+        }
         if (stockTempDoc) {
           const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: stockTempDoc, reportType:this.invoiceSelection.get('invoiceNo')?.value },panelClass:['custom-dialog-container']
+            data: { reportPic: stockTempDoc, extraDetails:data },panelClass:['custom-dialog-container']
           });
         } else {
           this.toastr.error('Error occurred while generating the report');

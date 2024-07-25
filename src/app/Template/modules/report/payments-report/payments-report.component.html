@@ -80,7 +80,7 @@
                     Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center">
-                <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
+                <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()" *ngIf="isReportGenerated">Print Report</button>
             </div>
         </section>
     </div>

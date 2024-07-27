@@ -49,7 +49,7 @@ logForm : FormGroup;
          
         if (this.authService.isValidJWT(token)) {
             this.authService.login(result.token);
-            this.notificationService.fetchDueCheques();
+            this.notificationService.fetchnotificationData();
             this.router.navigate(["/dash_board"]);
             this.toastr.clear();
             this.toastr.success("Successfully loggedin!");

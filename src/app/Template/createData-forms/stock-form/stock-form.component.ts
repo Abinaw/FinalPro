@@ -8,6 +8,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ToastrService } from 'ngx-toastr';
 import moment from 'moment';
+import { NotificationService } from 'src/app/service/notification-service/notification.service';
 
 @Component({
   selector: 'app-stock-form',
@@ -26,6 +27,7 @@ export class StockFormComponent implements OnInit {
         private stockService:StockService,
         private matDialog: MatDialog,
         private matDialogRef: MatDialogRef<StockFormComponent>,
+        private notificationService:NotificationService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.categoryDataList = GLOBAL_LIST.CATEGORY_DATA
@@ -109,6 +111,7 @@ export class StockFormComponent implements OnInit {
             this.stockService.regiterReq(this.stockForm.value).subscribe(res=>{
             
             this.matDialogRef.close()
+            this.triggerNotification()
             this.toastr.success(res)
         })
            
@@ -117,6 +120,9 @@ export class StockFormComponent implements OnInit {
 
     }
 
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
+    }
     updatePopTrigger() {
         
         let newlySelectedCategoryId = this.categoryControl.value
@@ -132,6 +138,7 @@ export class StockFormComponent implements OnInit {
             this.stockService.update(this.stockForm.value).subscribe((res)=>{
                 
                 this.matDialogRef.close()
+                this.triggerNotification()
                 this.toastr.success(res)
             
             })

@@ -18,6 +18,7 @@ import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { ProductCartService } from "src/app/service/productCart-service/product-cart.service";
 import { StockService } from "src/app/service/stock-service/stock.service";
 import { ActionPopComponent } from "src/app/custom-components/action-cell/action-pop/action-pop.component";
+import { NotificationService } from "src/app/service/notification-service/notification.service";
 
 @Component({
     selector: "app-product-selection-to-cart-form",
@@ -41,7 +42,9 @@ export class ProductSelectionToCartFormComponent {
         private toastr: ToastrService,
         private productCartService: ProductCartService,
         private matDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private notificationService:NotificationService,
+
     ) {
         this.stockDataList = GLOBAL_LIST.STOCK_DATA;
         //    console.log("On the constructor ", this.stockDataList)
@@ -127,6 +130,7 @@ export class ProductSelectionToCartFormComponent {
                         this.toastr.success(res?.successMessage)
                         this.getAllStockData();
                         this.matDialogRef.close()
+                        this.triggerNotification()
                     }else{
                         this.toastr.clear()
                         this.toastr.error(res?.errors)
@@ -163,9 +167,15 @@ export class ProductSelectionToCartFormComponent {
                 .subscribe((res) => {
                     // this.getAllCartData()
                     this.matDialogRef.close();
+                    this.triggerNotification()
                     this.toastr.success(res.successMessage);
                 });
         });
+    }
+
+    
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
     }
 
     private listFilter(value: string): IStockEntity[] {

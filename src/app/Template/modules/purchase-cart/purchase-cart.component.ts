@@ -24,6 +24,7 @@ import { state } from "@angular/animations";
 import { ConfirmPurchaseAndCartServiceService } from "src/app/service/confirmPurchase-service/confirm-purchase-and-cart-service.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { NotificationService } from "src/app/service/notification-service/notification.service";
 
 @Component({
     selector: "app-purchase-cart",
@@ -145,7 +146,9 @@ export class PurchaseCartComponent implements OnInit {
         private matDialog: MatDialog,
         private confirmPurchaseAndCartService: ConfirmPurchaseAndCartServiceService,
         private toastr: ToastrService,
-        private router: Router
+        private router: Router,
+        private notificationService:NotificationService,
+
     ) {
         this.loadAllTempPurchase();
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
@@ -249,11 +252,47 @@ export class PurchaseCartComponent implements OnInit {
                 .subscribe((res) => {
                     this.toastr.clear();
                     this.toastr.success(res.successMessage);
+                    this.triggerNotification()
+
                     // this.loadAllTempPurchase()
                     this.router.navigate(["/dash_board"]);
 
                 });
 
         });
+    }
+
+    cancelPurchase(){
+        const extraData = {
+            title: "Cancel Purchase?",
+            subTitle: "Do you want to cancel the invoice?",
+        };
+        let openActionPop = this.matDialog.open(ActionPopComponent, {
+            data: extraData,
+            panelClass: ["custom-dialog-container"],
+        });
+        openActionPop.afterClosed().subscribe((state: boolean) => {
+            if (!state) return;
+            this.confirmPurchaseAndCartService
+                .cancelPurchase(this.purchaseId)
+                .subscribe((res) => {
+                  if(res?.successMessage){
+                    this.toastr.clear();
+                    this.toastr.success(res.successMessage);
+                    this.triggerNotification()
+                    this.router.navigate(["/dash_board"]);
+                  }else if(res?.successMessage == ""){
+                    this.toastr.clear()
+                    this.toastr.error(res.errors)
+                  }
+                  
+
+                });
+
+        });
+    }
+
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
     }
 }

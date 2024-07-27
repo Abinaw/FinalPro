@@ -20,6 +20,10 @@ export class ConfirmPurchaseAndCartServiceService {
         const url = `${this.baseUrl}/getAllConfirmPurchaseInvoices`;
         return this.http.get<any[]>(url,{responseType:'json'});
       }
+      cancelPurchase(purchaseId: number):Observable<any>{
+        const url = `${this.baseUrl}/cancelPurchase/${purchaseId}`;
+        return this.http.delete<any[]>(url,{responseType:'json'});
+      }
       searchConfirmInvoice(characters:any):Observable<any>{
         const url = `${this.baseUrl}/searchConfirmInvoice/${characters}`;
         return this.http.get<any[]>(url,{responseType:'json'});

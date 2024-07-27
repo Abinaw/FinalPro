@@ -427,8 +427,6 @@ export class ReportTemplateComponent implements OnChanges {
                     "Description",
                     "Purchase Amount",
                     "Paid Amount",
-
-
                 ],
                 tableData: formattedData
                 , error: null

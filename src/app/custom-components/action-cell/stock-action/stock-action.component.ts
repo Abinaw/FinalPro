@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GridApi, ICellRendererParams } from 'ag-grid';
 import { StockFormComponent } from 'src/app/Template/createData-forms/stock-form/stock-form.component';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from 'src/app/service/notification-service/notification.service';
 
 @Component({
   selector: 'app-stock-action',
@@ -20,7 +21,9 @@ export class StockActionComponent {
     constructor(
         private toastr: ToastrService,
         public matDialog: MatDialog,
-        private stockService:StockService
+        private stockService:StockService,
+        private notificationService:NotificationService,
+
        
     ) {
 
@@ -50,6 +53,7 @@ export class StockActionComponent {
             this.stockService.delete(this.dataFromRow.stockId).subscribe((res)=>{
                 this.toastr.success(res)
                 this.setDataIntoRow();
+                this.triggerNotification()
             })
         })
        
@@ -65,7 +69,12 @@ export class StockActionComponent {
             const dialogRef = this.matDialog.open(StockFormComponent, {data:extraData, panelClass:"custom-dialog-container"});
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
+                this.triggerNotification()
             })
         }
        
+        
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
+    }
 }

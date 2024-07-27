@@ -3,43 +3,40 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { SalesInvocieChequeService } from '../salesInvoiceCheque-service/sales-invocie-cheque.service';
 import { HttpHeaders } from '@angular/common/http';
 import { PurchaseInvoiceChequeService } from '../purchaseInvoiceCheque-service/purchase-invoice-cheque.service';
+import { FetchNotificationApiService } from '../allNotificationApiRequestService/fetch-notification-api.service';
+import { INotificationEntity } from 'src/app/constants/interfaces/INotificationEntity';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-    private dueSalesChequeDataSubject = new BehaviorSubject<any[]>([]);
-    private duePurchaseChequeDataSubject = new BehaviorSubject<any[]>([]);
-    dueSalesChequeData$: Observable<any[]> = this.dueSalesChequeDataSubject.asObservable();
-    duePurchaseChequeData$: Observable<any[]> = this.duePurchaseChequeDataSubject.asObservable();
+
+    private dueDateDataSubject = new BehaviorSubject<INotificationEntity| null>(null);
+
+    dueDateDataSubject$: Observable<INotificationEntity|null> = this.dueDateDataSubject.asObservable();
   
-    constructor(private salesInvoiceChequeService: SalesInvocieChequeService, private purchaseInvoiceChequeService: PurchaseInvoiceChequeService) {}
+    constructor(private notifiApiCallService:FetchNotificationApiService) {
+
+         }
   
-    fetchDueCheques() {
+    fetchnotificationData() {
         const token = localStorage.getItem('token'); 
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });
     
-        this.purchaseInvoiceChequeService.getAllConfirmedPurchaseInvoiceDueCheques(headers).subscribe(res=>{
+        this.notifiApiCallService.fetchAllNotifications(headers).subscribe(res=>{
             if (res?.result) {
-                this.duePurchaseChequeDataSubject.next(res.result);
+                this.dueDateDataSubject.next(res.result as INotificationEntity);
               }
             }, error => {
-              console.error('Error fetching Purchase due cheques', error);
+              console.error('Error fetching notification data', error);
         })
 
-        this.salesInvoiceChequeService.getAllConfirmedSalesInvoiceCheques(headers).subscribe(res => {
-          if (res?.result) {
-            this.dueSalesChequeDataSubject.next(res.result);
-          }
-        }, error => {
-          console.error('Error fetching due cheques', error);
-        });
-      }
+    }
     
       clearData() {
-        this.duePurchaseChequeDataSubject.next([]);
-        this.dueSalesChequeDataSubject.next([]);
+    
+        this.dueDateDataSubject.next(null);
       }
 }

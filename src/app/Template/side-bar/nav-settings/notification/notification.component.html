@@ -1,5 +1,5 @@
 <div class="notification" (click)="openNotification()">
-    <button mat-icon-button color="warn" [matBadge]="(purchaseNotifications.length+salesNotifications.length)" matBadgePosition="before" matBadgeColor="warn" matBadgeSize="small"> 
+    <button mat-icon-button color="warn" [matBadge]="salesChequeDuesCount + purchaseChequeDuesCount +productsLowerThanReorderLevelCount" matBadgePosition="before" matBadgeColor="warn" matBadgeSize="small"> 
       <span class="material-symbols-outlined">notifications</span>
     </button>
   </div>

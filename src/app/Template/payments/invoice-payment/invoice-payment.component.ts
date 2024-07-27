@@ -69,8 +69,8 @@ export class InvoicePaymentComponent implements OnInit {
             console.log("Sales ", this.data)
         }
     }
-    triggerChequeNotification() {
-        this.notificationService.fetchDueCheques();
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
     }
     getTempInvoiceById(invocieId: number) {
         this.invoiceService.getTempInvocieById(invocieId).subscribe(res => {
@@ -195,7 +195,7 @@ export class InvoicePaymentComponent implements OnInit {
                     if(salesInvoicePaymentRes?.successMessage!=null){
                         this.toastr.success(salesInvoicePaymentRes?.successMessage)
                         this.dialogRef.close(salesInvoicePaymentRes);
-                        this.triggerChequeNotification()
+                        this.triggerNotification()
                     }else{
                         // console.log(salesInvoicePaymentRes)
                         this.toastr.clear()
@@ -217,7 +217,7 @@ export class InvoicePaymentComponent implements OnInit {
                     if(purchaseInvoiceRes?.successMessage!=null){
                         this.toastr.success(purchaseInvoiceRes?.successMessage)
                         this.dialogRef.close(purchaseInvoiceRes);
-                        this.triggerChequeNotification()
+                        this.triggerNotification()
                     }else{
                         console.log(purchaseInvoiceRes)
                         this.toastr.clear()

@@ -8,6 +8,7 @@ import { ProductSelectionToCartFormComponent } from 'src/app/Template/expansion/
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { Observable, map } from 'rxjs';
 import { IProCartEntity } from 'src/app/constants/interfaces/IProCartEntity';
+import { NotificationService } from 'src/app/service/notification-service/notification.service';
 
 @Component({
   selector: 'app-product-cart-action',
@@ -22,11 +23,16 @@ export class ProductCartActionComponent {
     constructor(
         private toastr : ToastrService,
         public matDialog: MatDialog,
-        private productCartService:ProductCartService
+        private productCartService:ProductCartService,
+        private notificationService:NotificationService,
+
        
     ) {
       
     }
+
+    
+ 
 
     agInit(params: ICellRendererParams): void {
         this.dataFromRow = params && params.data ? params.data : {};
@@ -50,6 +56,11 @@ export class ProductCartActionComponent {
     //      }))
     // }
 
+    
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
+    }
+
     getAllCartData(){
         this.productCartService.getAll(this.dataFromRow.tempInvoiceOBJ.tempInvoiceId).subscribe((res)=>{
             GLOBAL_LIST.PRODUCTCART_DATA = res.result[0]
@@ -72,6 +83,7 @@ export class ProductCartActionComponent {
                     this.toastr.success(res?.successMessage)
                     this.setDataIntoRow();  
                     this.getAllCartData();
+                    this.triggerNotification()
                 }else{
                     this.toastr.clear()
                     this.toastr.error(res?.errors)

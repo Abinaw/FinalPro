@@ -28,7 +28,7 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Cheque Due date</mat-label>
-            <input formControlName="chequeDueDate" matInput [matDatepicker]="picker">
+            <input formControlName="chequeDueDate" matInput [matDatepicker]="picker" >
             <mat-error *ngIf="invoicePaymentForm.get('chequeDueDate')?.errors">This field is required!</mat-error>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>

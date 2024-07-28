@@ -1,12 +1,62 @@
-<div>
-    <table>
-        <tr *ngFor="let entry of receivedData | keyvalue" class="border-b-2">
-            <td>{{entry.key}}</td>
-            <td>
-                <ul>
-                    <li *ngFor="let item of entry.value">{{ item }}</li>
-                </ul>
-            </td>
+<div class="p-5 flex flex-col items-center">
+    <table class="min-w-full divide-y divide-purple-200 shadow overflow-hidden border-b border-purple-200 sm:rounded-lg">
+      <thead class="bg-purple-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Products</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Qty</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Date</th>
         </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-purple-200">
+        <tr *ngFor="let anItem of data.productsLowerThanReorderLevel">
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.itemName }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.qty }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.arrivalData| date:'(EEEE) dd MMMM yyyy' }}</td>
+        </tr>
+      </tbody>
     </table>
-</div>
+  
+    <table class="mt-6 min-w-full divide-y divide-purple-200 shadow overflow-hidden border-b border-purple-200 sm:rounded-lg">
+      <thead class="bg-purple-50">
+        <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Invoice Ref</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Cheque Ref. No</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Due Date</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Days Left</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Customer</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-purple-200">
+        <tr *ngFor="let anItem of salesChequeDuesTransformedData">
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.confirmInvoiceOBJ.invoiceNumber }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.chequeRefNo }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.chequeDueDate | date:'(EEEE) dd MMMM yyyy' }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.daysLeft }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.confirmInvoiceOBJ.customerOBJ.custName }}</td>
+          
+        </tr>
+      </tbody>
+    </table>
+  
+    <table class="mt-6 min-w-full divide-y divide-purple-200 shadow overflow-hidden border-b border-purple-200 sm:rounded-lg">
+      <thead class="bg-purple-50">
+        <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Invoice Ref</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Cheque Ref. No</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Due Date</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Days Left</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">Vendor</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-purple-200">
+        <tr *ngFor="let anItem of purchaseChequeDuesTransformedData">
+            <td class="px-6 py-4 whitespace-nowrap">{{ anItem.confirmPurchaseInvoiceOBJ.purchaseInvoice }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.chequeRefNo }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.chequeDueDate | date:'(EEEE) dd MMMM yyyy' }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.daysLeft }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.confirmPurchaseInvoiceOBJ.vendorOBJ.vendorName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

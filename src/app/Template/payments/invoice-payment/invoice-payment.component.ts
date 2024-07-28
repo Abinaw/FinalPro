@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
@@ -48,13 +49,17 @@ export class InvoicePaymentComponent implements OnInit {
         this.isValid = false
         this.invoicePaymentForm = new FormGroup({
             paymentType: new FormControl(null, Validators.required),
-            cardRefNo: new FormControl(0, Validators.required),
-            paidAmount: new FormControl(0.00, Validators.required),
-            chequeRefNo: new FormControl(0, Validators.required),
-            chequeDueDate: new FormControl(new Date().toISOString(), Validators.required),
-            paidDate: new FormControl(new Date().toISOString()),
+            cardRefNo: new FormControl( Validators.required),
+            paidAmount: new FormControl( Validators.required),
+            chequeRefNo: new FormControl( Validators.required),
+            chequeDueDate: new FormControl(Validators.required),
+            paidDate: new FormControl(moment()),
         })
     }
+
+
+
+   
     ngOnInit(): void {
 
         if (this.data.tempInvoiceData) {
@@ -165,12 +170,15 @@ export class InvoicePaymentComponent implements OnInit {
             subTitle: "are you sure you want to make a payment?",
         }
         let paymentFormData = this.invoicePaymentForm.value;
+        
         if (this.data.tempInvoiceData) {
-
+            const chequeDueDateValue = this.invoicePaymentForm.get('chequeDueDate')?.value;
+            paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             paymentFormData.salesInvoice = this.data.tempInvoiceData;
             const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
+                console.log("paymentFormData", paymentFormData)
                 this.paymentService.addPayment(paymentFormData).subscribe((advancePayRes) => {
                     console.log(advancePayRes.successMessage)
                     if(advancePayRes?.successMessage != null){
@@ -188,9 +196,12 @@ export class InvoicePaymentComponent implements OnInit {
         } else if (this.data.confirmInvoiceId) {
            
             paymentFormData.confirmInvoiceOBJ = this.data
+            const chequeDueDateValue = this.invoicePaymentForm.get('chequeDueDate')?.value;
+            paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
+                console.log("paymentFormData", paymentFormData)
                 this.confirmSalesInvociePaymentService.makePaymentToConfirmInvoice(paymentFormData).subscribe((salesInvoicePaymentRes) => {
                     if(salesInvoicePaymentRes?.successMessage!=null){
                         this.toastr.success(salesInvoicePaymentRes?.successMessage)
@@ -210,9 +221,12 @@ export class InvoicePaymentComponent implements OnInit {
             
             paymentFormData.vendorOBJ = this.data.vendorOBJ
             paymentFormData.ConfirmPurchaseOBJ = this.data
+            const chequeDueDateValue = this.invoicePaymentForm.get('chequeDueDate')?.value;
+            paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
+                console.log("paymentFormData", paymentFormData)
                 this.confirmPurchasePaymentService.addToPurchaseInvoicePayment(paymentFormData).subscribe((purchaseInvoiceRes) => {
                     if(purchaseInvoiceRes?.successMessage!=null){
                         this.toastr.success(purchaseInvoiceRes?.successMessage)

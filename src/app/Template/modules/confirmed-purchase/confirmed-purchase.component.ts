@@ -107,9 +107,24 @@ export class ConfirmedPurchaseComponent {
     }
     
 
+    onCellDoubleClicked(cellClickedEvent: CellClickedEvent) {
+        if (cellClickedEvent.colDef.field === 'purchaseInvoice') {
+          this.copyToClipboard(cellClickedEvent.value);
+        }
+      }
     onCellClicked(cellClickedEvent: CellClickedEvent) {
        
-    }
+      }
+    
+      copyToClipboard(value: string) {
+        const el = document.createElement('textarea');
+        el.value = value;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        alert(`Copied: ${value}`);
+      }
   
     private getRowData(): any {
         return new Promise((resolve) => {

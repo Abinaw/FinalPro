@@ -14,7 +14,6 @@ import {
 import { Observable } from "rxjs";
 import { PurchaseCartActionComponent } from "src/app/custom-components/action-cell/purchase-cart-action/purchase-cart-action.component";
 import { TempPurchaseCartService } from "src/app/service/tempPurchaseCart-service/temp-purchase-cart.service";
-import { PurchaseInvoiceFormComponent } from "../../createData-forms/purchase-invoice-form/purchase-invoice-form.component";
 import { PurchasedProductFormComponent } from "../../createData-forms/purchased-product-form/purchased-product-form.component";
 import { TempPurchaseService } from "src/app/service/tempPurchase-service/temp-purchase.service";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
@@ -286,7 +285,6 @@ export class PurchaseCartComponent implements OnInit {
                     this.toastr.error(res.errors)
                   }
                   
-
                 });
 
         });

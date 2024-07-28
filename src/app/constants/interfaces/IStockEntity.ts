@@ -9,5 +9,5 @@ export interface IStockEntity{
     purchasePrice:number,
     sellingPrice:number,
     reorderQty:number,
-    arrivalData:Date
+    arrivalData:string
 }

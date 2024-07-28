@@ -12,7 +12,7 @@ import { NotificationService } from 'src/app/service/notification-service/notifi
 })
 export class SideBarComponent {
     @Input() isSwitched!: boolean;
-    dueDateNotificationData: INotificationEntity | null = null;
+    notificationData: INotificationEntity | null = null;
     constructor(
         private router: Router,
         private authService:AuthService,
@@ -22,7 +22,7 @@ export class SideBarComponent {
      }
      ngOnInit(): void {
         this.notificationService.dueDateDataSubject$.subscribe(data=>{
-          this.dueDateNotificationData = data;
+          this.notificationData = data;
           this.cdr.detectChanges();
         })
       }

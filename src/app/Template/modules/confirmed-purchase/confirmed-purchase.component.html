@@ -19,6 +19,7 @@
      [columnDefs]="columnDef"
      [rowSelection]="rowSelection" 
      [pagination]="true"
+     (cellDoubleClicked)="onCellDoubleClicked($event)"
      (cellClicked)="onCellClicked($event)"
      (gridReady)="onGridReady($event)">
      </ag-grid-angular>

@@ -2,6 +2,7 @@
 import { IConfirmInvoiceEntity } from './IConfirmInvoiceEntity';
 
 export interface ISalesPayChequeEntity{
+
     chequeRefNo:number,
     paidAmount:number,
     paidDate:string,

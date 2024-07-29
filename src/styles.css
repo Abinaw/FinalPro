@@ -28,6 +28,12 @@ body {
     overflow: hidden;
 }
 
+.custom-notification-dialog-container {
+    translate:-200px ;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
 .invoice-dialog-container {
     height: 800px;
     width: 1200px;

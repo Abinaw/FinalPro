@@ -1,7 +1,7 @@
 import { ICategoryEntity } from "./ICategoryEntity";
 
 export interface IStockEntity{
-qtyFormatted: any;
+
     stockId: number,
     itemName:string,
     categoryOBJ:ICategoryEntity,

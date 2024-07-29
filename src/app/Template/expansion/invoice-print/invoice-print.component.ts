@@ -110,7 +110,7 @@ export class InvoicePrintComponent {
                 .subscribe((res) => {
                     this.matDialogRef.close();
                     if (this.isComplete) {
-                        this.router.navigate(["/dash_board/invoice/"]);
+                        this.router.navigate(["/dash_board/"]);
                         this.toastr.success(res.successMessage);
                     }
                 });

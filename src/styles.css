@@ -29,7 +29,7 @@ body {
 }
 
 .custom-notification-dialog-container {
-    translate:-200px ;
+    transform: translateX(-260px);
     border-radius: 1rem;
     overflow: hidden;
 }

@@ -31,7 +31,7 @@
       </thead>
       <tbody class="bg-white divide-y divide-purple-200">
         <tr *ngFor="let anItem of salesChequeDuesTransformedData">
-          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.confirmInvoiceOBJ.invoiceNumber }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ anItem.confirmInvoiceOBJ.invoiceNumberRef }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ anItem.chequeRefNo }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ anItem.chequeDueDateFormatted | date:'(EEEE) dd MMMM yyyy' }}</td>
           <!-- <td class="px-6 py-4 whitespace-nowrap">{{ anItem.daysLeft }}</td> -->

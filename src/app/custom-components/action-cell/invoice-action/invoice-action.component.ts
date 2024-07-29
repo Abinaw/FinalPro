@@ -7,6 +7,7 @@ import { ActionPopComponent } from '../action-pop/action-pop.component';
 import { InvoiceFormComponent } from 'src/app/Template/createData-forms/invoice-form/invoice-form.component';
 import { AgRendererComponent } from 'ag-grid-angular';
 import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/service/notification-service/notification.service';
 
 @Component({
   selector: 'app-invoice-action',
@@ -24,7 +25,8 @@ export class InvoiceActionComponent  {
         private router : Router,
         private toastr : ToastrService,
         public matDialog: MatDialog,
-        private invoiceService:InvoiceService
+        private invoiceService:InvoiceService,
+        private notificationService:NotificationService
        
     ) {
 
@@ -66,6 +68,7 @@ export class InvoiceActionComponent  {
                 if(res?.successMessage!=null){
                     this.toastr.success(res?.successMessage)
                     this.setDataIntoRow();
+                    this.triggerNotification()
                 }else{
                     this.toastr.clear()
                     this.toastr.error(res?.errors)
@@ -74,6 +77,10 @@ export class InvoiceActionComponent  {
             })
         })
        
+    }
+
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
     }
     
     updateFormTrigger() {

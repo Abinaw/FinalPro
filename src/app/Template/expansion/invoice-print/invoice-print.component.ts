@@ -41,7 +41,7 @@ export class InvoicePrintComponent {
         private router: Router,
         private toastr: ToastrService
     ) {
-        // this.paymentsList = GLOBAL_LIST.PAYMENTS_DATA
+      
         this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
         this.calcValues(this.productCartItems);
         this.paidAmount = this.data.invoiceDataParam.paidAmount;
@@ -49,7 +49,6 @@ export class InvoicePrintComponent {
      
     }
     ngOnInit(): void {
-        // console.log("payyyyyyyyyy",this.paymentsList) working 
         console.log(this.productCartItems.length)
     }
 

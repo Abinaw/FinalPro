@@ -20,9 +20,9 @@
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
                      (focus)=" getTheCustomerDetails(anItem.confirmInvoiceId, anItem.customerOBJ.email); "
-                        [value]="anItem.invoiceNumber">
+                        [value]="anItem.invoiceNumberRef">
                         <!-- (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)"> -->
-                        {{anItem.invoiceNumber}} | {{anItem.customerOBJ.custName}}
+                        {{anItem.invoiceNumberRef}} | {{anItem.customerOBJ.custName}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>

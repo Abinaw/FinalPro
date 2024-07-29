@@ -36,7 +36,7 @@ export class InvoiceFormComponent implements OnInit {
         this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA;
         this.invoiceForm = new FormGroup({
             tempInvoiceId: new FormControl,
-            tempInvoiceNumber:new FormControl(Date.now()),
+            tempInvoiceNumber:new FormControl(),
             date: new FormControl(null),
             netAmount: new FormControl(0.00),
             customerOBJ: new FormControl({}, Validators.required),

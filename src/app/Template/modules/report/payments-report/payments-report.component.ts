@@ -129,7 +129,7 @@ export class PaymentsReportComponent{
         const searchValue = value.toString().toLowerCase();
         return this.confirmSalesInvoiceDataList.filter(
             option =>
-                option.invoiceNumber.toString().toLowerCase().includes(searchValue)
+                option.invoiceNumberRef.toString().toLowerCase().includes(searchValue)
                 ||
                 option.customerOBJ.custName.toString().toLowerCase().includes(searchValue)
         )

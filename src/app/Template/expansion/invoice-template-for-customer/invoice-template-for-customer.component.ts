@@ -88,7 +88,7 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
     getinvoiceDetails() {
 
         this.invoiceData = this.data.invoiceDataParam;
-        this.invoiceNumber = this.data.invoiceDataParam.tempInvoiceNumber;
+        this.invoiceNumber = this.data.invoiceDataParam.tempInvoiceNumberRef;
         this.invoiceId = this.data.invoiceDataParam.tempInvoiceId;
     }
 

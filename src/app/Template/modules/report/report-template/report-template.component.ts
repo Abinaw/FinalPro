@@ -80,7 +80,7 @@ const formatCustomerData = (data: CustomerData): string[][] => {
     data?.salesInvoiceData?.forEach(anInvoice=>{
         combineDataEntries.push([
             moment(new Date(anInvoice.date)).format('DD/MM/YYYY HH:mm'),
-            `Invoice Ref No. #CLC-${anInvoice.invoiceNumber}`,
+            `Invoice Ref No. #${anInvoice.invoiceNumberRef}`,
             `Rs. ${anInvoice?.netAmount?.toFixed(2)}`,
             ''
         ])
@@ -92,7 +92,7 @@ const formatCustomerData = (data: CustomerData): string[][] => {
             console.log(aPay)
             combineDataEntries.push([
                 moment(new Date(aPay?.paidDate)).format('DD/MM/YYYY HH:mm '),
-                `${aPay.paymentType} Payment- Invoice Ref No. #CLC-${aPay?.confirmInvoiceOBJ?.invoiceNumber}`,
+                `${aPay.paymentType} Payment- Invoice Ref No. #${aPay?.confirmInvoiceOBJ?.invoiceNumberRef}`,
                 '',
                 `Rs. ${aPay.paidAmount.toFixed(2)}`
             ])

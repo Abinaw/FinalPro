@@ -24,7 +24,7 @@ export class ConfirmInvoiceService {
     const url = `${this.baseUrl}/getAllConfirmedInvoices`;
     return this.http.get<any[]>(url,{responseType:'json'});
   }
-  getConfirmedInvoiceByInvoiceNumber(invoiceNum:number):Observable<any>{
+  getConfirmedInvoiceByInvoiceNumber(invoiceNum:any):Observable<any>{
     const url = `${this.baseUrl}/getConfirmedInvoiceByInvoiceNumber/${invoiceNum}`;
     return this.http.get<any[]>(url,{responseType:'json'});
   }

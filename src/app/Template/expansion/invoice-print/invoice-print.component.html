@@ -1,9 +1,10 @@
 
-    <div class="h-[550px] w-[1100px] flex gap-[10px]" *ngIf="productCartItems.length > 0">
+    <ng-container  *ngIf="productCartItems.length > 0">
+    <div class="h-[550px] w-[1000px] flex gap-[10px]">
         <div class=" w-[20%] h-[100%] border-r-[1px] ">
             <mat-dialog-actions align="center" class=" w-full flex flex-col justify-center">
               
-                <div class="flex flex-col mt-1 gap-[20px] w-[13rem] h-[100%]  justify-center items-center ">
+                <div class="flex flex-col mt-1 gap-[20px] w-[12rem] h-[100%]  justify-center items-center ">
                     <div class="w-full flex flex-col justify-center items-center" >
                         <button mat-stroked-button color="primary"
                                 class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center"
@@ -27,21 +28,24 @@
                 </div>
             </mat-dialog-actions>
         </div>
-        <div class=" w-[80%] h-[100%] ">
+        <div class=" w-[90%] h-[100%]" >
            
             <app-invoice-template-for-customer id="invoice" [payList]="paymentsList">
             </app-invoice-template-for-customer>
        
         </div>
     </div>
+</ng-container>
     <ng-container *ngIf="productCartItems.length <= 0">
-        <mat-dialog-content class="bg-purple-100">
+        
+        <mat-dialog-content class="bg-red-600 w-full h-full font-bold">
             <div class="text-lg text-black font-sans text-center">
                Add Products!
             </div>
-            <div class="text-sm text-gray-500 font-sans text-center">
+            <div class="text-sm text-white font-sans text-center">
                 No Products has been added into the Cart. <br>
                 Add Products to generate an Invoice! 
             </div>
         </mat-dialog-content>
-        </ng-container>
+    
+    </ng-container>

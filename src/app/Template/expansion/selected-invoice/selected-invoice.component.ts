@@ -28,7 +28,7 @@ import { InvoicePaymentComponent } from '../../payments/invoice-payment/invoice-
     templateUrl: './selected-invoice.component.html',
     styleUrls: ['./selected-invoice.component.css']
 })
-export class SelectedInvoiceComponent {
+export class SelectedInvoiceComponent implements OnInit{
 
     customerName!: string;
     custId!: number;
@@ -38,7 +38,7 @@ export class SelectedInvoiceComponent {
     jusData!: any
     totalNetAmount!: number
     paidAmount!: number
-    productCartItems!: IProCartEntity[]
+    productCartItems: IProCartEntity[] = []
     rowData$!: Observable<any[]>;
     invoiceData!: IInvoiceEntity[]
     @ViewChild(AgGridAngular)
@@ -47,6 +47,7 @@ export class SelectedInvoiceComponent {
     public rowSelection: 'single' | 'multiple' = 'single';
     searchCharac: string = ""
     params: any;
+    isProductsAvailableInCart :boolean = false
 
 
     constructor(
@@ -65,14 +66,15 @@ export class SelectedInvoiceComponent {
         this.route.queryParams.subscribe(params => {
             let dataString = params['data']
 
-            dataString = JSON.parse(dataString);
+            dataString = JSON.parse(dataString) as IInvoiceEntity;
             this.invoiceData = dataString
             this.invoiceId = dataString.tempInvoiceId;
             this.customerName = dataString.customerOBJ.custName
             this.custId = dataString.customerOBJ.custId
             this.custContact = dataString.customerOBJ.contact
-            this.invoiceNumber = dataString.tempInvoiceNumber
+            this.invoiceNumber = dataString.tempInvoiceNumberRef
             this.paidAmount = dataString.paidAmount
+
         })
         this.getProductCartItemsOfTheInvoiceId()
         this.getAllInvoiceData();
@@ -80,6 +82,12 @@ export class SelectedInvoiceComponent {
 
     }
 
+    ngOnInit(){
+        if(this.productCartItems.length <=0){
+            
+           
+        }
+    }
 
 
     showInvoiceDetails() {
@@ -88,9 +96,10 @@ export class SelectedInvoiceComponent {
         const invoiceDta = {
             invoiceDataParam: this.invoiceData
         }
+        
         const openInvoice = this.matDialog.open(InvoicePrintComponent, {
             data: invoiceDta,
-            panelClass: ["invoice-dialog-container", ],
+            panelClass: ["invoice-dialog-container", ],width:'auto', height:'auto'
         })
         console.log("invoiceData ",this.invoiceData)
 
@@ -126,7 +135,8 @@ export class SelectedInvoiceComponent {
             valueFormatter: (params) => {
                 const val = (params.value.toFixed(2))
                 return val
-            }
+            },
+            width:180
         },
         {
             field: "total",
@@ -215,11 +225,12 @@ export class SelectedInvoiceComponent {
     getProductCartItemsOfTheInvoiceId() {
         this.productCartService.getAll(this.invoiceId).subscribe((cartData) => {
             GLOBAL_LIST.PRODUCTCART_DATA = cartData?.result?.[0]
+            this.productCartItems = cartData?.result?.[0]
+            this.isProductsAvailableInCart = true
         })
     }
 
     makePayment() {
-
         const extraData = {
             totalAmount: this.totalNetAmount,
             tempInvoiceData: this.invoiceData,

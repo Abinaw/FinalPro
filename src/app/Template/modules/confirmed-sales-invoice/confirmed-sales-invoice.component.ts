@@ -47,8 +47,8 @@ export class ConfirmedSalesInvoiceComponent {
             }
          },
          { 
-            field: "invoiceNumber",
-            colId:"invoiceNumber",
+            field: "invoiceNumberRef",
+            colId:"invoiceNumberRef",
             headerName:"Sales Invoice number"
          },
         { 
@@ -119,7 +119,7 @@ export class ConfirmedSalesInvoiceComponent {
     }
 
     onCellDoubleClicked(cellClickedEvent: CellClickedEvent) {
-        if (cellClickedEvent.colDef.field === 'invoiceNumber') {
+        if (cellClickedEvent.colDef.field === 'invoiceNumberRef') {
           this.copyToClipboard(cellClickedEvent.value);
         }
       }

@@ -6,6 +6,7 @@ export interface IInvoiceEntity{
     netAmount:number,
     customerData:ICustomerEntity,
     paidAmount:number,
-    isComplete:boolean
+    isComplete:boolean,
+    tempInvoiceNumberRef:string
 
 }

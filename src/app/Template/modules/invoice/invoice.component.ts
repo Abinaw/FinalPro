@@ -51,11 +51,11 @@ export class InvoiceComponent {
 
          },
          { 
-            field: "tempInvoiceNumber",
-            colId:"tempInvoiceNumber",
+            field: "tempInvoiceNumberRef",
+            colId:"tempInvoiceNumberRef",
             headerName:"Invoice number",
             valueFormatter: (params) => {
-                const val ="#CLC-"+ (params.value)
+                const val =(params.value)
                 return val
             },width: 220, 
          },
@@ -157,8 +157,7 @@ export class InvoiceComponent {
 
     insertTrigger() {
         
-       
-        const extraData={
+        const extraData= {
             title:"Insert"
         }
         const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData , panelClass:"custom-dialog-container"})

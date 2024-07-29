@@ -82,7 +82,7 @@ export class CustomerFormComponent {
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.custService.regiterReq(this.custForm.value).subscribe(res=>{
-            debugger
+           
             this.matDialogRef.close()
             console.log(res)
             if(res.successMessage!=null){

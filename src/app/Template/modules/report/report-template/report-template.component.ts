@@ -80,7 +80,7 @@ const formatCustomerData = (data: CustomerData): string[][] => {
     data?.salesInvoiceData?.forEach(anInvoice=>{
         combineDataEntries.push([
             moment(new Date(anInvoice.date)).format('DD/MM/YYYY HH:mm'),
-            `Invoice Ref No. #${anInvoice.invoiceNumberRef}`,
+            `Invoice Ref No. ${anInvoice.invoiceNumberRef}`,
             `Rs. ${anInvoice?.netAmount?.toFixed(2)}`,
             ''
         ])
@@ -92,7 +92,7 @@ const formatCustomerData = (data: CustomerData): string[][] => {
             console.log(aPay)
             combineDataEntries.push([
                 moment(new Date(aPay?.paidDate)).format('DD/MM/YYYY HH:mm '),
-                `${aPay.paymentType} Payment- Invoice Ref No. #${aPay?.confirmInvoiceOBJ?.invoiceNumberRef}`,
+                `${aPay.paymentType} Payment- Invoice Ref No. ${aPay?.confirmInvoiceOBJ?.invoiceNumberRef}`,
                 '',
                 `Rs. ${aPay.paidAmount.toFixed(2)}`
             ])
@@ -221,7 +221,7 @@ export class ReportTemplateComponent implements OnChanges {
                     return [
                         // res.confirmInvoiceId,
                         customerOBJ.custName,
-                        "#CLC-" + res.invoiceNumber,
+                        res.invoiceNumberRef,
                         confirmedDate.split("T")[0],
                         netAmount,
                         paidAmount,
@@ -321,7 +321,7 @@ export class ReportTemplateComponent implements OnChanges {
                     //    const advancePay = "Rs " + (res.advanceAmount).toFixed(2)
                     return [
                         // res.paymentId,
-                        res.confirmInvoiceOBJ.invoiceNumber,
+                        res.confirmInvoiceOBJ.invoiceNumberRef,
                         customerOBJ.custName,
                         `${datePart}|${timePart}`,
                         paidAmount,

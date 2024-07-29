@@ -44,12 +44,12 @@ export class InvoicePrintComponent {
       
         this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
         this.calcValues(this.productCartItems);
-        this.paidAmount = this.data.invoiceDataParam.paidAmount;
+        this.paidAmount = this.data?.invoiceDataParam?.paidAmount;
         this.balance = this.total - this.paidAmount;
      
     }
     ngOnInit(): void {
-        console.log(this.productCartItems.length)
+        console.log("this.data",this.data)
     }
 
     calcValues(list: IProCartEntity[]) {
@@ -105,7 +105,7 @@ export class InvoicePrintComponent {
             if (!state) return;
             this.isComplete = true;
             this.confirmInvoice
-                .addToConfirmInovie(this.data.invoiceDataParam.tempInvoiceId)
+                .addToConfirmInovie(this.data?.invoiceDataParam?.tempInvoiceId)
                 .subscribe((res) => {
                     this.matDialogRef.close();
                     if (this.isComplete) {
@@ -119,7 +119,7 @@ export class InvoicePrintComponent {
    
     getAllPayments() {
      
-        this.paymentService.getAllPayments(this.data.invoiceDataParam.tempInvoiceId).subscribe((res) => {
+        this.paymentService.getAllPayments(this.data?.invoiceDataParam?.tempInvoiceId).subscribe((res) => {
             // GLOBAL_LIST.PAYMENTS_DATA = res.result;
             this.paymentsList = res.result;
             GLOBAL_LIST.PAYMENTS_DATA = res.result
@@ -131,11 +131,17 @@ export class InvoicePrintComponent {
     }
 
     openMailForm() {
+        
         const generateReport = document.getElementById("invoice");
+        const data={
+            reportType: "Invoice Print",
+            custEmail : this.data?.invoiceDataParam?.customerOBJ.email
+        }
+      
         if (generateReport) {
-          const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: generateReport, reportType: "Invoice" },panelClass:['custom-dialog-container']
-          });
+            const openForm = this.matDialog.open(EmailFormComponent, {
+                data: { reportPic: generateReport, extraDetails:data },panelClass:['custom-dialog-container']
+              });
         } else {
           this.toastr.error('Error occurred while generating the report');
         }

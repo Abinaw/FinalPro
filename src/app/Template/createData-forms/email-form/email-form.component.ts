@@ -33,7 +33,7 @@ constructor(
         title:new FormControl,
         subject: new FormControl((this.data.extraDetails.reportType).toUpperCase()),
     })
-    console.log(data)
+    console.log("data",data)
 
    
 

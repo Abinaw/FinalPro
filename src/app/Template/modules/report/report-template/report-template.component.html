@@ -46,7 +46,7 @@
 
                         <div>Sales
                             Invoice: </div>
-                        <div>#CLC-{{inputData?.result[0].confirmInvoiceOBJ?.invoiceNumber}}</div>
+                        <div>{{inputData?.result[0].confirmInvoiceOBJ?.invoiceNumberRef}}</div>
                         <div>Customer
                             Name: </div>
                         <div>{{inputData?.result[0].confirmInvoiceOBJ?.customerOBJ?.custName}}</div>
@@ -172,7 +172,7 @@
                             <div>
                                 <p class="text-[14px]">Invoice No:</p>
                                 <h1 class="text-[14px] font-semibold">
-                                    #CLC-{{this.inputData?.result?.[0].confirmInvoiceOBJ?.invoiceNumber}}</h1>
+                                   {{this.inputData?.result?.[0].confirmInvoiceOBJ?.invoiceNumberRef}}</h1>
                             </div>
                         </div>
                     </div>

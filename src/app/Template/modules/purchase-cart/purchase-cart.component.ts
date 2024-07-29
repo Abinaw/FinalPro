@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from "@angular/core";
 import {
     MAT_DIALOG_DATA,
     MatDialog,
@@ -24,6 +24,8 @@ import { ConfirmPurchaseAndCartServiceService } from "src/app/service/confirmPur
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { NotificationService } from "src/app/service/notification-service/notification.service";
+import { ITempPurchaseCartEntity } from "src/app/constants/interfaces/ITempPurchaseCartEntity";
+import { StatusUpdateService } from "src/app/service/sharedServiceForStates/status-update.service";
 
 @Component({
     selector: "app-purchase-cart",
@@ -41,6 +43,7 @@ export class PurchaseCartComponent implements OnInit {
     searchCharac: string = "";
     purchaseId!: number;
     purchaseList: ITempPurchaseInvoice[] = [];
+    purchaseCart:ITempPurchaseCartEntity[]=[]
     public columnDef: ColDef[] = [
        
         {
@@ -147,25 +150,45 @@ export class PurchaseCartComponent implements OnInit {
         private toastr: ToastrService,
         private router: Router,
         private notificationService:NotificationService,
+        private cdr: ChangeDetectorRef,
+        private statusUpdateService: StatusUpdateService,
 
     ) {
-        this.loadAllTempPurchase();
+        // this.loadAllTempPurchase();
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
+        // this.purchaseCart = GLOBAL_LIST.TEMP_PURCHASE_CART_DATA;
         this.getTempPurchaseId();
+      
     }
 
     ngOnInit(): void {
         this.purchaseInvoiceNum = this.purchaseList?.[0].purchaseInvoiceNO;
         this.vendorList = this.purchaseList?.[0].vendorOBJ;
+        if(this.purchaseCart.length<=0){
+            this.loadAllPurchaseCart()
+        }
     }
-
+     
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api;
+        this.statusUpdateService.purchaseCart$.subscribe(res=>{
+           this.purchaseCart =res
+           this.cdr.detectChanges()
+        })
     }
 
     getTempPurchaseId() {
         this.purchaseId = this.purchaseList?.[0]?.purchaseId;
+    }
+
+    loadAllPurchaseCart(){
+        this.tempPurchaseCartService.getAllTempPurchaseCartItems(this.purchaseId).subscribe(res=>{
+           this.purchaseCart = res?.result
+           GLOBAL_LIST.TEMP_PURCHASE_CART_DATA = res?.result 
+           this.statusUpdateService.updatePurchaseInvoiceCart(res?.result)
+           this.cdr.detectChanges()
+        })
     }
 
     private getRowData(): any {
@@ -175,6 +198,7 @@ export class PurchaseCartComponent implements OnInit {
                 .subscribe(
                     (purchaseCartData) => {
                         resolve(purchaseCartData?.result);
+                        
                     },
                     (err) => {
                         resolve([]);
@@ -189,7 +213,6 @@ export class PurchaseCartComponent implements OnInit {
             .subscribe(
                 (purchaseCartData?) => {
                     this.gridApi.setRowData(purchaseCartData?.result);
-
                 },
                 (err) => {
 
@@ -208,6 +231,7 @@ export class PurchaseCartComponent implements OnInit {
         openForm.afterClosed().subscribe((res) => {
             this.setDataIntoRow();
             this.loadAllTempPurchase()
+            this.loadAllPurchaseCart()
         });
     }
 
@@ -231,11 +255,13 @@ export class PurchaseCartComponent implements OnInit {
             .getAllTempPurchase()
             .subscribe((response) => {
                 GLOBAL_LIST.TEMPPURCHASE_DATA = response?.result;
+                this.purchaseList = response?.result;
                 this.purchaseId = response?.result?.[0].purchaseId;
             });
     }
 
     completeInvoice() {
+        
         const extraData = {
             title: "Confirm Purchase?",
             subTitle: "Do you want to confirm the invoice?",

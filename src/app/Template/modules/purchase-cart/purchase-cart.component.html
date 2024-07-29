@@ -28,9 +28,7 @@
                             <span
                                 class="font-bold">{{(this.purchaseList[0].netAmount).toFixed(2)}}</span></mat-card-subtitle>
 
-                        <!-- <mat-card-subtitle  class="font-semibold text-sm">Advance Payment : <span class="font-bold text-green-500"></span></mat-card-subtitle>
-          
-            <mat-card-subtitle  class="font-semibold text-sm">Balance : <span class="font-bold text-red-500"></span></mat-card-subtitle> -->
+                       
                     </div>
                 </mat-card-header>
 
@@ -38,7 +36,7 @@
                     <button mat-raised-button color="primary" (click)="insertTrigger()">
                         Add more Products
                     </button>
-                    <button mat-raised-button color="warn" (click)="completeInvoice()">
+                    <button mat-raised-button color="warn" [disabled]="this.purchaseCart.length<=0"  (click)="completeInvoice()">
                         Complete Invoice
                     </button>
                     <button mat-raised-button color="basic" (click)="cancelPurchase()">
@@ -57,10 +55,6 @@
             </ag-grid-angular>
         </div>
 
-        <!-- <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
-     <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" >Invoice
-         <mat-icon>person_add</mat-icon>
-     </button>
-     </div> -->
     </div>
 </div>
+

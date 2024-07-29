@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActionPopComponent } from '../action-pop/action-pop.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GridApi, ICellRendererParams } from 'ag-grid';
@@ -11,6 +11,7 @@ import { PurchaseInvoiceFormComponent } from 'src/app/Template/createData-forms/
 import { PurchaseCartComponent } from 'src/app/Template/modules/purchase-cart/purchase-cart.component';
 import { PurchasedProductFormComponent } from 'src/app/Template/createData-forms/purchased-product-form/purchased-product-form.component';
 import { TempPurchaseService } from 'src/app/service/tempPurchase-service/temp-purchase.service';
+import { StatusUpdateService } from 'src/app/service/sharedServiceForStates/status-update.service';
 @Component({
   selector: 'app-purchase-cart-action',
   templateUrl: './purchase-cart-action.component.html',
@@ -19,14 +20,15 @@ import { TempPurchaseService } from 'src/app/service/tempPurchase-service/temp-p
 export class PurchaseCartActionComponent {
     dataFromRow: any;
     gridApi: GridApi | any = {};
-    
+    tempPurchaseCart:ITempPurchaseCartEntity[]=[]
 
     constructor(
         private toastr : ToastrService,
         public matDialog: MatDialog,
         private tempPurchaseCartService:TempPurchaseCartService,
         private tempPurchaseService:TempPurchaseService,
-        
+        private cdr: ChangeDetectorRef,
+        private statusUpdateService: StatusUpdateService,
        
     ) {
 
@@ -35,6 +37,7 @@ export class PurchaseCartActionComponent {
     agInit(params: ICellRendererParams): void {
         this.dataFromRow = params && params.data ? params.data : {};
         this.gridApi = params.api;
+        
         // console.log(this.dataFromRow)
     }
      
@@ -43,7 +46,8 @@ export class PurchaseCartActionComponent {
         let productCartId = this.dataFromRow.productCartId
         this.tempPurchaseCartService.getAllTempPurchaseCartItems(productCartId).subscribe((cartData)=>{
             this.gridApi.setRowData(cartData.result)
-            
+            this.statusUpdateService.updatePurchaseInvoiceCart(cartData.result); // Update the service
+            this.cdr.detectChanges();
             //  GLOBAL_LIST.TEMP_PURCHASE_CART_DATA = cartData.result
         })
     }
@@ -59,7 +63,8 @@ export class PurchaseCartActionComponent {
     getAllTempPurchaseCartData(){
         this.tempPurchaseCartService.getAllTempPurchaseCartItems(this.dataFromRow.productCartId).subscribe((res)=>{
             GLOBAL_LIST.TEMP_PURCHASE_CART_DATA = res.result
-            // console.log(res.result)
+            this.statusUpdateService.updatePurchaseInvoiceCart(res.result); // Update the service
+            this.cdr.detectChanges();
         })
     }
     loadAllPurchase() {

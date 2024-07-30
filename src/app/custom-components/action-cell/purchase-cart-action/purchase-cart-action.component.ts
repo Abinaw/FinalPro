@@ -46,7 +46,7 @@ export class PurchaseCartActionComponent {
         let productCartId = this.dataFromRow.productCartId
         this.tempPurchaseCartService.getAllTempPurchaseCartItems(productCartId).subscribe((cartData)=>{
             this.gridApi.setRowData(cartData.result)
-            this.statusUpdateService.updatePurchaseInvoiceCart(cartData.result); // Update the service
+            this.statusUpdateService.updatePurchaseInvoiceCart(cartData.result); 
             this.cdr.detectChanges();
             //  GLOBAL_LIST.TEMP_PURCHASE_CART_DATA = cartData.result
         })
@@ -84,6 +84,7 @@ export class PurchaseCartActionComponent {
             if(!state)return;
           
             this.tempPurchaseCartService.deleteTempPurchaseCartRecord(this.dataFromRow.productCartId).subscribe((res)=>{
+                this.toastr.clear()
                 this.toastr.success(res.successMessage)
                 this.setDataIntoRow();  
                 this.getAllTempPurchaseCartData();

@@ -35,7 +35,7 @@ export class StockActionComponent {
      }
 
      public setDataIntoRow() {
-        this.stockService.getAll().subscribe((retData)=>{
+        this.stockService.getAllStock().subscribe((retData)=>{
             this.gridApi.setRowData(retData)
         })
     }

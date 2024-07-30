@@ -24,8 +24,8 @@ export class StockService {
     return this.http.post<any>(url,regReq,{responseType :'text' as 'json'})
   }
 
-  getAll():Observable<any>{
-    const url = `${this.baseUrl}/getAll`;
+  getAllStock():Observable<any>{
+    const url = `${this.baseUrl}/getAllStock`;
     return this.http.get<any[]>(url);
   }
 

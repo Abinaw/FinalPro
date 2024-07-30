@@ -70,7 +70,7 @@ export class PurchaseComponent implements OnInit {
     }
 
     loadAllStock() {
-        this.stockService.getAll().subscribe((res) => {
+        this.stockService.getAllStock().subscribe((res) => {
             GLOBAL_LIST.STOCK_DATA = res;
         });
     }

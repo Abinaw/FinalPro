@@ -43,7 +43,7 @@ export class ProductSelectionToCartFormComponent {
         private productCartService: ProductCartService,
         private matDialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private notificationService:NotificationService,
+        private notificationService: NotificationService,
 
     ) {
         this.stockDataList = GLOBAL_LIST.STOCK_DATA;
@@ -95,10 +95,14 @@ export class ProductSelectionToCartFormComponent {
         return (control: AbstractControl): { [key: string]: any } | null => {
             const currentQty = control.value;
             if (currentQty <= 0) {
+                this.toastr.clear()
                 return this.toastr.warning("Add a valid input");
+
             }
             if (this.data.title === "Add") {
                 if (currentQty && currentQty > selectedItemsQty) {
+
+                    this.toastr.clear()
                     this.toastr.warning(
                         "Quantity should be either below or equals to " +
                         selectedItemsQty
@@ -109,6 +113,7 @@ export class ProductSelectionToCartFormComponent {
                 const existingInThecart = this.data.selectedRowData.quantity;
                 let qtyDiff = currentQty - existingInThecart;
                 if (qtyDiff > selectedItemsQty) {
+                    this.toastr.clear()
                     this.toastr.warning(
                         "Quantity should be either below or equals to " +
                         (selectedItemsQty + existingInThecart)
@@ -116,6 +121,7 @@ export class ProductSelectionToCartFormComponent {
                     return { exceedsQty: true };
                 }
             }
+            this.toastr.clear()
             return null;
         };
     }
@@ -126,12 +132,13 @@ export class ProductSelectionToCartFormComponent {
             this.productCartService
                 .addProductsToCart(this.productSelectionForm.value)
                 .subscribe((res) => {
-                    if(res?.successMessage!=null){
+                    if (res?.successMessage != null) {
+                        this.toastr.clear()
                         this.toastr.success(res?.successMessage)
                         this.getAllStockData();
                         this.matDialogRef.close()
                         this.triggerNotification()
-                    }else{
+                    } else {
                         this.toastr.clear()
                         this.toastr.error(res?.errors)
                     }
@@ -142,7 +149,7 @@ export class ProductSelectionToCartFormComponent {
     }
 
     getAllStockData() {
-        this.stockService.getAll().subscribe((res) => {
+        this.stockService.getAllStock().subscribe((res) => {
             GLOBAL_LIST.STOCK_DATA = res;
         });
     }
@@ -166,14 +173,21 @@ export class ProductSelectionToCartFormComponent {
                 .update(this.productSelectionForm.value)
                 .subscribe((res) => {
                     // this.getAllCartData()
+                   if(res?.successMessage!=null){
                     this.matDialogRef.close();
+                    // the product reorder level has to be checed so nofification trigger has been placed
                     this.triggerNotification()
+                    this.toastr.clear()
                     this.toastr.success(res.successMessage);
+                   }else{
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors);
+                   }
                 });
         });
     }
 
-    
+
     triggerNotification() {
         this.notificationService.fetchnotificationData();
     }
@@ -195,7 +209,7 @@ export class ProductSelectionToCartFormComponent {
     }
 
     initializeQtyValidation(qty: number) {
-        //#cmt  only add this qty validation, once the qty has been acquired for the selected stock by the component
+        //only add this qty validation, once the qty has been acquired for the selected stock by the component
         this.productSelectionForm
             .get("quantity")
             ?.setValidators([Validators.required, this.quantityValidator(qty)]);

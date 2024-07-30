@@ -94,7 +94,7 @@ export class StockComponent {
 
     private getRowData(): any {
         return new Promise((resolve) => {
-            this.stockService.getAll().subscribe((stockData) => {
+            this.stockService.getAllStock().subscribe((stockData) => {
                 resolve(stockData);
             }, (err) => {
                 resolve([])
@@ -105,7 +105,7 @@ export class StockComponent {
     // every Time delete,add,update have been used this specific function should be used by classes(popups or etc) so kept public 
     // or else this should be created for every class 
     public setDataIntoRow() {
-        this.stockService.getAll().subscribe((stockData) => {
+        this.stockService.getAllStock().subscribe((stockData) => {
             this.gridApi.setRowData(stockData);
         }, (err) => {
         })

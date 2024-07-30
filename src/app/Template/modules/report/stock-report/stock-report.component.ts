@@ -49,7 +49,7 @@ export class StockReportComponent {
     }
 
     getAllStock() {
-        this.stockService.getAll().subscribe((res) => {
+        this.stockService.getAllStock().subscribe((res) => {
             this.dataToSet = {
                 dateRange:"",
                 reportType :"Stock Report",

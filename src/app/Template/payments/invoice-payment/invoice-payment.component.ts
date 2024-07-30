@@ -50,10 +50,10 @@ export class InvoicePaymentComponent implements OnInit {
         this.isValid = false
         this.invoicePaymentForm = new FormGroup({
             paymentType: new FormControl(null, Validators.required),
-            cardRefNo: new FormControl(Validators.required),
-            paidAmount: new FormControl(Validators.required),
-            chequeRefNo: new FormControl(Validators.required),
-            chequeDueDate: new FormControl(Validators.required),
+            cardRefNo: new FormControl('',Validators.required),
+            paidAmount: new FormControl('',Validators.required),
+            chequeRefNo: new FormControl('',Validators.required),
+            chequeDueDate: new FormControl('',Validators.required),
             paidDate: new FormControl(moment()),
         })
     }
@@ -165,7 +165,35 @@ export class InvoicePaymentComponent implements OnInit {
         return totalPaidAmount
     }
 
+
+    
+
     payAmount() {
+        switch (this.selectedOption) {
+            case 'cheque':
+              if (!this.invoicePaymentForm.get('chequeDueDate')?.value && !this.invoicePaymentForm.get('chequeRefNo')?.value) {
+                this.toastr.clear();
+                this.toastr.error("Enter the cheque Due Date & cheque ref.No to pay with cheque!", "Can't be Empty!");
+                return;
+              }
+              if (!this.invoicePaymentForm.get('chequeDueDate')?.value) {
+                this.toastr.clear();
+                this.toastr.error("Enter the cheque Due Date!", "Can't be Empty!");
+                return;
+              }
+              if (!this.invoicePaymentForm.get('chequeRefNo')?.value) {
+                this.toastr.clear();
+                this.toastr.error("Enter the cheque ref.No to pay with cheque!", "Can't be Empty!");
+                return;
+              }
+              break;
+            case 'card':
+              if(!this.invoicePaymentForm.get('cardRefNo')?.value){
+                this.toastr.clear();
+                this.toastr.error("Enter the card ref.No to pay with card!", "Can't be Empty!");
+                return;
+              }
+          }
         const extraData = {
             title: "Make a Payment",
             subTitle: "are you sure you want to make a payment?",

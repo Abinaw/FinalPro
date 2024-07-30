@@ -9,6 +9,7 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { Observable, map } from 'rxjs';
 import { IProCartEntity } from 'src/app/constants/interfaces/IProCartEntity';
 import { NotificationService } from 'src/app/service/notification-service/notification.service';
+import { StatusUpdateService } from 'src/app/service/sharedServiceForStates/status-update.service';
 
 @Component({
   selector: 'app-product-cart-action',
@@ -25,6 +26,7 @@ export class ProductCartActionComponent {
         public matDialog: MatDialog,
         private productCartService:ProductCartService,
         private notificationService:NotificationService,
+        private statusUpdateService:StatusUpdateService,
 
        
     ) {
@@ -44,6 +46,8 @@ export class ProductCartActionComponent {
         let invoiceId = this.dataFromRow?.tempInvoiceOBJ?.tempInvoiceId
         this.productCartService.getAll(invoiceId).subscribe((cartData)=>{
             this.gridApi.setRowData(cartData.result[0])
+            this.statusUpdateService.updateTempSalesInvoiceCart( cartData.result[0])
+            this.statusUpdateService.updateTempSalesNetAmount( cartData.result[0])
             // GLOBAL_LIST.PRODUCTCART_DATA = cartData.result[0]
         })
     }
@@ -63,7 +67,8 @@ export class ProductCartActionComponent {
 
     getAllCartData(){
         this.productCartService.getAll(this.dataFromRow.tempInvoiceOBJ.tempInvoiceId).subscribe((res)=>{
-            GLOBAL_LIST.PRODUCTCART_DATA = res.result[0]
+            GLOBAL_LIST.PRODUCTCART_DATA = res?.result[0]
+            this.statusUpdateService.updateTempSalesInvoiceCart( res?.result[0])
         })
     }
     

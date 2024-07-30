@@ -22,27 +22,31 @@
             </div>
             <div class="paymentsContainer mt-3">
                 <mat-card-subtitle class="font-semibold text-sm">Total Amount :
+                    <span class="font-bold">Rs. {{
+                        this.NetAmount.toFixed(2)
+                        }}</span></mat-card-subtitle>
+                <!-- <mat-card-subtitle class="font-semibold text-sm">Total Amount :
                     <span class="font-bold">{{
                         this.totalNetAmount.toFixed(2)
-                        }}</span></mat-card-subtitle>
+                        }}</span></mat-card-subtitle> -->
 
                 <mat-card-subtitle class="font-semibold text-sm">Advance Payment :
-                    <span class="font-bold text-green-500">{{
-                        getTotalPaidAmount().toFixed(2)
+                    <span class="font-bold text-green-500">Rs. {{
+                        paidAmount.toFixed(2)
                         }}</span></mat-card-subtitle>
 
                 <mat-card-subtitle class="font-semibold text-sm">Balance :
-                    <span class="font-bold text-red-500">{{
-                        this.totalNetAmount.toFixed(2)
+                    <span class="font-bold text-red-500">Rs. {{
+                        (NetAmount-paidAmount).toFixed(2)
                         }}</span></mat-card-subtitle>
             </div>
         </mat-card-header>
 
         <mat-card-actions class="flex flex-row justify-around align-middle">
-            <button mat-raised-button (click)="showInvoiceDetails()"  color="warn">
+            <button mat-raised-button [disabled]="productCartItems.length<=0" (click)="showInvoiceDetails()"  color="warn">
                 InvoiceDetails
             </button>
-            <button mat-raised-button color="basic"  (click)="makePayment()">Make a payment</button>
+            <button mat-raised-button color="basic" [disabled]="productCartItems.length<=0" (click)="makePayment()">Make a payment</button>
 
             <button mat-raised-button color="primary" (click)="insertTrigger()">
                 Add more products

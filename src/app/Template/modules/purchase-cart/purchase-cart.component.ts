@@ -34,6 +34,7 @@ import { StatusUpdateService } from "src/app/service/sharedServiceForStates/stat
 })
 export class PurchaseCartComponent implements OnInit {
     purchaseInvoiceNum!: number;
+    totalNetAmount :number =0
     vendorList!: any;
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
@@ -158,6 +159,7 @@ export class PurchaseCartComponent implements OnInit {
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
         // this.purchaseCart = GLOBAL_LIST.TEMP_PURCHASE_CART_DATA;
         this.getTempPurchaseId();
+    
       
     }
 
@@ -165,7 +167,7 @@ export class PurchaseCartComponent implements OnInit {
         this.purchaseInvoiceNum = this.purchaseList?.[0].purchaseInvoiceNO;
         this.vendorList = this.purchaseList?.[0].vendorOBJ;
         if(this.purchaseCart.length<=0){
-            this.loadAllPurchaseCart()
+            this.loadAllPurchaseCartAndUpdateNetAmount()
         }
     }
      
@@ -173,7 +175,12 @@ export class PurchaseCartComponent implements OnInit {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api;
         this.statusUpdateService.purchaseCart$.subscribe(res=>{
-           this.purchaseCart =res
+           this.purchaseCart = res
+           this.statusUpdateService.updatePurchaseNetAmount(this.purchaseCart)
+            this.statusUpdateService.purchaseCartNetAmount$.subscribe(res=>{
+                this.totalNetAmount = res
+            })
+           console.log("cart",res)
            this.cdr.detectChanges()
         })
     }
@@ -182,11 +189,14 @@ export class PurchaseCartComponent implements OnInit {
         this.purchaseId = this.purchaseList?.[0]?.purchaseId;
     }
 
-    loadAllPurchaseCart(){
+   
+    loadAllPurchaseCartAndUpdateNetAmount(){
         this.tempPurchaseCartService.getAllTempPurchaseCartItems(this.purchaseId).subscribe(res=>{
            this.purchaseCart = res?.result
            GLOBAL_LIST.TEMP_PURCHASE_CART_DATA = res?.result 
            this.statusUpdateService.updatePurchaseInvoiceCart(res?.result)
+        //    update netamount in the shared service
+           this.statusUpdateService.updatePurchaseNetAmount(res?.result)
            this.cdr.detectChanges()
         })
     }
@@ -231,7 +241,7 @@ export class PurchaseCartComponent implements OnInit {
         openForm.afterClosed().subscribe((res) => {
             this.setDataIntoRow();
             this.loadAllTempPurchase()
-            this.loadAllPurchaseCart()
+            this.loadAllPurchaseCartAndUpdateNetAmount()
         });
     }
 

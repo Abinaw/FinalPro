@@ -20,31 +20,28 @@
                         this.custContact
                         }}</span></mat-card-subtitle>
             </div>
-            <div class="paymentsContainer mt-3">
-                <mat-card-subtitle class="font-semibold text-sm">Total Amount :
-                    <span class="font-bold">Rs. {{
-                        this.NetAmount.toFixed(2)
-                        }}</span></mat-card-subtitle>
-                <!-- <mat-card-subtitle class="font-semibold text-sm">Total Amount :
-                    <span class="font-bold">{{
-                        this.totalNetAmount.toFixed(2)
-                        }}</span></mat-card-subtitle> -->
-
-                <mat-card-subtitle class="font-semibold text-sm">Advance Payment :
+            <div class="paymentsContainer mt-3 ">
+                <mat-card-subtitle class="font-semibold text-black !text-base">Total Amount :
+                    <span class="font-bold text-blue-500">Rs. {{
+                        this.netAmount.toFixed(2)
+                        }}</span>
+                </mat-card-subtitle>
+            
+                <mat-card-subtitle class=" font-semibold text-black !text-base">Advance Payment :
                     <span class="font-bold text-green-500">Rs. {{
                         paidAmount.toFixed(2)
                         }}</span></mat-card-subtitle>
 
-                <mat-card-subtitle class="font-semibold text-sm">Balance :
+                <mat-card-subtitle class=" font-semibold  text-black !text-base">Balance :
                     <span class="font-bold text-red-500">Rs. {{
-                        (NetAmount-paidAmount).toFixed(2)
+                        (netAmount-paidAmount).toFixed(2)
                         }}</span></mat-card-subtitle>
             </div>
         </mat-card-header>
 
         <mat-card-actions class="flex flex-row justify-around align-middle">
             <button mat-raised-button [disabled]="productCartItems.length<=0" (click)="showInvoiceDetails()"  color="warn">
-                InvoiceDetails
+                Invoice Details
             </button>
             <button mat-raised-button color="basic" [disabled]="productCartItems.length<=0" (click)="makePayment()">Make a payment</button>
 
@@ -65,10 +62,6 @@
             </ag-grid-angular>
         </div>
 
-        <!-- <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
- <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" >Invoice
-     <mat-icon>person_add</mat-icon>
- </button>
- </div> -->
+
     </div>
 </div>

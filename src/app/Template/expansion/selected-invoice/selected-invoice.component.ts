@@ -38,8 +38,8 @@ export class SelectedInvoiceComponent implements OnInit{
     invoiceId!: number;
     invoiceNumber!: number
     jusData!: any
-    totalNetAmount!: number
-    NetAmount: number =0
+    // totalNetAmount!: number
+    netAmount: number =0
     paidAmount: number = 0
     productCartItems: IProCartEntity[] = []
     rowData$!: Observable<any[]>;
@@ -66,8 +66,10 @@ export class SelectedInvoiceComponent implements OnInit{
 
     ) {
 
-        this.getAllStockAndCategoryData()
-        this.totalNetAmount = 0
+       
+    }
+
+    ngOnInit(){
         this.route.queryParams.subscribe(params => {
             let dataString = params['data']
 
@@ -80,32 +82,23 @@ export class SelectedInvoiceComponent implements OnInit{
             this.invoiceNumber = dataString.tempInvoiceNumberRef
             this.paidAmount = dataString.paidAmount
         })
-        // this.getProductCartItemsOfTheInvoiceId()
+
+        this.getAllStockAndCategoryData()
         this.getAllInvoiceData();
         this.getAllPayments()
-        this.getTotalPaidAmount() 
-       
-    }
-
-    ngOnInit(){
         this.statusUpdateService.tempSalesCartNetAmount$.subscribe(res=>{
-            this.NetAmount = res
-           
+            this.netAmount = res
         })
 
-        this.statusUpdateService.tempSalesCartPaidAmount$.subscribe(res=>{
-            this.paidAmount =res
-        })
+       
         if(this.productCartItems.length <=0){
             this.getProductCartItemsOfTheInvoiceId()
-           
         }
     }
-
+    
 
     showInvoiceDetails() {
       
-
         const invoiceDta = {
             invoiceDataParam: this.invoiceData
         }
@@ -118,10 +111,6 @@ export class SelectedInvoiceComponent implements OnInit{
 
 
     }
-
-
-
-
     public columnDef: ColDef[] = [
 
 
@@ -214,40 +203,14 @@ export class SelectedInvoiceComponent implements OnInit{
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
-        
-
-        this.statusUpdateService.tempSalesCart$.subscribe(res=>{
+         this.statusUpdateService.tempSalesCart$.subscribe(res=>{
             this.productCartItems = res
             this.statusUpdateService.updateTempSalesNetAmount(this.productCartItems)
-            this.statusUpdateService.tempSalesCartNetAmount$.subscribe(res=>{
-                 this.totalNetAmount = res
-             })
-            console.log("cart",res)
             this.cdr.detectChanges()
          })
-      
-        // this.addAllNetAmounts()
     }
 
-   /*  addAllNetAmounts(cartItems: any) {
-        this.statusUpdateService.updateTempSalesNetAmount(cartItems)
-        
-        this.getRowData().then((rowData: any[]) => {
-            const netAmounts = rowData.map(row => row.netAmount);
-            this.calculateTotalNetAmount(netAmounts)
-            this.cdr.detectChanges();
-        });
-    }
-
-    calculateTotalNetAmount(arrayOfAmounts: number[]) {
-        let total = 0
-        arrayOfAmounts.forEach(aNetAmount => {
-            total += aNetAmount
-            this.totalNetAmount += aNetAmount
-        });
-        this.totalNetAmount = total
-        this.cdr.detectChanges();
-    } */
+ 
 
     getProductCartItemsOfTheInvoiceId() {
         this.productCartService.getAll(this.invoiceId).subscribe((cartData) => {
@@ -255,13 +218,15 @@ export class SelectedInvoiceComponent implements OnInit{
             this.productCartItems = cartData?.result?.[0]
             this.statusUpdateService.updateTempSalesInvoiceCart(cartData?.result?.[0])
             this.statusUpdateService.updateTempSalesNetAmount(cartData?.result?.[0])
-            this.isProductsAvailableInCart = true
+            // this.isProductsAvailableInCart = true
         })
     }
 
+  
+
     makePayment() {
         const extraData = {
-            totalAmount: this.totalNetAmount,
+            totalAmount: this.netAmount,
             tempInvoiceData: this.invoiceData,
         };
         const invoicePaymentOpen = this.matDialog.open(
@@ -270,19 +235,6 @@ export class SelectedInvoiceComponent implements OnInit{
         );
         invoicePaymentOpen.afterClosed().subscribe((res) => {
             this.getAllPayments();
-          
-            
-           /*  this.statusUpdateService.tempSalesCart$.subscribe(res=>{
-                this.productCartItems = res
-                this.statusUpdateService.updateTempSalesPaidAmount(this.productCartItems)
-                this.statusUpdateService.tempSalesCartPaidAmount$.subscribe(res=>{
-                     this.paidAmount = res
-                 })
-                console.log("cart",res)
-                this.cdr.detectChanges()
-             }) */
-          
-            
         });
     }
 
@@ -291,26 +243,21 @@ export class SelectedInvoiceComponent implements OnInit{
         this.paymentService.getAllPayments(this.invoiceId).subscribe((res) => {
             GLOBAL_LIST.PAYMENTS_DATA = res.result;
             this.paymentsDataList = res.result
-            console.log("Pay",this.paymentsDataList)
+            // console.log("Pay",this.paymentsDataList)
             this.getTotalPaidAmount()
             this.cdr.detectChanges()
         });
-        // this.statusUpdateService.tempSalesCartPaidAmount$.subscribe(res=>{
-        //     this.paidAmount = res
-           
-        // })
+      
     }
 
     getTotalPaidAmount() {
-        // this.getAllPayments()
-        let paymentsList = this.paymentsDataList
+        
         let totalPaidAmount = 0;
-        if (paymentsList.length > 0) {
-            totalPaidAmount = paymentsList.reduce((accumulator, currentValue) => accumulator + currentValue.paidAmount, 0)
+        if (this.paymentsDataList.length > 0) {
+            totalPaidAmount = this.paymentsDataList.reduce((accumulator, currentValue) => accumulator + currentValue.paidAmount, 0)
            
         }
         this.paidAmount = totalPaidAmount
-        
     }
 
 
@@ -336,7 +283,6 @@ export class SelectedInvoiceComponent implements OnInit{
             GLOBAL_LIST.PRODUCTCART_DATA = cartData.result[0]
             this.statusUpdateService.updateTempSalesInvoiceCart( cartData.result[0])
             this.statusUpdateService.updateTempSalesNetAmount( cartData.result[0])
-            this.statusUpdateService.updateTempSalesPaidAmount(cartData.result[0])
         }, (err) => {
         })
     }
@@ -348,24 +294,16 @@ export class SelectedInvoiceComponent implements OnInit{
             title: "Add",
             selectedInvoiceId: this.invoiceId,
             customerId: this.custId,
-
         }
-
-
         const addProductsForm = this.matDialog.open(ProductSelectionToCartFormComponent, {
             data: extraData,
             panelClass: "custom-dialog-container"
         })
-
         addProductsForm.afterClosed().subscribe(res => {
 
             this.setDataIntoRow()
             this.getAllStockAndCategoryData()
             this.getTempInvoiceById(this.invoiceId)
-            
-            // this.addAllNetAmounts()
-           
-
         })
 
     }

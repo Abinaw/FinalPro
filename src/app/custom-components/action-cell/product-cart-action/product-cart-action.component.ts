@@ -10,44 +10,49 @@ import { Observable, map } from 'rxjs';
 import { IProCartEntity } from 'src/app/constants/interfaces/IProCartEntity';
 import { NotificationService } from 'src/app/service/notification-service/notification.service';
 import { StatusUpdateService } from 'src/app/service/sharedServiceForStates/status-update.service';
+import { IPaymentEntity } from 'src/app/constants/interfaces/IPaymentEntity';
 
 @Component({
-  selector: 'app-product-cart-action',
-  templateUrl: './product-cart-action.component.html',
-  styleUrls: ['./product-cart-action.component.css']
+    selector: 'app-product-cart-action',
+    templateUrl: './product-cart-action.component.html',
+    styleUrls: ['./product-cart-action.component.css']
 })
 export class ProductCartActionComponent {
     dataFromRow: any;
     gridApi: GridApi | any = {};
-    
 
+    paymentsDataList: IPaymentEntity[] = []
+    cartDataList: IProCartEntity[] = []
     constructor(
-        private toastr : ToastrService,
+        private toastr: ToastrService,
         public matDialog: MatDialog,
-        private productCartService:ProductCartService,
-        private notificationService:NotificationService,
-        private statusUpdateService:StatusUpdateService,
+        private productCartService: ProductCartService,
+        private notificationService: NotificationService,
+        private statusUpdateService: StatusUpdateService,
 
-       
+
     ) {
-      
+
     }
 
-    
- 
+
+    ngOnInit() {
+        this.paymentsDataList = GLOBAL_LIST.PAYMENTS_DATA
+        this.cartDataList = GLOBAL_LIST.PRODUCTCART_DATA
+    }
 
     agInit(params: ICellRendererParams): void {
         this.dataFromRow = params && params.data ? params.data : {};
         this.gridApi = params.api;
-     }
-     
+    }
 
-     public setDataIntoRow() {
+
+    public setDataIntoRow() {
         let invoiceId = this.dataFromRow?.tempInvoiceOBJ?.tempInvoiceId
-        this.productCartService.getAll(invoiceId).subscribe((cartData)=>{
+        this.productCartService.getAll(invoiceId).subscribe((cartData) => {
             this.gridApi.setRowData(cartData.result[0])
-            this.statusUpdateService.updateTempSalesInvoiceCart( cartData.result[0])
-            this.statusUpdateService.updateTempSalesNetAmount( cartData.result[0])
+            this.statusUpdateService.updateTempSalesInvoiceCart(cartData.result[0])
+            this.statusUpdateService.updateTempSalesNetAmount(cartData.result[0])
             // GLOBAL_LIST.PRODUCTCART_DATA = cartData.result[0]
         })
     }
@@ -60,56 +65,58 @@ export class ProductCartActionComponent {
     //      }))
     // }
 
-    
+
     triggerNotification() {
         this.notificationService.fetchnotificationData();
     }
 
-    getAllCartData(){
-        this.productCartService.getAll(this.dataFromRow.tempInvoiceOBJ.tempInvoiceId).subscribe((res)=>{
+    getAllCartData() {
+        this.productCartService.getAll(this.dataFromRow.tempInvoiceOBJ.tempInvoiceId).subscribe((res) => {
             GLOBAL_LIST.PRODUCTCART_DATA = res?.result[0]
-            this.statusUpdateService.updateTempSalesInvoiceCart( res?.result[0])
+            this.cartDataList = res?.result[0]
+            this.statusUpdateService.updateTempSalesInvoiceCart(res?.result[0])
         })
     }
-    
+
     openDelDialog(): void {
-     
+       
+
         const extraData = {
-            title : "Delete Product",
+            title: "Delete Product",
             subTitle: "Do you want to delete this Product from the invoice?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData,panelClass:"custom-dialog-container"});
-        
-        deletePop.afterClosed().subscribe((state:boolean) => {
-            if(!state)return;
-          
-            this.productCartService.deleteProductFromTheCart(this.dataFromRow.proCartId).subscribe((res)=>{
-                if(res?.successMessage!=null){
+        const deletePop = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: "custom-dialog-container" });
+
+        deletePop.afterClosed().subscribe((state: boolean) => {
+            if (!state) return;
+
+            this.productCartService.deleteProductFromTheCart(this.dataFromRow.proCartId).subscribe((res) => {
+                if (res?.successMessage != null) {
                     this.toastr.success(res?.successMessage)
-                    this.setDataIntoRow();  
+                    this.setDataIntoRow();
                     this.getAllCartData();
                     this.triggerNotification()
-                }else{
+                } else {
                     this.toastr.clear()
                     this.toastr.error(res?.errors)
                 }
-                
+
+            })
+
         })
-       
-    })
     }
-    
-        updateFormTrigger() {
-            const data={
-                title: "Update",
-                selectedRowData:this.dataFromRow,
-                isUpdate :true
-                
-            }
-                const dialogRef = this.matDialog.open(ProductSelectionToCartFormComponent, {data, panelClass:"custom-dialog-container"});
-                dialogRef.afterClosed().subscribe(()=>{
-                    this.setDataIntoRow()
-                    this.getAllCartData();
-                })
-            }
+
+    updateFormTrigger() {
+        const data = {
+            title: "Update",
+            selectedRowData: this.dataFromRow,
+            isUpdate: true
+
+        }
+        const dialogRef = this.matDialog.open(ProductSelectionToCartFormComponent, { data, panelClass: "custom-dialog-container" });
+        dialogRef.afterClosed().subscribe(() => {
+            this.setDataIntoRow()
+            this.getAllCartData();
+        })
+    }
 }

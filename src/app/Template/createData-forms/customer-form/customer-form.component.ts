@@ -28,12 +28,12 @@ export class CustomerFormComponent {
             custName:new FormControl(null,Validators.required),
             contact:new FormControl(null,[
                 Validators.required,
-                Validators.pattern("^[0-9]*$"),
+                Validators.pattern(/[0-9\+\-\ ]/),
                 Validators.minLength(10),
                 Validators.maxLength(10)
               ]),
             address:new FormControl(null,Validators.required),
-            email:new FormControl("cap@gmail.com",[Validators.required,Validators.email]),
+            email:new FormControl(null,[Validators.required,Validators.email]),
         })
         
     }

@@ -3,11 +3,13 @@ import { BehaviorSubject } from 'rxjs';
 import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
 import { IProCartEntity } from 'src/app/constants/interfaces/IProCartEntity';
 import { ITempPurchaseCartEntity } from 'src/app/constants/interfaces/ITempPurchaseCartEntity';
+import { AudioService } from '../audio-service/audio-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatusUpdateService {
+    
     /* 
     Purchase Invoice Cart Related Services and functions
     */
@@ -35,22 +37,14 @@ export class StatusUpdateService {
     private tempSalesCartNetAmountSubject = new BehaviorSubject<number>(0);
     tempSalesCartNetAmount$ = this.tempSalesCartNetAmountSubject.asObservable();
 
-    private tempSalesCartPaidAmountSubject = new BehaviorSubject<number>(0);
-    tempSalesCartPaidAmount$ = this.tempSalesCartPaidAmountSubject.asObservable();
   
     updateTempSalesInvoiceCart(tempSalesCart: IProCartEntity[]) {
       this.tempSalesCartSubject.next(tempSalesCart);
-    //   console.log("tempSalesCart", tempSalesCart)
     }
 
     updateTempSalesNetAmount(tempSalesCart: IProCartEntity[]) {
         const totalNetAmount = tempSalesCart.reduce((sum, item) => sum + item.netAmount, 0);
         this.tempSalesCartNetAmountSubject.next(totalNetAmount);
-        // console.log("tempSalesCart netttt", totalNetAmount)
       }
-    updateTempSalesPaidAmount(tempSalesCart: IProCartEntity[]) {
-        const totalTotalPaidAmount = tempSalesCart.reduce((sum, item) => sum + item.tempInvoiceOBJ.paidAmount, 0);
-        this.tempSalesCartPaidAmountSubject.next(totalTotalPaidAmount);
-        console.log("tempSalesCart Paid", totalTotalPaidAmount)
-      }
+   
 }

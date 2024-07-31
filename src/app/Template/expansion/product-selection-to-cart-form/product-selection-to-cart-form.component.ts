@@ -175,7 +175,7 @@ export class ProductSelectionToCartFormComponent {
                     // this.getAllCartData()
                    if(res?.successMessage!=null){
                     this.matDialogRef.close();
-                    // the product reorder level has to be checed so nofification trigger has been placed
+                    // the product reorder level has to be checked so nofification trigger has been placed
                     this.triggerNotification()
                     this.toastr.clear()
                     this.toastr.success(res.successMessage);

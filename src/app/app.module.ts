@@ -216,6 +216,7 @@ import { EmailFormComponent } from './Template/createData-forms/email-form/email
         BrowserAnimationsModule,
         MatSlideToggleModule,
         NgxPrintModule,
+
     ],
     //providers: [],
     providers: [DatePipe,    { provide: MAT_DIALOG_DATA, useValue: {} },

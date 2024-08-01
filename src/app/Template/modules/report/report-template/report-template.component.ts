@@ -147,10 +147,10 @@ export class ReportTemplateComponent implements OnChanges {
                 title: "stock",
                 tableHeader: [
                     // 'stockId',
-                    'Item Name',
+                    'ItemName',
                     'MaterialColour',
                     'ArrivalDate',
-                    'purhcasePrice',
+                    'PurhcasePrice',
                     'SellingPrice',
                     // 'reorder Qty',
                     'Quantity',

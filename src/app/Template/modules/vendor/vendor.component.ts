@@ -69,7 +69,7 @@ export class VendorComponent {
         const extraData={
             title:"Insert"
         }
-        const openForm = this.dialog.open(VendorFormComponent,{data:extraData, panelClass:"custom-dialog-container"})
+        const openForm = this.dialog.open(VendorFormComponent,{data:extraData, panelClass:["custom-dialog-container"],width:'350px'})
         openForm.afterClosed().subscribe(res=>{
             this.setDataIntoRow();
         })

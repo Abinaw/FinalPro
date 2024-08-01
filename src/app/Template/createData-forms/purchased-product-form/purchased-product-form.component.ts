@@ -110,9 +110,14 @@ export class PurchasedProductFormComponent {
             this.tempPurchaseCartService
                 .createPurchaseInvoice(this.purchaseProductCartForm.value)
                 .subscribe((response) => {
-                    this.toastr.success(response.successMessage);
-                    this.matDialogRef.close();
-                    this.loadAllPurchase();
+                    if(response.successMessage!=null){
+                        this.toastr.success(response.successMessage);
+                        this.matDialogRef.close();
+                        this.loadAllPurchase();
+                    }else{
+                        this.toastr.error(response.errors)
+                    }
+                   
                 });
         } else if (this.data.title === "Update") {
             this.updatePopTrigger();
@@ -137,11 +142,20 @@ export class PurchasedProductFormComponent {
                 .updateTempPurchaseCartRecord(
                     this.purchaseProductCartForm.value
                 )
-                .subscribe((res) => {
-                    this.matDialogRef.close();
-                    this.toastr.success(res.successMessage);
-                    this.loadAllPurchase();
+                .subscribe((response) => {
+                    if(response.successMessage!=null){
+                        this.toastr.success(response.successMessage);
+                        this.matDialogRef.close();
+                        this.loadAllPurchase();
+                    }else{
+                        this.toastr.error(response.errors)
+                    }
+                    // this.matDialogRef.close();
+                    // this.toastr.success(res.successMessage);
+                    // this.loadAllPurchase();
                     // this.tempPurchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
+                },(err)=>{
+                    this.toastr.error(err)
                 });
         });
     }

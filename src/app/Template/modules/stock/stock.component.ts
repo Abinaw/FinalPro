@@ -116,7 +116,7 @@ export class StockComponent {
         const extraData = {
             title: "Insert"
         }
-        const openForm = this.dialog.open(StockFormComponent, { data: extraData, panelClass: "custom-dialog-container" })
+        const openForm = this.dialog.open(StockFormComponent, { data: extraData, panelClass: ["custom-dialog-container"],width:'800px' })
         openForm.afterClosed().subscribe(res => {
             this.setDataIntoRow();
         })

@@ -84,11 +84,20 @@ export class PurchaseCartActionComponent {
             if(!state)return;
           
             this.tempPurchaseCartService.deleteTempPurchaseCartRecord(this.dataFromRow.productCartId).subscribe((res)=>{
-                this.toastr.clear()
-                this.toastr.success(res.successMessage)
-                this.setDataIntoRow();  
-                this.getAllTempPurchaseCartData();
-                this.loadAllPurchase();
+                if(res.successMessage!=null){
+                    this.toastr.clear()
+                    this.toastr.success(res.successMessage)
+                    this.setDataIntoRow();  
+                    this.getAllTempPurchaseCartData();
+                    this.loadAllPurchase();
+                }else{
+                    this.toastr.clear()
+                    this.toastr.error(res.errors)
+                }
+                
+        },(err)=>{
+            this.toastr.clear()
+            this.toastr.error(err)
         })
        
     })

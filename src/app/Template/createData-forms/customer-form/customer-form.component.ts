@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, MaxValidator, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { phoneNumberPattern } from 'src/app/constants/interfaces/VALIDATORS';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { CustomerService } from 'src/app/service/customer-service/customer.service';
 
@@ -28,7 +29,7 @@ export class CustomerFormComponent {
             custName:new FormControl(null,Validators.required),
             contact:new FormControl(null,[
                 Validators.required,
-                Validators.pattern(/[0-9\+\-\ ]/),
+                Validators.pattern(phoneNumberPattern),
                 Validators.minLength(10),
                 Validators.maxLength(10)
               ]),

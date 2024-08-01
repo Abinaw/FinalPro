@@ -70,7 +70,7 @@ export class CustomerComponent{
         const extraData={
             title:"Insert"
         }
-        const openForm = this.dialog.open(CustomerFormComponent,{data:extraData, panelClass:"custom-dialog-container"})
+        const openForm = this.dialog.open(CustomerFormComponent,{data:extraData, panelClass:["custom-dialog-container"],width:'500px'})
         openForm.afterClosed().subscribe(res=>{
             this.setDataIntoRow();
         })

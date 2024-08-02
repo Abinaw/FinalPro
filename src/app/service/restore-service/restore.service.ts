@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RestoreService {
-    private baseUrl = 'http://localhost:8080/api/restore';
+    private baseUrlRestore = 'http://localhost:8080/api/restore';
 
     constructor(private http: HttpClient) { }
   
@@ -14,12 +14,17 @@ export class RestoreService {
       const formData: FormData = new FormData();
       formData.append('file', file, file.name);
   
-      const headers = new HttpHeaders({
-       
-      });
-  
-      return this.http.post<any>(this.baseUrl, formData,
+     
+      return this.http.post<any>(this.baseUrlRestore, formData,
        {responseType: 'text' as 'json' }
       );
     }
+
+
+    private baseUrlBackUp = 'http://localhost:8080/api/backup';
+
+    triggerBackup(): Observable<string> {
+        return this.http.post<string>(this.baseUrlBackUp, {}, { responseType: 'text' as 'json' });
+      }
+
 }

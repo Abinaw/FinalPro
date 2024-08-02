@@ -11,7 +11,7 @@ import { RestoreService } from 'src/app/service/restore-service/restore.service'
 })
 export class BackupComponent {
 isLoading = false
-
+isBackupLoading = false;
     uploadForm: FormGroup;
 
   constructor(private fb: FormBuilder, private restoreService:RestoreService,
@@ -36,14 +36,13 @@ isLoading = false
       console.log('File ready to upload:', file);
       this.isLoading = true;
         this.cdr.detectChanges()
-      // Call your service to handle the upload
       this.restoreService.restoreDatabase(file).subscribe({
         next: (res) => {
           console.log(res);
-          this.toastr.success('Restore successful');
+          this.toastr.success('Restore successful!');
         },
         error: (err) => {
-          this.toastr.error('Restore failed');
+          this.toastr.error('Restore failed!');
           console.error(err);
         },
         complete: () => {
@@ -53,7 +52,28 @@ isLoading = false
         }
       });
     } else {
-      console.log('No file selected.');
+        this.toastr.warning('No file is selected!');
     }
   }
+
+  onBackup(): void {
+  this.isBackupLoading = true;
+  this.cdr.detectChanges();
+  this.restoreService.triggerBackup().subscribe({
+    next: (response) => {
+      console.log(response);
+      this.toastr.success(response);
+    },
+    error: (err) => {
+      this.toastr.error('Backup failed');
+      console.error(err);
+    },
+    complete: () => {
+      this.isBackupLoading = false;
+      this.cdr.detectChanges();
+      // this.notificationService.fetchnotificationData();
+    }
+  });
+}
+
 }

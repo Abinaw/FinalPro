@@ -21,5 +21,5 @@ role :string =''
     }
    
 
-  imgUrl:string = 'https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800'
+//   imgUrl:string = 'https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800'
 }

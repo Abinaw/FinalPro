@@ -104,7 +104,7 @@ import { NotificationComponent } from './Template/side-bar/nav-settings/notifica
 import {MatBadgeModule} from '@angular/material/badge';
 import { NotifiExpansionComponent } from './Template/side-bar/nav-settings/notification/notifi-expansion/notifi-expansion.component';
 import { EmailFormComponent } from './Template/createData-forms/email-form/email-form.component';
-
+import { RoleGuard } from "./service/role-service/role.guard";
 
 @NgModule({
     declarations: [
@@ -219,7 +219,7 @@ import { EmailFormComponent } from './Template/createData-forms/email-form/email
 
     ],
     //providers: [],
-    providers: [DatePipe,    { provide: MAT_DIALOG_DATA, useValue: {} },
+    providers: [DatePipe, RoleGuard,   { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ],

@@ -1,5 +1,5 @@
 import { Component, NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 
 
 // Components of the modules in the dashBoard
@@ -29,6 +29,9 @@ import { PurchaseReportComponent } from './Template/modules/report/purchase-repo
 import { PaymentsReportComponent } from './Template/modules/report/payments-report/payments-report.component';
 import { VendorReportComponent } from './Template/modules/report/vendor-report/vendor-report.component';
 import { CustomerReportComponent } from './Template/modules/report/customer-report/customer-report.component';
+import { AuthService } from './service/auth/auth.service';
+import { CurrentLoggedInUserService } from './service/current-logged-user-service/current-logged-in-user.service';
+import { RoleGuard } from './service/role-service/role.guard';
 
 
 
@@ -51,95 +54,113 @@ const routes: Routes = [
   {
     path: 'dash_board',
     component: DashboardCardsComponent,
-    canActivate:[AuthGuard]
+    canActivate:[AuthGuard,RoleGuard],
+    data:{roles:['admin','user']}
 
   },
   {
     path: 'dash_board/invoice',
     component: InvoiceComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin', 'user'] }
   },
   {
     path: 'dash_board/category',
     component: CategoryComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
 
   },
   {
     path: 'dash_board/customer',
     component: CustomerComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin', 'user'] }
 
   },
   {
     path: 'dash_board/return',
     component: EmployeeComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin', 'user'] }
   },
   {
     path: 'dash_board/purchase',
     component: PurchaseComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'dash_board/report',
     component: ReportComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'dash_board/commonPayments',
     component: CommonPaymentsComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin', 'user'] }
   },
   {
     path: 'dash_board/stock',
     component: StockComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'dash_board/user',
     component: UserDataComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path: 'dash_board/vendor',
     component: VendorComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin', 'user'] }
   },
   {
     path:'dash_board/purchase_cart',
     component:PurchaseCartComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path:'dash_board/report/stock_report',
     component:StockReportComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path:'dash_board/report/invoice_report',
     component:InvoiceReportComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path:'dash_board/report/purchase_report',
     component:PurchaseReportComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path:'dash_board/report/payments_report',
     component:PaymentsReportComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path:'dash_board/report/vendor_report',
     component:VendorReportComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
   {
     path:'dash_board/report/customer_report',
     component:CustomerReportComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] }
   },
 
    
@@ -150,7 +171,7 @@ const routes: Routes = [
 
   //----Nav settings-----
   {
-    path: 'backup',
+    path: 'settings',
     component: BackupComponent,
     canActivate:[AuthGuard]
   },
@@ -185,4 +206,16 @@ const routes: Routes = [
   exports: [RouterModule],
   providers:[AuthGuard]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+   /*  constructor(private router:Router,private currentLoggedInUserService:CurrentLoggedInUserService){
+
+    }
+
+    navigationAccordingToTheRole(){
+       let role = this.currentLoggedInUserService.getRole()
+       if(role=='user'){
+            
+       }
+    } */
+ }

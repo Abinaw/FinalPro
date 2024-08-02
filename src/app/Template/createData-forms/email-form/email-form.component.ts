@@ -33,33 +33,14 @@ constructor(
         title:new FormControl,
         subject: new FormControl((this.data.extraDetails.reportType).toUpperCase()),
     })
-    console.log("data",data)
+    
 
    
-
 }
+    ngOnInit(): void {
+        
+    }
 
-setMail(email:string){
-    // this.emailForm.get('emailId')?.setValue(this.data.custEmail);
-}
-ngOnInit() {
- 
-   /*  this.filterOptions = this.customerControl.valueChanges.pipe(
-        startWith(""),
-        map((value) => this.listFilter(value || ""))
-    ); */
-}
-/* private listFilter(value: string): ICustomerEntity[] {
-
-    const searchValue = value.toString().toLowerCase();
-    return this.customerDataList.filter(
-        option =>
-            option.custName.toString().toLowerCase().includes(searchValue)
-        ||
-        option.email.toString().toLowerCase().includes(searchValue)
-    )
-
-} */
     async sendEmail() {
         const generatedReport = this.data.reportPic;
         if (generatedReport) {

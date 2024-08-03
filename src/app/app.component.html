@@ -1,18 +1,21 @@
 <div class="entirePageContainer flex flex-row" [ngClass]="{ logBackground: isLoginPageAvail }">
     <div class="p-[16px] pr-[0]" *ngIf="ShowSidebarAndNotifiBar()">
-        <app-side-bar  [isSwitched]="isSwitched"></app-side-bar>
+        <app-side-bar [isSwitched]="isSwitched"></app-side-bar>
     </div>
 
-    <div class="h-[calc(100vh-20px)] w-full">
+    <div class="h-[calc(100vh-21px)] w-full" [ngClass]="{
+        '!h-screen':
+            isLoginPageAvail
+    }">
         <div class="w-full h-full overflow-hidden p-[16px]" [ngClass]="{
-                '!shadow-none bg-[#382e59] !m-0 !rounded-none h-[calc(100vh-20px)] w-screen':
+                '!shadow-none bg-[#382e59] !m-0 !rounded-none':
                     isLoginPageAvail
             }">
             <div class="w-full h-full overflow-hidden p-[16px] rounded-[10px] relative" [ngClass]="{
                     'bg-[#382e59]': !isLoginPageAvail
                 }">
                 <div class="flex flex-row justify-start p-1 absolute left-[16px] top-[16px] z-[2]"
-                    *ngIf="showCloseIcon()" [routerLink]="['/dash_board']" >
+                    *ngIf="showCloseIcon()" [routerLink]="['/dash_board']">
                     <div class="close" (click)="goBack()">
                         <span class="material-symbols-outlined text-slate-300">
                             arrow_back
@@ -41,7 +44,7 @@
     </div>
 </div>
 
-<footer
+<footer *ngIf="!isLoginPageAvail"
     class="h-[20px] flex items-center justify-center bg-[#886cce46] dark:bg-[#382e59] text-[#382e59] dark:text-white">
     &copy; {{ currentYear }} Comfort linen. All Rights Reserved
 </footer>

@@ -18,7 +18,7 @@
                <input matInput formControlName="custName" type="text" class=""/>
                <mat-error class="text-xs" *ngIf="custForm.get('custName')?.hasError('required')">This field is required!</mat-error>
                <mat-error class="text-xs" *ngIf="custForm.get('custName')?.hasError('pattern')">Invalid customer name! Only Alphabets allowed.</mat-error>
-               <mat-error *ngIf="">This field is required!</mat-error>
+              
            </mat-form-field>
            <mat-form-field>
             <mat-label>Contact number</mat-label>

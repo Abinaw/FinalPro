@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { addressPattern, emailPattern, namePattern, phoneNumberPattern } from 'src/app/constants/interfaces/VALIDATORS';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { VendorService } from 'src/app/service/vendor-service/vendor.service';
 
@@ -25,10 +26,15 @@ export class VendorFormComponent {
     ) {
         this.vendorForm=new FormGroup({
             vendorId:new FormControl,
-            vendorName:new FormControl(null,Validators.required),
-            contact:new FormControl(null,[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
-            address:new FormControl(null,Validators.required),
-            email:new FormControl("vendor@gmail.com",[Validators.required,Validators.email]),
+            vendorName:new FormControl(null,[Validators.required,Validators.pattern(namePattern)]),
+            contact:new FormControl(null,[
+                Validators.required,
+                Validators.pattern(phoneNumberPattern),
+                Validators.minLength(10),
+                Validators.maxLength(15)
+              ]),
+              address:new FormControl(null,[Validators.required,Validators.pattern(addressPattern),Validators.maxLength(35)]),
+              email:new FormControl(null,[Validators.required,Validators.email,Validators.pattern(emailPattern)]),
         })
     }
 

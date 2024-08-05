@@ -13,24 +13,29 @@
         <mat-form-field >
             <mat-label > Vendor name </mat-label>
             <input matInput formControlName="vendorName" type="text" class=""/>
-            <mat-error *ngIf="vendorForm.get('vendorName')?.errors">This field is required!</mat-error>
-            <mat-error *ngIf="">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="vendorForm.get('vendorName')?.hasError('required')">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="vendorForm.get('vendorName')?.hasError('pattern')">Invalid Vendor name! Only Alphabets allowed.</mat-error>
         </mat-form-field>
         <mat-form-field >
             <mat-label > Contact number </mat-label>
             <input matInput formControlName="contact" type="text" class=""/>
-            <mat-error *ngIf="vendorForm.get('contact')?.errors">This field is required!</mat-error>
-            <mat-error *ngIf="">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="vendorForm.get('contact')?.hasError('required')">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="vendorForm.get('contact')?.hasError('pattern')">Invalid contact number!</mat-error>
+            <mat-error class="text-xs" *ngIf="vendorForm.get('contact')?.hasError('minlength')">Must be at least 10 characters long!</mat-error>
+            <mat-error class="text-xs" *ngIf="vendorForm.get('contact')?.hasError('maxlength')">Can't be more than 15 characters!</mat-error>
         </mat-form-field>
         <mat-form-field >
             <mat-label>Address</mat-label>
             <input matInput formControlName="address" type="text">
-            <mat-error *ngIf="vendorForm.get('address')?.errors">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="vendorForm.get('address')?.hasError('required')">This field is required!</mat-error>
+               <mat-error class="text-xs" *ngIf="vendorForm.get('address')?.hasError('pattern')">Invalid Address!</mat-error>
+                 <mat-error class="text-xs" *ngIf="vendorForm.get('address')?.hasError('maxlength')">Can't be more than 35 characters!</mat-error>
         </mat-form-field>
        <mat-form-field >
            <mat-label>Email</mat-label>
            <input matInput formControlName="email" type="email">
-           <mat-error *ngIf="vendorForm.get('email')?.errors">This field is required!</mat-error>
+           <mat-error class="text-xs" *ngIf="vendorForm.get('email')?.hasError('required')">This field is required!</mat-error>
+           <mat-error class="text-xs" *ngIf="vendorForm.get('email')?.hasError('pattern')">Invalid Email!</mat-error>
        </mat-form-field>
        <div mat-dialog-actions class="button-wrapper flex flex-row" align="center">
             <button mat-flat-button color="primary" class="save" type="submit">

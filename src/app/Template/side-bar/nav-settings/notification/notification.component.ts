@@ -42,7 +42,7 @@ export class NotificationComponent implements OnChanges {
 
   openNotification() {
     console.log(this.notificationData)
-    this.matDialog.open(NotifiExpansionComponent, { data: this.notificationData, panelClass: "custom-notification-dialog-container", height: "30%", width: "auto", backdropClass: "notification-backdrop" });
+    this.matDialog.open(NotifiExpansionComponent, { data: this.notificationData, panelClass: "custom-notification-dialog-container", height: "30%", width: "auto", backdropClass: "dialogbox-backdrop" });
   }
 
 }

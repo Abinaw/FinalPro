@@ -20,14 +20,24 @@ export class RoleGuard implements CanActivate {
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): boolean {
-        const role = this.currentLoggedInUserService.getRole();
-        const allowedRoles = next.data['roles'] as Array<string>;
-        if (allowedRoles.includes(role)) {
-            return true;
-        } else {
-            this.toastr.error("Access is denied!")
-            this.router.navigate(['/dash_board']);
-            return false;
+        if(localStorage.getItem('token')){
+            console.log("tokenFound")
+            const role = this.currentLoggedInUserService.getRole();
+            const allowedRoles = next.data['roles'] as Array<string>;
+            if (allowedRoles.includes(role)) {
+                console.log('AuthGuard#canActivate called');
+                return true;
+            } else {
+                console.log('Access is denied!');
+                this.toastr.error("Access is denied!")
+                this.router.navigate(["/dash_board"]);
+                return false;
+            }
+        }else{
+            this.router.navigate(["/login"]);
+            console.log("Not Found")
+            return false
         }
+        
     }
 }

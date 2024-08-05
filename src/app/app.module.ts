@@ -219,7 +219,7 @@ import { RoleGuard } from "./service/role-service/role.guard";
 
     ],
     //providers: [],
-    providers: [DatePipe, RoleGuard,   { provide: MAT_DIALOG_DATA, useValue: {} },
+    providers: [DatePipe,   { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ],

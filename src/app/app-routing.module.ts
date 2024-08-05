@@ -54,9 +54,7 @@ const routes: Routes = [
   {
     path: 'dash_board',
     component: DashboardCardsComponent,
-    canActivate:[AuthGuard,RoleGuard],
-    data:{roles:['admin','user']}
-
+    canActivate:[AuthGuard],
   },
   {
     path: 'dash_board/invoice',

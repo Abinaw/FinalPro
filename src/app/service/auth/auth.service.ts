@@ -45,7 +45,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user')
     this.router.navigate(['/login']);
-    this.notificationService.clearData()
+    // this.notificationService.clearData()
   }
 
   isValidJWT(token: string): boolean {

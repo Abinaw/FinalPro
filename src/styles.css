@@ -110,7 +110,7 @@ mat-form-field mat-select mat-option{
   }
   
 
-  .notification-backdrop {
+  .dialogbox-backdrop {
     background-color: rgb(0 , 0 , 0 , .6);
     backdrop-filter: blur(10px);
   }

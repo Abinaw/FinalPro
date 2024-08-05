@@ -5,6 +5,7 @@ import { VendorService } from "src/app/service/vendor-service/vendor.service";
 import { StockService } from "src/app/service/stock-service/stock.service";
 import { CustomerService } from "src/app/service/customer-service/customer.service";
 import { CurrentLoggedInUserService } from "src/app/service/current-logged-user-service/current-logged-in-user.service";
+import { NotificationService } from "src/app/service/notification-service/notification.service";
 
 /**
  * @title Card with multiple sections
@@ -18,12 +19,16 @@ export class DashboardCardsComponent implements OnInit{
     @Input() isSwitched!: boolean;
     userRole :any =''
 
-    constructor(private stockService: StockService,  private custService: CustomerService,private currentLoggedInUserService:CurrentLoggedInUserService) {
+    constructor(private stockService: StockService,  private custService: CustomerService,
+    private notificationService:NotificationService,
+    private currentLoggedInUserService:CurrentLoggedInUserService,) {
         this.loadAllStock();
         this.getAllToGlobalList();
     }
     
     ngOnInit(): void {
+
+        this.notificationService.fetchnotificationData();
        this.getUserRole()
     }
 
@@ -97,7 +102,9 @@ export class DashboardCardsComponent implements OnInit{
     filteredCards = this.Cards;
 
     getUserRole() {
+        console.log("GetUser Role Calles!")
         const token = localStorage.getItem('token');
+        console.log("GetUser Role Calles!", token)
         this.currentLoggedInUserService.userNameSplit(token);
         this.userRole = this.currentLoggedInUserService.getRole();
         this.filterCards();

@@ -69,7 +69,8 @@ export class DashboardCardsComponent implements OnInit{
             name: "Return",
             imageUrl: "../../assets/New Set/return.png",
             route: "/dash_board/return",
-            access:'user'
+            access:'user',
+            disabled: true
         
         },
         {

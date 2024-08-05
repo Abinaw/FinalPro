@@ -39,3 +39,7 @@ mat-card:hover img {
     padding: 5px;
     margin-bottom: 25px;
 }
+.disabled-card {
+    pointer-events: none;
+    opacity: 0.5; 
+}

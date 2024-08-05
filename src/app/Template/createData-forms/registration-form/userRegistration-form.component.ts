@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, PatternValidator, ValidationErrors
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { GridApi, ICellRendererParams } from 'ag-grid';
 import { ToastrService } from 'ngx-toastr';
+import { passwordPattern } from 'src/app/constants/interfaces/VALIDATORS';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { UserService } from 'src/app/service/userService/user.service';
 
@@ -32,8 +33,8 @@ export class UserRegistrationForm implements OnInit {
             gender: new FormControl("male", Validators.required),
             role: new FormControl(null, Validators.required),
             email: new FormControl(null, [Validators.required, Validators.email]),
-            password:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,Validators.required),
-            confirmPw:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,Validators.required),
+            password:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,[Validators.required,Validators.minLength(8),Validators.pattern(passwordPattern)]),
+            confirmPw:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,[Validators.required,Validators.minLength(8),Validators.pattern(passwordPattern)]),
             
         })
 

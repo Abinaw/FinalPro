@@ -160,7 +160,7 @@ export class InvoiceComponent {
         const extraData= {
             title:"Insert"
         }
-        const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData , panelClass:"custom-dialog-container"})
+        const openForm = this.dialog.open(InvoiceFormComponent,{data:extraData , panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
         openForm.afterClosed().subscribe(res=>{
             this.setDataIntoRow();
         })

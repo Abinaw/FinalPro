@@ -105,7 +105,7 @@ export class SelectedInvoiceComponent implements OnInit{
         
         const openInvoice = this.matDialog.open(InvoicePrintComponent, {
             data: invoiceDta,
-            panelClass: ["invoice-dialog-container", ],width:'auto', height:'auto'
+            panelClass: ["invoice-dialog-container", ],width:'auto', height:'auto',backdropClass: "dialogbox-backdrop" 
         })
         console.log("invoiceData ",this.invoiceData)
 
@@ -231,7 +231,7 @@ export class SelectedInvoiceComponent implements OnInit{
         };
         const invoicePaymentOpen = this.matDialog.open(
             InvoicePaymentComponent,
-            { data: extraData, panelClass: ["custom-dialog-container"] }
+            { data: extraData, panelClass: ["custom-dialog-container"],backdropClass: "dialogbox-backdrop"  }
         );
         invoicePaymentOpen.afterClosed().subscribe((res) => {
             this.getAllPayments();
@@ -297,7 +297,7 @@ export class SelectedInvoiceComponent implements OnInit{
         }
         const addProductsForm = this.matDialog.open(ProductSelectionToCartFormComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container"
+            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
         })
         addProductsForm.afterClosed().subscribe(res => {
 

@@ -66,7 +66,7 @@ export class CategoryFormComponent {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData ,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"})
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.catService.regiterReq(this.categoryForm.value).subscribe(res=>{
@@ -85,7 +85,7 @@ export class CategoryFormComponent {
             subTitle: "are you sure you want to update the selected data?",
           
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.catService.update(this.categoryForm.value).subscribe((res)=>{

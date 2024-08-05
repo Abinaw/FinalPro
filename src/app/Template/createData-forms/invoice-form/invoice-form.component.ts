@@ -103,7 +103,7 @@ export class InvoiceFormComponent implements OnInit {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
             this.invoiceService.createTempSalesInvoice(tempInvoiceFormValue).subscribe(res => {
@@ -131,7 +131,7 @@ export class InvoiceFormComponent implements OnInit {
             subTitle: "are you sure you want to update the selected data?",
 
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData ,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"})
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
             this.invoiceService.update(this.invoiceForm.value).subscribe((res) => {

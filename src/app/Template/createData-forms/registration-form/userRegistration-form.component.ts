@@ -96,7 +96,7 @@ export class UserRegistrationForm implements OnInit {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
             this.userService.insertNewUser(this.userForm.value).subscribe(res => {
@@ -122,7 +122,7 @@ export class UserRegistrationForm implements OnInit {
             subTitle: "are you sure you want to update the selected data?",
 
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
             this.userService.updateUserDetails(this.userForm.value).subscribe((res) => {

@@ -59,7 +59,7 @@ export class InvoiceActionComponent  {
             title : "Delete Invoice",
             subTitle: "Do you want to delete this invoice?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container"});
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
@@ -90,7 +90,7 @@ export class InvoiceActionComponent  {
             tempInvoiceData:this.dataFromRow,
             customerValue:this.dataFromRow.customerOBJ,
         }
-            const dialogRef = this.matDialog.open(InvoiceFormComponent, {data, panelClass:"custom-dialog-container"});
+            const dialogRef = this.matDialog.open(InvoiceFormComponent, {data, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
             })

@@ -73,7 +73,7 @@ export class VendorFormComponent {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData ,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"})
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.vendorService.regiterReq(this.vendorForm.value).subscribe(res=>{
@@ -92,7 +92,7 @@ export class VendorFormComponent {
             subTitle: "are you sure you want to update the selected data?",
           
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData ,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"})
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.vendorService.update(this.vendorForm.value).subscribe((res)=>{

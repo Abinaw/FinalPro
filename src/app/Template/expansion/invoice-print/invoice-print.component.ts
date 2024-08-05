@@ -98,7 +98,7 @@ export class InvoicePrintComponent {
         };
         const popUpOpen = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",
+            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
         });
 
         popUpOpen.afterClosed().subscribe((state: boolean) => {
@@ -140,7 +140,7 @@ export class InvoicePrintComponent {
       
         if (generateReport) {
             const openForm = this.matDialog.open(EmailFormComponent, {
-                data: { reportPic: generateReport, extraDetails:data },panelClass:['custom-dialog-container']
+                data: { reportPic: generateReport, extraDetails:data },panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop" 
               });
         } else {
           this.toastr.error('Error occurred while generating the report');

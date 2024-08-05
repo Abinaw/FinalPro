@@ -48,7 +48,7 @@ export class InvoiceFinalizationComponent {
             title : "Invoice Finalization",
             subTitle: "Once finalized, the invoice cannot be deleted or updated.",
         }   
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container"});
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state){

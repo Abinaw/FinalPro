@@ -58,20 +58,20 @@ export class PaymentActionComponent {
     makePayment() {
       
         if(this.params.actionName === "purchaseInvoice"){
-            const openPaymentDialog =  this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})  
+            const openPaymentDialog =  this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop"})  
             openPaymentDialog.afterClosed().subscribe((response)=>{
                 this.setConfirmedPurchaseDataIntoRow()
                 if(response){
-                    const openReceiptForThePay = this.matDialog.open(ReceiptVoucherPrintComponent,{data:response.result,panelClass:['custom-dialog-container']})
+                    const openReceiptForThePay = this.matDialog.open(ReceiptVoucherPrintComponent,{data:response.result,panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop"})
                     return
                 }  
             })
         }else if(this.params.actionName ==="salesInvoice"){
-          const openPaymentDialog = this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})
+          const openPaymentDialog = this.matDialog.open(InvoicePaymentComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop"})
                 openPaymentDialog.afterClosed().subscribe((response)=>{
                     this.setConfirmedInvoicesDataIntoRow()
                     if(response){
-                        const openReceiptForThePay = this.matDialog.open(ReceiptVoucherPrintComponent,{data:response.result,panelClass:['custom-dialog-container']})
+                        const openReceiptForThePay = this.matDialog.open(ReceiptVoucherPrintComponent,{data:response.result,panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop"})
                     }
                    
                 })

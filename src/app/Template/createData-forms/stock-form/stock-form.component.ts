@@ -105,7 +105,7 @@ export class StockFormComponent implements OnInit {
             title: "Insert",
             subTitle: "are you sure you want to add this data?",
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.stockService.regiterReq(this.stockForm.value).subscribe(res=>{
@@ -132,7 +132,7 @@ export class StockFormComponent implements OnInit {
             title: this.data.title,
             subTitle: "are you sure you want to update the selected data?",
         }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData })
+        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.stockService.update(this.stockForm.value).subscribe((res)=>{

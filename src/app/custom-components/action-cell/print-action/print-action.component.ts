@@ -35,12 +35,12 @@ constructor(private matDialog:MatDialog){
             switch (receivedData) {
                 case 'voucherData':
                     console.log("Print Voucher")
-                    const openVoucher =  this.matDialog.open(ReceiptVoucherPrintComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})  
+                    const openVoucher =  this.matDialog.open(ReceiptVoucherPrintComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop"})  
                      openVoucher.afterClosed().subscribe((response)=>{})
                     break;
                 case 'receiptData':
                     console.log("Print Receipt")
-                    const openReceipt =  this.matDialog.open(ReceiptVoucherPrintComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container']})  
+                    const openReceipt =  this.matDialog.open(ReceiptVoucherPrintComponent,{data:this.dataFromRow,panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop"})  
                     openReceipt.afterClosed().subscribe((response)=>{})
                     break;
             }

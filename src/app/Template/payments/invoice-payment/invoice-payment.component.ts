@@ -206,7 +206,7 @@ export class InvoicePaymentComponent implements OnInit {
                 paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             }
             paymentFormData.salesInvoice = this.data.tempInvoiceData;
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] ,backdropClass: "dialogbox-backdrop" })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
                 console.log("paymentFormData", paymentFormData)
@@ -231,7 +231,7 @@ export class InvoicePaymentComponent implements OnInit {
                 const chequeDueDateValue = this.invoicePaymentForm.get('chequeDueDate')?.value;
                 paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             }
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] ,backdropClass: "dialogbox-backdrop" })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
                 console.log("paymentFormData", paymentFormData)
@@ -258,7 +258,7 @@ export class InvoicePaymentComponent implements OnInit {
                 const chequeDueDateValue = this.invoicePaymentForm.get('chequeDueDate')?.value;
                 paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             }
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] })
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'],backdropClass: "dialogbox-backdrop"  })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
                 console.log("paymentFormData", paymentFormData)

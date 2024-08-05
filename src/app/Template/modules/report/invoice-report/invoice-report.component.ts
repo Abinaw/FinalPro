@@ -204,7 +204,7 @@ export class InvoiceReportComponent {
         }
         if (stockTempDoc) {
           const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: stockTempDoc, extraDetails:data },panelClass:['custom-dialog-container']
+            data: { reportPic: stockTempDoc, extraDetails:data },panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop" 
           });
         } else {
           this.toastr.error('Error occurred while generating the report');

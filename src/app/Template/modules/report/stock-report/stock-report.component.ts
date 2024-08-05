@@ -100,7 +100,7 @@ export class StockReportComponent {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {
           const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: stockTempDoc, reportType:this.stockReport.get('stockOption')?.value },panelClass:['custom-dialog-container']
+            data: { reportPic: stockTempDoc, reportType:this.stockReport.get('stockOption')?.value },panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop" 
           });
         } else {
           this.toastr.error('Error occurred while generating the report');

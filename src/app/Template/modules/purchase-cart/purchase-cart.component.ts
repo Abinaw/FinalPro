@@ -236,7 +236,7 @@ export class PurchaseCartComponent implements OnInit {
         };
         const openForm = this.dialog.open(PurchasedProductFormComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",
+            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
         });
         openForm.afterClosed().subscribe((res) => {
             this.setDataIntoRow();
@@ -278,7 +278,7 @@ export class PurchaseCartComponent implements OnInit {
         };
         let openActionPop = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: ["custom-dialog-container"],
+            panelClass: ["custom-dialog-container"],backdropClass: "dialogbox-backdrop" 
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
@@ -304,7 +304,7 @@ export class PurchaseCartComponent implements OnInit {
         };
         let openActionPop = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: ["custom-dialog-container"],
+            panelClass: ["custom-dialog-container"],backdropClass: "dialogbox-backdrop" 
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;

@@ -164,7 +164,7 @@ export class ProductSelectionToCartFormComponent {
         };
         const openActionPop = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",
+            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;

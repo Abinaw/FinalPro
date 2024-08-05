@@ -78,7 +78,7 @@ export class PurchaseCartActionComponent {
             title : "Delete Product",
             subTitle: "Do you want to delete this Product from the invoice?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData,panelClass:"custom-dialog-container"});
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
         
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
@@ -110,7 +110,7 @@ export class PurchaseCartActionComponent {
                 isUpdate :true
                 
             }
-                const dialogRef = this.matDialog.open(PurchasedProductFormComponent, {data, panelClass:"custom-dialog-container"});
+                const dialogRef = this.matDialog.open(PurchasedProductFormComponent, {data, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
                 dialogRef.afterClosed().subscribe(()=>{
                     this.setDataIntoRow()
                     this.getAllTempPurchaseCartData();

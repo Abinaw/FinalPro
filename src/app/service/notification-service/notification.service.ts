@@ -36,7 +36,6 @@ export class NotificationService {
     }
     
       clearData() {
-    
         this.dueDateDataSubject.next(null);
       }
 }

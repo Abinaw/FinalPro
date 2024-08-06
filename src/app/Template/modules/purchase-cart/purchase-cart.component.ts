@@ -287,11 +287,11 @@ export class PurchaseCartComponent implements OnInit {
                 .subscribe((res) => {
                     this.toastr.clear();
                     this.toastr.success(res.successMessage);
-                    this.triggerNotification()
-
+                    
                     // this.loadAllTempPurchase()
                     this.router.navigate(["/dash_board"]);
-
+                    this.triggerNotification()
+                   
                 });
 
         });

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductSelectionToCartComponent } from '../product-selection-to-cart/product-selection-to-cart.component';
 import { StockService } from 'src/app/service/stock-service/stock.service';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
@@ -23,6 +23,9 @@ import { PaymentsService } from 'src/app/service/payments-service/payments.servi
 import { InvoicePaymentComponent } from '../../payments/invoice-payment/invoice-payment.component';
 import { StatusUpdateService } from 'src/app/service/sharedServiceForStates/status-update.service';
 import { IPaymentEntity } from 'src/app/constants/interfaces/IPaymentEntity';
+import { NotificationService } from 'src/app/service/notification-service/notification.service';
+import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -63,6 +66,11 @@ export class SelectedInvoiceComponent implements OnInit{
         private invoiceService: InvoiceService,
         private paymentService: PaymentsService,
         private statusUpdateService:StatusUpdateService,
+        private notificationService:NotificationService,
+        private toastr:ToastrService,
+        private router: Router,
+
+
 
     ) {
 
@@ -221,8 +229,38 @@ export class SelectedInvoiceComponent implements OnInit{
             // this.isProductsAvailableInCart = true
         })
     }
-
-  
+    openDelDiolog(): void {
+        
+        const extraData = {
+            title : "Delete Invoice",
+            subTitle: "Do you want to delete this invoice?",
+        }
+        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
+        
+        deletePop.afterClosed().subscribe((state:boolean) => {
+            if(!state)return;
+            this.invoiceService.deleteTempSalesInvoice(this.invoiceId).subscribe((res)=>{
+                
+                if(res?.successMessage!=null){
+                    this.toastr.success(res?.successMessage)
+                    this.setDataIntoRow();
+                    this.router.navigate(["/dash_board"]);
+                    this.triggerNotification()
+                }else{
+                    this.toastr.clear()
+                    this.toastr.error(res?.errors)
+                }
+               
+            },err=>{
+                this.toastr.clear()
+                this.toastr.error(err,"Error Deleting the Invoice")
+            })
+        })
+       
+    }
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
+    }
 
     makePayment() {
         const extraData = {

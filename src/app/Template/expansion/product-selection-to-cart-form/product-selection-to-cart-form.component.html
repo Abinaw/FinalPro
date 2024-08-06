@@ -17,11 +17,13 @@
                     <input  [readonly]="this.data.title=='Update'" type="text" placeholder="Product" matInput formControlName="stockOBJ" [formControl]="stockOBJControl"
                         [matAutocomplete]="auto" >
                     <mat-error *ngIf="productSelectionForm.get('stockOBJ')?.hasError">This field is required!</mat-error>
+                    <mat-error class="text-sm" *ngIf="productSelectionForm.get('stockOBJ')?.errors?.['selectStock']">Stock Can't be empty!!</mat-error>
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  >
                         <mat-option *ngFor="let anItem of filterOptions | async"  [value]="anItem.stockId"  (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)">
                             {{anItem.stockId}} | {{anItem.itemName}}
                         </mat-option>
                     </mat-autocomplete>
+                    
                 </mat-form-field>
 
                 <mat-form-field>

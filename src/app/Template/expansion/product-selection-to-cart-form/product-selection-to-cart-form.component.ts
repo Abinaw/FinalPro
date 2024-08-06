@@ -47,11 +47,10 @@ export class ProductSelectionToCartFormComponent {
 
     ) {
         this.stockDataList = GLOBAL_LIST.STOCK_DATA;
-        //    console.log("On the constructor ", this.stockDataList)
 
         this.productSelectionForm = new FormGroup({
             proCartId: new FormControl(),
-            stockOBJ: new FormControl(Validators.required),
+            stockOBJ: new FormControl([Validators.required]),
             quantity: new FormControl([Validators.required]),
             //#cmt  qty validation has been done below, since the qty for selection will only be filtered from the list once the stock has been selected
             discount: new FormControl("0", Validators.required),
@@ -60,6 +59,7 @@ export class ProductSelectionToCartFormComponent {
             tempInvoiceOBJ: new FormControl(),
             // confirmInvoiceOBJ:new FormControl()
         });
+        
     }
 
     ngOnInit(): void {
@@ -91,13 +91,13 @@ export class ProductSelectionToCartFormComponent {
         this.getSelectedProduct_sList(stockIdOfTheSelectedRow);
     }
 
+   
     quantityValidator(selectedItemsQty: number): ValidatorFn {
         return (control: AbstractControl): { [key: string]: any } | null => {
             const currentQty = control.value;
             if (currentQty <= 0) {
                 this.toastr.clear()
                 return this.toastr.warning("Add a valid input");
-
             }
             if (this.data.title === "Add") {
                 if (currentQty && currentQty > selectedItemsQty) {
@@ -142,6 +142,7 @@ export class ProductSelectionToCartFormComponent {
                         this.toastr.clear()
                         this.toastr.error(res?.errors)
                     }
+                    
                 });
         } else if (this.data.title === "Update") {
             this.updatePopTrigger();
@@ -179,10 +180,13 @@ export class ProductSelectionToCartFormComponent {
                     this.triggerNotification()
                     this.toastr.clear()
                     this.toastr.success(res.successMessage);
+                 
                    }else{
                     this.toastr.clear()
                     this.toastr.error(res?.errors);
+             
                    }
+                  
                 });
         });
     }
@@ -227,7 +231,7 @@ export class ProductSelectionToCartFormComponent {
     }
 
     setTotal() {
-        const sellPrice = this.selectedProduct?.[0]?.sellingPrice;
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice|0;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
@@ -243,7 +247,7 @@ export class ProductSelectionToCartFormComponent {
         });
     }
     setNetAmount() {
-        const sellPrice = this.selectedProduct?.[0]?.sellingPrice;
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice|0;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
@@ -257,8 +261,8 @@ export class ProductSelectionToCartFormComponent {
                     );
                     discount = (discountPercentagePerUnit / 100) * sellPrice;
                 }
-                let TotalDiscount = discount * qtyControl?.value;
-                let netAmount = totalControl?.value - TotalDiscount;
+                let TotalDiscount = discount * (qtyControl?.value);
+                let netAmount = (totalControl?.value) - TotalDiscount;
                 netAmountControl?.patchValue(netAmount);
                 discountControl?.patchValue(discount);
             });
@@ -276,6 +280,7 @@ export class ProductSelectionToCartFormComponent {
         //    cartValue.confirmInvoiceOBJ = {confirmInvoiceId:this.data.selectedInvoiceId}
         cartValue.tempInvoiceOBJ.customerOBJ = { custId: this.data.customerId };
         //    cartValue.confirmInvoiceOBJ.customerOBJ={custId:this.data.customerId}
+        
     }
 
     private setInvoiceDetailsForUpdation() {

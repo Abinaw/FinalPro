@@ -20,15 +20,13 @@ export class DashboardCardsComponent implements OnInit{
     userRole :any =''
 
     constructor(private stockService: StockService,  private custService: CustomerService,
-    private notificationService:NotificationService,
+  
     private currentLoggedInUserService:CurrentLoggedInUserService,) {
         this.loadAllStock();
         this.getAllToGlobalList();
     }
     
     ngOnInit(): void {
-
-        this.notificationService.fetchnotificationData();
        this.getUserRole()
     }
 

@@ -13,6 +13,7 @@ import { IInvoiceEntity } from 'src/app/constants/interfaces/IInvoiceEntity';
 import { IPaymentEntity } from 'src/app/constants/interfaces/IPaymentEntity';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { EmailFormComponent } from '../../createData-forms/email-form/email-form.component';
+import { NotificationService } from 'src/app/service/notification-service/notification.service';
 
 @Component({
   selector: 'app-invoice-print',
@@ -39,7 +40,8 @@ export class InvoicePrintComponent {
         private paymentService: PaymentsService,
         private confirmInvoice: ConfirmInvoiceService,
         private router: Router,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private notificationService:NotificationService
     ) {
       
         this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
@@ -57,7 +59,9 @@ export class InvoicePrintComponent {
             (subTotal, item) => subTotal + item.netAmount,0);
     }
 
-    
+    triggerNotification() {
+        this.notificationService.fetchnotificationData();
+    }
 
     openPDF() {
         const invoiceDOC = document.getElementById("invoice");
@@ -111,7 +115,12 @@ export class InvoicePrintComponent {
                     if (this.isComplete) {
                         this.router.navigate(["/dash_board/"]);
                         this.toastr.success(res.successMessage);
+                        this.triggerNotification()
+                    }else if(res.successMessage){
+                        this.toastr.error(res.errors)
                     }
+                },err=>{
+                    this.toastr.error(err,"Error Confirming the Sales Invoice!")
                 });
         });
     }

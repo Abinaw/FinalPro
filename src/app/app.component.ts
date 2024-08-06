@@ -31,7 +31,7 @@ export class AppComponent {
 
     }
     ngOnInit() {
-        // this.notificationService.fetchnotificationData();
+        this.notificationService.fetchnotificationData();
       }
     ShowSidebarAndNotifiBar(): any {
         const currentRoute = this.router.url; //login

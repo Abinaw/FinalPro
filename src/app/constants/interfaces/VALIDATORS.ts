@@ -78,5 +78,8 @@ Contains only letters, digits, and underscores.
 Cannot be composed entirely of digits.
  */
 export const userNamePattern = /^(?!^\d+$)[a-zA-Z0-9_]+$/;
+export const nonMinusDigitPattern = /^(?!-)\d+(\.\d{1,2})?$/
+export const discountPattern = /^\d*\.?\d+%?$/
+
 
 

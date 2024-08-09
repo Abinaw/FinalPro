@@ -30,13 +30,17 @@
                 <mat-form-field class="w-[100%]">
                     <mat-label> User Name </mat-label>
                     <input matInput formControlName="username" type="text" class="" />
-                    <mat-error *ngIf="userForm.get('username')?.errors">This field is required!</mat-error>
+                    <mat-error class="text-xs" *ngIf="userForm.get('username')?.hasError('required')">This field is
+                        required!</mat-error>
+                    <mat-error class="text-xs" *ngIf="userForm.get('username')?.hasError('pattern')">
+                       Invalid User Name</mat-error>
+                
                 </mat-form-field>
 
                 <mat-form-field class="w-[100%]">
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email" type="email">
-                    <mat-error *ngIf="userForm.get('email')?.errors">This field is required!</mat-error>
+                    <mat-error class="text-sm" *ngIf="userForm.get('email')?.errors">This field is required!</mat-error>
                 </mat-form-field>
             </div>
             <mat-radio-group class="flex flex-row justify-evenly" name="gender" formControlName="gender"
@@ -45,7 +49,7 @@
                 <mat-radio-button id="male" value="male" name="male">Male</mat-radio-button>
                 <mat-radio-button id="female" value="female">Female</mat-radio-button>
                 <mat-radio-button id="others" value="others">Others</mat-radio-button>
-                <mat-error *ngIf="userForm.get('gender')?.errors">This field is required!</mat-error>
+                <mat-error class="text-sm" *ngIf="userForm.get('gender')?.errors">This field is required!</mat-error>
             </mat-radio-group>
 
             <mat-form-field>
@@ -55,7 +59,7 @@
                     <option value="USER" class="text-purple-700">USER</option>
                     <option value="MANAGER" class="text-purple-700">MANAGER</option>
                 </select>
-                <mat-error *ngIf="userForm.get('role')?.errors">This field is required!</mat-error>
+                <mat-error class="text-sm" *ngIf="userForm.get('role')?.errors">This field is required!</mat-error>
             </mat-form-field>
 
             <div class="flex flex-row gap-[10px]">
@@ -90,7 +94,7 @@
                 </mat-form-field>
             </div>
             <div mat-dialog-actions class="flex justify-end" align="center">
-                <button mat-flat-button color="primary" class="save" type="submit">
+                <button [disabled]="userForm.invalid" mat-flat-button color="primary" class="save" type="submit">
                     {{data.title}}
                 </button>
             </div>

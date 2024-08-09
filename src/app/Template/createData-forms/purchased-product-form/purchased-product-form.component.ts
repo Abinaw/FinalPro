@@ -13,6 +13,7 @@ import {
 } from "@angular/material/dialog";
 import { ActionPopComponent } from "src/app/custom-components/action-cell/action-pop/action-pop.component";
 import { ITempPurchaseInvoice } from "src/app/constants/interfaces/ITempPurchaseInvoiceEntity";
+import { discountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
 
 @Component({
     selector: "app-purchased-product-form",
@@ -43,10 +44,10 @@ export class PurchasedProductFormComponent {
         this.purchaseProductCartForm = new FormGroup({
             productCartId: new FormControl(),
             stockOBJ: new FormControl(Validators.required),
-            quantity: new FormControl([Validators.required]),
-            discount: new FormControl("0", Validators.required),
-            sellingPrice: new FormControl("0", Validators.required),
-            purchasePrice: new FormControl("0", Validators.required),
+            quantity: new FormControl("",[Validators.required,Validators.pattern(nonMinusDigitPattern)]),
+            discount: new FormControl("", [Validators.required,Validators.pattern(discountPattern)]),
+            sellingPrice: new FormControl("", [Validators.required,Validators.pattern(nonMinusDigitPattern)]),
+            purchasePrice: new FormControl("", [Validators.required,Validators.pattern(nonMinusDigitPattern)]),
             netAmount: new FormControl(null),
             grossAmount: new FormControl(null),
             tempPurchaseOBJ: new FormControl(),
@@ -111,13 +112,18 @@ export class PurchasedProductFormComponent {
                 .createPurchaseInvoice(this.purchaseProductCartForm.value)
                 .subscribe((response) => {
                     if(response.successMessage!=null){
+                        this.toastr.clear()
                         this.toastr.success(response.successMessage);
                         this.matDialogRef.close();
                         this.loadAllPurchase();
                     }else{
+                        this.toastr.clear()
                         this.toastr.error(response.errors)
                     }
                    
+                },err=>{
+                    this.toastr.clear()
+                    this.toastr.error("Error Inserting Data!")
                 });
         } else if (this.data.title === "Update") {
             this.updatePopTrigger();
@@ -144,10 +150,12 @@ export class PurchasedProductFormComponent {
                 )
                 .subscribe((response) => {
                     if(response.successMessage!=null){
+                        this.toastr.clear()
                         this.toastr.success(response.successMessage);
                         this.matDialogRef.close();
                         this.loadAllPurchase();
                     }else{
+                        this.toastr.clear()
                         this.toastr.error(response.errors)
                     }
                     // this.matDialogRef.close();
@@ -155,7 +163,8 @@ export class PurchasedProductFormComponent {
                     // this.loadAllPurchase();
                     // this.tempPurchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
                 },(err)=>{
-                    this.toastr.error(err)
+                    this.toastr.clear()
+                    this.toastr.error("Error Updating the cart!")
                 });
         });
     }
@@ -227,15 +236,22 @@ export class PurchasedProductFormComponent {
             .pipe(debounceTime(300))
             .subscribe((discount) => {
                 if (discountControl.value.toString().includes("%")) {
+
                     let discountPercentagePerUnit = parseFloat(
                         discount.replace("%", '')
                     );
-                    discount = (discountPercentagePerUnit / 100) * purchasePriceControl?.value|0;
+                    if(!isNaN(discountPercentagePerUnit)){
+                        discount = (discountPercentagePerUnit / 100) * purchasePriceControl?.value|0;
+                    }
                 }
-                let TotalDiscount = discount * qtyControl?.value;
-                let netAmount = totalControl?.value - TotalDiscount;
-                netAmountControl?.patchValue(netAmount);
-                discountControl?.patchValue(discount);
+                if(!isNaN(qtyControl?.value)&&!isNaN(totalControl?.value)){
+                    let TotalDiscount = discount * qtyControl?.value;
+                    let netAmount = totalControl?.value - TotalDiscount;
+                    if(!isNaN(netAmount)){
+                        netAmountControl?.patchValue(netAmount);
+                        discountControl?.patchValue(discount);
+                    }
+                }
             });
     }
 

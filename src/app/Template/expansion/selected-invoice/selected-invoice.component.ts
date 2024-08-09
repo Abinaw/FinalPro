@@ -130,6 +130,12 @@ export class SelectedInvoiceComponent implements OnInit{
             hide: true
         },
         {
+            field: "action",
+            headerName: "Action",
+            cellRenderer: ProductCartActionComponent,
+
+        },
+        {
             field: "stockOBJ",
             colId: "stockOBJ",
             headerName: "Product",
@@ -199,12 +205,7 @@ export class SelectedInvoiceComponent implements OnInit{
         //     // hide:true
 
         // },
-        {
-            field: "action",
-            headerName: "Action",
-            cellRenderer: ProductCartActionComponent,
-
-        }
+        
     ];
 
 
@@ -341,16 +342,16 @@ export class SelectedInvoiceComponent implements OnInit{
 
             this.setDataIntoRow()
             this.getAllStockAndCategoryData()
-            this.getTempInvoiceById(this.invoiceId)
+            // this.getTempInvoiceById(this.invoiceId)
         })
 
     }
 
-    getTempInvoiceById(invocieId:number){
+   /*  getTempInvoiceById(invocieId:number){
         this.invoiceService.getTempInvocieById(this.invoiceId).subscribe(res=>{
             console.log(res?.result)
         })
-    }
+    } */
 
 
     searchDataInRows() {

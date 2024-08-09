@@ -37,6 +37,13 @@ export class InvoiceComponent {
             width: 90, 
             hide: true
         },
+        {
+            field:"action",
+            headerName:"Action",
+            cellRenderer: InvoiceActionComponent,
+        //  width:220
+        width:90    
+        },
         { 
             field: "date",
             colId:"date",
@@ -98,12 +105,7 @@ export class InvoiceComponent {
             cellRenderer: InvoiceFinalizationComponent, 
             hide: true
         },    
-        {
-            field:"action",
-            headerName:"Action",
-            cellRenderer: InvoiceActionComponent,
-         width:220    
-        }
+        
     ];
 
   

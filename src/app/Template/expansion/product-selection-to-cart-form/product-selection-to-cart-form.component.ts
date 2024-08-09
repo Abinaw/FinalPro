@@ -19,6 +19,7 @@ import { ProductCartService } from "src/app/service/productCart-service/product-
 import { StockService } from "src/app/service/stock-service/stock.service";
 import { ActionPopComponent } from "src/app/custom-components/action-cell/action-pop/action-pop.component";
 import { NotificationService } from "src/app/service/notification-service/notification.service";
+import {  discountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
 
 @Component({
     selector: "app-product-selection-to-cart-form",
@@ -51,9 +52,9 @@ export class ProductSelectionToCartFormComponent {
         this.productSelectionForm = new FormGroup({
             proCartId: new FormControl(),
             stockOBJ: new FormControl([Validators.required]),
-            quantity: new FormControl([Validators.required]),
+            quantity: new FormControl([Validators.required,Validators.pattern(nonMinusDigitPattern)]),
             //#cmt  qty validation has been done below, since the qty for selection will only be filtered from the list once the stock has been selected
-            discount: new FormControl("0", Validators.required),
+            discount: new FormControl("0", [Validators.required,Validators.pattern(discountPattern)]),
             netAmount: new FormControl(null),
             total: new FormControl(null),
             tempInvoiceOBJ: new FormControl(),
@@ -91,7 +92,6 @@ export class ProductSelectionToCartFormComponent {
         this.getSelectedProduct_sList(stockIdOfTheSelectedRow);
     }
 
-   
     quantityValidator(selectedItemsQty: number): ValidatorFn {
         return (control: AbstractControl): { [key: string]: any } | null => {
             const currentQty = control.value;
@@ -141,8 +141,9 @@ export class ProductSelectionToCartFormComponent {
                     } else {
                         this.toastr.clear()
                         this.toastr.error(res?.errors)
-                    }
-                    
+                    }            
+                },err=>{
+                    this.toastr.error("Error inserting stock into the sales cart!")
                 });
         } else if (this.data.title === "Update") {
             this.updatePopTrigger();
@@ -179,14 +180,13 @@ export class ProductSelectionToCartFormComponent {
                     // the product reorder level has to be checked so nofification trigger has been placed
                     this.triggerNotification()
                     this.toastr.clear()
-                    this.toastr.success(res.successMessage);
-                 
+                    this.toastr.success(res.successMessage);                
                    }else{
                     this.toastr.clear()
-                    this.toastr.error(res?.errors);
-             
-                   }
-                  
+                    this.toastr.error(res?.errors);            
+                   }               
+                },err=>{
+                    this.toastr.error("Error updating stock in the sales cart!")
                 });
         });
     }
@@ -229,9 +229,11 @@ export class ProductSelectionToCartFormComponent {
         this.selectedItemsQty = this.selectedProduct?.[0]?.quantity;
         this.initializeQtyValidation(this.selectedItemsQty);
     }
-
+    clearProductList(){
+        this.selectedProduct = []
+    }
     setTotal() {
-        const sellPrice = this.selectedProduct?.[0]?.sellingPrice|0;
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
@@ -240,14 +242,14 @@ export class ProductSelectionToCartFormComponent {
             totalControl?.patchValue(qty * sellPrice);
             if (discountControl) {
                 const discountVal = discountControl.value;
-                let TotalDiscount = discountVal * qty;
-                let netAmount = totalControl?.value - TotalDiscount;
+                let totalDiscount = discountVal * qty;
+                let netAmount = totalControl?.value - totalDiscount;
                 netAmountControl?.patchValue(netAmount);
             }
         });
     }
     setNetAmount() {
-        const sellPrice = this.selectedProduct?.[0]?.sellingPrice|0;
+       /*  const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
@@ -261,10 +263,40 @@ export class ProductSelectionToCartFormComponent {
                     );
                     discount = (discountPercentagePerUnit / 100) * sellPrice;
                 }
-                let TotalDiscount = discount * (qtyControl?.value);
-                let netAmount = (totalControl?.value) - TotalDiscount;
+                let totalDiscount = discount * (qtyControl?.value);
+                let netAmount = (totalControl?.value) - totalDiscount;
                 netAmountControl?.patchValue(netAmount);
                 discountControl?.patchValue(discount);
+            }); */
+            const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
+        const qtyControl = this.productSelectionForm.get("quantity");
+        const totalControl = this.productSelectionForm.get("total");
+        const netAmountControl = this.productSelectionForm.get("netAmount");
+        const discountControl = this.productSelectionForm.get("discount");
+        discountControl?.valueChanges
+            .pipe(debounceTime(300))
+            .subscribe((discount) => {
+                if (discountControl.value.toString().includes("%")) {
+                    let discountPercentagePerUnit = parseFloat(
+                        discount.replace("%", '')
+                    );
+                    if(!isNaN(discountPercentagePerUnit)){
+                        discount = (discountPercentagePerUnit / 100) * sellPrice;
+                    }
+                }
+                if (!isNaN(discount) && !isNaN(qtyControl?.value)) {
+                    const totalDiscount = discount * (qtyControl?.value || 0);
+                    const netAmount = (totalControl?.value || 0) - totalDiscount;
+        
+                    if (!isNaN(netAmount)) {
+                        netAmountControl?.patchValue(netAmount);
+                        discountControl?.patchValue(discount)
+                    }
+                }
+               /*  let totalDiscount = discount * (qtyControl?.value);
+                let netAmount = (totalControl?.value) - totalDiscount;
+                netAmountControl?.patchValue(netAmount);
+                discountControl?.patchValue(discount); */
             });
     }
     private setvaluesToOBJFields() {
@@ -279,8 +311,7 @@ export class ProductSelectionToCartFormComponent {
         };
         //    cartValue.confirmInvoiceOBJ = {confirmInvoiceId:this.data.selectedInvoiceId}
         cartValue.tempInvoiceOBJ.customerOBJ = { custId: this.data.customerId };
-        //    cartValue.confirmInvoiceOBJ.customerOBJ={custId:this.data.customerId}
-        
+        //    cartValue.confirmInvoiceOBJ.customerOBJ={custId:this.data.customerId}     
     }
 
     private setInvoiceDetailsForUpdation() {

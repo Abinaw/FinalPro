@@ -55,6 +55,11 @@ export class PurchaseCartComponent implements OnInit {
             hide: true,
         },
         {
+            field: "action",
+            headerName: "Action",
+            cellRenderer: PurchaseCartActionComponent,
+        },
+        {
             field: "stockOBJ",
             colId: "stockOBJ",
             headerName: "Stock",
@@ -132,11 +137,7 @@ export class PurchaseCartComponent implements OnInit {
             hide:true
         },
        
-        {
-            field: "action",
-            headerName: "Action",
-            cellRenderer: PurchaseCartActionComponent,
-        },
+       
     ];
 
     onCellClicked(cellClickedEvent: CellClickedEvent) { }

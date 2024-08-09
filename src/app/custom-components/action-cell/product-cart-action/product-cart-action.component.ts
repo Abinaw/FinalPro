@@ -101,8 +101,9 @@ export class ProductCartActionComponent {
                     this.toastr.error(res?.errors)
                 }
 
+            },err=>{
+                this.toastr.error("Error deleting the selected data!")
             })
-
         })
     }
 

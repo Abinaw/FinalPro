@@ -44,7 +44,7 @@
                    [matAutocomplete]="auto"
                    >
                    <mat-error *ngIf="invoiceForm.get('customerOBJ')?.errors">This field is required!</mat-error>
-            <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete" >
+            <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCustomerName.bind(this)">
                 <mat-option 
                     *ngFor="let aCust of filterOptions | async" 
                     [value]="aCust.custId"

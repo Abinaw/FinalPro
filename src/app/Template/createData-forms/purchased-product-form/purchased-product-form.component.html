@@ -30,54 +30,71 @@
                 </mat-form-field>
                 <mat-form-field class="w-full">
                     <mat-label>Purchase Price</mat-label>
-                    <input matInput formControlName="purchasePrice" type="number" step=".01" class=""  (focus)="setTotalWhenPurchasePrice()"/>
-                    <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('purchasePrice')?.hasError('required')">This field is
+                    <input matInput formControlName="purchasePrice" type="number" step=".01" class=""
+                        (focus)="setTotalWhenPurchasePrice()" />
+                    <mat-error class="text-xs"
+                        *ngIf="purchaseProductCartForm.get('purchasePrice')?.hasError('required')">This field is
                         required!</mat-error>
-                <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('purchasePrice')?.hasError('pattern')">Enter a non-negative value!</mat-error>
+                    <mat-error class="text-xs"
+                        *ngIf="purchaseProductCartForm.get('purchasePrice')?.hasError('pattern')">Enter a non-negative
+                        value!</mat-error>
                 </mat-form-field>
-                
+
             </div>
             <div class="flex gap-3">
 
-            <mat-form-field class="w-full">
-                <mat-label> Quantity </mat-label>
-                <input matInput formControlName="quantity" type="number" step=".01" class="" (focus)="setTotalWhenQty()" />
-                <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('quantity')?.hasError('required')">This field is
-                    required!</mat-error>
-            <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('quantity')?.hasError('pattern')">Enter a non-negative value!</mat-error>
-            </mat-form-field>
+                <mat-form-field class="w-full">
+                    <mat-label> Quantity </mat-label>
+                    <input matInput formControlName="quantity" type="number" step=".01" class=""
+                        (focus)="setTotalWhenQty()" />
+                    <mat-error class="text-xs"
+                        *ngIf="purchaseProductCartForm.get('quantity')?.hasError('required')">This field is
+                        required!</mat-error>
+                    <mat-error class="text-xs"
+                        *ngIf="purchaseProductCartForm.get('quantity')?.hasError('pattern')">Enter a non-negative
+                        value!</mat-error>
+                </mat-form-field>
 
-            <mat-form-field class="w-full">
-                <mat-label> Unit Discount/ Unit Discount Percentage </mat-label>
-                <input matInput formControlName="discount" type="text" step=".01" class="" (focus)="setNetAmount()" />
-                <mat-error class="text-sm" *ngIf="purchaseProductCartForm.get('discount')?.hasError('required')">
-                    This field is required!
-                  </mat-error>
-            <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('discount')?.hasError('pattern')">Enter a non-negative value!</mat-error>
-            
-            </mat-form-field>
-        </div>
+                <mat-form-field class="w-full">
+                    <mat-label> Unit Discount/ Unit Discount Percentage </mat-label>
+                    <input matInput formControlName="discount" type="text" step=".01" class=""
+                        (focus)="setNetAmount()" />
+                    <mat-error class="text-sm" *ngIf="purchaseProductCartForm.get('discount')?.hasError('required')">
+                        This field is required!
+                    </mat-error>
+                    <mat-error class="text-xs"
+                        *ngIf="purchaseProductCartForm.get('discount')?.hasError('pattern')">Invalid Data (eg: 10.0% | 5% | 100)!</mat-error>
+
+                </mat-form-field>
+            </div>
             <mat-form-field class="w-full">
                 <mat-label>Selling Price</mat-label>
-                <input  matInput formControlName="sellingPrice" type="number" step=".01" class="" />
-                <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('sellingPrice')?.hasError('required')">This field is
+                <input matInput formControlName="sellingPrice" type="number" step=".01" class="" />
+                <mat-error class="text-xs"
+                    *ngIf="purchaseProductCartForm.get('sellingPrice')?.hasError('required')">This field is
                     required!</mat-error>
-            <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('sellingPrice')?.hasError('pattern')">Enter a non-negative value!</mat-error>
+                <mat-error class="text-xs"
+                    *ngIf="purchaseProductCartForm.get('sellingPrice')?.hasError('pattern')">Enter a non-negative
+                    value!</mat-error>
 
             </mat-form-field>
             <div class="flex gap-3">
-            <mat-form-field class="w-full">
-                <mat-label>Total</mat-label>
-                <input readonly matInput formControlName="grossAmount" type="number" step=".01" class="" />
-                <mat-error *ngIf="purchaseProductCartForm.get('grossAmount')?.errors">This field is
-                    required!</mat-error>
-            </mat-form-field>
-            <mat-form-field class="w-full">
-                <mat-label> Net Amount</mat-label>
-                <input readonly matInput formControlName="netAmount" type="number" step=".01" class="" />
-                <mat-error *ngIf="purchaseProductCartForm.get('netAmount')?.errors">This field is required!</mat-error>
-            </mat-form-field>
-</div>
+                <mat-form-field class="w-full">
+                    <mat-label>Total</mat-label>
+                    <input readonly matInput formControlName="grossAmount" type="number" step=".01" class="" />
+                    <mat-error *ngIf="purchaseProductCartForm.get('grossAmount')?.errors">This field is
+                        required!</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-full">
+                    <mat-label> Net Amount</mat-label>
+                    <input readonly matInput formControlName="netAmount" type="number" step=".01" class="" />
+                    <mat-error *ngIf="purchaseProductCartForm.get('netAmount')?.errors">This field is
+                        required!
+                    </mat-error>
+                    <mat-error class="text-xs"
+                    *ngIf="purchaseProductCartForm.get('netAmount')?.hasError('pattern')">Invalid data! </mat-error>
+                </mat-form-field>
+            </div>
             <mat-form-field class="cdk-visually-hidden">
                 <mat-label>Selected Invoice</mat-label>
                 <input type="text" placeholder="invoice" matInput formControlName="tempPurchaseOBJ"
@@ -85,7 +102,8 @@
             </mat-form-field>
 
             <div mat-dialog-actions align="center" class="button-wrapper flex flex-row">
-                <button [disabled]="purchaseProductCartForm.invalid" mat-flat-button color="primary" class="save" type="submit">
+                <button [disabled]="purchaseProductCartForm.invalid" mat-flat-button color="primary" class="save"
+                    type="submit">
                     {{ this.data.title }} Product
                 </button>
             </div>

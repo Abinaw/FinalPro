@@ -141,4 +141,9 @@ export class InvoiceFormComponent implements OnInit {
         })
 
     }
+
+    displayCustomerName(id: any): any {
+        const customer = this.customerDataList.find((obj) => obj.custId === id);
+        return customer ? `${customer.custId} | ${customer.custName}` : undefined;
+      }
 }

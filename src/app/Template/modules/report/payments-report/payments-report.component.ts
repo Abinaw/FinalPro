@@ -1,6 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { AgGridAngular } from "ag-grid-angular";
 import {
     CellClickedEvent,
@@ -13,12 +12,8 @@ import jsPDF from 'jspdf';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith } from 'rxjs';
-import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
 import { IConfirmPurchaseEntity } from 'src/app/constants/interfaces/IConfirmPurchaseEntity';
-import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
-import { IReceiptEntity } from 'src/app/constants/interfaces/IReceiptEntity';
-import { IVoucherEntity } from 'src/app/constants/interfaces/IVoucherEntity';
 import { PrintActionComponent } from 'src/app/custom-components/action-cell/print-action/print-action.component';
 import { ConfirmInvoiceService } from 'src/app/service/confirmInvoice-service/confirm-invoice.service';
 import { ConfirmSalesInvociePaymentService } from 'src/app/service/confirmPaymentServices/ConfirmSalesInvoiceService/confirm-sales-invocie-payment.service';

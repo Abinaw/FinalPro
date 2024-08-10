@@ -121,10 +121,8 @@ export class ReportTemplateComponent implements OnChanges {
 
     }
     ngOnChanges(changes: SimpleChanges): void {
-
         if (changes['inputData']) {
-
-            console.log("after detect change ", this.inputData)
+            console.log("after detect change :", this.inputData)
             if (this.inputData?.result) {
                 this.setDataIntoTable(this.inputData)
             } else if (this.inputData.error != null) {

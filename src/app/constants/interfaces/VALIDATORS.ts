@@ -80,6 +80,10 @@ Cannot be composed entirely of digits.
 export const userNamePattern = /^(?!^\d+$)[a-zA-Z0-9_]+$/;
 export const nonMinusDigitPattern = /^(?!-)\d+(\.\d{1,2})?$/
 export const discountPattern = /^\d*\.?\d+%?$/
+export const netAmountPattern = /^(?!0(\.0+)?$)(\d+(\.\d+)?|\.\d+)$/
+
+
+
 
 
 

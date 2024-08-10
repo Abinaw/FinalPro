@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IConfirmPurchaseEntity } from 'src/app/constants/interfaces/IConfirmPurchaseEntity';
@@ -16,6 +18,7 @@ import { ReportsServiceService } from 'src/app/service/reports-service/reports-s
 export class PurchaseReportComponent {
 
     isReportGenerated!: boolean;
+    isReportAvailable:boolean =false
     selectedValue: string = '';
     filterOptions!: Observable<IConfirmPurchaseEntity[]>
     purchaseInvoiceDataList!: IConfirmPurchaseEntity[]
@@ -32,7 +35,8 @@ export class PurchaseReportComponent {
     constructor(
         // private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
-        private reportsService:ReportsServiceService
+        private reportsService:ReportsServiceService,
+        private toastr :ToastrService
     ) {
         // this.dataToSet 
         this.purchaseInvoiceDataList = GLOBAL_LIST.CONFIRM_PURCHASE_DATA
@@ -43,8 +47,8 @@ export class PurchaseReportComponent {
         });
 
         this.range = new FormGroup({
-            start: new FormControl({}, [Validators.required,]),
-            end: new FormControl({}, [Validators.required,]),
+            start: new FormControl(new Date(), [Validators.required,]),
+            end: new FormControl(new Date(), [Validators.required,]),
         });
 
     }
@@ -102,6 +106,7 @@ export class PurchaseReportComponent {
         this.reportsService.selectPurchaseReportWithInRange(start, end).subscribe(
             (res) => {
                 if(res?.result){
+                    this.isReportAvailable = true
                     this.dataToSet = {
                         dateRange:start +"-"+ end,
                         reportType :"Purchase Report",
@@ -109,19 +114,29 @@ export class PurchaseReportComponent {
                         error:null
                    }
                 }else if(res?.errors){
+                    this.isReportAvailable = false
                     this.dataToSet = {
                         reportType :"Purchase Report",
                         error: res.errors,
                         result:null
                    }
                 }
-                
-            
                this.isReportGenerated = true
                this.cdr.detectChanges();
-            },
-            error => {
+            },(error: HttpErrorResponse) => {
                 console.error('Error fetching report:', error);
+    
+                let errorMessage = 'An unexpected error occurred. Please try again later.';
+    
+                if (error.status === 403) {
+                    errorMessage = 'You do not have permission to access this resource.';
+                } else if (error.status === 404) {
+                    errorMessage = 'The requested resource was not found.';
+                } else if (error.status === 500) {
+                    errorMessage = 'There was a server-side error. Please try again later.';
+                }
+    
+                this.toastr.error(errorMessage, 'Error ' + error.status);
             }
         );
     }

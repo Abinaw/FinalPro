@@ -16,7 +16,7 @@
                 <mat-label>INVOICE NUMBER</mat-label>
                 <input type="text" placeholder="Product" matInput formControlName="invoiceNo"
                     [formControl]="invoiceNoControl" [matAutocomplete]="auto">
-                <mat-error *ngIf="invoiceSelection.get('invoiceNo')?.hasError">This field is required!</mat-error>
+                <mat-error class="text-sm" *ngIf="invoiceSelection.get('invoiceNo')?.hasError">This field is required!</mat-error>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
                      (focus)=" getTheCustomerDetails(anItem.confirmInvoiceId, anItem.customerOBJ.email); "
@@ -28,7 +28,7 @@
             </mat-form-field>
 
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='salesReport'">
-                <mat-label>Enter a date range</mat-label>
+                <mat-label>Enter a date range MM/DD/YYYY</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                     <input matStartDate formControlName="start" placeholder="Start date">
                     <input matEndDate formControlName="end" placeholder="End date">
@@ -36,8 +36,8 @@
                 <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-                <mat-error *ngIf="range.get('end')?.hasError">End Date is required!</mat-error>
-                <mat-error *ngIf="range.get('start')?.hasError">Start Date field is required!</mat-error>
+                <mat-error class="text-sm" *ngIf="range.get('end')?.hasError">End Date is required!</mat-error>
+                <mat-error class="text-sm" *ngIf="range.get('start')?.hasError">Start Date field is required!</mat-error>
                
                
             </mat-form-field>
@@ -50,7 +50,7 @@
                     Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="isReportGenerated">
-                <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
+                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="invoiceSelection.get('selectedOpt')?.value==='invoiceReprint'">
                 <button mat-stroked-button

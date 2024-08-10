@@ -48,14 +48,15 @@
                     <mat-label > Unit Discount </mat-label>
                     <input  placeholder="Eg: 12.5% or 50 or 15%" matInput formControlName="discount" type="text" step=".01"  class="" (focus)="setNetAmount()"/>
                     <mat-error class="text-sm" *ngIf="productSelectionForm.get('discount')?.hasError('required')">This field is required!</mat-error>
-                <mat-error class="text-xs" *ngIf="productSelectionForm.get('discount')?.hasError('pattern')">Enter a valid value!</mat-error>
+                <mat-error class="text-xs" *ngIf="productSelectionForm.get('discount')?.hasError('pattern')">Invalid Data (eg: 10.0% | 5% | 100)!</mat-error>
 
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label> Net Amount</mat-label>
                     <input readonly matInput formControlName="netAmount" type="number" step=".01" class="" />
-                    <mat-error class="text-sm" *ngIf="productSelectionForm.get('netAmount')?.errors?.['required']">This field is required!</mat-error>
+                    <mat-error class="text-sm" *ngIf="productSelectionForm.get('netAmount')?.hasError('required')">This field is required!</mat-error>
+                    <mat-error class="text-xs" *ngIf="productSelectionForm.get('netAmount')?.hasError('pattern')">Invalid data!</mat-error>
                 </mat-form-field>
 </div>
                 <mat-form-field class="cdk-visually-hidden" >

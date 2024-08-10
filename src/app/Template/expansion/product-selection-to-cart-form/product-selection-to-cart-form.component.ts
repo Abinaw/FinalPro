@@ -19,7 +19,7 @@ import { ProductCartService } from "src/app/service/productCart-service/product-
 import { StockService } from "src/app/service/stock-service/stock.service";
 import { ActionPopComponent } from "src/app/custom-components/action-cell/action-pop/action-pop.component";
 import { NotificationService } from "src/app/service/notification-service/notification.service";
-import {  discountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
+import {  discountPattern, netAmountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
 
 @Component({
     selector: "app-product-selection-to-cart-form",
@@ -54,8 +54,8 @@ export class ProductSelectionToCartFormComponent {
             stockOBJ: new FormControl([Validators.required]),
             quantity: new FormControl([Validators.required,Validators.pattern(nonMinusDigitPattern)]),
             //#cmt  qty validation has been done below, since the qty for selection will only be filtered from the list once the stock has been selected
-            discount: new FormControl("0", [Validators.required,Validators.pattern(discountPattern)]),
-            netAmount: new FormControl(null),
+            discount: new FormControl("", [Validators.required,Validators.pattern(discountPattern)]),
+            netAmount: new FormControl(null,Validators.pattern(netAmountPattern)),
             total: new FormControl(null),
             tempInvoiceOBJ: new FormControl(),
             // confirmInvoiceOBJ:new FormControl()
@@ -249,26 +249,7 @@ export class ProductSelectionToCartFormComponent {
         });
     }
     setNetAmount() {
-       /*  const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
-        const qtyControl = this.productSelectionForm.get("quantity");
-        const totalControl = this.productSelectionForm.get("total");
-        const netAmountControl = this.productSelectionForm.get("netAmount");
-        const discountControl = this.productSelectionForm.get("discount");
-        discountControl?.valueChanges
-            .pipe(debounceTime(300))
-            .subscribe((discount) => {
-                if (discountControl.value.toString().includes("%")) {
-                    let discountPercentagePerUnit = parseFloat(
-                        discount.replace("%", '')
-                    );
-                    discount = (discountPercentagePerUnit / 100) * sellPrice;
-                }
-                let totalDiscount = discount * (qtyControl?.value);
-                let netAmount = (totalControl?.value) - totalDiscount;
-                netAmountControl?.patchValue(netAmount);
-                discountControl?.patchValue(discount);
-            }); */
-            const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
@@ -289,14 +270,16 @@ export class ProductSelectionToCartFormComponent {
                     const netAmount = (totalControl?.value || 0) - totalDiscount;
         
                     if (!isNaN(netAmount)) {
-                        netAmountControl?.patchValue(netAmount);
-                        discountControl?.patchValue(discount)
+                        if (netAmount <= 0) {
+                            this.toastr.clear()
+                            this.toastr.warning('The unit discount can neither exceed nor equal the purchase price!', 'Warning!');
+                            discount = ''
+                        } else {
+                            netAmountControl?.patchValue(netAmount);
+                        }
+                        discountControl?.patchValue(discount);
                     }
                 }
-               /*  let totalDiscount = discount * (qtyControl?.value);
-                let netAmount = (totalControl?.value) - totalDiscount;
-                netAmountControl?.patchValue(netAmount);
-                discountControl?.patchValue(discount); */
             });
     }
     private setvaluesToOBJFields() {

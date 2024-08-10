@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,12 +22,13 @@ import { EmailFormComponent } from 'src/app/Template/createData-forms/email-form
 
 export class InvoiceReportComponent {
 
-    isReportGenerated!: boolean;
+    isReportGenerated: boolean =false;
+    isReportAvailable:boolean =false;
     selectedValue: string = '';
     filterOptions!: Observable<IConfirmInvoiceEntity[]>
     salesInvoiceDataList: IConfirmInvoiceEntity[] = []
     invoiceNo! :number
-    dataToSet:any = { reportType: '', result: null,error:null };
+    dataToSet:any = { reportType: '', result: null, error:null };
     reports: any[] = [
         { value: 'invoiceReprint', viewValue: 'Invoice Re-print'},
         { value: 'salesReport', viewValue: 'Sales Report'},
@@ -48,13 +50,13 @@ export class InvoiceReportComponent {
 
        
         this.invoiceSelection = new FormGroup({
-            invoiceNo: new FormControl,
-            selectedOpt: new FormControl,
+            invoiceNo: new FormControl([Validators.required]),
+            selectedOpt: new FormControl(this.reports[1].value),
         });
 
         this.range = new FormGroup({
-            start: new FormControl({}, [Validators.required,]),
-            end: new FormControl({}, [Validators.required,]),
+            start: new FormControl(new Date(), [Validators.required,]),
+            end: new FormControl(new Date(new Date().setDate(new Date().getDate() + 30)), [Validators.required,]),
         });
 
     }
@@ -107,9 +109,11 @@ export class InvoiceReportComponent {
 
 
     getConfirmedInvoiceByInvoiceNo(){
+        // this.isReportGenerated = false
         this.confirmedInvoiceService.getAllConfirmedProCartItemsByInvoiceId(this.invoiceNo).subscribe((res) => {
             
             if(res?.result){
+                this.isReportAvailable = true
                 this.dataToSet = {
                     reportType :"Invoice Reprint",
                     result: res?.result,
@@ -117,6 +121,7 @@ export class InvoiceReportComponent {
                }
               
             }else if(res?.errors){
+                this.isReportAvailable = false
                 this.dataToSet = {
                     reportType :"Invoice Reprint",
                     result: null,
@@ -125,34 +130,63 @@ export class InvoiceReportComponent {
             }
             this.isReportGenerated = true
             this.cdr.detectChanges();
-        }, error => {
+        },(error: HttpErrorResponse) => {
             console.error('Error fetching report:', error);
-        })
+
+            let errorMessage = 'An unexpected error occurred. Please try again later.';
+
+            if (error.status === 403) {
+                errorMessage = 'You do not have permission to access this resource.';
+            } else if (error.status === 404) {
+                errorMessage = 'The requested resource was not found.';
+            } else if (error.status === 500) {
+                errorMessage = 'There was a server-side error. Please try again later.';
+            }
+
+            this.toastr.error(errorMessage, 'Error ' + error.status);
+        }
+    );
     }
 
     getConfirmedInvoiceByRange(start: any, end: any){
+        // this.isReportGenerated = false
         this.reportsService.selectSalesReportWithInRange(start, end).subscribe(
             (res) => {
+               
                 if(res?.result){
+                    this.isReportAvailable = true
                     this.dataToSet = {
                         dateRange: start +"-"+ end,
                         reportType :"Sales Report",
                         result: res?.result,
                         error:null
                    }
-                  
+
                 }else if(res?.errors){
+                    this.isReportAvailable = false
                     this.dataToSet = {
                         reportType :"Sales Report",
                         result: null,
                         error:res.errors
                    }
                 }
-               this.isReportGenerated = true
-               this.cdr.detectChanges();
-            },
-            error => {
+                this.isReportGenerated = true
+                this.cdr.detectChanges() 
+              
+            },(error: HttpErrorResponse) => {
                 console.error('Error fetching report:', error);
+    
+                let errorMessage = 'An unexpected error occurred. Please try again later.';
+    
+                if (error.status === 403) {
+                    errorMessage = 'You do not have permission to access this resource.';
+                } else if (error.status === 404) {
+                    errorMessage = 'The requested resource was not found.';
+                } else if (error.status === 500) {
+                    errorMessage = 'There was a server-side error. Please try again later.';
+                }
+    
+                this.toastr.error(errorMessage, 'Error ' + error.status);
             }
         );
     }

@@ -13,7 +13,7 @@ import {
 } from "@angular/material/dialog";
 import { ActionPopComponent } from "src/app/custom-components/action-cell/action-pop/action-pop.component";
 import { ITempPurchaseInvoice } from "src/app/constants/interfaces/ITempPurchaseInvoiceEntity";
-import { discountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
+import { discountPattern, netAmountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
 
 @Component({
     selector: "app-purchased-product-form",
@@ -48,7 +48,7 @@ export class PurchasedProductFormComponent {
             discount: new FormControl("", [Validators.required,Validators.pattern(discountPattern)]),
             sellingPrice: new FormControl("", [Validators.required,Validators.pattern(nonMinusDigitPattern)]),
             purchasePrice: new FormControl("", [Validators.required,Validators.pattern(nonMinusDigitPattern)]),
-            netAmount: new FormControl(null),
+            netAmount: new FormControl(null,[Validators.pattern(netAmountPattern)]),
             grossAmount: new FormControl(null),
             tempPurchaseOBJ: new FormControl(),
         });
@@ -248,7 +248,13 @@ export class PurchasedProductFormComponent {
                     let TotalDiscount = discount * qtyControl?.value;
                     let netAmount = totalControl?.value - TotalDiscount;
                     if(!isNaN(netAmount)){
-                        netAmountControl?.patchValue(netAmount);
+                        if (netAmount <= 0) {
+                            this.toastr.clear()
+                            this.toastr.warning('The unit discount can neither exceed nor equal the purchase price!', 'Warning!');
+                            discount = ''
+                        } else {
+                            netAmountControl?.patchValue(netAmount);
+                        }
                         discountControl?.patchValue(discount);
                     }
                 }

@@ -80,9 +80,9 @@ export class PaymentsReportComponent{
         // this.confirmPurchaseDataList = GLOBAL_LIST.CONFIRM_PURCHASE_DATA
         // this.confirmSalesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
         this.invoiceSelection = new FormGroup({
-            refNo: new FormControl(null),
+            refNo: new FormControl(null,[Validators.required]),
             selectedOpt: new FormControl(this.reports[2].value),
-            reportType: new FormControl(null),
+            reportType: new FormControl(null,[Validators.required]),
         });
 
         this.range = new FormGroup({

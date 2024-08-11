@@ -54,15 +54,15 @@
             </mat-form-field>
 
             <mat-form-field class="w-full" *ngIf="
-            invoiceSelection.get('selectedOpt')?.value === 'allPaymentsReports' ||
-            (invoiceSelection.get('selectedOpt')?.value === 'customPaymentsReport' &&
-             (invoiceSelection.get('reportType')?.value === 'purchaseInvoice' || 
-              invoiceSelection.get('reportType')?.value === 'salesInvoice'))">
+                invoiceSelection.get('selectedOpt')?.value === 'allPaymentsReports' ||
+                (invoiceSelection.get('selectedOpt')?.value === 'customPaymentsReport' &&
+                (invoiceSelection.get('reportType')?.value === 'purchaseInvoice' || 
+                invoiceSelection.get('reportType')?.value === 'salesInvoice'))">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                     <input matStartDate formControlName="start" placeholder="Start date">
                     <input matEndDate formControlName="end" placeholder="End date">
-                </mat-date-range-input>
+            </mat-date-range-input>
 
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -76,8 +76,7 @@
         </form>
         <section class="w-[100%] flex flex-col gap-[5px]">
             <div class="w-full flex flex-col justify-center items-center">
-                <button mat-raised-button class="w-[95%]" color="primary" (click)="generateReport()">Generate
-                    Report</button>
+                <button  mat-raised-button class="w-[95%]" color="primary" (click)="generateReport()">Generate Report</button>
             </div>
             <ng-container *ngIf="showPrintButton">
             <div class="w-full flex flex-col justify-center items-center" >

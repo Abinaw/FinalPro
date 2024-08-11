@@ -51,8 +51,11 @@ export class VendorActionComponent {
             this.vendorService.delete(this.dataFromRow.vendorId).subscribe((res)=>{
                 this.setDataIntoRow();
                 this.toastr.success(res)
+            },(error)=>{
+                this.toastr.error(error.error)
             })
-        })
+               
+            })
        
     }
     

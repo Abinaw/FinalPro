@@ -83,6 +83,24 @@ export const discountPattern = /^\d*\.?\d+%?$/
 export const netAmountPattern = /^(?!0(\.0+)?$)(\d+(\.\d+)?|\.\d+)$/
 
 
+/* 
+ItemName->
+valids:
+123Item
+1-Item_name
+2024 Item
+9_Test-Item
+Pillow_6X
+
+Invalid Examples:
+Item123 (starts with a space)
+' ' (only spaces)
+ item-name (starts with a space)
+Test-Item (starts with a space)
+*/
+export const itemName = /^(?! )[a-zA-Z0-9-_ ]*(?<! )$/
+
+
 
 
 

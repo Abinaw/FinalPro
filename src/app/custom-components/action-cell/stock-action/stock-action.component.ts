@@ -23,8 +23,6 @@ export class StockActionComponent {
         public matDialog: MatDialog,
         private stockService:StockService,
         private notificationService:NotificationService,
-
-       
     ) {
 
     }
@@ -51,9 +49,13 @@ export class StockActionComponent {
         deletePop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.stockService.delete(this.dataFromRow.stockId).subscribe((res)=>{
+                this.toastr.clear()
                 this.toastr.success(res)
                 this.setDataIntoRow();
                 this.triggerNotification()
+            },error=>{
+                this.toastr.clear()
+                this.toastr.error(error.error)
             })
         })
        
@@ -70,6 +72,9 @@ export class StockActionComponent {
             dialogRef.afterClosed().subscribe(()=>{
                 this.setDataIntoRow()
                 this.triggerNotification()
+            },error=>{
+                this.toastr.clear()
+                this.toastr.error(error.error)
             })
         }
        

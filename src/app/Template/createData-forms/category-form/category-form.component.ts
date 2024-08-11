@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { userNamePattern } from 'src/app/constants/interfaces/VALIDATORS';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { CategoryActionComponent } from 'src/app/custom-components/action-cell/category-action/category-action.component';
 import { CetegoryService } from 'src/app/service/category-service/cetegory.service';
@@ -19,13 +21,14 @@ export class CategoryFormComponent {
     constructor(
         private catService:CetegoryService,
         private matDialog: MatDialog,
+        private toastr: ToastrService,
         private matDialogRef: MatDialogRef<CategoryFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.categoryForm=new FormGroup({
             categoryId:new FormControl,
-            categoryName:new FormControl(null,Validators.required),
-            description:new FormControl(null,Validators.required)
+            categoryName:new FormControl(null,[Validators.required,Validators.pattern(userNamePattern)]),
+            description:new FormControl(null,)
            
         })
     }
@@ -71,7 +74,11 @@ export class CategoryFormComponent {
             if(!state)return;
             this.catService.regiterReq(this.categoryForm.value).subscribe(res=>{
                 console.log(res)
+                this.toastr.clear()
+                this.toastr.success(res)
                 this.matDialogRef.close()
+        },(error)=>{
+            this.toastr.error(error.error)
         })
            
         })
@@ -89,10 +96,16 @@ export class CategoryFormComponent {
         openActionPop.afterClosed().subscribe((state:boolean) => {
             if(!state)return;
             this.catService.update(this.categoryForm.value).subscribe((res)=>{
+                this.toastr.clear()
+                this.toastr.success(res)
                 this.matDialogRef.close()
                 console.log(res)
+            },(error)=>{
+                this.toastr.clear()
+                this.toastr.error(error.error)
             })
-        })
+               
+            })
 
     }
 }

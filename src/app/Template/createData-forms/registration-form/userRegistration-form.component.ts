@@ -39,7 +39,6 @@ export class UserRegistrationForm implements OnInit {
             password: new FormControl(null),
             confirmPw: new FormControl(null)
         });
-    //  })
         if (this.data.title !== 'Update') {
             this.addPasswordValidators();
         }

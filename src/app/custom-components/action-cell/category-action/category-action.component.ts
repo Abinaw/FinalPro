@@ -5,6 +5,7 @@ import { GridApi, ICellRendererParams } from 'ag-grid';
 import { MatDialog } from '@angular/material/dialog';
 import { CetegoryService } from 'src/app/service/category-service/cetegory.service';
 import { CategoryFormComponent } from 'src/app/Template/createData-forms/category-form/category-form.component';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-category-action',
   templateUrl: './category-action.component.html',
@@ -17,7 +18,9 @@ export class CategoryActionComponent {
 
     constructor(
         public matDialog: MatDialog,
-        private catService:CetegoryService
+        private catService:CetegoryService,
+        private toastr:ToastrService,
+
        
     ) {
 
@@ -46,9 +49,15 @@ export class CategoryActionComponent {
             if(!state)return;
             this.catService.delete(this.dataFromRow.categoryId).subscribe((res)=>{
                 console.log(res)
+                this.toastr.clear()
+                this.toastr.success(res)
                 this.setDataIntoRow();
+            },(error)=>{
+                this.toastr.clear()
+                this.toastr.error(error.error)
             })
-        })
+               
+            })
        
     }
     

@@ -51,8 +51,11 @@ export class CustomerActionComponent {
             this.custService.delete(this.dataFromRow.custId).subscribe((res)=>{
                 this.toastr.success(res)
                 this.setDataIntoRow();
+            },(error)=>{
+                this.toastr.error(error.error)
             })
-        })
+               
+            })
        
     }
     

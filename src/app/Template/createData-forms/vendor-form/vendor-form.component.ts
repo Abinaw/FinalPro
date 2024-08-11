@@ -85,6 +85,8 @@ export class VendorFormComponent {
             this.vendorService.regiterReq(this.vendorForm.value).subscribe(res=>{
                 this.matDialogRef.close()
                 this.toastr.success(res)
+        },(error)=>{
+            this.toastr.error(error.error)
         })
            
         })
@@ -104,8 +106,11 @@ export class VendorFormComponent {
             this.vendorService.update(this.vendorForm.value).subscribe((res)=>{
                 this.matDialogRef.close()
                 this.toastr.success(res)
+            },(error)=>{
+                this.toastr.error(error.error)
             })
-        })
+               
+            })
 
     }
 }

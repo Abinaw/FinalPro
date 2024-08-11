@@ -1,14 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { StockService } from 'src/app/service/stock-service/stock.service';
 import { ICategoryEntity } from '../../../constants/interfaces/ICategoryEntity';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, combineLatest, debounceTime, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ToastrService } from 'ngx-toastr';
 import moment from 'moment';
 import { NotificationService } from 'src/app/service/notification-service/notification.service';
+import { itemName, namePattern, netAmountPattern, nonMinusDigitPattern } from 'src/app/constants/interfaces/VALIDATORS';
 
 @Component({
   selector: 'app-stock-form',
@@ -33,19 +34,22 @@ export class StockFormComponent implements OnInit {
         this.categoryDataList = GLOBAL_LIST.CATEGORY_DATA
         this.stockForm=new FormGroup({
             stockId:new FormControl,
-            categoryOBJ:new FormControl({},[Validators.required,]),
-            itemName:new FormControl("6X",Validators.required),
-            materialColour:new FormControl("Blue",Validators.required),
-            quantity:new FormControl(null,Validators.required),
-            arrivalDate:new FormControl(null,Validators.required),
-            remarks:new FormControl("Latest",Validators.required),
-            purchasePrice:new FormControl(null,Validators.required),
-            sellingPrice:new FormControl(null,Validators.required),
+            categoryOBJ:new FormControl([Validators.required,]),
+            // item name -> have to include that alone numbers can't be inputed
+            itemName:new FormControl("",[Validators.required,Validators.pattern(itemName)]),
+            materialColour:new FormControl('',[Validators.required,Validators.pattern(namePattern)]),
+            quantity:new FormControl('',[Validators.required,Validators.pattern(nonMinusDigitPattern)]),
+            arrivalDate:new FormControl(new Date(),Validators.required),
+            remarks:new FormControl(''),
+            purchasePrice:new FormControl('',[Validators.required,Validators.pattern(netAmountPattern)]),
+            sellingPrice:new FormControl('',[Validators.required,Validators.pattern(netAmountPattern)]),
             reorderQty: new FormControl(20,Validators.required)
         })
+        
     }
-
    
+  
+    
 
     setDataIntoFormFields() {
         
@@ -85,37 +89,60 @@ export class StockFormComponent implements OnInit {
             option.categoryId.toString().toLowerCase().includes(searchValue)
         )
     }
-   
+    displayCategoryName(id: any): any {
+        const category = this.categoryDataList.find((obj) => obj.categoryId === id);
+        return category ? `${category.categoryId} | ${category.categoryName}` : undefined;
+      }
     selectOperation() {
+     /*    console.log("status",this.stockForm.status)
+        console.log("errors",this.stockForm.errors)
+        console.log("itemName",this.stockForm.get('itemName')?.errors)
+        console.log("categoryOBJ",this.stockForm.get('categoryOBJ')?.errors)
+        console.log("materialColour",this.stockForm.get('materialColour')?.errors)
+        console.log("arrivalDate",this.stockForm.get('arrivalDate')?.errors)
+        console.log("remarks",this.stockForm.get('remarks')?.errors)
+        console.log("purchasePrice",this.stockForm.get('purchasePrice')?.errors)
+        console.log("sellingPrice",this.stockForm.get('sellingPrice')?.errors)
+        console.log("reorderQty",this.stockForm.get('reorderQty')?.errors)
+        console.log("quantity",this.stockForm.get('quantity')?.errors) */
         if (this.data.title === "Insert" && this.stockForm.valid ) {
             this.insertPopTrigger();    
            
         } else if (this.data.title == "Update" && this.stockForm.valid){
             this.updatePopTrigger();
         }
+        else{
+            this.toastr.warning("Invalid Data!")
+        }
         
     }
 
     insertPopTrigger() {
         let stockFormValue = this.stockForm.value;
-        stockFormValue.categoryOBJ = {categoryId:this.categoryControl.value};
-        this.stockForm.value.arrivalDate = moment(new Date(stockFormValue.arrivalDate)).toISOString();
-        console.log("stockFormVal", stockFormValue)
-        const extraData = {
-            title: "Insert",
-            subTitle: "are you sure you want to add this data?",
-        }
-        const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
-        openActionPop.afterClosed().subscribe((state:boolean) => {
-            if(!state)return;
-            this.stockService.regiterReq(this.stockForm.value).subscribe(res=>{
+        console.log(stockFormValue)
+        // if(stockFormValue.){
+            stockFormValue.categoryOBJ = {categoryId:this.categoryControl.value};
+            this.stockForm.value.arrivalDate = moment(new Date(stockFormValue.arrivalDate)).toISOString();
+            console.log("stockFormVal", stockFormValue)
+            const extraData = {
+                title: "Insert",
+                subTitle: "are you sure you want to add this data?",
+            }
+            const openActionPop = this.matDialog.open(ActionPopComponent, { data: extraData,panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
+            openActionPop.afterClosed().subscribe((state:boolean) => {
+                if(!state)return;
+                this.stockService.regiterReq(this.stockForm.value).subscribe(res=>{
+                
+                this.matDialogRef.close()
+                this.triggerNotification()
+                this.toastr.success(res)
+            },(error)=>{
+                this.toastr.error(error.error)
+            })
+               
+            })
             
-            this.matDialogRef.close()
-            this.triggerNotification()
-            this.toastr.success(res)
-        })
-           
-        })
+        // }
         
 
     }
@@ -141,6 +168,8 @@ export class StockFormComponent implements OnInit {
                 this.triggerNotification()
                 this.toastr.success(res)
             
+            },(error)=>{
+                this.toastr.error(error.error)
             })
         })
 

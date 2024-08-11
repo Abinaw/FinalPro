@@ -92,6 +92,8 @@ export class CustomerFormComponent {
                 this.toastr.error(res.errors)
             }
             
+        },(error)=>{
+            this.toastr.error(error.error)
         })
            
         })
@@ -112,8 +114,11 @@ export class CustomerFormComponent {
             this.custService.update(this.custForm.value).subscribe((res)=>{
                 this.matDialogRef.close()
                 this.toastr.success(res)
+            },(error)=>{
+                this.toastr.error(error.error)
             })
-        })
+               
+            })
 
     }
 

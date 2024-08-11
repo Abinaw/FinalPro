@@ -11,12 +11,11 @@
                <mat-label > Id </mat-label>
                <input matInput formControlName="stockId"  type="text" class=""/>
            </mat-form-field>
-
            <!-- <mat-form-field>
                <mat-label >Material Name</mat-label>
                <input matInput formControlName="materialName" type="text" class=""/>
-               <mat-error *ngIf="stockForm.get('materialName')?.errors">This field is required!</mat-error>
-               <mat-error *ngIf="">This field is required!</mat-error>
+               <mat-error class="text-sm" *ngIf="stockForm.get('materialName')?.errors">This field is required!</mat-error>
+               <mat-error class="text-sm" *ngIf="">This field is required!</mat-error>
            </mat-form-field> -->
            <div class="w-full flex flex-row gap-[10px] justify-between">
            <mat-form-field class="w-full">
@@ -28,7 +27,7 @@
                    [formControl]="categoryControl"
                    [matAutocomplete]="auto"
                    >
-                   <mat-error *ngIf="stockForm.get('categoryOBJ')?.errors">This field is required!</mat-error>
+                   <mat-error class="text-sm" *ngIf="stockForm.get('categoryOBJ')?.errors">This field is required!</mat-error>
             <mat-autocomplete  autoActiveFirstOption #auto="matAutocomplete" >
                 <mat-option 
                     *ngFor="let aCat of filterOptions | async" 
@@ -42,18 +41,25 @@
            <mat-form-field class="w-full">
                <mat-label> Item Name </mat-label>
                <input matInput formControlName="itemName" type="text" class="" />
-               <mat-error *ngIf="stockForm.get('itemName')?.errors">This field is required!</mat-error>
+               <mat-error class="text-sm" *ngIf="stockForm.get('itemName')?.hasError('required')">This field is required!</mat-error>
+               <mat-error class="text-xs" *ngIf="stockForm.get('itemName')?.hasError('pattern')">Invalid data!</mat-error>
            </mat-form-field>
            </div>
+           <div class="flex flex-row gap-[10px] justify-between">
            <mat-form-field class="w-full">
                <mat-label> Material Colour </mat-label>
                <input matInput formControlName="materialColour" type="text" class="" />
-               <mat-error *ngIf="stockForm.get('materialColour')?.errors">This field is required!</mat-error>
+               <mat-error class="text-sm" *ngIf="stockForm.get('materialColour')?.hasError('required')">This field is required!</mat-error>
+               <mat-error class="text-xs" *ngIf="stockForm.get('materialColour')?.hasError('pattern')">Invalid data!</mat-error>
            </mat-form-field>
-
+           <mat-form-field class="w-full">
+            <mat-label> Remarks </mat-label>
+            <input matInput formControlName="remarks" type="text" class="" />
+        </mat-form-field>
+        </div>
            <div class="w-full flex flex-row gap-[10px] justify-between">
            <mat-form-field class="w-full">
-            <mat-label>MM/DD/YYYY</mat-label>
+            <mat-label>Arrival Date | MM/DD/YYYY</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="arrivalDate">
             <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -62,35 +68,31 @@
 
            <mat-form-field class="w-full">
             <mat-label> Quantity </mat-label>
-            <input matInput formControlName="quantity" type="text" class="" />
-            <mat-error *ngIf="stockForm.get('quantity')?.errors">This field is required!</mat-error>
+            <input matInput formControlName="quantity" type="number" class="" />
+            <mat-error class="text-sm" *ngIf="stockForm.get('quantity')?.hasError('required')">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="stockForm.get('quantity')?.hasError('pattern')">Invalid data!</mat-error>
             </mat-form-field>
-            <mat-form-field class="w-full">
-                <mat-label> Remarks </mat-label>
-                <input matInput formControlName="remarks" type="text" class="" />
-                <mat-error *ngIf="stockForm.get('remarks')?.errors">This field is required!</mat-error>
-            </mat-form-field>
+           
         </div>
         <div class="flex flex-row gap-[10px] justify-between">
         <mat-form-field class="w-full">
             <mat-label> Purchase Price </mat-label>
             <input matInput formControlName="purchasePrice" type="number" step=".01" class="" />
-            <mat-error *ngIf="stockForm.get('purchasePrice')?.errors">This field is required!</mat-error>
+            <mat-error class="text-sm" *ngIf="stockForm.get('purchasePrice')?.hasError('required')">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="stockForm.get('purchasePrice')?.hasError('pattern')">Invalid data!</mat-error>
         </mat-form-field>
 
         <mat-form-field class="w-full">
             <mat-label> Selling Price </mat-label>
             <input matInput formControlName="sellingPrice" type="number" step=".01" class="" />
-            <mat-error *ngIf="stockForm.get('sellingPrice')?.errors">This field is required!</mat-error>
+            <mat-error class="text-sm" *ngIf="stockForm.get('sellingPrice')?.hasError('required')">This field is required!</mat-error>
+            <mat-error class="text-xs" *ngIf="stockForm.get('sellingPrice')?.hasError('pattern')">Invalid data!</mat-error>
         </mat-form-field>
 
       </div>
            
-          
-           
-
            <div mat-dialog-actions class="button-wrapper flex flex-row" align="center">
-               <button mat-flat-button color="primary" class="save" type="submit">
+               <button [disabled]="stockForm.invalid" mat-flat-button color="primary" class="save" type="submit">
                    {{data.title}}
                </button>
                <!-- <button mat-flat-button color="basic"  class="save" type="button">

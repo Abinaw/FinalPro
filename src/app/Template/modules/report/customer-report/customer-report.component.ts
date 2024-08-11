@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ICustomerEntity } from 'src/app/constants/interfaces/CustomerEntity';
@@ -17,6 +19,7 @@ export class CustomerReportComponent implements OnInit{
 customerReportForm: FormGroup; 
 filterOptions!: Observable<ICustomerEntity[]>;
 isReportGenerated!: boolean;
+isReportAvailable:boolean =false;
 custId! :number
 dataToSet: any = { reportType: '', result: null,error:null };
 range: FormGroup;
@@ -31,21 +34,27 @@ constructor(
     private cdr: ChangeDetectorRef,
     private reportsService:ReportsServiceService,
     private customerService: CustomerService,
+    private toastr: ToastrService,
 
 ) {
     // this.customerDataList = GLOBAL_LIST.CUSTOMER_DATA
  
     this.customerReportForm = new FormGroup({
         selectedOpt: new FormControl(this.reports[0].value),
-        customer: new FormControl([Validators.required,]),
+        customer: new FormControl('',[Validators.required,]),
     });
 
     this.range = new FormGroup({
-        start: new FormControl({}, [Validators.required,]),
-        end: new FormControl({}, [Validators.required,]),
+        start: new FormControl(new Date(), [Validators.required,]),
+        end: new FormControl(new Date(), [Validators.required,]),
     });
 
 }
+
+displayCustomerName(id: any): any {
+    const customer = this.customerDataList.find((obj) => obj.custId === id);
+    return customer ? `${customer.custId} | ${customer.custName}` : undefined;
+  }
 ngOnInit() {
     if(this.customerDataList.length ==0){
         this.getAllCustomers();
@@ -84,7 +93,7 @@ generateReport() {
     if (startDate&& endDate) {
         this.selectAllPaymentsOfaCustomerWithInRange(this.custId,startDate.value, endDate.value)
     } else {
-        console.log("Emptyyyy");
+       this.toastr.warning("Date Range Can't be Empty!")
     }
    
 }
@@ -103,6 +112,7 @@ onCustomerFocus() {
 selectAllPaymentsOfaCustomerWithInRange(id:number,startDate: any, endDate: any){
     this.reportsService.selectAllPaymentsOfaCustomerWithInRange(this.custId,startDate,endDate).subscribe(res=>{
         if(res?.result){
+            this.isReportAvailable = true
             this.dataToSet = {
                 dateRange:startDate +"-"+ endDate,
                 reportType :"Customer Report",
@@ -111,6 +121,7 @@ selectAllPaymentsOfaCustomerWithInRange(id:number,startDate: any, endDate: any){
            }
           
         }else if(res?.errors){
+            this.isReportAvailable = false
             this.dataToSet = {
                 reportType :"Customer Report",
                 result: null,
@@ -119,11 +130,22 @@ selectAllPaymentsOfaCustomerWithInRange(id:number,startDate: any, endDate: any){
         }
        this.isReportGenerated = true
        this.cdr.detectChanges();
-    },
-    error => {
+    },(error: HttpErrorResponse) => {
         console.error('Error fetching report:', error);
+
+        let errorMessage = 'An unexpected error occurred. Please try again later.';
+
+        if (error.status === 403) {
+            errorMessage = 'You do not have permission to access this resource.';
+        } else if (error.status === 404) {
+            errorMessage = 'The requested resource was not found.';
+        } else if (error.status === 500) {
+            errorMessage = 'There was a server-side error. Please try again later.';
+        }
+
+        this.toastr.error(errorMessage, 'Error ' + error.status);
     }
-    )
+);
 }
 
 printReport() {

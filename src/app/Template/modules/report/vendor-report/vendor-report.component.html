@@ -16,7 +16,7 @@
                 <input type="text" placeholder="vendor" matInput formControlName="vendor"
                     [formControl]="vendorControl" [matAutocomplete]="auto" (focus)="onVendorFocus()">
                 <mat-error *ngIf="vendorReportForm.get('vendor')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayVendorName.bind(this)">
                     <mat-option class="font-semibold font-mono" *ngFor="let vendor of filterOptions | async" [value]="vendor.vendorId" (focus)=" getVendorId(vendor.vendorId)">
                        
                         {{vendor.vendorId}} | {{vendor.vendorName}}
@@ -48,7 +48,7 @@
                     Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="isReportGenerated">
-                <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()" >Print Report</button>
+                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn" (click)="printReport()" >Print Report</button>
             </div>
         </section>
     </div>

@@ -15,14 +15,18 @@
                 <mat-form-field class="w-[100%]">
                     <mat-label> First Name </mat-label>
                     <input matInput formControlName="firstname" type="text" class="" />
-                    <mat-error *ngIf="userForm.get('firstname')?.errors">This field is required!</mat-error>
-                    <mat-error *ngIf="">This field is required!</mat-error>
+                    <mat-error class="text-sm" *ngIf="userForm.get('firstname')?.hasError('required')">This field is required!</mat-error>
+                    <mat-error class="text-xs" *ngIf="userForm.get('firstname')?.hasError('pattern')">
+                        Invalid First Name | Eg:Alexander</mat-error> 
                 </mat-form-field>
 
                 <mat-form-field class="w-[100%]">
                     <mat-label> Last Name </mat-label>
                     <input matInput formControlName="lastname" type="text" class="" />
-                    <mat-error *ngIf="userForm.get('lastname')?.errors">This field is required!</mat-error>
+                    <mat-error class="text-sm" *ngIf="userForm.get('lastname')?.hasError('required')">This field is required!</mat-error>
+                    <mat-error class="text-xs" *ngIf="userForm.get('lastname')?.hasError('pattern')">
+                        Invalid Last Name | Eg:Alexander</mat-error>
+                 
                 </mat-form-field>
             </div>
 
@@ -33,14 +37,16 @@
                     <mat-error class="text-xs" *ngIf="userForm.get('username')?.hasError('required')">This field is
                         required!</mat-error>
                     <mat-error class="text-xs" *ngIf="userForm.get('username')?.hasError('pattern')">
-                       Invalid User Name</mat-error>
+                       Invalid User Name | Eg: Annie19 or John_18</mat-error>
                 
                 </mat-form-field>
 
                 <mat-form-field class="w-[100%]">
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email" type="email">
-                    <mat-error class="text-sm" *ngIf="userForm.get('email')?.errors">This field is required!</mat-error>
+                    <mat-error class="text-xs" *ngIf="userForm.get('email')?.hasError('required')">This field is
+                        required!</mat-error>
+                    <mat-error class="text-xs" *ngIf="userForm.get('email')?.hasError('pattern')">Invalid Email | Eg: Anne19@outlook.com</mat-error>
                 </mat-form-field>
             </div>
             <mat-radio-group class="flex flex-row justify-evenly" name="gender" formControlName="gender"
@@ -76,6 +82,7 @@
                         at least 8 characters long!</mat-error>
                     <mat-error class="text-xs" *ngIf="userForm.get('password')?.hasError('pattern')">Password must
                         contain both letters and numbers!</mat-error>
+                        
                 </mat-form-field>
 
                 <mat-form-field>
@@ -85,11 +92,11 @@
                         [attr.aria-pressed]="hide" type="button">
                         <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                     </button>
-                    <mat-error class="text-xs" *ngIf="userForm.get('password')?.hasError('required')">This field is
+                    <mat-error class="text-xs" *ngIf="userForm.get('confirmPw')?.hasError('required')">This field is
                         required!</mat-error>
-                    <mat-error class="text-xs" *ngIf="userForm.get('password')?.hasError('minlength')">Password must be
+                    <mat-error class="text-xs" *ngIf="userForm.get('confirmPw')?.hasError('minlength')">Password must be
                         at least 8 characters long!</mat-error>
-                    <mat-error class="text-xs" *ngIf="userForm.get('password')?.hasError('pattern')">Password must
+                    <mat-error class="text-xs" *ngIf="userForm.get('confirmPw')?.hasError('pattern')">Password must
                         contain both letters and numbers!</mat-error>
                 </mat-form-field>
             </div>

@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IVendorEntity } from 'src/app/constants/interfaces/IVendorEntity';
@@ -16,6 +18,7 @@ export class VendorReportComponent {
     vendorReportForm: FormGroup; 
     filterOptions!: Observable<IVendorEntity[]>;
     isReportGenerated!: boolean;
+    isReportAvailable:boolean =false;
     vendorId! :number
     dataToSet: any = { reportType: '', result: null,error:null };
     range: FormGroup;
@@ -29,7 +32,8 @@ export class VendorReportComponent {
         // private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
         private reportsService:ReportsServiceService,
-        private vendorService:VendorService
+        private vendorService:VendorService,
+        private toastr:ToastrService,
     ) {
         // this.vendorDataList = GLOBAL_LIST.VENDOR_DATA
     
@@ -39,8 +43,8 @@ export class VendorReportComponent {
         });
     
         this.range = new FormGroup({
-            start: new FormControl({}, [Validators.required,]),
-            end: new FormControl({}, [Validators.required,]),
+            start: new FormControl(new Date(), [Validators.required,]),
+            end: new FormControl(new Date(), [Validators.required,]),
         });
     
     }
@@ -56,6 +60,10 @@ export class VendorReportComponent {
         );
     }
 
+    displayVendorName(id: any): any {
+        const vendor = this.vendorDataList.find((obj) => obj.vendorId === id);
+        return vendor ? `${vendor.vendorId} | ${vendor.vendorName}` : undefined;
+      }
     getAllVendors(){
         this.vendorService.getAll().subscribe((vendorData)=>{
             this.vendorDataList = vendorData
@@ -84,7 +92,7 @@ export class VendorReportComponent {
         if (startDate&& endDate) {
             this.selectAllPaymentsOfaVendorWithInRange(this.vendorId,startDate.value, endDate.value)
         } else {
-            console.log("Emptyyyy");
+            this.toastr.warning("Date Range Can't be Empty!")
         }
        
     }
@@ -98,8 +106,9 @@ export class VendorReportComponent {
         }
     }
     selectAllPaymentsOfaVendorWithInRange(id:number,startDate: any, endDate: any){
-        this.reportsService.selectAllPaymentsOfaVendorWithInRange(this.vendorId,startDate,endDate).subscribe(res=>{
+        this.reportsService.selectAllPaymentsOfaVendorWithInRange(id,startDate,endDate).subscribe(res=>{
             if(res?.result){
+                this.isReportAvailable = true
                 this.dataToSet = {
                     dateRange:startDate +"-"+ endDate,
                     reportType :"Vendor Report",
@@ -108,6 +117,7 @@ export class VendorReportComponent {
                }
               
             }else if(res?.errors){
+                this.isReportAvailable = false
                 this.dataToSet = {
                     reportType :"Vendor Report",
                     result: null,
@@ -116,11 +126,22 @@ export class VendorReportComponent {
             }
            this.isReportGenerated = true
            this.cdr.detectChanges();
-        },
-        error => {
+        },(error: HttpErrorResponse) => {
             console.error('Error fetching report:', error);
+
+            let errorMessage = 'An unexpected error occurred. Please try again later.';
+
+            if (error.status === 403) {
+                errorMessage = 'You do not have permission to access this resource.';
+            } else if (error.status === 404) {
+                errorMessage = 'The requested resource was not found.';
+            } else if (error.status === 500) {
+                errorMessage = 'There was a server-side error. Please try again later.';
+            }
+
+            this.toastr.error(errorMessage, 'Error ' + error.status);
         }
-        )
+    )
     }
     
     printReport() {

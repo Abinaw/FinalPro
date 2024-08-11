@@ -16,7 +16,7 @@
                 <input type="text" placeholder="customer" matInput formControlName="customer"
                     [formControl]="customerControl" [matAutocomplete]="auto" (focus)="onCustomerFocus()">
                 <mat-error *ngIf="customerReportForm.get('customer')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCustomerName.bind(this)">
                     <mat-option class="font-semibold font-mono" 
                     *ngFor="let aCust of filterOptions | async" [value]="aCust.custId" (focus)=" getCustId(aCust.custId)">
                        
@@ -49,7 +49,7 @@
                     Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="isReportGenerated">
-                <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
+                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
             </div>
         </section>
     </div>

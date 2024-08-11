@@ -97,7 +97,7 @@ export class PaymentsReportComponent{
       }
       updateButtonVisibility() {
         this.showPrintButton = this.reportType !== 'receiptReprint' && this.reportType !== 'voucherReprint';
-        this.invoiceSelection.get('refNo')?.setValue(''); // Assuming 'refNo' represents the reference number field
+        this.invoiceSelection.get('refNo')?.setValue(''); 
         this.clearInvoiceReferences()
         this.cdr.detectChanges();  
       }
@@ -107,6 +107,17 @@ export class PaymentsReportComponent{
         this.salesInvoiceNoControl.patchValue(''); 
         this.invoiceId = null; 
       }
+      displayCustomerName(id: any): any {
+        const salesInvoice = this.confirmSalesInvoiceDataList.find((obj) => obj.invoiceNumberRef === id);
+        return salesInvoice ? `${salesInvoice.invoiceNumberRef} | ${salesInvoice.customerOBJ.custName}` : undefined;
+      }
+      
+      displayVendorName(id: any): any {
+        const purchase = this.confirmPurchaseDataList.find((obj) => obj.purchaseInvoice === id);
+        return purchase ? `${purchase.purchaseInvoice} | ${purchase.vendorOBJ.vendorName}` : undefined;
+      }
+
+
     ngOnInit() {
         if(this.confirmPurchaseDataList.length == 0 && this.confirmSalesInvoiceDataList.length == 0){
             this.getAllConfirmInvoice()

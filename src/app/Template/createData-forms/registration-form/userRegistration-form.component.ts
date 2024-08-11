@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, FormGroup, PatternValidator, ValidationErrors
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { GridApi, ICellRendererParams } from 'ag-grid';
 import { ToastrService } from 'ngx-toastr';
-import { namePattern, passwordPattern, userNamePattern } from 'src/app/constants/interfaces/VALIDATORS';
+import { combineLatest, debounceTime } from 'rxjs';
+import { emailPattern, namePattern, passwordPattern, userNamePattern } from 'src/app/constants/interfaces/VALIDATORS';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { UserService } from 'src/app/service/userService/user.service';
 
@@ -32,15 +33,72 @@ export class UserRegistrationForm implements OnInit {
             username: new FormControl(null, [Validators.required,Validators.pattern(userNamePattern)]),
             gender: new FormControl("male", Validators.required),
             role: new FormControl(null, Validators.required),
-            email: new FormControl(null, [Validators.required, Validators.email]),
-            password:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,[Validators.required,Validators.minLength(8),Validators.pattern(passwordPattern)]),
-            confirmPw:this.data.title == 'Update' ? new FormControl(null): new FormControl(null,[Validators.required,Validators.minLength(8),Validators.pattern(passwordPattern)]),
-            
-        })
-
-       
+            email: new FormControl(null, [Validators.required, Validators.email,Validators.pattern(emailPattern)]),
+            // password:this.data.title == 'Update' ? new FormControl(null,[Validators.minLength(8),Validators.pattern(passwordPattern)]): new FormControl(null,[Validators.required,Validators.minLength(8),Validators.pattern(passwordPattern)]),
+            // confirmPw:this.data.title == 'Update' ? new FormControl(null,[Validators.minLength(8),Validators.pattern(passwordPattern)]): new FormControl(null,[Validators.required,Validators.minLength(8),Validators.pattern(passwordPattern)]),
+            password: new FormControl(null),
+            confirmPw: new FormControl(null)
+        });
+    //  })
+        if (this.data.title !== 'Update') {
+            this.addPasswordValidators();
+        }
+        this.setupPasswordValidation();
     }
 
+    private setupPasswordValidation(): void {
+        const passwordControl = this.userForm.get('password');
+        const confirmPwControl = this.userForm.get('confirmPw');
+    
+        if (passwordControl && confirmPwControl) {
+            combineLatest([
+                passwordControl.valueChanges.pipe(debounceTime(300)),
+                confirmPwControl.valueChanges.pipe(debounceTime(300))
+            ]).subscribe(([passwordValue, confirmPwValue]) => {
+                if (this.data.title === 'Update') {
+                    if (passwordValue || confirmPwValue) {
+                        this.addPasswordValidators();
+                    } else {
+                        this.clearPasswordValidators();
+                    }
+                    passwordControl.updateValueAndValidity();
+                    confirmPwControl.updateValueAndValidity();
+                }
+            });
+        } else {
+            console.warn('Password or Confirm Password controls are not defined');
+        }
+    }
+    
+    private addPasswordValidators(): void {
+        const passwordControl = this.userForm.get('password');
+        const confirmPwControl = this.userForm.get('confirmPw');
+    
+        if (passwordControl && confirmPwControl) {
+            passwordControl.setValidators([
+                Validators.required,
+                Validators.minLength(8),
+                Validators.pattern(passwordPattern)
+            ]);
+            confirmPwControl.setValidators([
+                Validators.required,
+                Validators.minLength(8),
+                Validators.pattern(passwordPattern)
+            ]);
+        }
+    }
+    
+    private clearPasswordValidators(): void {
+        const passwordControl = this.userForm.get('password');
+        const confirmPwControl = this.userForm.get('confirmPw');
+    
+        if (passwordControl && confirmPwControl) {
+            passwordControl.clearValidators();
+            confirmPwControl.clearValidators();
+        }
+    }
+    
+ 
 
 
     setDataIntoFormFields() {

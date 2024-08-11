@@ -17,7 +17,7 @@
                 <input type="text" placeholder="Product" matInput formControlName="invoiceNo"
                     [formControl]="invoiceNoControl" [matAutocomplete]="auto">
                 <mat-error class="text-sm" *ngIf="invoiceSelection.get('invoiceNo')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCustomerName.bind(this)">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
                      (focus)=" getTheCustomerDetails(anItem.confirmInvoiceId, anItem.customerOBJ.email); "
                         [value]="anItem.invoiceNumberRef">

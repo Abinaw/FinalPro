@@ -25,7 +25,7 @@
                 <input type="text" placeholder="RefNo" matInput formControlName="refNo"
                     [formControl]="purchaseInvoiceControl" [matAutocomplete]="auto">
                 <mat-error class="text-sm" *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayVendorName.bind(this)">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptionPurchase | async"
                         (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmPurchaseId) "
                         [value]="anItem.purchaseInvoice">
@@ -43,7 +43,7 @@
                 <input type="text" placeholder="RefNo" matInput formControlName="refNo"
                     [formControl]="salesInvoiceNoControl" [matAutocomplete]="auto">
                 <mat-error class="text-sm" *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCustomerName.bind(this)">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
                         (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmInvoiceId)"
                         [value]="anItem.invoiceNumberRef">

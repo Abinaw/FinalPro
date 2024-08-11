@@ -41,7 +41,6 @@ export class InvoiceReportComponent {
         private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
         private reportsService:ReportsServiceService,
-        private emailService: EmailService,
         private matDialog: MatDialog,
         private toastr :ToastrService
 
@@ -130,29 +129,14 @@ export class InvoiceReportComponent {
             }
             this.isReportGenerated = true
             this.cdr.detectChanges();
-        },(error: HttpErrorResponse) => {
-            console.error('Error fetching report:', error);
-
-            let errorMessage = 'An unexpected error occurred. Please try again later.';
-
-            if (error.status === 403) {
-                errorMessage = 'You do not have permission to access this resource.';
-            } else if (error.status === 404) {
-                errorMessage = 'The requested resource was not found.';
-            } else if (error.status === 500) {
-                errorMessage = 'There was a server-side error. Please try again later.';
-            }
-
-            this.toastr.error(errorMessage, 'Error ' + error.status);
-        }
-    );
+        },error=>{
+            this.handleError(error)
+        })
     }
 
     getConfirmedInvoiceByRange(start: any, end: any){
-        // this.isReportGenerated = false
         this.reportsService.selectSalesReportWithInRange(start, end).subscribe(
             (res) => {
-               
                 if(res?.result){
                     this.isReportAvailable = true
                     this.dataToSet = {
@@ -173,31 +157,37 @@ export class InvoiceReportComponent {
                 this.isReportGenerated = true
                 this.cdr.detectChanges() 
               
-            },(error: HttpErrorResponse) => {
-                console.error('Error fetching report:', error);
-    
-                let errorMessage = 'An unexpected error occurred. Please try again later.';
-    
-                if (error.status === 403) {
-                    errorMessage = 'You do not have permission to access this resource.';
-                } else if (error.status === 404) {
-                    errorMessage = 'The requested resource was not found.';
-                } else if (error.status === 500) {
-                    errorMessage = 'There was a server-side error. Please try again later.';
-                }
-    
-                this.toastr.error(errorMessage, 'Error ' + error.status);
-            }
-        );
+            },error=>{
+                this.handleError(error)
+            }) 
     }
 
+    handleError(error:HttpErrorResponse){
+        console.error('Error fetching report:', error);
+    
+        let errorMessage = 'An unexpected error occurred. Please try again later.';
+
+        if (error.status === 403) {
+            errorMessage = 'You do not have permission to access this resource.';
+        } else if (error.status === 404) {
+            errorMessage = 'The requested resource was not found.';
+        } else if (error.status === 500) {
+            errorMessage = 'There was a server-side error. Please try again later.';
+        }
+
+        this.toastr.error(errorMessage, 'Error ' + error.status);
+    
+    }
 
     getTheCustomerDetails(invoiceNumber: number, custEmailId:string) {
         this.invoiceNo = invoiceNumber
         this.custEmailId = custEmailId
     }
    
-    
+    displayCustomerName(id: any): any {
+        const salesInvoice = this.salesInvoiceDataList.find((obj) => obj.invoiceNumberRef === id);
+        return salesInvoice ? `${salesInvoice.invoiceNumberRef} | ${salesInvoice.customerOBJ.custName}` : undefined;
+      }
     printReport() {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {

@@ -378,7 +378,6 @@ export class PurchasedProductFormComponent {
             sellPriceControl.updateValueAndValidity(); // Trigger validation
         }
         if (qtyControl) {
-            console.log('qqqq', qtyControl)
             qtyControl.setValidators(qtyValidator())
             qtyControl.updateValueAndValidity();
         }

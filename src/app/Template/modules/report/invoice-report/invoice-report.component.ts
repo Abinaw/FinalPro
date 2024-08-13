@@ -22,32 +22,32 @@ import { EmailFormComponent } from 'src/app/Template/createData-forms/email-form
 
 export class InvoiceReportComponent {
 
-    isReportGenerated: boolean =false;
-    isReportAvailable:boolean =false;
+    isReportGenerated: boolean = false;
+    isReportAvailable: boolean = false;
     selectedValue: string = '';
     filterOptions!: Observable<IConfirmInvoiceEntity[]>
     salesInvoiceDataList: IConfirmInvoiceEntity[] = []
-    invoiceNo! :number
-    dataToSet:any = { reportType: '', result: null, error:null };
+    invoiceNo!: number
+    dataToSet: any = { reportType: '', result: null, error: null };
     reports: any[] = [
-        { value: 'invoiceReprint', viewValue: 'Invoice Re-print'},
-        { value: 'salesReport', viewValue: 'Sales Report'},
+        { value: 'invoiceReprint', viewValue: 'Invoice Re-print' },
+        { value: 'salesReport', viewValue: 'Sales Report' },
     ];
     invoiceSelection: FormGroup;
     invoiceNoControl = new FormControl('');
     range: FormGroup;
-    custEmailId!:string;
+    custEmailId!: string;
     constructor(
         private confirmedInvoiceService: ConfirmInvoiceService,
         private cdr: ChangeDetectorRef,
-        private reportsService:ReportsServiceService,
+        private reportsService: ReportsServiceService,
         private matDialog: MatDialog,
-        private toastr :ToastrService
+        private toastr: ToastrService
 
     ) {
         // this.salesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
 
-       
+
         this.invoiceSelection = new FormGroup({
             invoiceNo: new FormControl([Validators.required]),
             selectedOpt: new FormControl(this.reports[1].value),
@@ -63,7 +63,7 @@ export class InvoiceReportComponent {
     ngOnInit() {
         // if the page is refreshed, the list becomes empty, so this makes sure to stream the data again into the list,
         // which prevents us to go back to report to load the data again
-        if(this.salesInvoiceDataList.length ==0){
+        if (this.salesInvoiceDataList.length == 0) {
             this.getAllSalesInvoice()
         }
         this.isReportGenerated = false
@@ -75,7 +75,7 @@ export class InvoiceReportComponent {
 
     getAllSalesInvoice() {
         this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
-          this.salesInvoiceDataList = invoiceData?.result
+            this.salesInvoiceDataList = invoiceData?.result
         })
     }
 
@@ -85,8 +85,8 @@ export class InvoiceReportComponent {
         return this.salesInvoiceDataList.filter(
             option =>
                 option.confirmInvoiceId.toString().toLowerCase().includes(searchValue)
-            ||
-            option.customerOBJ.custName.toString().toLowerCase().includes(searchValue)
+                ||
+                option.customerOBJ.custName.toString().toLowerCase().includes(searchValue)
         )
 
     }
@@ -96,75 +96,80 @@ export class InvoiceReportComponent {
         const startDate = this.range.get('start');
         const endDate = this.range.get('end');
 
-       
-        if(invoiceNum!=null && selectedOpt?.value=="invoiceReprint"){   
+
+        if (invoiceNum != null && selectedOpt?.value == "invoiceReprint") {
             this.getConfirmedInvoiceByInvoiceNo()
-           
-        }else if(selectedOpt?.value=="salesReport" &&(startDate!=null && endDate !=null)){
-            this.getConfirmedInvoiceByRange(startDate.value,endDate.value)
+
+        } else if (selectedOpt?.value == "salesReport" && (startDate != null && endDate != null)) {
+            this.getConfirmedInvoiceByRange(startDate.value, endDate.value)
         }
-       
+
     }
 
 
-    getConfirmedInvoiceByInvoiceNo(){
+    getConfirmedInvoiceByInvoiceNo() {
         // this.isReportGenerated = false
         this.confirmedInvoiceService.getAllConfirmedProCartItemsByInvoiceId(this.invoiceNo).subscribe((res) => {
-            
-            if(res?.result){
+
+            if (res?.result) {
                 this.isReportAvailable = true
                 this.dataToSet = {
-                    reportType :"Invoice Reprint",
+                    reportType: "Invoice Reprint",
                     result: res?.result,
-                    error:null
-               }
-              
-            }else if(res?.errors){
+                    error: null
+                }
+
+            } else if (res?.errors) {
                 this.isReportAvailable = false
                 this.dataToSet = {
-                    reportType :"Invoice Reprint",
+                    reportType: "Invoice Reprint",
                     result: null,
-                    error:res.errors
-               }
+                    error: res.errors
+                }
             }
             this.isReportGenerated = true
             this.cdr.detectChanges();
-        },error=>{
+        }, error => {
+            if (this.invoiceNo == undefined) {
+                this.toastr.error("Select an existing invoice!")
+                return
+            }
+
             this.handleError(error)
         })
     }
 
-    getConfirmedInvoiceByRange(start: any, end: any){
+    getConfirmedInvoiceByRange(start: any, end: any) {
         this.reportsService.selectSalesReportWithInRange(start, end).subscribe(
             (res) => {
-                if(res?.result){
+                if (res?.result) {
                     this.isReportAvailable = true
                     this.dataToSet = {
-                        dateRange: start +"-"+ end,
-                        reportType :"Sales Report",
+                        dateRange: start + "-" + end,
+                        reportType: "Sales Report",
                         result: res?.result,
-                        error:null
-                   }
+                        error: null
+                    }
 
-                }else if(res?.errors){
+                } else if (res?.errors) {
                     this.isReportAvailable = false
                     this.dataToSet = {
-                        reportType :"Sales Report",
+                        reportType: "Sales Report",
                         result: null,
-                        error:res.errors
-                   }
+                        error: res.errors
+                    }
                 }
                 this.isReportGenerated = true
-                this.cdr.detectChanges() 
-              
-            },error=>{
+                this.cdr.detectChanges()
+
+            }, error => {
                 this.handleError(error)
-            }) 
+            })
     }
 
-    handleError(error:HttpErrorResponse){
+    handleError(error: HttpErrorResponse) {
         console.error('Error fetching report:', error);
-    
+
         let errorMessage = 'An unexpected error occurred. Please try again later.';
 
         if (error.status === 403) {
@@ -176,18 +181,18 @@ export class InvoiceReportComponent {
         }
 
         this.toastr.error(errorMessage, 'Error ' + error.status);
-    
+
     }
 
-    getTheCustomerDetails(invoiceNumber: number, custEmailId:string) {
+    getTheCustomerDetails(invoiceNumber: number, custEmailId: string) {
         this.invoiceNo = invoiceNumber
         this.custEmailId = custEmailId
     }
-   
+
     displayCustomerName(id: any): any {
         const salesInvoice = this.salesInvoiceDataList.find((obj) => obj.invoiceNumberRef === id);
         return salesInvoice ? `${salesInvoice.invoiceNumberRef} | ${salesInvoice.customerOBJ.custName}` : undefined;
-      }
+    }
     printReport() {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {
@@ -222,18 +227,18 @@ export class InvoiceReportComponent {
 
     openMailForm() {
         const stockTempDoc = document.getElementById("stockTemp");
-        const data={
+        const data = {
             reportType: this.invoiceSelection.get('selectedOpt')?.value,
-            custEmail : this.custEmailId
+            custEmail: this.custEmailId
         }
         if (stockTempDoc) {
-          const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: stockTempDoc, extraDetails:data },panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop" 
-          });
+            const openForm = this.matDialog.open(EmailFormComponent, {
+                data: { reportPic: stockTempDoc, extraDetails: data }, panelClass: ['custom-dialog-container'], backdropClass: "dialogbox-backdrop"
+            });
         } else {
-          this.toastr.error('Error occurred while generating the report');
+            this.toastr.error('Error occurred while generating the report');
         }
-      }
+    }
 
-    
+
 }

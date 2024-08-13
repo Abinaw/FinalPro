@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import {ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AgGridAngular } from "ag-grid-angular";
 import {
@@ -27,22 +27,22 @@ import { ReportsServiceService } from 'src/app/service/reports-service/reports-s
     templateUrl: './payments-report.component.html',
     styleUrls: ['./payments-report.component.css']
 })
-export class PaymentsReportComponent{
+export class PaymentsReportComponent {
 
     @ViewChild('voucherGrid') voucherGrid!: AgGridAngular;
     @ViewChild('receiptGrid') receiptGrid!: AgGridAngular;
     reportType: string = '';
     isReportGenerated!: boolean;
-    isReportAvailable:boolean =false;
+    isReportAvailable: boolean = false;
     showPrintButton: boolean = true;
     selectedValue: string = '';
     filterOptions!: Observable<any[]>
     filterOptionPurchase!: Observable<any[]>
     public rowSelection: "single" | "multiple" = "single";
     confirmPurchaseDataList: IConfirmPurchaseEntity[] = []
-    confirmSalesInvoiceDataList: IConfirmInvoiceEntity[] =[]
+    confirmSalesInvoiceDataList: IConfirmInvoiceEntity[] = []
     invoiceId!: any
-    dataToSet:any = { reportType: '', result: null, error: null, };
+    dataToSet: any = { reportType: '', result: null, error: null, };
     reports: any[] = [
         { value: 'voucherReprint', viewValue: 'Voucher Re-print' },
         { value: 'receiptReprint', viewValue: 'Receipt Re-print' },
@@ -50,7 +50,7 @@ export class PaymentsReportComponent{
         { value: 'customPaymentsReport', viewValue: 'Custom Payments Report' },
     ];
 
-    reportCategory:any[] =[
+    reportCategory: any[] = [
         { value: 'purchaseInvoice', viewValue: 'Purchase Invoice' },
         { value: 'salesInvoice', viewValue: 'Sales Invoice' },
     ]
@@ -60,10 +60,10 @@ export class PaymentsReportComponent{
     purchaseInvoiceControl = new FormControl('');
     salesInvoiceNoControl = new FormControl('');
     range: FormGroup;
-    
+
     purchaseInvoiceRowData$!: Observable<any[]>;
     voucherGridApi: GridApi | any = {};
-    
+
     salesInvoiceRowData$!: Observable<any[]>;
     receiptGridApi: GridApi | any = {};
 
@@ -80,9 +80,9 @@ export class PaymentsReportComponent{
         // this.confirmPurchaseDataList = GLOBAL_LIST.CONFIRM_PURCHASE_DATA
         // this.confirmSalesInvoiceDataList = GLOBAL_LIST.CONFIRM_SALES_DATA
         this.invoiceSelection = new FormGroup({
-            refNo: new FormControl(null,[Validators.required]),
+            refNo: new FormControl(null, [Validators.required]),
             selectedOpt: new FormControl(this.reports[2].value),
-            reportType: new FormControl(null,[Validators.required]),
+            reportType: new FormControl(null, [Validators.required]),
         });
 
         this.range = new FormGroup({
@@ -94,32 +94,32 @@ export class PaymentsReportComponent{
     onReportTypeChange(newType: string) {
         this.reportType = newType;
         this.updateButtonVisibility();
-      }
-      updateButtonVisibility() {
+    }
+    updateButtonVisibility() {
         this.showPrintButton = this.reportType !== 'receiptReprint' && this.reportType !== 'voucherReprint';
-        this.invoiceSelection.get('refNo')?.setValue(''); 
+        this.invoiceSelection.get('refNo')?.setValue('');
         this.clearInvoiceReferences()
-        this.cdr.detectChanges();  
-      }
-      clearInvoiceReferences(){
+        this.cdr.detectChanges();
+    }
+    clearInvoiceReferences() {
         this.invoiceSelection.get('refNo')?.setValue('');
         this.purchaseInvoiceControl.patchValue('');
-        this.salesInvoiceNoControl.patchValue(''); 
-        this.invoiceId = null; 
-      }
-      displayCustomerName(id: any): any {
+        this.salesInvoiceNoControl.patchValue('');
+        this.invoiceId = null;
+    }
+    displayCustomerName(id: any): any {
         const salesInvoice = this.confirmSalesInvoiceDataList.find((obj) => obj.invoiceNumberRef === id);
         return salesInvoice ? `${salesInvoice.invoiceNumberRef} | ${salesInvoice.customerOBJ.custName}` : undefined;
-      }
-      
-      displayVendorName(id: any): any {
+    }
+
+    displayVendorName(id: any): any {
         const purchase = this.confirmPurchaseDataList.find((obj) => obj.purchaseInvoice === id);
         return purchase ? `${purchase.purchaseInvoice} | ${purchase.vendorOBJ.vendorName}` : undefined;
-      }
+    }
 
 
     ngOnInit() {
-        if(this.confirmPurchaseDataList.length == 0 && this.confirmSalesInvoiceDataList.length == 0){
+        if (this.confirmPurchaseDataList.length == 0 && this.confirmSalesInvoiceDataList.length == 0) {
             this.getAllConfirmInvoice()
             this.getAllConfirmPurchaseInvoice()
         }
@@ -136,17 +136,17 @@ export class PaymentsReportComponent{
     }
     getAllConfirmInvoice() {
         this.confirmedInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
-          this.confirmSalesInvoiceDataList = invoiceData?.result
+            this.confirmSalesInvoiceDataList = invoiceData?.result
         })
     }
 
-    getAllConfirmPurchaseInvoice(){
-            this.confirmedPurchaseInvoiceService.getAllConfirmPurchaseInvoices().subscribe((purchaseData)=>{
-                this.confirmPurchaseDataList = purchaseData?.result
-            })
+    getAllConfirmPurchaseInvoice() {
+        this.confirmedPurchaseInvoiceService.getAllConfirmPurchaseInvoices().subscribe((purchaseData) => {
+            this.confirmPurchaseDataList = purchaseData?.result
+        })
     }
 
-   
+
     onCellClicked(cellClickedEvent: CellClickedEvent) { }
 
 
@@ -173,9 +173,9 @@ export class PaymentsReportComponent{
 
     handleError(error: HttpErrorResponse) {
         console.error('Error fetching report:', error);
-    
+
         let errorMessage = 'An unexpected error occurred. Please try again later.';
-    
+
         if (error.status === 403) {
             errorMessage = 'You do not have permission to access this resource.';
         } else if (error.status === 404) {
@@ -183,17 +183,17 @@ export class PaymentsReportComponent{
         } else if (error.status === 500) {
             errorMessage = 'There was a server-side error. Please try again later.';
         }
-    
+
         this.toastr.error(errorMessage, 'Error ' + error.status);
     }
-  
+
     getPurchaseInvoicePayments(start: any, end: any) {
-       
-        this.reportsService.selectAllPurchaseInvoicePaymentsWithInRange(start,end).subscribe((res) => {
+
+        this.reportsService.selectAllPurchaseInvoicePaymentsWithInRange(start, end).subscribe((res) => {
             if (res?.result) {
                 this.isReportAvailable = true
                 this.dataToSet = {
-                    dateRange:start +"-"+ end,
+                    dateRange: start + "-" + end,
                     reportType: "Purchase Payments",
                     result: res.result,
                     error: null
@@ -208,43 +208,43 @@ export class PaymentsReportComponent{
             }
             this.isReportGenerated = true
             this.cdr.detectChanges()
-        },error=>this.handleError(error))
+        }, error => this.handleError(error))
     }
 
     getSalesInvoicePayments(start: any, end: any) {
-       
+
 
         this.reportsService.selectAllSalesInvoicePaymentsWithInRange(start, end).subscribe(
             (res) => {
                 if (res?.result) {
                     this.isReportAvailable = true
                     this.dataToSet = {
-                        dateRange:start +"-"+ end,
+                        dateRange: start + "-" + end,
                         reportType: "Sales Payments",
                         result: res.result,
                         error: null
                     }
                 } else if (res?.errors) {
-                    this.isReportAvailable =false
+                    this.isReportAvailable = false
                     this.dataToSet = {
                         reportType: "Sales Payments",
                         error: res.errors,
                         result: null
                     }
                 }
-    
-    
+
+
                 this.isReportGenerated = true
                 this.cdr.detectChanges();
-            },error=>this.handleError(error))
+            }, error => this.handleError(error))
     }
 
-    getSelectedPurchaseInvoicePayments(purchaseInvoiceId:number,start: any, end: any) {
-        this.reportsService.selectAllPaymentsOfThePurchaseInvoiceWithInTheRange(purchaseInvoiceId,start,end).subscribe((res) => {
+    getSelectedPurchaseInvoicePayments(purchaseInvoiceId: number, start: any, end: any) {
+        this.reportsService.selectAllPaymentsOfThePurchaseInvoiceWithInTheRange(purchaseInvoiceId, start, end).subscribe((res) => {
             if (res?.result) {
                 this.isReportAvailable = true
                 this.dataToSet = {
-                    dateRange:start +"-"+ end,
+                    dateRange: start + "-" + end,
                     reportType: "Custom Purchase Payments",
                     result: res.result,
                     error: null
@@ -259,18 +259,18 @@ export class PaymentsReportComponent{
             }
             this.isReportGenerated = true
             this.cdr.detectChanges()
-        },error=>this.handleError(error))
+        }, error => this.handleError(error))
     }
 
-    getSelectedSalesInvoicePayments(invoiceId:number,start: any, end: any) {
-       
+    getSelectedSalesInvoicePayments(invoiceId: number, start: any, end: any) {
 
-        this.reportsService.selectAllPaymentsOfTheSalesInvoiceWithInTheRange(invoiceId,start, end).subscribe(
+
+        this.reportsService.selectAllPaymentsOfTheSalesInvoiceWithInTheRange(invoiceId, start, end).subscribe(
             (res) => {
                 if (res?.result) {
                     this.isReportAvailable = true
                     this.dataToSet = {
-                        dateRange:start +"-"+ end,
+                        dateRange: start + "-" + end,
                         reportType: "Custom Sales Payments",
                         result: res.result,
                         error: null
@@ -285,7 +285,7 @@ export class PaymentsReportComponent{
                 }
                 this.isReportGenerated = true
                 this.cdr.detectChanges();
-            },error=>this.handleError(error));
+            }, error => this.handleError(error));
     }
 
     getTheSelectedInvoiceId(invoice: number) {
@@ -296,13 +296,13 @@ export class PaymentsReportComponent{
         {
             headerName: "#",
             valueGetter: "node.rowIndex + 1",
-            width:30
+            width: 30
         },
         {
             field: "voucherId",
             colId: "voucherId",
             headerName: "V- ID",
-            width:100,
+            width: 100,
             valueFormatter: (params) => {
                 const val = "CLC-V-" + (params.value)
                 return val
@@ -334,11 +334,11 @@ export class PaymentsReportComponent{
             field: "paymentType",
             colId: "paymentType",
             headerName: "Payment Type",
-             valueFormatter: (params) => {
+            valueFormatter: (params) => {
                 const val = params.value.toUpperCase()
                 return val
             },
-            width:149
+            width: 149
 
         },
         {
@@ -347,20 +347,20 @@ export class PaymentsReportComponent{
             cellRenderer: PrintActionComponent,
             cellRendererParams: {
                 actionName: 'voucherData'
-            } 
+            }
         },
     ];
     public receiptDef: ColDef[] = [
-        { 
+        {
             headerName: "#",
-            valueGetter:"node.rowIndex + 1",
-            width:30
-          },
+            valueGetter: "node.rowIndex + 1",
+            width: 30
+        },
         {
             field: "receiptId",
             colId: "receiptId",
             headerName: "R- ID",
-            width:100,
+            width: 100,
             valueFormatter: (params) => {
                 const val = "CLC-R-" + (params.value)
                 return val
@@ -392,11 +392,11 @@ export class PaymentsReportComponent{
             field: "paymentType",
             colId: "paymentType",
             headerName: "Payment Type",
-             valueFormatter: (params) => {
+            valueFormatter: (params) => {
                 const val = params.value.toUpperCase()
                 return val
             },
-            width:149
+            width: 149
 
         },
         {
@@ -405,7 +405,7 @@ export class PaymentsReportComponent{
             cellRenderer: PrintActionComponent,
             cellRendererParams: {
                 actionName: 'receiptData'
-            } 
+            }
         },
     ];
 
@@ -414,7 +414,7 @@ export class PaymentsReportComponent{
     onGridVoucherDataReady(param: GridReadyEvent) {
         this.purchaseInvoiceRowData$ = this.getVoucherRowData();
         this.voucherGridApi = param?.api;
-        console.log("on grid ready function",this.voucherGridApi)
+        console.log("on grid ready function", this.voucherGridApi)
     }
     onGridReceiptDataReady(param: GridReadyEvent) {
 
@@ -434,7 +434,7 @@ export class PaymentsReportComponent{
 
         return new Promise((resolve) => {
             resolve([]);
-           
+
         });
     }
 
@@ -478,63 +478,63 @@ export class PaymentsReportComponent{
         const startDate = this.range.get('start')?.value;
         const endDate = this.range.get('end')?.value;
         if (selectedOpt?.value) {
-                switch (selectedOpt.value) {
-                    case 'voucherReprint':
-                        console.log('Generating Voucher Re-print report for:', this.invoiceId);
-                        this.confirmPurchasePaymentService.getAllVoucherOfTheSelectedRefNo(this.invoiceId).subscribe((res) => {
-                            // this.isReportGenerated = true;
-                            if (res?.result) {
-                                this.voucherGridApi.setRowData(res.result)
-                            } else {
-                                this.voucherGridApi.setRowData([])
-                            }
-                            this.cdr.detectChanges();
-
-                        },(error)=>{this.handleError(error)})
-                        break;
-                    case 'receiptReprint':
-                        console.log('Generating Voucher Re-print report for:', this.invoiceId);
+            switch (selectedOpt.value) {
+                case 'voucherReprint':
+                    console.log('Generating Voucher Re-print report for:', this.invoiceId);
+                    this.confirmPurchasePaymentService.getAllVoucherOfTheSelectedRefNo(this.invoiceId).subscribe((res) => {
                         // this.isReportGenerated = true;
-                        this.confirmSalesPurchasePaymentsService.getAllReceiptsOfTheSelectedRefNo(this.invoiceId).subscribe((res) => {
-                            if (res?.result) {
-                                this.receiptGridApi.setRowData(res.result);  
-                            } else {
-                                this.receiptGridApi.setRowData([]);  
-                            }
-                            this.cdr.detectChanges();
-
-                        },(error)=>{this.handleError(error)})
-                        break;
-                    case 'allPaymentsReports':
-                        console.log('Generating all Payments report', this.invoiceId);
-                        switch(reportType?.value){
-                            case 'purchaseInvoice':
-                                this.getPurchaseInvoicePayments(startDate,endDate)
-                                break;
-                            case 'salesInvoice':
-                                this.getSalesInvoicePayments(startDate,endDate)
+                        if (res?.result) {
+                            this.voucherGridApi.setRowData(res.result)
+                        } else {
+                            this.voucherGridApi.setRowData([])
                         }
-                        break;
-                    case 'customPaymentsReport':
-                        console.log('Generating custom Reports for')
-                        switch(reportType?.value){
-                            case 'purchaseInvoice':
-                                this.getSelectedPurchaseInvoicePayments(this.invoiceId,startDate,endDate)
-                                break;
-                            case 'salesInvoice':
-                                this.getSelectedSalesInvoicePayments(this.invoiceId,startDate,endDate)
-                        }
-                        break;
-                    default:
-                        console.error('Invalid report type selected');
+                        this.cdr.detectChanges();
 
-                }
+                    }, (error) => { this.handleError(error) })
+                    break;
+                case 'receiptReprint':
+                    console.log('Generating Voucher Re-print report for:', this.invoiceId);
+                    // this.isReportGenerated = true;
+                    this.confirmSalesPurchasePaymentsService.getAllReceiptsOfTheSelectedRefNo(this.invoiceId).subscribe((res) => {
+                        if (res?.result) {
+                            this.receiptGridApi.setRowData(res.result);
+                        } else {
+                            this.receiptGridApi.setRowData([]);
+                        }
+                        this.cdr.detectChanges();
+
+                    }, (error) => { this.handleError(error) })
+                    break;
+                case 'allPaymentsReports':
+                    console.log('Generating all Payments report', this.invoiceId);
+                    switch (reportType?.value) {
+                        case 'purchaseInvoice':
+                            this.getPurchaseInvoicePayments(startDate, endDate)
+                            break;
+                        case 'salesInvoice':
+                            this.getSalesInvoicePayments(startDate, endDate)
+                    }
+                    break;
+                case 'customPaymentsReport':
+                    console.log('Generating custom Reports for')
+                    switch (reportType?.value) {
+                        case 'purchaseInvoice':
+                            this.getSelectedPurchaseInvoicePayments(this.invoiceId, startDate, endDate)
+                            break;
+                        case 'salesInvoice':
+                            this.getSelectedSalesInvoicePayments(this.invoiceId, startDate, endDate)
+                    }
+                    break;
+                default:
+                    console.error('Invalid report type selected');
+
+            }
         } else {
             this.toastr.clear()
             this.toastr.warning("Select A Report Type To Generate any!")
         }
 
     }
-    
+
 }
 

@@ -7,20 +7,20 @@ import { CustomerFormComponent } from 'src/app/Template/createData-forms/custome
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-customer-action',
-  templateUrl: './customer-action.component.html',
-  styleUrls: ['./customer-action.component.css']
+    selector: 'app-customer-action',
+    templateUrl: './customer-action.component.html',
+    styleUrls: ['./customer-action.component.css']
 })
 export class CustomerActionComponent {
     dataFromRow: any;
     gridApi: GridApi | any = {};
-    
+
 
     constructor(
-        private toastr : ToastrService,
+        private toastr: ToastrService,
         public matDialog: MatDialog,
-        private custService:CustomerService
-       
+        private custService: CustomerService
+
     ) {
 
     }
@@ -28,45 +28,45 @@ export class CustomerActionComponent {
     agInit(params: ICellRendererParams): void {
         this.dataFromRow = params && params.data ? params.data : {};
         this.gridApi = params.api;
-     }
+    }
 
-     public setDataIntoRow() {
-        this.custService.getAll().subscribe((retData)=>{
+    public setDataIntoRow() {
+        this.custService.getAll().subscribe((retData) => {
             this.gridApi.setRowData(retData)
         })
     }
 
     openDelDialog(): void {
-        
+
         const extraData = {
-            title : "Delete Customer",
+            title: "Delete Customer",
             subTitle: "Do you want to delete this customer?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
-        
-        deletePop.afterClosed().subscribe((state:boolean) => {
-            if(!state)return;
+        const deletePop = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop" });
 
-            
-            this.custService.delete(this.dataFromRow.custId).subscribe((res)=>{
+        deletePop.afterClosed().subscribe((state: boolean) => {
+            if (!state) return;
+
+
+            this.custService.delete(this.dataFromRow.custId).subscribe((res) => {
                 this.toastr.success(res)
                 this.setDataIntoRow();
-            },(error)=>{
+            }, (error) => {
                 this.toastr.error(error.error)
             })
-               
-            })
-       
+
+        })
+
     }
-    
+
     updateFormTrigger() {
-        const data={
+        const data = {
             title: "Update",
-            custData:this.dataFromRow
+            custData: this.dataFromRow
         }
-            const dialogRef = this.matDialog.open(CustomerFormComponent, {data, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
-            dialogRef.afterClosed().subscribe(()=>{
-                this.setDataIntoRow()
-            })
-        }
+        const dialogRef = this.matDialog.open(CustomerFormComponent, { data, width: '500px', panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop" });
+        dialogRef.afterClosed().subscribe(() => {
+            this.setDataIntoRow()
+        })
+    }
 }

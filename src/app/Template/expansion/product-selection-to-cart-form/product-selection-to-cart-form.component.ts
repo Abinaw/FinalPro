@@ -19,7 +19,7 @@ import { ProductCartService } from "src/app/service/productCart-service/product-
 import { StockService } from "src/app/service/stock-service/stock.service";
 import { ActionPopComponent } from "src/app/custom-components/action-cell/action-pop/action-pop.component";
 import { NotificationService } from "src/app/service/notification-service/notification.service";
-import {  discountPattern, netAmountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
+import { discountPattern, netAmountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
 
 @Component({
     selector: "app-product-selection-to-cart-form",
@@ -27,7 +27,7 @@ import {  discountPattern, netAmountPattern, nonMinusDigitPattern } from "src/ap
     styleUrls: ["./product-selection-to-cart-form.component.css"],
 })
 export class ProductSelectionToCartFormComponent {
-    selectedProduct!: any;
+    selectedProduct: any = [];
     productSelectionForm: FormGroup;
     stockOBJControl = new FormControl("");
     stockDataList: IStockEntity[];
@@ -52,15 +52,15 @@ export class ProductSelectionToCartFormComponent {
         this.productSelectionForm = new FormGroup({
             proCartId: new FormControl(),
             stockOBJ: new FormControl([Validators.required]),
-            quantity: new FormControl([Validators.required,Validators.pattern(nonMinusDigitPattern)]),
+            quantity: new FormControl([Validators.required, Validators.pattern(nonMinusDigitPattern)]),
             //#cmt  qty validation has been done below, since the qty for selection will only be filtered from the list once the stock has been selected
-            discount: new FormControl("", [Validators.required,Validators.pattern(discountPattern)]),
-            netAmount: new FormControl(null,Validators.pattern(netAmountPattern)),
+            discount: new FormControl("", [Validators.required, Validators.pattern(discountPattern)]),
+            netAmount: new FormControl(null, Validators.pattern(netAmountPattern)),
             total: new FormControl(null),
             tempInvoiceOBJ: new FormControl(),
             // confirmInvoiceOBJ:new FormControl()
         });
-        
+
     }
 
     ngOnInit(): void {
@@ -71,6 +71,7 @@ export class ProductSelectionToCartFormComponent {
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
+
     }
 
     private setDataToInputForUpdation() {
@@ -91,13 +92,24 @@ export class ProductSelectionToCartFormComponent {
         );
         this.getSelectedProduct_sList(stockIdOfTheSelectedRow);
     }
+    private updateStockOBJValidators() {
+        if (this.selectedProduct == undefined || this.selectedProduct.length == 0) {
+            this.productSelectionForm.get('stockOBJ')?.touched
+            this.productSelectionForm.get('stockOBJ')?.setValidators([Validators.required]);
+        } else {
+            this.productSelectionForm.get('stockOBJ')?.clearValidators();
+        }
+        this.productSelectionForm.get('stockOBJ')?.updateValueAndValidity();
+    }
 
     quantityValidator(selectedItemsQty: number): ValidatorFn {
         return (control: AbstractControl): { [key: string]: any } | null => {
             const currentQty = control.value;
             if (currentQty <= 0) {
                 this.toastr.clear()
-                return this.toastr.warning("Add a valid input");
+                this.toastr.warning("Add a valid input");
+                this.productSelectionForm.get('discount')?.disable()
+                return { inValid: true };
             }
             if (this.data.title === "Add") {
                 if (currentQty && currentQty > selectedItemsQty) {
@@ -106,7 +118,9 @@ export class ProductSelectionToCartFormComponent {
                     this.toastr.warning(
                         "Quantity should be either below or equals to " +
                         selectedItemsQty
+
                     );
+                    this.productSelectionForm.get('discount')?.disable()
                     return { exceedsQty: true };
                 }
             } else if (this.data.title === "Update") {
@@ -118,10 +132,12 @@ export class ProductSelectionToCartFormComponent {
                         "Quantity should be either below or equals to " +
                         (selectedItemsQty + existingInThecart)
                     );
+                    this.productSelectionForm.get('discount')?.disable()
                     return { exceedsQty: true };
                 }
             }
             this.toastr.clear()
+            this.productSelectionForm.get('discount')?.enable()
             return null;
         };
     }
@@ -141,8 +157,8 @@ export class ProductSelectionToCartFormComponent {
                     } else {
                         this.toastr.clear()
                         this.toastr.error(res?.errors)
-                    }            
-                },err=>{
+                    }
+                }, err => {
                     this.toastr.error("Error inserting stock into the sales cart!")
                 });
         } else if (this.data.title === "Update") {
@@ -166,7 +182,7 @@ export class ProductSelectionToCartFormComponent {
         };
         const openActionPop = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
+            panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop"
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
@@ -175,17 +191,17 @@ export class ProductSelectionToCartFormComponent {
                 .update(this.productSelectionForm.value)
                 .subscribe((res) => {
                     // this.getAllCartData()
-                   if(res?.successMessage!=null){
-                    this.matDialogRef.close();
-                    // the product reorder level has to be checked so nofification trigger has been placed
-                    this.triggerNotification()
-                    this.toastr.clear()
-                    this.toastr.success(res.successMessage);                
-                   }else{
-                    this.toastr.clear()
-                    this.toastr.error(res?.errors);            
-                   }               
-                },err=>{
+                    if (res?.successMessage != null) {
+                        this.matDialogRef.close();
+                        // the product reorder level has to be checked so nofification trigger has been placed
+                        this.triggerNotification()
+                        this.toastr.clear()
+                        this.toastr.success(res.successMessage);
+                    } else {
+                        this.toastr.clear()
+                        this.toastr.error(res?.errors);
+                    }
+                }, err => {
                     this.toastr.error("Error updating stock in the sales cart!")
                 });
         });
@@ -217,23 +233,37 @@ export class ProductSelectionToCartFormComponent {
         this.productSelectionForm
             .get("quantity")
             ?.setValidators([Validators.required, this.quantityValidator(qty)]);
+
         this.productSelectionForm.get("quantity")?.updateValueAndValidity();
         // end
     }
 
     getSelectedProduct_sList(stockId: number) {
+        this.productSelectionForm.get('quantity')?.enable();
+        this.productSelectionForm.get('discount')?.enable();
         this.selectedProduct = this.stockDataList.filter(
             (list) => list?.stockId === stockId
         );
+        console.log(this.selectedProduct?.length)
+
         // once the product has been selected the number of qty available of the product will get selected, stockId selected from the Blur property
         this.selectedItemsQty = this.selectedProduct?.[0]?.quantity;
         this.initializeQtyValidation(this.selectedItemsQty);
+        this.updateStockOBJValidators();
     }
-    clearProductList(){
+    clearProductList() {
         this.selectedProduct = []
+        this.updateStockOBJValidators();
     }
     setTotal() {
-        const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
+        if (this.selectedProduct.length == 0) {
+            this.productSelectionForm.get('quantity')?.disable();
+            this.productSelectionForm.get('discount')?.disable();
+            this.toastr.clear()
+            this.toastr.warning("Try selecting a product first!", "Product isn't selected!")
+            return
+        }
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice || 0;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
@@ -249,7 +279,11 @@ export class ProductSelectionToCartFormComponent {
         });
     }
     setNetAmount() {
-        const sellPrice = this.selectedProduct?.[0]?.sellingPrice||0;
+        if (this.selectedProduct.length == 0) {
+            this.toastr.warning("Try selecting a product first!", "Product isn't selected!")
+            return
+        }
+        const sellPrice = this.selectedProduct?.[0]?.sellingPrice || 0;
         const qtyControl = this.productSelectionForm.get("quantity");
         const totalControl = this.productSelectionForm.get("total");
         const netAmountControl = this.productSelectionForm.get("netAmount");
@@ -261,26 +295,52 @@ export class ProductSelectionToCartFormComponent {
                     let discountPercentagePerUnit = parseFloat(
                         discount.replace("%", '')
                     );
-                    if(!isNaN(discountPercentagePerUnit)){
+                    if (!isNaN(discountPercentagePerUnit)) {
                         discount = (discountPercentagePerUnit / 100) * sellPrice;
                     }
                 }
+                //!isNaN -> !isNotANumber = it's indeed a number  
                 if (!isNaN(discount) && !isNaN(qtyControl?.value)) {
                     const totalDiscount = discount * (qtyControl?.value || 0);
                     const netAmount = (totalControl?.value || 0) - totalDiscount;
-        
+
                     if (!isNaN(netAmount)) {
                         if (netAmount <= 0) {
-                            this.toastr.clear()
+                            this.toastr.clear();
                             this.toastr.warning('The unit discount can neither exceed nor equal the purchase price!', 'Warning!');
-                            discount = ''
+                            discountControl.setErrors({ inValidDiscount: true });
                         } else {
+                            discountControl?.patchValue(discount);
                             netAmountControl?.patchValue(netAmount);
+                            discountControl.setErrors(null);  // Clear any previous errors if the discount is valid
                         }
-                        discountControl?.patchValue(discount);
+                        // 
                     }
                 }
             });
+    }
+
+    discountValidator(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            const discountVal = control.value;
+            const sellPrice = this.selectedProduct?.[0]?.sellingPrice || 0;
+
+            let parsedDiscount = discountVal;
+
+            // Check if the discount is a percentage
+            if (parsedDiscount?.toString().includes("%")) {
+                let discountPercentagePerUnit = parseFloat(parsedDiscount.replace("%", ''));
+                if (!isNaN(discountPercentagePerUnit)) {
+                    parsedDiscount = (discountPercentagePerUnit / 100) * sellPrice;
+                }
+            }
+
+            if (parsedDiscount >= sellPrice) {
+                return { inValidDiscount: true };
+            }
+
+            return null;
+        };
     }
     private setvaluesToOBJFields() {
         let cartValue = this.productSelectionForm.value;

@@ -16,7 +16,7 @@ This regex ensures that the string consists entirely of alphabetic
   It will match names like John, Alice, Emily, and Alexander.
 
 */
-export const namePattern = /^[a-zA-Z]+$/;
+export const namePattern = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
 
 /* 
 addressPattern->
@@ -47,28 +47,19 @@ password123 - Contains both letters and digits.
 abc1def2 - Contains both letters and digits.
 123abc - Contains both letters and digits.
 */
-export const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/;
+export const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+=\-{}[\]:;"'<>,.?\/~`|\\]+$/;
 
 
 
 /* 
 emailPattern->
-Contains a valid local part and domain part.
-Ends with .com (case-insensitive).
+This pattern will validate emails like:
 
-Examples of valid emails:
-
-example@example.com
+example@example
 user.name@domain.com
-user123@sub.domain.com
-
-Examples of invalid emails:
-
-example@example.co (does not end with .com)
-example.com (missing @)
-@example.com (missing local part)
+user123@sub.domain.info
 */
-export const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/;
+export const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
 
 
 
@@ -79,8 +70,9 @@ Cannot be composed entirely of digits.
  */
 export const userNamePattern = /^(?!^\d+$)[a-zA-Z0-9_]+$/;
 export const nonMinusDigitPattern = /^(?!-)\d+(\.\d{1,2})?$/
-export const discountPattern = /^\d*\.?\d+%?$/
+export const discountPattern = /^[0-9.%]+$/
 export const netAmountPattern = /^(?!0(\.0+)?$)(\d+(\.\d+)?|\.\d+)$/
+export const percentagePattern = /^(100|[1-9]?[0-9])%$/
 
 
 /* 
@@ -99,9 +91,3 @@ Item123 (starts with a space)
 Test-Item (starts with a space)
 */
 export const itemName = /^(?! )[a-zA-Z0-9-_ ]*(?<! )$/
-
-
-
-
-
-

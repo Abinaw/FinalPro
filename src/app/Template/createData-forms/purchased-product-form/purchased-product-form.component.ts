@@ -1,6 +1,6 @@
 import { Component, Inject } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Observable, debounceTime, map, startWith } from "rxjs";
+import { AbstractControl, FormControl, FormGroup, PatternValidator, ValidatorFn, Validators } from "@angular/forms";
+import { Observable, Subscription, debounceTime, distinctUntilChanged, map, startWith } from "rxjs";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { IStockEntity } from "src/app/constants/interfaces/IStockEntity";
 import { TempPurchaseService } from "src/app/service/tempPurchase-service/temp-purchase.service";
@@ -13,8 +13,31 @@ import {
 } from "@angular/material/dialog";
 import { ActionPopComponent } from "src/app/custom-components/action-cell/action-pop/action-pop.component";
 import { ITempPurchaseInvoice } from "src/app/constants/interfaces/ITempPurchaseInvoiceEntity";
-import { discountPattern, netAmountPattern, nonMinusDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
+import { discountPattern, netAmountPattern, nonMinusDigitPattern, nonMinusnonZeroDigitPattern } from "src/app/constants/interfaces/VALIDATORS";
+import { invalid } from "moment";
 
+export function sellPriceValidator(purchasePriceControl: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const sellPriceVal = control.value;
+        const purchasePriceVal = purchasePriceControl.value;
+
+        if (sellPriceVal !== null && purchasePriceVal !== null && sellPriceVal < purchasePriceVal) {
+
+            return { invalidSellPrice: true };
+        }
+        return null;
+    };
+}
+
+export function qtyValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const qtyVal = control.value
+        if (qtyVal == 0) {
+            return { noZero: true };
+        }
+        return null;
+    }
+}
 @Component({
     selector: "app-purchased-product-form",
     templateUrl: "./purchased-product-form.component.html",
@@ -29,7 +52,8 @@ export class PurchasedProductFormComponent {
     tempPurchaseList!: ITempPurchaseInvoice[];
     selectedItemsQty!: number;
     selectedPurchase!: any;
-    selectedProduct!: any;
+    selectedProduct: IStockEntity[] = [];
+    private subscription: Subscription | undefined;
     // purchaseProductCartForm: FormGroup<any>;
 
     constructor(
@@ -44,18 +68,21 @@ export class PurchasedProductFormComponent {
         this.purchaseProductCartForm = new FormGroup({
             productCartId: new FormControl(),
             stockOBJ: new FormControl(Validators.required),
-            quantity: new FormControl("",[Validators.required,Validators.pattern(nonMinusDigitPattern)]),
-            discount: new FormControl("", [Validators.required,Validators.pattern(discountPattern)]),
-            sellingPrice: new FormControl("", [Validators.required,Validators.pattern(nonMinusDigitPattern)]),
-            purchasePrice: new FormControl("", [Validators.required,Validators.pattern(nonMinusDigitPattern)]),
-            netAmount: new FormControl(null,[Validators.pattern(netAmountPattern)]),
+            quantity: new FormControl("", [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
+            discount: new FormControl("", [Validators.required, Validators.pattern(discountPattern)]),
+            sellingPrice: new FormControl("", [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
+            purchasePrice: new FormControl("", [Validators.required, Validators.pattern(nonMinusnonZeroDigitPattern)]),
+            netAmount: new FormControl(null, [Validators.pattern(netAmountPattern)]),
             grossAmount: new FormControl(null),
             tempPurchaseOBJ: new FormControl(),
         });
         // this.loadAllPurchase();
         this.getAllPurchaseInvoice();
     }
-
+    markControlAsTouchedAndDirty(control: AbstractControl): void {
+        control.markAsTouched();
+        control.markAsDirty();
+    }
     ngOnInit() {
         if (this.data.title === "Update") {
             this.selectedProduct = this.data.selectedRowData.stockOBJ;
@@ -65,7 +92,19 @@ export class PurchasedProductFormComponent {
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
+        this.setupValidators()
+
     }
+
+    /* sellPriceValidator():ValidatorFn{
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            const sellPriceVal = control.value
+            if(sellPriceVal>){
+    
+            }
+        }
+    } */
+
     private setDataToInputForUpdation() {
         this.purchaseProductCartForm.patchValue({
             productCartId: this.data.selectedRowData.productCartId,
@@ -75,7 +114,7 @@ export class PurchasedProductFormComponent {
             grossAmount: this.data.selectedRowData.grossAmount,
             purchasePrice: this.data.selectedRowData.purchasePrice,
             sellingPrice: this.data.selectedRowData.sellingPrice,
-           
+
         });
         this.stockOBJControl.patchValue(
             this.data.selectedRowData.stockOBJ.stockId
@@ -111,17 +150,17 @@ export class PurchasedProductFormComponent {
             this.tempPurchaseCartService
                 .createPurchaseInvoice(this.purchaseProductCartForm.value)
                 .subscribe((response) => {
-                    if(response.successMessage!=null){
+                    if (response.successMessage != null) {
                         this.toastr.clear()
                         this.toastr.success(response.successMessage);
                         this.matDialogRef.close();
                         this.loadAllPurchase();
-                    }else{
+                    } else {
                         this.toastr.clear()
                         this.toastr.error(response.errors)
                     }
-                   
-                },err=>{
+
+                }, err => {
                     this.toastr.clear()
                     this.toastr.error("Error Inserting Data!")
                 });
@@ -139,7 +178,7 @@ export class PurchasedProductFormComponent {
         };
         const openActionPop = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
+            panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop"
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
@@ -149,12 +188,12 @@ export class PurchasedProductFormComponent {
                     this.purchaseProductCartForm.value
                 )
                 .subscribe((response) => {
-                    if(response.successMessage!=null){
+                    if (response.successMessage != null) {
                         this.toastr.clear()
                         this.toastr.success(response.successMessage);
                         this.matDialogRef.close();
                         this.loadAllPurchase();
-                    }else{
+                    } else {
                         this.toastr.clear()
                         this.toastr.error(response.errors)
                     }
@@ -162,7 +201,7 @@ export class PurchasedProductFormComponent {
                     // this.toastr.success(res.successMessage);
                     // this.loadAllPurchase();
                     // this.tempPurchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
-                },(err)=>{
+                }, (err) => {
                     this.toastr.clear()
                     this.toastr.error("Error Updating the cart!")
                 });
@@ -183,44 +222,82 @@ export class PurchasedProductFormComponent {
     }
 
     getSelectedProduct_sList(stockId: number) {
+        this.purchaseProductCartForm.get('quantity')?.enable();
+        this.purchaseProductCartForm.get('discount')?.enable();
+        this.purchaseProductCartForm.get('sellingPrice')?.enable();
+        this.purchaseProductCartForm.get('purchasePrice')?.enable();
         this.selectedProduct = this.stockDataList.filter(
             (list) => list?.stockId === stockId
         );
     }
 
     setTotalWhenQty() {
+        if (this.selectedProduct.length == 0) {
+            this.purchaseProductCartForm.get('quantity')?.disable();
+            this.purchaseProductCartForm.get('discount')?.disable();
+            this.purchaseProductCartForm.get('sellingPrice')?.disable();
+            this.purchaseProductCartForm.get('purchasePrice')?.disable();
+            this.toastr.clear()
+            this.toastr.warning("Try selecting a product first!", "Product isn't selected!")
+            return
+        }
         const qtyControl = this.purchaseProductCartForm.get("quantity");
         const totalControl = this.purchaseProductCartForm.get("grossAmount");
         const netAmountControl = this.purchaseProductCartForm.get("netAmount");
         const discountControl = this.purchaseProductCartForm.get("discount");
         const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
-    
+        const sellingPriceControl = this.purchaseProductCartForm.get("sellingPrice");
+        if (!qtyControl) return;
 
         qtyControl?.valueChanges.pipe(debounceTime(300)).subscribe((qty) => {
-            totalControl?.patchValue(qty * purchasePriceControl?.value|0);
+            if (qty == 0) {
+                qtyControl.updateValueAndValidity()
+                this.markControlAsTouchedAndDirty(qtyControl)
+                discountControl?.disable()
+                sellingPriceControl?.disable()
+                return
+            }
+            discountControl?.enable()
+            sellingPriceControl?.enable()
+            totalControl?.patchValue(qty * purchasePriceControl?.value | 0);
             if (discountControl) {
                 const discountVal = discountControl.value;
-                let TotalDiscount = discountVal * qty;
-                let netAmount = totalControl?.value - TotalDiscount;
+                let totalDiscount = discountVal * qty;
+                let netAmount = totalControl?.value - totalDiscount;
                 netAmountControl?.patchValue(netAmount);
             }
         });
     }
 
-    setTotalWhenPurchasePrice(){
+    setTotalWhenPurchasePrice() {
         const qtyControl = this.purchaseProductCartForm.get("quantity");
         const totalControl = this.purchaseProductCartForm.get("grossAmount");
         const netAmountControl = this.purchaseProductCartForm.get("netAmount");
         const discountControl = this.purchaseProductCartForm.get("discount");
         const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
-    
+        const sellingPriceControl = this.purchaseProductCartForm.get("sellingPrice");
+
 
         purchasePriceControl?.valueChanges.pipe(debounceTime(300)).subscribe((purchaseP) => {
-            totalControl?.patchValue(purchaseP * qtyControl?.value|0);
+            console.log(purchasePriceControl.value)
+            if (purchasePriceControl.value == 0) {
+                qtyControl?.disable()
+                sellingPriceControl?.disable()
+                purchasePriceControl.setValidators([Validators.pattern(nonMinusnonZeroDigitPattern)])
+                purchasePriceControl.updateValueAndValidity()
+                //  discountControl?.disable()
+                return
+            } else {
+                discountControl?.enable()
+                qtyControl?.enable()
+                purchasePriceControl.clearValidators()
+                sellingPriceControl?.enable()
+            }
+            totalControl?.patchValue(purchaseP * qtyControl?.value | 0);
             if (discountControl) {
-                const discountVal = discountControl?.value|0;
-                let TotalDiscount = discountVal * qtyControl?.value|0;
-                let netAmount = totalControl?.value|0 - TotalDiscount;
+                const discountVal = discountControl?.value | 0;
+                let totalDiscount = discountVal * qtyControl?.value | 0;
+                let netAmount = totalControl?.value | 0 - totalDiscount;
                 netAmountControl?.patchValue(netAmount);
             }
         });
@@ -232,34 +309,98 @@ export class PurchasedProductFormComponent {
         const netAmountControl = this.purchaseProductCartForm.get("netAmount");
         const discountControl = this.purchaseProductCartForm.get("discount");
         const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
+        const sellingPriceControl = this.purchaseProductCartForm.get("sellingPrice");
+        if (!discountControl) return
         discountControl?.valueChanges
             .pipe(debounceTime(300))
+
             .subscribe((discount) => {
+                if (purchasePriceControl?.value == '') {
+                    discountControl?.disable()
+                    sellingPriceControl?.disable()
+                    purchasePriceControl.setErrors({ required: true });
+                    this.markControlAsTouchedAndDirty(purchasePriceControl)
+                    purchasePriceControl.updateValueAndValidity()
+                    return
+                }
                 if (discountControl.value.toString().includes("%")) {
 
                     let discountPercentagePerUnit = parseFloat(
                         discount.replace("%", '')
                     );
-                    if(!isNaN(discountPercentagePerUnit)){
-                        discount = (discountPercentagePerUnit / 100) * purchasePriceControl?.value|0;
+                    if (!isNaN(discountPercentagePerUnit)) {
+                        discount = (discountPercentagePerUnit / 100) * purchasePriceControl?.value | 0;
                     }
                 }
-                if(!isNaN(qtyControl?.value)&&!isNaN(totalControl?.value)){
-                    let TotalDiscount = discount * qtyControl?.value;
-                    let netAmount = totalControl?.value - TotalDiscount;
-                    if(!isNaN(netAmount)){
-                        if (netAmount <= 0) {
-                            this.toastr.clear()
-                            this.toastr.warning('The unit discount can neither exceed nor equal the purchase price!', 'Warning!');
-                            discount = ''
+                if (!isNaN(qtyControl?.value) && !isNaN(totalControl?.value)) {
+                    let totalDiscount = discount * qtyControl?.value;
+                    let netAmount = totalControl?.value - totalDiscount;
+
+
+                    if (!isNaN(netAmount)) {
+                        if (netAmount <= 0 && discountControl.value >= purchasePriceControl?.value) {
+                            this.toastr.clear();
+                            this.toastr.warning('The unit discount can neither exceed nor equal the Purchase price!', 'Warning!');
+
+                            // Set the error first
+                            discountControl.setErrors({ inValidDiscount: true });
+
+                            // for immediate error display
+                            this.markControlAsTouchedAndDirty(discountControl);
+
+                            // Disable selling price control
+                            sellingPriceControl?.disable();
+
                         } else {
+                            // Clear any previous errors if the discount is valid
+                            discountControl.setErrors(null);
+
+                            // Update values after clearing errors
+                            discountControl?.patchValue(discount);
                             netAmountControl?.patchValue(netAmount);
+
+                            // Enable selling price control if valid
+                            sellingPriceControl?.enable();
                         }
-                        discountControl?.patchValue(discount);
                     }
                 }
             });
     }
+
+
+    private setupValidators(): void {
+        const sellPriceControl = this.purchaseProductCartForm.get('sellingPrice');
+        const purchasePriceControl = this.purchaseProductCartForm.get('purchasePrice');
+        const qtyControl = this.purchaseProductCartForm.get('quantity');
+
+        if (sellPriceControl && purchasePriceControl) {
+            sellPriceControl.setValidators(sellPriceValidator(purchasePriceControl));
+            sellPriceControl.updateValueAndValidity(); // Trigger validation
+        }
+        if (qtyControl) {
+            console.log('qqqq', qtyControl)
+            qtyControl.setValidators(qtyValidator())
+            qtyControl.updateValueAndValidity();
+        }
+    }
+
+    sellPriceCheck(): void {
+        const sellPriceControl = this.purchaseProductCartForm.get('sellingPrice');
+        if (!sellPriceControl) return;
+        this.subscription = sellPriceControl?.valueChanges
+            .pipe(
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(() => {
+                sellPriceControl?.updateValueAndValidity(); // Trigger validation after change
+                this.markControlAsTouchedAndDirty(sellPriceControl)
+                return
+
+            });
+    }
+
+
 
     private setvaluesToOBJFields() {
         const cartValue = this.purchaseProductCartForm.value;

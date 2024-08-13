@@ -73,6 +73,7 @@ export const nonMinusDigitPattern = /^(?!-)\d+(\.\d{1,2})?$/
 export const discountPattern = /^[0-9.%]+$/
 export const netAmountPattern = /^(?!0(\.0+)?$)(\d+(\.\d+)?|\.\d+)$/
 export const percentagePattern = /^(100|[1-9]?[0-9])%$/
+export const nonMinusnonZeroDigitPattern = /^(?!-)(?!0$)\d+(\.\d{1,2})?$/;
 
 
 /* 

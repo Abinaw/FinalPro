@@ -244,8 +244,6 @@ export class ProductSelectionToCartFormComponent {
         this.selectedProduct = this.stockDataList.filter(
             (list) => list?.stockId === stockId
         );
-        console.log(this.selectedProduct?.length)
-
         // once the product has been selected the number of qty available of the product will get selected, stockId selected from the Blur property
         this.selectedItemsQty = this.selectedProduct?.[0]?.quantity;
         this.initializeQtyValidation(this.selectedItemsQty);
@@ -307,7 +305,7 @@ export class ProductSelectionToCartFormComponent {
                     if (!isNaN(netAmount)) {
                         if (netAmount <= 0) {
                             this.toastr.clear();
-                            this.toastr.warning('The unit discount can neither exceed nor equal the purchase price!', 'Warning!');
+                            this.toastr.warning('The unit discount can neither exceed nor equal the Selling price!', 'Warning!');
                             discountControl.setErrors({ inValidDiscount: true });
                         } else {
                             discountControl?.patchValue(discount);
@@ -320,28 +318,28 @@ export class ProductSelectionToCartFormComponent {
             });
     }
 
-    discountValidator(): ValidatorFn {
-        return (control: AbstractControl): { [key: string]: any } | null => {
-            const discountVal = control.value;
-            const sellPrice = this.selectedProduct?.[0]?.sellingPrice || 0;
-
-            let parsedDiscount = discountVal;
-
-            // Check if the discount is a percentage
-            if (parsedDiscount?.toString().includes("%")) {
-                let discountPercentagePerUnit = parseFloat(parsedDiscount.replace("%", ''));
-                if (!isNaN(discountPercentagePerUnit)) {
-                    parsedDiscount = (discountPercentagePerUnit / 100) * sellPrice;
-                }
-            }
-
-            if (parsedDiscount >= sellPrice) {
-                return { inValidDiscount: true };
-            }
-
-            return null;
-        };
-    }
+    /*   discountValidator(): ValidatorFn {
+          return (control: AbstractControl): { [key: string]: any } | null => {
+              const discountVal = control.value;
+              const sellPrice = this.selectedProduct?.[0]?.sellingPrice || 0;
+  
+              let parsedDiscount = discountVal;
+  
+              // Check if the discount is a percentage
+              if (parsedDiscount?.toString().includes("%")) {
+                  let discountPercentagePerUnit = parseFloat(parsedDiscount.replace("%", ''));
+                  if (!isNaN(discountPercentagePerUnit)) {
+                      parsedDiscount = (discountPercentagePerUnit / 100) * sellPrice;
+                  }
+              }
+  
+              if (parsedDiscount >= sellPrice) {
+                  return { inValidDiscount: true };
+              }
+  
+              return null;
+          };
+      } */
     private setvaluesToOBJFields() {
         let cartValue = this.productSelectionForm.value;
         cartValue.stockOBJ = { stockId: this.stockOBJControl.value };

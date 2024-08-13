@@ -22,7 +22,7 @@
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                         <mat-option *ngFor="let anItem of filterOptions | async" [value]="anItem.stockId"
                             (onSelectionChange)="
-                                getSelectedProduct_sList(anItem.stockId)
+                                getSelectedProduct_sList(anItem.stockId); setNetAmount()
                             ">
                             {{ anItem.stockId }} | {{ anItem.itemName }}
                         </mat-option>
@@ -53,6 +53,8 @@
                     <mat-error class="text-xs"
                         *ngIf="purchaseProductCartForm.get('quantity')?.hasError('pattern')">Enter a non-negative
                         value!</mat-error>
+                    <mat-error class="text-xs" *ngIf="purchaseProductCartForm.get('quantity')?.hasError('noZero')">Qty
+                        Can't be zero!</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="w-full">
@@ -63,19 +65,27 @@
                         This field is required!
                     </mat-error>
                     <mat-error class="text-xs"
-                        *ngIf="purchaseProductCartForm.get('discount')?.hasError('pattern')">Invalid Data (eg: 10.0% | 5% | 100)!</mat-error>
-
+                        *ngIf="purchaseProductCartForm.get('discount')?.hasError('pattern')">Invalid Data (eg: 10.0% |
+                        5% | 100)!</mat-error>
+                    <mat-error class="text-xs"
+                        *ngIf="purchaseProductCartForm.get('discount')?.hasError('inValidDiscount')">Discount Can't
+                        exceed
+                        the Purchase price!</mat-error>
                 </mat-form-field>
             </div>
             <mat-form-field class="w-full">
                 <mat-label>Selling Price</mat-label>
-                <input matInput formControlName="sellingPrice" type="number" step=".01" class="" />
+                <input matInput formControlName="sellingPrice" type="number" step=".01" class=""
+                    (focus)="sellPriceCheck()" />
                 <mat-error class="text-xs"
                     *ngIf="purchaseProductCartForm.get('sellingPrice')?.hasError('required')">This field is
                     required!</mat-error>
                 <mat-error class="text-xs"
                     *ngIf="purchaseProductCartForm.get('sellingPrice')?.hasError('pattern')">Enter a non-negative
                     value!</mat-error>
+                <mat-error class="text-xs"
+                    *ngIf="purchaseProductCartForm.get('sellingPrice')?.hasError('invalidSellPrice')">Sellprice can't be
+                    less than purchase!</mat-error>
 
             </mat-form-field>
             <div class="flex gap-3">
@@ -92,7 +102,7 @@
                         required!
                     </mat-error>
                     <mat-error class="text-xs"
-                    *ngIf="purchaseProductCartForm.get('netAmount')?.hasError('pattern')">Invalid data! </mat-error>
+                        *ngIf="purchaseProductCartForm.get('netAmount')?.hasError('pattern')">Invalid data! </mat-error>
                 </mat-form-field>
             </div>
             <mat-form-field class="cdk-visually-hidden">

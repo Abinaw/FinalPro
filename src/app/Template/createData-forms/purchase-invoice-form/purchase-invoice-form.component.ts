@@ -6,6 +6,7 @@ import { Observable, map, startWith } from "rxjs";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { ITempPurchaseInvoice } from "src/app/constants/interfaces/ITempPurchaseInvoiceEntity";
 import { IVendorEntity } from "src/app/constants/interfaces/IVendorEntity";
+import { itemNamePattern } from "src/app/constants/interfaces/VALIDATORS";
 import { TempPurchaseService } from "src/app/service/tempPurchase-service/temp-purchase.service";
 
 @Component({
@@ -34,7 +35,7 @@ export class PurchaseInvoiceFormComponent {
         // console.log(this.purchaseList)
         this.isValid = false;
         this.purchaseInvocieForm = new FormGroup({
-            purchaseInvoiceNO: new FormControl(null, Validators.required),
+            purchaseInvoiceNO: new FormControl(null, [Validators.required, Validators.pattern(itemNamePattern)]),
             vendorOBJ: new FormControl({}, Validators.required),
             purchasedDate: new FormControl({}, Validators.required),
         });

@@ -6,8 +6,8 @@
             <mat-form-field class="w-full">
                 <mat-label>REPORT SELECT</mat-label>
                 <mat-select formControlName="selectedOpt" name="report" class="font-mono">
-                    <mat-option class="font-semibold font-mono" *ngFor="let option of reports"
-                        [value]="option.value" (focus)="onReportTypeChange(option.value)">{{option.viewValue|uppercase}}</mat-option>
+                    <mat-option class="font-semibold font-mono" *ngFor="let option of reports" [value]="option.value"
+                        (focus)="onReportTypeChange(option.value)">{{option.viewValue|uppercase}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="w-full"
@@ -21,14 +21,15 @@
             <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='voucherReprint'|| 
            invoiceSelection.get('selectedOpt')?.value==='customPaymentsReport' && 
            invoiceSelection.get('reportType')?.value==='purchaseInvoice'">
-                <mat-label>VOUCHER REF NUMBER</mat-label>
+                <mat-label>PURCHASE INVOICE REF NUMBER</mat-label>
                 <input type="text" placeholder="RefNo" matInput formControlName="refNo"
                     [formControl]="purchaseInvoiceControl" [matAutocomplete]="auto">
-                <mat-error class="text-sm" *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayVendorName.bind(this)">
+                <mat-error class="text-sm" *ngIf="invoiceSelection.get('refNo')?.hasError">This field is
+                    required!</mat-error>
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                    [displayWith]="displayVendorName.bind(this)">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptionPurchase | async"
-                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmPurchaseId) "
-                        [value]="anItem.purchaseInvoice">
+                        (focus)=" getTheSelectedInvoiceId(anItem.confirmPurchaseId) " [value]="anItem.purchaseInvoice">
                         {{anItem.purchaseInvoice}} | {{anItem.vendorOBJ.vendorName}}
                     </mat-option>
                 </mat-autocomplete>
@@ -38,15 +39,16 @@
              invoiceSelection.get('selectedOpt')?.value==='customPaymentsReport' &&
              invoiceSelection.get('reportType')?.value==='salesInvoice'
              ">
-                <mat-label>RECEIPT REF NUMBER</mat-label>
+                <mat-label>SALES INVOICE REF NUMBER</mat-label>
 
                 <input type="text" placeholder="RefNo" matInput formControlName="refNo"
                     [formControl]="salesInvoiceNoControl" [matAutocomplete]="auto">
-                <mat-error class="text-sm" *ngIf="invoiceSelection.get('refNo')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCustomerName.bind(this)">
+                <mat-error class="text-sm" *ngIf="invoiceSelection.get('refNo')?.hasError">This field is
+                    required!</mat-error>
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                    [displayWith]="displayCustomerName.bind(this)">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
-                        (onSelectionChange)=" getTheSelectedInvoiceId(anItem.confirmInvoiceId)"
-                        [value]="anItem.invoiceNumberRef">
+                        (focus)=" getTheSelectedInvoiceId(anItem.confirmInvoiceId)" [value]="anItem.invoiceNumberRef">
 
                         {{anItem.invoiceNumberRef}} | {{anItem.customerOBJ.custName}}
                     </mat-option>
@@ -62,12 +64,13 @@
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                     <input matStartDate formControlName="start" placeholder="Start date">
                     <input matEndDate formControlName="end" placeholder="End date">
-            </mat-date-range-input>
+                </mat-date-range-input>
 
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
                 <mat-error class="text-sm" *ngIf="range.get('end')?.hasError">End Date is required!</mat-error>
-                <mat-error class="text-sm" *ngIf="range.get('start')?.hasError">Start Date field is required!</mat-error>
+                <mat-error class="text-sm" *ngIf="range.get('start')?.hasError">Start Date field is
+                    required!</mat-error>
 
 
             </mat-form-field>
@@ -76,14 +79,15 @@
         </form>
         <section class="w-[100%] flex flex-col gap-[5px]">
             <div class="w-full flex flex-col justify-center items-center">
-                <button  mat-raised-button class="w-[95%]" color="primary" (click)="generateReport()">Generate Report</button>
+                <button mat-raised-button class="w-[95%]" color="primary" (click)="generateReport()">Generate
+                    Report</button>
             </div>
             <ng-container *ngIf="showPrintButton">
-            <div class="w-full flex flex-col justify-center items-center" >
-                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn" (click)="printReport()"
-               >Print Report</button>
-            </div>
-        </ng-container>
+                <div class="w-full flex flex-col justify-center items-center">
+                    <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn"
+                        (click)="printReport()">Print Report</button>
+                </div>
+            </ng-container>
         </section>
     </div>
 

@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, map, startWith } from 'rxjs';
 import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { IConfirmInvoiceEntity } from 'src/app/constants/interfaces/IConfirmInvoiceEntity';
 import { IDataToSet } from 'src/app/constants/interfaces/IDataToSetForReports';
@@ -71,6 +71,14 @@ export class InvoiceReportComponent {
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
+        const invoiceNum = this.invoiceSelection.get('invoiceNo');
+
+        this.invoiceNoControl.valueChanges.subscribe(res => {
+            const foundItem = this.salesInvoiceDataList.find(item => item.invoiceNumberRef === res);
+            if (!foundItem) {
+                this.salesInvoiceDataList = this.salesInvoiceDataList; // or some other action you want to take
+            }
+        })
     }
 
     getAllSalesInvoice() {

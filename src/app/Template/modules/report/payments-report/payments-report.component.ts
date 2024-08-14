@@ -172,19 +172,19 @@ export class PaymentsReportComponent {
     }
 
     handleError(error: HttpErrorResponse) {
-        console.error('Error fetching report:', error);
+        // console.error('Error fetching report:', error);
 
         let errorMessage = 'An unexpected error occurred. Please try again later.';
 
         if (error.status === 403) {
-            errorMessage = 'You do not have permission to access this resource.';
+            errorMessage = 'Error Generating report!';
         } else if (error.status === 404) {
             errorMessage = 'The requested resource was not found.';
         } else if (error.status === 500) {
-            errorMessage = 'There was a server-side error. Please try again later.';
+            errorMessage = 'There was an error.';
         }
 
-        this.toastr.error(errorMessage, 'Error ' + error.status);
+        this.toastr.error(errorMessage);
     }
 
     getPurchaseInvoicePayments(start: any, end: any) {
@@ -259,7 +259,11 @@ export class PaymentsReportComponent {
             }
             this.isReportGenerated = true
             this.cdr.detectChanges()
-        }, error => this.handleError(error))
+        }, error => {
+            if (purchaseInvoiceId == undefined) {
+                this.toastr.error("Select an existing Invoice ref!")
+            }
+        });
     }
 
     getSelectedSalesInvoicePayments(invoiceId: number, start: any, end: any) {
@@ -285,10 +289,14 @@ export class PaymentsReportComponent {
                 }
                 this.isReportGenerated = true
                 this.cdr.detectChanges();
-            }, error => this.handleError(error));
+            }, error => {
+                if (invoiceId == undefined) {
+                    this.toastr.error("Select an existing Sales Invoice ref!")
+                }
+            });
     }
 
-    getTheSelectedInvoiceId(invoice: number) {
+    getTheSelectedInvoiceId(invoice: any) {
         this.invoiceId = invoice
     }
 
@@ -490,7 +498,12 @@ export class PaymentsReportComponent {
                         }
                         this.cdr.detectChanges();
 
-                    }, (error) => { this.handleError(error) })
+                    }, (error) => {
+                        if (this.invoiceId == undefined) {
+                            this.toastr.error("Select an existing Purchase Invoice ref!")
+                            return
+                        } this.handleError(error)
+                    })
                     break;
                 case 'receiptReprint':
                     console.log('Generating Voucher Re-print report for:', this.invoiceId);
@@ -503,7 +516,12 @@ export class PaymentsReportComponent {
                         }
                         this.cdr.detectChanges();
 
-                    }, (error) => { this.handleError(error) })
+                    }, (error) => {
+                        if (this.invoiceId == undefined) {
+                            this.toastr.error("Select an existing Sales Invoice ref!")
+                            return
+                        } this.handleError(error)
+                    })
                     break;
                 case 'allPaymentsReports':
                     console.log('Generating all Payments report', this.invoiceId);

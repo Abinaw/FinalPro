@@ -11,15 +11,16 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field class="w-full"
-                *ngIf="invoiceSelection.get('selectedOpt')?.value==='invoiceReprint'">
+            <mat-form-field class="w-full" *ngIf="invoiceSelection.get('selectedOpt')?.value==='invoiceReprint'">
                 <mat-label>INVOICE NUMBER</mat-label>
                 <input type="text" placeholder="Product" matInput formControlName="invoiceNo"
                     [formControl]="invoiceNoControl" [matAutocomplete]="auto">
-                <mat-error class="text-sm" *ngIf="invoiceSelection.get('invoiceNo')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCustomerName.bind(this)">
+                <mat-error class="text-sm" *ngIf="invoiceSelection.get('invoiceNo')?.hasError">This field is
+                    required!</mat-error>
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                    [displayWith]="displayCustomerName.bind(this)">
                     <mat-option class="font-semibold font-mono" *ngFor="let anItem of filterOptions | async"
-                     (focus)=" getTheCustomerDetails(anItem.confirmInvoiceId, anItem.customerOBJ.email); "
+                        (onSelectionChange)=" getTheCustomerDetails(anItem.confirmInvoiceId, anItem.customerOBJ.email); "
                         [value]="anItem.invoiceNumberRef">
                         <!-- (onSelectionChange)="getSelectedProduct_sList(anItem.stockId)"> -->
                         {{anItem.invoiceNumberRef}} | {{anItem.customerOBJ.custName}}
@@ -37,9 +38,10 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
                 <mat-error class="text-sm" *ngIf="range.get('end')?.hasError">End Date is required!</mat-error>
-                <mat-error class="text-sm" *ngIf="range.get('start')?.hasError">Start Date field is required!</mat-error>
-               
-               
+                <mat-error class="text-sm" *ngIf="range.get('start')?.hasError">Start Date field is
+                    required!</mat-error>
+
+
             </mat-form-field>
 
             <!-- <p class="m-[5px]">Selected range: {{range.value | json}}</p> -->
@@ -50,13 +52,14 @@
                     Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="isReportGenerated">
-                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>
+                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn"
+                    (click)="printReport()">Print Report</button>
             </div>
-            <div class="w-full flex flex-col justify-center items-center" *ngIf="invoiceSelection.get('selectedOpt')?.value==='invoiceReprint'">
+            <div class="w-full flex flex-col justify-center items-center"
+                *ngIf="invoiceSelection.get('selectedOpt')?.value==='invoiceReprint'">
                 <button mat-stroked-button
-                        class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center"
-                        (click)="openMailForm()"
-                        [disabled]="!isReportAvailable">
+                    class="relative w-[95%] h-[48px] bg-blue-500 text-white rounded flex items-center justify-center"
+                    (click)="openMailForm()" [disabled]="!isReportAvailable">
                     <span *ngIf="!isReportAvailable">Generate report to open mail</span>
                     <span *ngIf="isReportAvailable">Open Email Form</span>
                 </button>

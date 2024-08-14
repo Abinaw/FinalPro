@@ -1,18 +1,17 @@
+<mat-dialog-content class="w-[full] pt-[15px] px-[5px]  flex flex-col justify-center">
+    <div mat-dialog-title class="text-sm text-center">
+        Create Purchase invoice
+    </div>
+    <form [formGroup]="purchaseInvocieForm" class="flex flex-col justify-evenly gap-[20px]">
 
-    <mat-dialog-content class="w-[full] pt-[15px] px-[5px]  flex flex-col justify-center">
-        <div mat-dialog-title class="text-sm text-center">
-            Create Purchase invoice
-        </div>
-        <form [formGroup]="purchaseInvocieForm" class="flex flex-col justify-evenly gap-[20px]">
+        <mat-form-field>
+            <mat-label>Invoice Ref</mat-label>
+            <input matInput type="text" formControlName="purchaseInvoiceNO">
+            <mat-error *ngIf="purchaseInvocieForm.get('purchaseInvoiceNO')?.errors">This field is
+                required!</mat-error>
 
-            <mat-form-field>
-                <mat-label>Invoice Ref</mat-label>
-                <input matInput type="text" formControlName="purchaseInvoiceNO">
-                <mat-error *ngIf="purchaseInvocieForm.get('purchaseInvoiceNO')?.errors">This field is
-                    required!</mat-error>
-
-            </mat-form-field>
-            <div class="flex flex-row w-[100%] gap-[10px]">
+        </mat-form-field>
+        <div class="flex flex-row w-[100%] gap-[10px]">
             <mat-form-field class="w-full">
                 <!-- [readonly]="purchaseList !== undefined" -->
                 <mat-label>Vendor</mat-label>
@@ -38,12 +37,13 @@
                     required!</mat-error>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            </div>
-        </form>
+        </div>
+    </form>
 
 
-    </mat-dialog-content>
-    <mat-card-actions class=" flex flex-row justify-center items-center">
-        <button mat-raised-button color="primary" (click)="createTempPurchase()">Insert
-            <mat-icon>add</mat-icon></button>
-    </mat-card-actions>
+</mat-dialog-content>
+<mat-card-actions class=" flex flex-row justify-center items-center">
+    <button [disabled]="purchaseInvocieForm.invalid" mat-raised-button color="primary"
+        (click)="createTempPurchase()">Insert
+        <mat-icon>add</mat-icon></button>
+</mat-card-actions>

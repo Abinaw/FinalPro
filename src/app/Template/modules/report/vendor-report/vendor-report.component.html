@@ -11,14 +11,16 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field class="w-full"> 
+            <mat-form-field class="w-full">
                 <mat-label>Vendor</mat-label>
-                <input type="text" placeholder="vendor" matInput formControlName="vendor"
-                    [formControl]="vendorControl" [matAutocomplete]="auto" (focus)="onVendorFocus()">
+                <input type="text" placeholder="vendor" matInput formControlName="vendor" [formControl]="vendorControl"
+                    [matAutocomplete]="auto" (focus)="onVendorFocus()">
                 <mat-error *ngIf="vendorReportForm.get('vendor')?.hasError">This field is required!</mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayVendorName.bind(this)">
-                    <mat-option class="font-semibold font-mono" *ngFor="let vendor of filterOptions | async" [value]="vendor.vendorId" (focus)=" getVendorId(vendor.vendorId)">
-                       
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                    [displayWith]="displayVendorName.bind(this)">
+                    <mat-option class="font-semibold font-mono" *ngFor="let vendor of filterOptions | async"
+                        [value]="vendor.vendorId" (onSelectionChange)=" getVendorId(vendor.vendorId)">
+
                         {{vendor.vendorId}} | {{vendor.vendorName}}
                     </mat-option>
                 </mat-autocomplete>
@@ -36,8 +38,8 @@
                 <mat-date-range-picker #picker></mat-date-range-picker>
                 <mat-error *ngIf="range.get('end')?.hasError">End Date is required!</mat-error>
                 <mat-error *ngIf="range.get('start')?.hasError">Start Date field is required!</mat-error>
-               
-               
+
+
             </mat-form-field>
 
             <!-- <p class="m-[5px]">Selected range: {{range.value | json}}</p> -->
@@ -48,7 +50,8 @@
                     Report</button>
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="isReportGenerated">
-                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn" (click)="printReport()" >Print Report</button>
+                <button [disabled]="!isReportAvailable" mat-raised-button class="w-[95%]" color="warn"
+                    (click)="printReport()">Print Report</button>
             </div>
         </section>
     </div>

@@ -9,7 +9,7 @@ import { GLOBAL_LIST } from 'src/app/constants/GlobalLists';
 import { ToastrService } from 'ngx-toastr';
 import moment from 'moment';
 import { NotificationService } from 'src/app/service/notification-service/notification.service';
-import { itemName, namePattern, netAmountPattern, nonMinusDigitPattern } from 'src/app/constants/interfaces/VALIDATORS';
+import { itemNamePattern, namePattern, netAmountPattern, nonMinusDigitPattern } from 'src/app/constants/interfaces/VALIDATORS';
 
 export function sellPriceValidator(purchasePriceControl: AbstractControl): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -48,7 +48,7 @@ export class StockFormComponent implements OnInit {
             stockId: new FormControl,
             categoryOBJ: new FormControl([Validators.required,]),
             // item name -> have to include that alone numbers can't be inputed
-            itemName: new FormControl("", [Validators.required, Validators.pattern(itemName)]),
+            itemName: new FormControl("", [Validators.required, Validators.pattern(itemNamePattern)]),
             materialColour: new FormControl('', [Validators.required, Validators.pattern(namePattern)]),
             quantity: new FormControl('', [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
             arrivalDate: new FormControl(new Date(), Validators.required),

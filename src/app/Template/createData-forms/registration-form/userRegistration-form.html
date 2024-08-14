@@ -35,7 +35,8 @@
             <div class="flex flex-row gap-[10px] justify-between">
                 <mat-form-field class="w-[100%]">
                     <mat-label> User Name </mat-label>
-                    <input matInput formControlName="username" type="text" class="" />
+                    <input matInput formControlName="username" type="text" class=""
+                        [readonly]="this.data.title=='Update'" />
                     <mat-error class="text-xs" *ngIf="userForm.get('username')?.hasError('required')">This field is
                         required!</mat-error>
                     <mat-error class="text-xs" *ngIf="userForm.get('username')?.hasError('pattern')">
@@ -49,7 +50,7 @@
                     <mat-error class="text-xs" *ngIf="userForm.get('email')?.hasError('required')">This field is
                         required!</mat-error>
                     <mat-error class="text-xs" *ngIf="userForm.get('email')?.hasError('pattern')">Invalid Email | Eg:
-                        Anne19@outlook.com</mat-error>
+                        Anne19&#64;outlook.com</mat-error>
                 </mat-form-field>
             </div>
             <mat-radio-group class="flex flex-row justify-evenly" name="gender" formControlName="gender"
@@ -63,11 +64,11 @@
 
             <mat-form-field>
                 <mat-label>Role</mat-label>
-                <select formControlName="role" mat-select matNativeControl class="">
-                    <option value="ADMIN" class="text-purple-700">ADMIN</option>
-                    <option value="USER" class="text-purple-700">USER</option>
+                <mat-select formControlName="role" mat-select matNativeControl class="">
+                    <mat-option value="ADMIN" class="text-purple-700">ADMIN</mat-option>
+                    <mat-option value="USER" class="text-purple-700">USER</mat-option>
                     <!-- <option value="MANAGER" class="text-purple-700">MANAGER</option> -->
-                </select>
+                </mat-select>
                 <mat-error class="text-sm" *ngIf="userForm.get('role')?.errors">This field is required!</mat-error>
             </mat-form-field>
 

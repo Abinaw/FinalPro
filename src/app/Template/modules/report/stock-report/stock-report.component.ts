@@ -21,19 +21,18 @@ export class StockReportComponent {
     selectedValue!: string;
     isReportGenerated!: boolean;
     stockList: IStockEntity[] = []
-    dataToSet: IDataToSet = { reportType: '', result: null ,error:null, dateRange:''};
+    dataToSet: IDataToSet = { reportType: '', result: null, error: null, dateRange: '' };
     reports: any[] = [
         { value: 'stock', viewValue: 'STOCK REPORT' },
-        { value: 'etc', viewValue: '...' },
     ];
-    stockReport:FormGroup;
+    stockReport: FormGroup;
 
 
     constructor(
         private stockService: StockService,
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
-        private matDialog : MatDialog
+        private matDialog: MatDialog
     ) {
         this.stockReport = new FormGroup({
             stockOption: new FormControl,
@@ -43,7 +42,7 @@ export class StockReportComponent {
     ngOnInit() {
         this.isReportGenerated = false
         this.stockReport.get('stockOption')?.setValue(this.reports[0].value);
-    
+
     }
     generateReport() {
         this.getAllStock()
@@ -52,14 +51,14 @@ export class StockReportComponent {
     getAllStock() {
         this.stockService.getAllStock().subscribe((res) => {
             this.dataToSet = {
-                dateRange:"",
-                reportType :"Stock Report",
+                dateRange: "",
+                reportType: "Stock Report",
                 result: res,
-                error:null
-           }
+                error: null
+            }
             this.isReportGenerated = true
             this.cdr.detectChanges();
-        },(error: HttpErrorResponse) => {
+        }, (error: HttpErrorResponse) => {
             console.error('Error fetching report:', error);
 
             let errorMessage = 'An unexpected error occurred. Please try again later.';
@@ -74,7 +73,7 @@ export class StockReportComponent {
 
             this.toastr.error(errorMessage, 'Error ' + error.status);
         }
-    );
+        );
     }
 
     printReport() {
@@ -102,7 +101,7 @@ export class StockReportComponent {
                     pdfWindow.onload = () => {
                         pdfWindow.print();
                     };
-                    
+
                     pdfWindow.onafterprint = () => pdfWindow.close();
                 }
             });
@@ -114,12 +113,12 @@ export class StockReportComponent {
     openMailForm() {
         const stockTempDoc = document.getElementById("stockTemp");
         if (stockTempDoc) {
-          const openForm = this.matDialog.open(EmailFormComponent, {
-            data: { reportPic: stockTempDoc, reportType:this.stockReport.get('stockOption')?.value },panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop" 
-          });
+            const openForm = this.matDialog.open(EmailFormComponent, {
+                data: { reportPic: stockTempDoc, reportType: this.stockReport.get('stockOption')?.value }, panelClass: ['custom-dialog-container'], backdropClass: "dialogbox-backdrop"
+            });
         } else {
-          this.toastr.error('Error occurred while generating the report');
+            this.toastr.error('Error occurred while generating the report');
         }
-      }
-      
+    }
+
 }

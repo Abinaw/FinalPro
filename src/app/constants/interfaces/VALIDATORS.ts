@@ -91,4 +91,4 @@ Item123 (starts with a space)
  item-name (starts with a space)
 Test-Item (starts with a space)
 */
-export const itemName = /^(?! )[a-zA-Z0-9-_ ]*(?<! )$/
+export const itemNamePattern = /^(?! )[a-zA-Z0-9-_ ]*(?<! )$/

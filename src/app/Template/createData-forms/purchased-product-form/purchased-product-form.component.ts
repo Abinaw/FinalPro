@@ -67,7 +67,7 @@ export class PurchasedProductFormComponent {
         this.stockDataList = GLOBAL_LIST.STOCK_DATA;
         this.purchaseProductCartForm = new FormGroup({
             productCartId: new FormControl(),
-            stockOBJ: new FormControl(Validators.required),
+            stockOBJ: new FormControl("", Validators.required),
             quantity: new FormControl("", [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
             discount: new FormControl("", [Validators.required, Validators.pattern(discountPattern)]),
             sellingPrice: new FormControl("", [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
@@ -76,7 +76,6 @@ export class PurchasedProductFormComponent {
             grossAmount: new FormControl(null),
             tempPurchaseOBJ: new FormControl(),
         });
-        this.purchaseProductCartForm.updateValueAndValidity()
         // this.loadAllPurchase();
         this.getAllPurchaseInvoice();
     }
@@ -327,16 +326,6 @@ export class PurchasedProductFormComponent {
                 purchasePriceControl.setErrors({ invalidPurchase: true })
                 purchasePriceControl.updateValueAndValidity()
                 this.markControlAsTouchedAndDirty(purchasePriceControl)
-                console.log("300 line")
-                /*  if (!qtyControl?.value || qtyControl.value == 0 && purchasePriceControl) {
-                     qtyControl?.enable()
-                     console.log("302 line")
-                     qtyControl?.setValidators([Validators.required])
-                     qtyControl?.updateValueAndValidity()
-                     // this.markControlAsTouchedAndDirty()
-                     return
-                 } */
-                //  discountControl?.disable()
                 return
             } else {
                 discountControl?.enable()

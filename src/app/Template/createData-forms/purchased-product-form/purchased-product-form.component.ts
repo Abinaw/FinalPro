@@ -32,7 +32,7 @@ export function sellPriceValidator(purchasePriceControl: AbstractControl): Valid
 export function qtyValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
         const qtyVal = control.value
-        if (qtyVal == 0) {
+        if (qtyVal <= 0) {
             return { noZero: true };
         }
         return null;
@@ -76,6 +76,7 @@ export class PurchasedProductFormComponent {
             grossAmount: new FormControl(null),
             tempPurchaseOBJ: new FormControl(),
         });
+        this.purchaseProductCartForm.updateValueAndValidity()
         // this.loadAllPurchase();
         this.getAllPurchaseInvoice();
     }
@@ -92,18 +93,15 @@ export class PurchasedProductFormComponent {
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
-        this.setupValidators()
+        //incase if the user tries to type the value, did this becz the getSelectedProduct_sList function kinda stores the value forever in the selectedList, that 
+        //   lets even the wrong id of stock to be passed as the previously stored stock, so this kinda helps to not select improper ones 
+        this.stockOBJControl.valueChanges.subscribe(value => {
+            this.onProductInputChange(value);
+        });
 
+        this.setupValidators()
     }
 
-    /* sellPriceValidator():ValidatorFn{
-        return (control: AbstractControl): { [key: string]: any } | null => {
-            const sellPriceVal = control.value
-            if(sellPriceVal>){
-    
-            }
-        }
-    } */
 
     private setDataToInputForUpdation() {
         this.purchaseProductCartForm.patchValue({
@@ -136,7 +134,37 @@ export class PurchasedProductFormComponent {
             return (this.stockDataList = GLOBAL_LIST.STOCK_DATA);
         }
     }
+    onProductInputChange(value: any) {
+        const selected = this.stockDataList.find(item => item.stockId === value);
 
+        if (!selected) {
+            // Clear selected product
+            this.selectedProduct = [];
+
+            // Form fields disabled
+            this.purchaseProductCartForm.get('quantity')?.disable();
+            this.purchaseProductCartForm.get('discount')?.disable();
+            this.purchaseProductCartForm.get('sellingPrice')?.disable();
+            this.purchaseProductCartForm.get('purchasePrice')?.disable();
+
+            // Set 'required' error on stockOBJ if invalid
+            this.purchaseProductCartForm.get('stockOBJ')?.setErrors({ invalidStockId: true });
+            this.purchaseProductCartForm.get('stockOBJ')?.updateValueAndValidity()
+
+        } else {
+            // Clear any previous errors if a valid selection is made
+            this.purchaseProductCartForm.get('stockOBJ')?.setErrors(null);
+
+            // Enable relevant form fields
+            this.purchaseProductCartForm.get('quantity')?.enable();
+            this.purchaseProductCartForm.get('discount')?.enable();
+            this.purchaseProductCartForm.get('sellingPrice')?.enable();
+            this.purchaseProductCartForm.get('purchasePrice')?.enable();
+
+            // Update selected product
+            this.getSelectedProduct_sList(selected.stockId);
+        }
+    }
     getAllPurchaseInvoice() {
         this.tempPurchaseService.getAllTempPurchase().subscribe((res) => {
             this.selectedPurchase = res?.result?.[0];
@@ -230,6 +258,15 @@ export class PurchasedProductFormComponent {
             (list) => list?.stockId === stockId
         );
     }
+    displayStockName(id: any): any {
+        const stock = this.stockDataList.find((obj) => obj.stockId === id);
+        return stock ? `${stock.stockId} | ${stock.itemName}` : undefined;
+    }
+
+    clearSelectedProduct() {
+        this.selectedProduct = []
+        this.selectedItemsQty = 0
+    }
 
     setTotalWhenQty() {
         if (this.selectedProduct.length == 0) {
@@ -247,16 +284,19 @@ export class PurchasedProductFormComponent {
         const discountControl = this.purchaseProductCartForm.get("discount");
         const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
         const sellingPriceControl = this.purchaseProductCartForm.get("sellingPrice");
+        if (!purchasePriceControl) return
         if (!qtyControl) return;
 
         qtyControl?.valueChanges.pipe(debounceTime(300)).subscribe((qty) => {
-            if (qty == 0) {
+            if (qty <= 0) {
                 qtyControl.updateValueAndValidity()
                 this.markControlAsTouchedAndDirty(qtyControl)
+                purchasePriceControl?.disable()
                 discountControl?.disable()
                 sellingPriceControl?.disable()
                 return
             }
+            purchasePriceControl?.enable()
             discountControl?.enable()
             sellingPriceControl?.enable()
             totalControl?.patchValue(qty * purchasePriceControl?.value | 0);
@@ -278,13 +318,24 @@ export class PurchasedProductFormComponent {
         const sellingPriceControl = this.purchaseProductCartForm.get("sellingPrice");
 
 
-        purchasePriceControl?.valueChanges.pipe(debounceTime(300)).subscribe((purchaseP) => {
-            console.log(purchasePriceControl.value)
-            if (purchasePriceControl.value == 0) {
+        purchasePriceControl?.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe((purchaseP) => {
+
+            if (!purchasePriceControl || purchasePriceControl.value <= 0) {
                 qtyControl?.disable()
+                discountControl?.disable()
                 sellingPriceControl?.disable()
-                purchasePriceControl.setValidators([Validators.pattern(nonMinusnonZeroDigitPattern)])
+                purchasePriceControl.setErrors({ invalidPurchase: true })
                 purchasePriceControl.updateValueAndValidity()
+                this.markControlAsTouchedAndDirty(purchasePriceControl)
+                console.log("300 line")
+                /*  if (!qtyControl?.value || qtyControl.value == 0 && purchasePriceControl) {
+                     qtyControl?.enable()
+                     console.log("302 line")
+                     qtyControl?.setValidators([Validators.required])
+                     qtyControl?.updateValueAndValidity()
+                     // this.markControlAsTouchedAndDirty()
+                     return
+                 } */
                 //  discountControl?.disable()
                 return
             } else {
@@ -304,20 +355,31 @@ export class PurchasedProductFormComponent {
     }
 
     setNetAmount() {
+
         const qtyControl = this.purchaseProductCartForm.get("quantity");
         const totalControl = this.purchaseProductCartForm.get("grossAmount");
         const netAmountControl = this.purchaseProductCartForm.get("netAmount");
         const discountControl = this.purchaseProductCartForm.get("discount");
         const purchasePriceControl = this.purchaseProductCartForm.get("purchasePrice");
         const sellingPriceControl = this.purchaseProductCartForm.get("sellingPrice");
+
         if (!discountControl) return
+        if (this.selectedProduct.length == 0) {
+            this.toastr.warning("Try selecting a product first!", "Product isn't selected!")
+            purchasePriceControl?.disable()
+            discountControl?.disable()
+            sellingPriceControl?.disable()
+            qtyControl?.disable()
+            return
+        }
         discountControl?.valueChanges
-            .pipe(debounceTime(300))
+            .pipe(debounceTime(300), distinctUntilChanged())
 
             .subscribe((discount) => {
                 if (purchasePriceControl?.value == '') {
                     discountControl?.disable()
                     sellingPriceControl?.disable()
+                    qtyControl?.disable()
                     purchasePriceControl.setErrors({ required: true });
                     this.markControlAsTouchedAndDirty(purchasePriceControl)
                     purchasePriceControl.updateValueAndValidity()

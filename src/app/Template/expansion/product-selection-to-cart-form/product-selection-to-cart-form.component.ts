@@ -227,7 +227,10 @@ export class ProductSelectionToCartFormComponent {
             return (this.stockDataList = GLOBAL_LIST.STOCK_DATA);
         }
     }
-
+    markControlAsTouchedAndDirty(control: AbstractControl): void {
+        control.markAsTouched();
+        control.markAsDirty();
+    }
     initializeQtyValidation(qty: number) {
         //only add this qty validation, once the qty has been acquired for the selected stock by the component
         this.productSelectionForm
@@ -307,6 +310,7 @@ export class ProductSelectionToCartFormComponent {
                             this.toastr.clear();
                             this.toastr.warning('The unit discount can neither exceed nor equal the Selling price!', 'Warning!');
                             discountControl.setErrors({ inValidDiscount: true });
+                            this.markControlAsTouchedAndDirty(discountControl)
                         } else {
                             discountControl?.patchValue(discount);
                             netAmountControl?.patchValue(netAmount);

@@ -36,14 +36,14 @@ import { PrintComponent } from "./Template/side-bar/nav-settings/print/print.com
 
 // Form Modules
 import { ReactiveFormsModule } from "@angular/forms";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from "@angular/material/radio";
 import { MatInputModule } from "@angular/material/input";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import {MatButtonToggleModule,MatButtonToggleChange} from '@angular/material/button-toggle';
-import {MatSelectModule} from '@angular/material/select';
+import { MatButtonToggleModule, MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
 // Table
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -101,7 +101,7 @@ import { PrintActionComponent } from './custom-components/action-cell/print-acti
 import { CustomerReportComponent } from './Template/modules/report/customer-report/customer-report.component';
 import { VendorReportComponent } from './Template/modules/report/vendor-report/vendor-report.component';
 import { NotificationComponent } from './Template/side-bar/nav-settings/notification/notification.component';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 import { NotifiExpansionComponent } from './Template/side-bar/nav-settings/notification/notifi-expansion/notifi-expansion.component';
 import { EmailFormComponent } from './Template/createData-forms/email-form/email-form.component';
 import { RoleGuard } from "./service/role-service/role.guard";
@@ -174,7 +174,7 @@ import { RoleGuard } from "./service/role-service/role.guard";
         NotifiExpansionComponent,
         EmailFormComponent,
 
-        
+
 
     ],
     imports: [
@@ -185,7 +185,6 @@ import { RoleGuard } from "./service/role-service/role.guard";
         MatNativeDateModule,
         MatAutocompleteModule,
         MatBadgeModule,
-
         // Dash_Board-Purpose
         MatButtonModule,
         MatCardModule,
@@ -200,7 +199,7 @@ import { RoleGuard } from "./service/role-service/role.guard";
         MatDialogModule,
         MatButtonToggleModule,
         MatSelectModule,
-        
+
 
         //  Table
         MatTableModule,
@@ -219,11 +218,11 @@ import { RoleGuard } from "./service/role-service/role.guard";
 
     ],
     //providers: [],
-    providers: [DatePipe,   { provide: MAT_DIALOG_DATA, useValue: {} },
+    providers: [DatePipe, { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

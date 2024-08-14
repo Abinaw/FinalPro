@@ -239,7 +239,7 @@ export class PaymentsReportComponent {
             }, error => this.handleError(error))
     }
 
-    getSelectedPurchaseInvoicePayments(purchaseInvoiceId: number, start: any, end: any) {
+    getSelectedPurchaseInvoicePayments(purchaseInvoiceId: any, start: any, end: any) {
         this.reportsService.selectAllPaymentsOfThePurchaseInvoiceWithInTheRange(purchaseInvoiceId, start, end).subscribe((res) => {
             if (res?.result) {
                 this.isReportAvailable = true

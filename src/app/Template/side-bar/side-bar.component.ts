@@ -15,6 +15,7 @@ import { SysInfoComponent } from './nav-settings/sys-info/sys-info.component';
 export class SideBarComponent {
   @Input() isSwitched!: boolean;
   notificationData: INotificationEntity | null = null;
+  isLinkDisabled = true;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -32,6 +33,7 @@ export class SideBarComponent {
     if (this.authService.isLoggedIn()) {
       this.notificationService.fetchnotificationData();
     }
+    this.isLinkDisabled = true
   }
   logout() {
     console.log("logout")

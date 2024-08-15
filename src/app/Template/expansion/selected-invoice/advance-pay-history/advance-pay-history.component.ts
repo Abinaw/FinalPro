@@ -36,6 +36,7 @@ export class AdvancePayHistoryComponent {
     private matDialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private statusUpdateService: StatusUpdateService,
+
   ) {
 
   }
@@ -45,6 +46,7 @@ export class AdvancePayHistoryComponent {
     this.statusUpdateService.tempSalesCartNetAmount$.subscribe(res => {
       this.netAmount = res
     })
+
   }
   public columnDef: ColDef[] = [
     // 
@@ -91,6 +93,8 @@ export class AdvancePayHistoryComponent {
   onGridReady(param: GridReadyEvent) {
     this.rowData$ = this.getRowData();
     this.gridApi = param?.api
+    this.gridApi.sizeColumnsToFit();
+
   }
 
 

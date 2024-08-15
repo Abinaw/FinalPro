@@ -8,9 +8,9 @@ import { CetegoryService } from 'src/app/service/category-service/cetegory.servi
 import { CategoryFormComponent } from '../../createData-forms/category-form/category-form.component';
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.css']
 })
 export class CategoryComponent {
     rowData$!: Observable<any[]>;
@@ -18,13 +18,13 @@ export class CategoryComponent {
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-    searchCharac : string=""
+    searchCharac: string = ""
     public columnDef: ColDef[] = [
         // 
-        { field: "categoryId", width: 90, hide:true},
+        { field: "categoryId", width: 90, hide: true },
         { field: "categoryName", },
-        { field: "description",width:250 },
-        { field: "Action",width: 90, cellRenderer: CategoryActionComponent, }
+        { field: "description", width: 250 },
+        { field: "Action", width: 90, cellRenderer: CategoryActionComponent, }
     ];
 
     constructor(
@@ -32,12 +32,13 @@ export class CategoryComponent {
         private catService: CetegoryService,
     ) { }
 
-   
+
 
 
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
+        this.gridApi.sizeColumnsToFit();
     }
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
@@ -53,34 +54,33 @@ export class CategoryComponent {
         })
     }
 
-  
-    public setDataIntoRow() {       
+
+    public setDataIntoRow() {
         this.catService.getAll().subscribe((catData) => {
             this.gridApi.setRowData(catData);
-          }, (err) => {
-          })
+        }, (err) => {
+        })
     }
 
 
     insertTrigger() {
-        const extraData={
-            title:"Insert"
+        const extraData = {
+            title: "Insert"
         }
-        const openForm = this.dialog.open(CategoryFormComponent,{data:extraData , panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop" })
-        openForm.afterClosed().subscribe(res=>{
+        const openForm = this.dialog.open(CategoryFormComponent, { data: extraData, panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop" })
+        openForm.afterClosed().subscribe(res => {
             this.setDataIntoRow();
         })
-      
+
     }
 
-    searchDataInRows()
-    {
-        if(this.searchCharac!==""){
-        this.catService.findData(this.searchCharac).subscribe(res=>{
-          this.gridApi.setRowData(res) 
-           });   
-        }else if(this.searchCharac===""){
-           this.setDataIntoRow()
+    searchDataInRows() {
+        if (this.searchCharac !== "") {
+            this.catService.findData(this.searchCharac).subscribe(res => {
+                this.gridApi.setRowData(res)
+            });
+        } else if (this.searchCharac === "") {
+            this.setDataIntoRow()
         }
     }
 

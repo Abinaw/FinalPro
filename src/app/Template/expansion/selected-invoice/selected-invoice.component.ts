@@ -218,6 +218,8 @@ export class SelectedInvoiceComponent implements OnInit {
             this.statusUpdateService.updateTempSalesNetAmount(this.productCartItems)
             this.cdr.detectChanges()
         })
+        this.gridApi.sizeColumnsToFit();
+
     }
 
 
@@ -280,7 +282,6 @@ export class SelectedInvoiceComponent implements OnInit {
 
     openPay() {
         const extraData = {
-            // totalAmount: this.netAmount,
             tempInvoiceData: this.invoiceData,
         };
         const openPay = this.matDialog.open(

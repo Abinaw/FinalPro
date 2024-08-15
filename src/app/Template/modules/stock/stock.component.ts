@@ -22,12 +22,14 @@ export class StockComponent {
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
     searchCharac: string = ""
+    private areExtraColumnsVisible = false;
     public columnDef: ColDef[] = [
         // 
-        { field: "stockId", width: 90, hide: true, suppressColumnsToolPanel: true },
+        { field: "stockId", hide: true, suppressColumnsToolPanel: true },
         {
             field: "categoryOBJ",
             headerName: "Category",
+            hide: true, // Initially hidden
             valueFormatter: (params) => {
                 const combinedvalue = params.value.categoryId + " | " + params.value.categoryName
                 return combinedvalue
@@ -59,19 +61,23 @@ export class StockComponent {
             }
         },
         {
-            field: "reorderQty", width: 100, valueFormatter: (params) => {
+            field: "reorderQty", valueFormatter: (params) => {
                 const val = (params.value.toFixed(2))
                 return val
-            }
+            }, hide: true, // Initially hidden
+
         },
         {
-            field: "quantity", width: 90, valueFormatter: (params) => {
+            field: "quantity", valueFormatter: (params) => {
                 const val = (params.value.toFixed(2))
                 return val
-            }
+            },
+
         },
-        { field: "remarks", },
-        { field: "Action", width: 90, cellRenderer: StockActionComponent, }
+        {
+            field: "remarks",
+        },
+        { field: "Action", cellRenderer: StockActionComponent, }
     ];
 
     constructor(
@@ -81,16 +87,40 @@ export class StockComponent {
     ) { this.getAllCategoryData() }
 
 
+    onActionTriggered(): void {
+        this.toggleExtraColumns();
+    }
 
+    toggleExtraColumns(): void {
+        this.areExtraColumnsVisible = !this.areExtraColumnsVisible; // Toggle the state
+
+        this.columnDef = this.columnDef.map(col => {
+            if (col.field === 'arrivalDate' || col.field === 'categoryOBJ' || col.field === 'reorderQty') {
+                col.hide = !this.areExtraColumnsVisible; // Show or hide columns based on state
+            }
+            return col;
+        });
+
+        // If grid API is available
+        if (this.gridApi) {
+            setTimeout(() => {
+                this.gridApi.setColumnDefs(this.columnDef); // Apply updated column definitions
+
+                // Only resize columns to fit the grid if the extra columns are hidden
+                if (!this.areExtraColumnsVisible) {
+                    this.gridApi.sizeColumnsToFit();
+                }
+            }, 0); // Ensure it runs after columnDefs update
+        }
+    }
 
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
+        this.gridApi.sizeColumnsToFit();
     }
 
-    onCellClicked(cellClickedEvent: CellClickedEvent) {
-        //    console.log(cellClickedEvent)
-    }
+
 
     private getRowData(): any {
         return new Promise((resolve) => {

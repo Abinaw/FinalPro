@@ -11,13 +11,14 @@
                 'text-gray-200': isSwitched,
                 'text-gray-600': !isSwitched 
             }">
-            <li (click)="openUserManual()">
-                <a class="cursor-pointer">
-                    <span class="material-symbols-rounded"> info </span>
-                </a>
-            </li>
             <li>
-                <a href="#" [routerLink]="['/company-details']">
+                <a>
+                    <app-notification [notificationData]="notificationData"></app-notification>
+                </a>
+
+            </li>
+            <li class="cursor-not-allowed">
+                <a [attr.disabled]="isLinkDisabled ? true : null">
                     <span class="material-symbols-rounded">
                         manage_history
                     </span>
@@ -33,11 +34,11 @@
                     <span class="material-symbols-rounded"> backup </span>
                 </a>
             </li>
-            <li>
-                <a>
-                    <app-notification [notificationData]="notificationData"></app-notification>
-                </a>
 
+            <li (click)="openUserManual()">
+                <a class="cursor-pointer">
+                    <span class="material-symbols-rounded"> info </span>
+                </a>
             </li>
         </ul>
         <button class="bg-[#f77e88] flex items-center justify-center gap-x-[4px] w-full py-[8px] rounded-[5px]"

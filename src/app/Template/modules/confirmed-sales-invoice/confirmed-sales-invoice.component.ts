@@ -10,9 +10,9 @@ import moment from 'moment';
 
 
 @Component({
-  selector: 'app-confirmed-sales-invoice',
-  templateUrl: './confirmed-sales-invoice.component.html',
-  styleUrls: ['./confirmed-sales-invoice.component.css']
+    selector: 'app-confirmed-sales-invoice',
+    templateUrl: './confirmed-sales-invoice.component.html',
+    styleUrls: ['./confirmed-sales-invoice.component.css']
 })
 export class ConfirmedSalesInvoiceComponent {
     rowData$!: Observable<any[]>;
@@ -20,81 +20,81 @@ export class ConfirmedSalesInvoiceComponent {
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-    searchCharac : string=""
+    searchCharac: string = ""
 
 
-    
-    
+
+
 
     public columnDef: ColDef[] = [
         // 
-        { 
+        {
             field: "confirmInvoiceId",
-            colId:"confirmInvoiceId",
-            headerName:"Confirm Sales Invoice id",
-            width: 90, 
+            colId: "confirmInvoiceId",
+            headerName: "Confirm Sales Invoice id",
+            width: 90,
             hide: true
         },
-        { 
+        {
             field: "date",
-            colId:"date",
-            headerName:"Time Stamp",
+            colId: "date",
+            headerName: "Time Stamp",
             valueFormatter: (params) => {
                 const val = (params.value)
                 let dateTime = moment(new Date(val)).format("DD/MM/YYYY HH:mm:ss");
-                dateTime = dateTime.split(' ')[0] +" | " +dateTime.split(' ')[1]
+                dateTime = dateTime.split(' ')[0] + " | " + dateTime.split(' ')[1]
                 return dateTime
             }
-         },
-         { 
+        },
+        {
             field: "invoiceNumberRef",
-            colId:"invoiceNumberRef",
-            headerName:"Sales Invoice number"
-         },
-        { 
+            colId: "invoiceNumberRef",
+            headerName: "Sales Invoice number"
+        },
+        {
             field: "netAmount",
-            colId:"netAmount",
-            headerName:"Total amount",
+            colId: "netAmount",
+            headerName: "Total amount",
             valueFormatter: (params) => {
-                const val ="Rs. "+ (params.value.toFixed(2))
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
         },
-        { 
+        {
             field: "customerOBJ",
-            colId:"customerOBJ",
-            headerName:"Customer",
-            valueFormatter:(params)=>{
-                const combinedvalue = params.value.custId+" | "+params.value.custName
+            colId: "customerOBJ",
+            headerName: "Customer",
+            valueFormatter: (params) => {
+                const combinedvalue = params.value.custId + " | " + params.value.custName
                 return combinedvalue
             }
-            
+
         },
-        { 
+        {
             field: "paidAmount",
-            colId:"paidAmount",
-            headerName:"Paid amount",
+            colId: "paidAmount",
+            headerName: "Paid amount",
             valueFormatter: (params) => {
-                const val ="Rs. "+ (params.value.toFixed(2))
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
-        
+
         },
-        { 
-            field: "isComplete",
-            colId:"isComplete",
-            headerName:"Is Complete",
-            hide: true
-        },    
         {
-            field:"action",
-            headerName:"Action",
+            field: "isComplete",
+            colId: "isComplete",
+            headerName: "Is Complete",
+            hide: true
+        },
+        {
+            field: "action",
+            headerName: "Action",
             // cellRenderer:,
-            cellRenderer :PaymentActionComponent,
+            cellRenderer: PaymentActionComponent,
             cellRendererParams: {
                 actionName: 'salesInvoice'
             }
-             
+
         }
     ];
 
@@ -102,30 +102,31 @@ export class ConfirmedSalesInvoiceComponent {
 
     constructor(
         private dialog: MatDialog,
-        private confirmInvoiceService:ConfirmInvoiceService
-       
-    ) { 
-       
+        private confirmInvoiceService: ConfirmInvoiceService
+
+    ) {
+
     }
 
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
+        this.gridApi.sizeColumnsToFit();
     }
-    
+
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
-     
+
     }
 
     onCellDoubleClicked(cellClickedEvent: CellClickedEvent) {
         if (cellClickedEvent.colDef.field === 'invoiceNumberRef') {
-          this.copyToClipboard(cellClickedEvent.value);
+            this.copyToClipboard(cellClickedEvent.value);
         }
-      }
+    }
 
-      
-      copyToClipboard(value: string) {
+
+    copyToClipboard(value: string) {
         const el = document.createElement('textarea');
         el.value = value;
         document.body.appendChild(el);
@@ -133,8 +134,8 @@ export class ConfirmedSalesInvoiceComponent {
         document.execCommand('copy');
         document.body.removeChild(el);
         alert(`Copied: ${value}`);
-      }
-    
+    }
+
     private getRowData(): any {
         return new Promise((resolve) => {
             this.confirmInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
@@ -146,30 +147,29 @@ export class ConfirmedSalesInvoiceComponent {
         })
     }
 
- 
-    public setDataIntoRow() {       
+
+    public setDataIntoRow() {
         this.confirmInvoiceService.getAllConfirmedInvoices().subscribe((invoiceData) => {
             this.gridApi.setRowData(invoiceData?.result);
-          }, (err) => {
-          })
+        }, (err) => {
+        })
     }
 
 
 
 
-    searchDataInRows()
-    {
+    searchDataInRows() {
         // this.gridApi.setQuickFilter(this.searchCharac)
-        if(this.searchCharac!==""){
-        this.confirmInvoiceService.searchConfirmedSalesInvoice(this.searchCharac).subscribe(res=>{
-            console.log(res?.result)
-          this.gridApi.setRowData(res?.result) 
-           });   
-        }else if(this.searchCharac===""){
-           this.setDataIntoRow()
+        if (this.searchCharac !== "") {
+            this.confirmInvoiceService.searchConfirmedSalesInvoice(this.searchCharac).subscribe(res => {
+                console.log(res?.result)
+                this.gridApi.setRowData(res?.result)
+            });
+        } else if (this.searchCharac === "") {
+            this.setDataIntoRow()
         }
     }
 
-   
+
 
 }

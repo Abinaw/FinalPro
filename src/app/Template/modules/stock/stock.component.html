@@ -11,10 +11,12 @@
     <div class="user-table-cont flex justify-center">
         <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" [paginationAutoPageSize]="true"
             style=" height: 65vh; width:76vw;" [rowData]="rowData$ | async" [columnDefs]="columnDef" [pagination]="true"
-            [rowSelection]="rowSelection" (cellClicked)="onCellClicked($event)" (gridReady)="onGridReady($event)">
+            [rowSelection]="rowSelection" (gridReady)="onGridReady($event)">
         </ag-grid-angular>
     </div>
+
     <div class="btn-container mb-5 flex flex-row mt-5 gap-6 justify-end mr-5 ">
+        <button mat-raised-button (click)="onActionTriggered()">Show Extra Columns</button>
         <button mat-raised-button class="rounded-sm font-semibold w-36" color="primary" (click)="insertTrigger()">Stock
             <span class="material-symbols-outlined align-middle">
                 new_window

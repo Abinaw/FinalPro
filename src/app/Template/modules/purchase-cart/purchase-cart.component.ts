@@ -34,7 +34,7 @@ import { StatusUpdateService } from "src/app/service/sharedServiceForStates/stat
 })
 export class PurchaseCartComponent implements OnInit {
     purchaseInvoiceNum!: number;
-    totalNetAmount :number =0
+    totalNetAmount: number = 0
     vendorList!: any;
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
@@ -44,20 +44,15 @@ export class PurchaseCartComponent implements OnInit {
     searchCharac: string = "";
     purchaseId!: number;
     purchaseList: ITempPurchaseInvoice[] = [];
-    purchaseCart:ITempPurchaseCartEntity[]=[]
+    purchaseCart: ITempPurchaseCartEntity[] = []
     public columnDef: ColDef[] = [
-       
+
         {
             field: "productCartId",
             colId: "productCartId",
             headerName: "productCartId",
             width: 90,
             hide: true,
-        },
-        {
-            field: "action",
-            headerName: "Action",
-            cellRenderer: PurchaseCartActionComponent,
         },
         {
             field: "stockOBJ",
@@ -68,6 +63,15 @@ export class PurchaseCartComponent implements OnInit {
                     params.value.stockId + " | " + params.value.itemName;
                 return combinedvalue;
             },
+        },
+        {
+            field: "sellingPrice",
+            colId: "sellingPrice",
+            headerName: "Selling price",
+            valueFormatter: (params) => {
+                const val = "Rs. " + (params.value.toFixed(2))
+                return val
+            }
         },
         {
             field: "purchasePrice",
@@ -96,16 +100,8 @@ export class PurchaseCartComponent implements OnInit {
                 return val
             }
         },
-        {
-            field: "sellingPrice",
-            colId: "sellingPrice",
-            headerName: "Selling price",
-            valueFormatter: (params) => {
-                const val = "Rs. " + (params.value.toFixed(2))
-                return val
-            }
-        },
-       
+
+
         {
             field: "grossAmount",
             colId: "grossAmount",
@@ -134,10 +130,14 @@ export class PurchaseCartComponent implements OnInit {
                     params.value.vendorOBJ.vendorName;
                 return combinedvalue;
             },
-            hide:true
+            hide: true
         },
-       
-       
+        {
+            field: "action",
+            headerName: "Action",
+            cellRenderer: PurchaseCartActionComponent,
+        },
+
     ];
 
     onCellClicked(cellClickedEvent: CellClickedEvent) { }
@@ -151,7 +151,7 @@ export class PurchaseCartComponent implements OnInit {
         private confirmPurchaseAndCartService: ConfirmPurchaseAndCartServiceService,
         private toastr: ToastrService,
         private router: Router,
-        private notificationService:NotificationService,
+        private notificationService: NotificationService,
         private cdr: ChangeDetectorRef,
         private statusUpdateService: StatusUpdateService,
 
@@ -160,45 +160,47 @@ export class PurchaseCartComponent implements OnInit {
         this.purchaseList = GLOBAL_LIST.TEMPPURCHASE_DATA;
         // this.purchaseCart = GLOBAL_LIST.TEMP_PURCHASE_CART_DATA;
         this.getTempPurchaseId();
-    
-      
+
+
     }
 
     ngOnInit(): void {
         this.purchaseInvoiceNum = this.purchaseList?.[0].purchaseInvoiceNO;
         this.vendorList = this.purchaseList?.[0].vendorOBJ;
-        if(this.purchaseCart.length<=0){
+        if (this.purchaseCart.length <= 0) {
             this.loadAllPurchaseCartAndUpdateNetAmount()
         }
     }
-     
+
     onGridReady(param: GridReadyEvent) {
+
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api;
-        this.statusUpdateService.purchaseCart$.subscribe(res=>{
-           this.purchaseCart = res
-           this.statusUpdateService.updatePurchaseNetAmount(this.purchaseCart)
-            this.statusUpdateService.purchaseCartNetAmount$.subscribe(res=>{
+        this.statusUpdateService.purchaseCart$.subscribe(res => {
+            this.purchaseCart = res
+            this.statusUpdateService.updatePurchaseNetAmount(this.purchaseCart)
+            this.statusUpdateService.purchaseCartNetAmount$.subscribe(res => {
                 this.totalNetAmount = res
             })
-           console.log("cart",res)
-           this.cdr.detectChanges()
+            console.log("cart", res)
+            this.cdr.detectChanges()
         })
+        this.gridApi.sizeColumnsToFit();
     }
 
     getTempPurchaseId() {
         this.purchaseId = this.purchaseList?.[0]?.purchaseId;
     }
 
-   
-    loadAllPurchaseCartAndUpdateNetAmount(){
-        this.tempPurchaseCartService.getAllTempPurchaseCartItems(this.purchaseId).subscribe(res=>{
-           this.purchaseCart = res?.result
-           GLOBAL_LIST.TEMP_PURCHASE_CART_DATA = res?.result 
-           this.statusUpdateService.updatePurchaseInvoiceCart(res?.result)
-        //    update netamount in the shared service
-           this.statusUpdateService.updatePurchaseNetAmount(res?.result)
-           this.cdr.detectChanges()
+
+    loadAllPurchaseCartAndUpdateNetAmount() {
+        this.tempPurchaseCartService.getAllTempPurchaseCartItems(this.purchaseId).subscribe(res => {
+            this.purchaseCart = res?.result
+            GLOBAL_LIST.TEMP_PURCHASE_CART_DATA = res?.result
+            this.statusUpdateService.updatePurchaseInvoiceCart(res?.result)
+            //    update netamount in the shared service
+            this.statusUpdateService.updatePurchaseNetAmount(res?.result)
+            this.cdr.detectChanges()
         })
     }
 
@@ -209,7 +211,7 @@ export class PurchaseCartComponent implements OnInit {
                 .subscribe(
                     (purchaseCartData) => {
                         resolve(purchaseCartData?.result);
-                        
+
                     },
                     (err) => {
                         resolve([]);
@@ -237,7 +239,7 @@ export class PurchaseCartComponent implements OnInit {
         };
         const openForm = this.dialog.open(PurchasedProductFormComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
+            panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop"
         });
         openForm.afterClosed().subscribe((res) => {
             this.setDataIntoRow();
@@ -272,14 +274,14 @@ export class PurchaseCartComponent implements OnInit {
     }
 
     completeInvoice() {
-        
+
         const extraData = {
             title: "Confirm Purchase?",
             subTitle: "Do you want to confirm the invoice?",
         };
         let openActionPop = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: ["custom-dialog-container"],backdropClass: "dialogbox-backdrop" 
+            panelClass: ["custom-dialog-container"], backdropClass: "dialogbox-backdrop"
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
@@ -288,40 +290,40 @@ export class PurchaseCartComponent implements OnInit {
                 .subscribe((res) => {
                     this.toastr.clear();
                     this.toastr.success(res.successMessage);
-                    
+
                     // this.loadAllTempPurchase()
                     this.router.navigate(["/dash_board"]);
                     this.triggerNotification()
-                   
+
                 });
 
         });
     }
 
-    cancelPurchase(){
+    cancelPurchase() {
         const extraData = {
             title: "Cancel Purchase?",
             subTitle: "Do you want to cancel the invoice?",
         };
         let openActionPop = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: ["custom-dialog-container"],backdropClass: "dialogbox-backdrop" 
+            panelClass: ["custom-dialog-container"], backdropClass: "dialogbox-backdrop"
         });
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
             this.confirmPurchaseAndCartService
                 .cancelPurchase(this.purchaseId)
                 .subscribe((res) => {
-                  if(res?.successMessage){
-                    this.toastr.clear();
-                    this.toastr.success(res.successMessage);
-                    this.triggerNotification()
-                    this.router.navigate(["/dash_board"]);
-                  }else if(res?.successMessage == ""){
-                    this.toastr.clear()
-                    this.toastr.error(res.errors)
-                  }
-                  
+                    if (res?.successMessage) {
+                        this.toastr.clear();
+                        this.toastr.success(res.successMessage);
+                        this.triggerNotification()
+                        this.router.navigate(["/dash_board"]);
+                    } else if (res?.successMessage == "") {
+                        this.toastr.clear()
+                        this.toastr.error(res.errors)
+                    }
+
                 });
 
         });

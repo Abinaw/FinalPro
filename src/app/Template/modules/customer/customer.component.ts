@@ -9,26 +9,26 @@ import { ActionCellComponent } from 'src/app/custom-components/action-cell/user-
 import { CustomerActionComponent } from 'src/app/custom-components/action-cell/customer-action/customer-action.component';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css','../../../../assets/CSS/ComponentCommDesign.css']
+    selector: 'app-customer',
+    templateUrl: './customer.component.html',
+    styleUrls: ['./customer.component.css', '../../../../assets/CSS/ComponentCommDesign.css']
 })
 
-export class CustomerComponent{
+export class CustomerComponent {
     rowData$!: Observable<any[]>;
     @ViewChild(AgGridAngular)
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-    searchCharac : string=""
+    searchCharac: string = ""
     public columnDef: ColDef[] = [
         // 
-        { field: "custId", width: 90, hide:true},
+        { field: "custId", width: 90, hide: true },
         { field: "custName", },
-        { field: "email",width:250 },
-        { field: "contact",},
-        { field:"address"},
-        { field: "Action",width: 90, cellRenderer: CustomerActionComponent, }
+        { field: "email", width: 250 },
+        { field: "contact", },
+        { field: "address" },
+        { field: "Action", width: 90, cellRenderer: CustomerActionComponent, }
     ];
 
     constructor(
@@ -36,12 +36,13 @@ export class CustomerComponent{
         private custService: CustomerService,
     ) { }
 
-   
+
 
 
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
+        this.gridApi.sizeColumnsToFit();
     }
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
@@ -57,34 +58,33 @@ export class CustomerComponent{
         })
     }
 
-  
-    public setDataIntoRow() {       
+
+    public setDataIntoRow() {
         this.custService.getAll().subscribe((custData) => {
             this.gridApi.setRowData(custData);
-          }, (err) => {
-          })
+        }, (err) => {
+        })
     }
 
 
     insertTrigger() {
-        const extraData={
-            title:"Insert"
+        const extraData = {
+            title: "Insert"
         }
-        const openForm = this.dialog.open(CustomerFormComponent,{data:extraData,width:'500px',panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"})
-        openForm.afterClosed().subscribe(res=>{
+        const openForm = this.dialog.open(CustomerFormComponent, { data: extraData, width: '500px', panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop" })
+        openForm.afterClosed().subscribe(res => {
             this.setDataIntoRow();
         })
-      
+
     }
 
-    searchDataInRows()
-    {
-        if(this.searchCharac!==""){
-        this.custService.findData(this.searchCharac).subscribe(res=>{
-          this.gridApi.setRowData(res) 
-           });   
-        }else if(this.searchCharac===""){
-           this.setDataIntoRow()
+    searchDataInRows() {
+        if (this.searchCharac !== "") {
+            this.custService.findData(this.searchCharac).subscribe(res => {
+                this.gridApi.setRowData(res)
+            });
+        } else if (this.searchCharac === "") {
+            this.setDataIntoRow()
         }
     }
 

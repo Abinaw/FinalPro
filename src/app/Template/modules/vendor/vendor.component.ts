@@ -8,9 +8,9 @@ import { VendorFormComponent } from '../../createData-forms/vendor-form/vendor-f
 import { VendorActionComponent } from 'src/app/custom-components/action-cell/vendor-action/vendor-action.component';
 
 @Component({
-  selector: 'app-vendor',
-  templateUrl: './vendor.component.html',
-  styleUrls: ['./vendor.component.css',]
+    selector: 'app-vendor',
+    templateUrl: './vendor.component.html',
+    styleUrls: ['./vendor.component.css',]
 })
 export class VendorComponent {
     rowData$!: Observable<any[]>;
@@ -18,15 +18,15 @@ export class VendorComponent {
     agGrid!: AgGridAngular
     gridApi: GridApi | any = {}
     public rowSelection: 'single' | 'multiple' = 'single';
-    searchCharac : string=""
+    searchCharac: string = ""
     public columnDef: ColDef[] = [
         // 
-        { field: "vendorId", width: 90, hide: true},
+        { field: "vendorId", width: 90, hide: true },
         { field: "vendorName", },
         { field: "address", },
         { field: "email", },
         { field: "contact", },
-        {field:"action",cellRenderer: VendorActionComponent,}
+        { field: "action", cellRenderer: VendorActionComponent, }
     ];
 
     constructor(
@@ -34,12 +34,13 @@ export class VendorComponent {
         private vendorService: VendorService,
     ) { }
 
-   
+
 
 
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
+        this.gridApi.sizeColumnsToFit();
     }
 
     onCellClicked(cellClickedEvent: CellClickedEvent) {
@@ -56,40 +57,39 @@ export class VendorComponent {
         })
     }
 
-  
-    public setDataIntoRow() {       
+
+    public setDataIntoRow() {
         this.vendorService.getAll().subscribe((vendorData) => {
             this.gridApi.setRowData(vendorData);
-          }, (err) => {
-          })
+        }, (err) => {
+        })
     }
 
 
     insertTrigger() {
-        const extraData={
-            title:"Insert"
+        const extraData = {
+            title: "Insert"
         }
-        const openForm = this.dialog.open(VendorFormComponent,{data:extraData, panelClass:["custom-dialog-container"],backdropClass: "dialogbox-backdrop" ,width:'350px'})
-        openForm.afterClosed().subscribe(res=>{
+        const openForm = this.dialog.open(VendorFormComponent, { data: extraData, panelClass: ["custom-dialog-container"], backdropClass: "dialogbox-backdrop", width: '350px' })
+        openForm.afterClosed().subscribe(res => {
             this.setDataIntoRow();
         })
-      
+
     }
 
-    searchDataInRows()
-    {
+    searchDataInRows() {
         // this.gridApi.setQuickFilter(this.searchCharac)
-        if(this.searchCharac!==""){
-        this.vendorService.findData(this.searchCharac).subscribe(res=>{
-          this.gridApi.setRowData(res) 
-           });   
-        }else if(this.searchCharac===""){
-           this.setDataIntoRow()
+        if (this.searchCharac !== "") {
+            this.vendorService.findData(this.searchCharac).subscribe(res => {
+                this.gridApi.setRowData(res)
+            });
+        } else if (this.searchCharac === "") {
+            this.setDataIntoRow()
         }
     }
 
 
-    
+
 
 
 

@@ -19,9 +19,8 @@ export class DashboardCardsComponent implements OnInit {
     @Input() isSwitched!: boolean;
     userRole: any = ''
 
-    constructor(private stockService: StockService, private custService: CustomerService,
-        private notificationService: NotificationService,
-
+    constructor(private stockService: StockService,
+        private custService: CustomerService,
 
         private currentLoggedInUserService: CurrentLoggedInUserService,) {
         this.loadAllStock();
@@ -29,7 +28,7 @@ export class DashboardCardsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.notificationService.fetchnotificationData();
+
         this.getUserRole()
     }
 

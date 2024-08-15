@@ -1,0 +1,10 @@
+<button mat-raised-button color="basic" (click)="makePayment()">Make a payment</button>
+<!-- <button mat-raised-button color="basic">Make a payment</button> -->
+
+<div class="table-cont flex justify-center">
+    <ag-grid-angular class="ag-theme-alpine user-table cursor-pointer" [paginationAutoPageSize]="true"
+        style=" height: 58vh; width:76vw;" [rowData]="rowData$ | async" [columnDefs]="columnDef"
+        [rowSelection]="rowSelection" [pagination]="true" (cellClicked)="onCellClicked($event)"
+        (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>

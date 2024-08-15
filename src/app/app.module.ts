@@ -105,6 +105,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { NotifiExpansionComponent } from './Template/side-bar/nav-settings/notification/notifi-expansion/notifi-expansion.component';
 import { EmailFormComponent } from './Template/createData-forms/email-form/email-form.component';
 import { RoleGuard } from "./service/role-service/role.guard";
+import { AdvancePayHistoryComponent } from './Template/expansion/selected-invoice/advance-pay-history/advance-pay-history.component';
+import { AdvancePayActionComponent } from './custom-components/action-cell/advance-pay-action/advance-pay-action.component';
 
 @NgModule({
     declarations: [
@@ -173,6 +175,8 @@ import { RoleGuard } from "./service/role-service/role.guard";
         NotificationComponent,
         NotifiExpansionComponent,
         EmailFormComponent,
+        AdvancePayHistoryComponent,
+        AdvancePayActionComponent,
 
 
 

@@ -26,6 +26,7 @@ import { IPaymentEntity } from 'src/app/constants/interfaces/IPaymentEntity';
 import { NotificationService } from 'src/app/service/notification-service/notification.service';
 import { ActionPopComponent } from 'src/app/custom-components/action-cell/action-pop/action-pop.component';
 import { ToastrService } from 'ngx-toastr';
+import { AdvancePayHistoryComponent } from './advance-pay-history/advance-pay-history.component';
 
 
 @Component({
@@ -33,7 +34,7 @@ import { ToastrService } from 'ngx-toastr';
     templateUrl: './selected-invoice.component.html',
     styleUrls: ['./selected-invoice.component.css']
 })
-export class SelectedInvoiceComponent implements OnInit{
+export class SelectedInvoiceComponent implements OnInit {
 
     customerName!: string;
     custId!: number;
@@ -42,7 +43,7 @@ export class SelectedInvoiceComponent implements OnInit{
     invoiceNumber!: number
     jusData!: any
     // totalNetAmount!: number
-    netAmount: number =0
+    netAmount: number = 0
     paidAmount: number = 0
     productCartItems: IProCartEntity[] = []
     rowData$!: Observable<any[]>;
@@ -53,8 +54,8 @@ export class SelectedInvoiceComponent implements OnInit{
     public rowSelection: 'single' | 'multiple' = 'single';
     searchCharac: string = ""
     params: any;
-    isProductsAvailableInCart :boolean = false
-    paymentsDataList : IPaymentEntity[] = [] 
+    isProductsAvailableInCart: boolean = false
+    paymentsDataList: IPaymentEntity[] = []
 
     constructor(
         private catService: CetegoryService,
@@ -65,19 +66,19 @@ export class SelectedInvoiceComponent implements OnInit{
         private cdr: ChangeDetectorRef,
         private invoiceService: InvoiceService,
         private paymentService: PaymentsService,
-        private statusUpdateService:StatusUpdateService,
-        private notificationService:NotificationService,
-        private toastr:ToastrService,
+        private statusUpdateService: StatusUpdateService,
+        private notificationService: NotificationService,
+        private toastr: ToastrService,
         private router: Router,
 
 
 
     ) {
 
-       
+
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.route.queryParams.subscribe(params => {
             let dataString = params['data']
 
@@ -94,28 +95,28 @@ export class SelectedInvoiceComponent implements OnInit{
         this.getAllStockAndCategoryData()
         this.getAllInvoiceData();
         this.getAllPayments()
-        this.statusUpdateService.tempSalesCartNetAmount$.subscribe(res=>{
+        this.statusUpdateService.tempSalesCartNetAmount$.subscribe(res => {
             this.netAmount = res
         })
 
-       
-        if(this.productCartItems.length <=0){
+
+        if (this.productCartItems.length <= 0) {
             this.getProductCartItemsOfTheInvoiceId()
         }
     }
-    
+
 
     showInvoiceDetails() {
-      
+
         const invoiceDta = {
             invoiceDataParam: this.invoiceData
         }
-        
+
         const openInvoice = this.matDialog.open(InvoicePrintComponent, {
             data: invoiceDta,
-            panelClass: ["invoice-dialog-container", ],width:'auto', height:'auto',backdropClass: "dialogbox-backdrop" 
+            panelClass: ["invoice-dialog-container",], width: 'auto', height: 'auto', backdropClass: "dialogbox-backdrop"
         })
-        console.log("invoiceData ",this.invoiceData)
+        console.log("invoiceData ", this.invoiceData)
 
 
     }
@@ -152,7 +153,7 @@ export class SelectedInvoiceComponent implements OnInit{
                 const val = (params.value.toFixed(2))
                 return val
             },
-            width:180
+            width: 180
         },
         {
             field: "total",
@@ -205,21 +206,21 @@ export class SelectedInvoiceComponent implements OnInit{
         //     // hide:true
 
         // },
-        
+
     ];
 
 
     onGridReady(param: GridReadyEvent) {
         this.rowData$ = this.getRowData();
         this.gridApi = param?.api
-         this.statusUpdateService.tempSalesCart$.subscribe(res=>{
+        this.statusUpdateService.tempSalesCart$.subscribe(res => {
             this.productCartItems = res
             this.statusUpdateService.updateTempSalesNetAmount(this.productCartItems)
             this.cdr.detectChanges()
-         })
+        })
     }
 
- 
+
 
     getProductCartItemsOfTheInvoiceId() {
         this.productCartService.getAll(this.invoiceId).subscribe((cartData) => {
@@ -231,50 +232,64 @@ export class SelectedInvoiceComponent implements OnInit{
         })
     }
     openDelDiolog(): void {
-        
+
         const extraData = {
-            title : "Delete Invoice",
+            title: "Delete Invoice",
             subTitle: "Do you want to delete this invoice?",
         }
-        const deletePop= this.matDialog.open(ActionPopComponent, {data: extraData, panelClass:"custom-dialog-container",backdropClass: "dialogbox-backdrop"});
-        
-        deletePop.afterClosed().subscribe((state:boolean) => {
-            if(!state)return;
-            this.invoiceService.deleteTempSalesInvoice(this.invoiceId).subscribe((res)=>{
-                
-                if(res?.successMessage!=null){
+        const deletePop = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop" });
+
+        deletePop.afterClosed().subscribe((state: boolean) => {
+            if (!state) return;
+            this.invoiceService.deleteTempSalesInvoice(this.invoiceId).subscribe((res) => {
+
+                if (res?.successMessage != null) {
                     this.toastr.success(res?.successMessage)
                     this.setDataIntoRow();
                     this.router.navigate(["/dash_board"]);
                     this.triggerNotification()
-                }else{
+                } else {
                     this.toastr.clear()
                     this.toastr.error(res?.errors)
                 }
-               
-            },err=>{
+
+            }, err => {
                 this.toastr.clear()
-                this.toastr.error(err,"Error Deleting the Invoice")
+                this.toastr.error(err, "Error Deleting the Invoice")
             })
         })
-       
+
     }
     triggerNotification() {
         this.notificationService.fetchnotificationData();
     }
 
-    makePayment() {
+    /*  makePayment() {
+         const extraData = {
+             totalAmount: this.netAmount,
+             tempInvoiceData: this.invoiceData,
+         };
+         const invoicePaymentOpen = this.matDialog.open(
+             InvoicePaymentComponent,
+             { data: extraData, panelClass: ["custom-dialog-container"],backdropClass: "dialogbox-backdrop"  }
+         );
+         invoicePaymentOpen.afterClosed().subscribe((res) => {
+             this.getAllPayments();
+         });
+     } */
+
+    openPay() {
         const extraData = {
-            totalAmount: this.netAmount,
+            // totalAmount: this.netAmount,
             tempInvoiceData: this.invoiceData,
         };
-        const invoicePaymentOpen = this.matDialog.open(
-            InvoicePaymentComponent,
-            { data: extraData, panelClass: ["custom-dialog-container"],backdropClass: "dialogbox-backdrop"  }
+        const openPay = this.matDialog.open(
+            AdvancePayHistoryComponent,
+            { data: extraData, width: '80%', panelClass: ["custom-dialog-container"], backdropClass: "dialogbox-backdrop" }
         );
-        invoicePaymentOpen.afterClosed().subscribe((res) => {
+        openPay.afterClosed().subscribe(res => {
             this.getAllPayments();
-        });
+        })
     }
 
     getAllPayments() {
@@ -286,15 +301,15 @@ export class SelectedInvoiceComponent implements OnInit{
             this.getTotalPaidAmount()
             this.cdr.detectChanges()
         });
-      
+
     }
 
     getTotalPaidAmount() {
-        
+
         let totalPaidAmount = 0;
         if (this.paymentsDataList.length > 0) {
             totalPaidAmount = this.paymentsDataList.reduce((accumulator, currentValue) => accumulator + currentValue.paidAmount, 0)
-           
+
         }
         this.paidAmount = totalPaidAmount
     }
@@ -320,8 +335,8 @@ export class SelectedInvoiceComponent implements OnInit{
         this.productCartService.getAll(this.invoiceId).subscribe((cartData) => {
             this.gridApi.setRowData(cartData.result[0]);
             GLOBAL_LIST.PRODUCTCART_DATA = cartData.result[0]
-            this.statusUpdateService.updateTempSalesInvoiceCart( cartData.result[0])
-            this.statusUpdateService.updateTempSalesNetAmount( cartData.result[0])
+            this.statusUpdateService.updateTempSalesInvoiceCart(cartData.result[0])
+            this.statusUpdateService.updateTempSalesNetAmount(cartData.result[0])
         }, (err) => {
         })
     }
@@ -336,7 +351,7 @@ export class SelectedInvoiceComponent implements OnInit{
         }
         const addProductsForm = this.matDialog.open(ProductSelectionToCartFormComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
+            panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop"
         })
         addProductsForm.afterClosed().subscribe(res => {
 
@@ -347,15 +362,15 @@ export class SelectedInvoiceComponent implements OnInit{
 
     }
 
-   /*  getTempInvoiceById(invocieId:number){
-        this.invoiceService.getTempInvocieById(this.invoiceId).subscribe(res=>{
-            console.log(res?.result)
-        })
-    } */
+    /*  getTempInvoiceById(invocieId:number){
+         this.invoiceService.getTempInvocieById(this.invoiceId).subscribe(res=>{
+             console.log(res?.result)
+         })
+     } */
 
 
     searchDataInRows() {
-        
+
         if (this.searchCharac !== "") {
             this.productCartService.findData(this.invoiceId, this.searchCharac).subscribe(response => {
                 this.gridApi.setRowData(response?.result)
@@ -378,7 +393,7 @@ export class SelectedInvoiceComponent implements OnInit{
 
         this.catService.getAll().subscribe(res => {
             GLOBAL_LIST.CATEGORY_DATA = res
-            
+
         })
 
     }

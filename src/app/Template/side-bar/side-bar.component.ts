@@ -11,27 +11,28 @@ import { NotificationService } from 'src/app/service/notification-service/notifi
   styleUrls: ['./side-bar.component.css']
 })
 export class SideBarComponent {
-    @Input() isSwitched!: boolean;
-    notificationData: INotificationEntity | null = null;
-    constructor(
-        private router: Router,
-        private authService:AuthService,
-        private notificationService: NotificationService,
-        private cdr: ChangeDetectorRef) {
+  @Input() isSwitched!: boolean;
+  notificationData: INotificationEntity | null = null;
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private notificationService: NotificationService,
+    private cdr: ChangeDetectorRef) {
 
-     }
-     ngOnInit(): void {
-        this.notificationService.dueDateDataSubject$.subscribe(data=>{
-          this.notificationData = data;
-          this.cdr.detectChanges();
-        })
-      }
-    logout() {
-        console.log("logout")
-        this.notificationService.clearData();
-        this.authService.logout();
-      }
-  
- 
-   
+  }
+  ngOnInit(): void {
+    this.notificationService.fetchnotificationData();
+    this.notificationService.dueDateDataSubject$.subscribe(data => {
+      this.notificationData = data;
+      this.cdr.detectChanges();
+    })
+  }
+  logout() {
+    console.log("logout")
+    this.notificationService.clearData();
+    this.authService.logout();
+  }
+
+
+
 }

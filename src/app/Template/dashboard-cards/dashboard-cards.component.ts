@@ -15,19 +15,22 @@ import { NotificationService } from "src/app/service/notification-service/notifi
     templateUrl: "dashboard-cards.component.html",
     styleUrls: ["dashboard-cards.component.css"],
 })
-export class DashboardCardsComponent implements OnInit{
+export class DashboardCardsComponent implements OnInit {
     @Input() isSwitched!: boolean;
-    userRole :any =''
+    userRole: any = ''
 
-    constructor(private stockService: StockService,  private custService: CustomerService,
-  
-    private currentLoggedInUserService:CurrentLoggedInUserService,) {
+    constructor(private stockService: StockService, private custService: CustomerService,
+        private notificationService: NotificationService,
+
+
+        private currentLoggedInUserService: CurrentLoggedInUserService,) {
         this.loadAllStock();
         this.getAllToGlobalList();
     }
-    
+
     ngOnInit(): void {
-       this.getUserRole()
+        this.notificationService.fetchnotificationData();
+        this.getUserRole()
     }
 
 
@@ -43,7 +46,7 @@ export class DashboardCardsComponent implements OnInit{
             name: "Customer",
             imageUrl: "../../assets/New Set/customer.png",
             route: "/dash_board/customer",
-            access:'user'
+            access: 'user'
         },
         {
             name: "User",
@@ -55,21 +58,21 @@ export class DashboardCardsComponent implements OnInit{
             name: "Vendor",
             imageUrl: "../../assets/New Set/vendor.png",
             route: "/dash_board/vendor",
-            access:'user'
+            access: 'user'
         },
         {
             name: "Payments",
             imageUrl: "../../assets/New Set/sales.png",
             route: "/dash_board/commonPayments",
-            access:'user'
+            access: 'user'
         },
         {
             name: "Return",
             imageUrl: "../../assets/New Set/return.png",
             route: "/dash_board/return",
-            access:'user',
+            access: 'user',
             disabled: true
-        
+
         },
         {
             name: "Stock",
@@ -90,7 +93,7 @@ export class DashboardCardsComponent implements OnInit{
             name: "Sales",
             imageUrl: "../../assets/New Set/invoice.png",
             route: "/dash_board/invoice",
-            access:'user'
+            access: 'user'
         },
         {
             name: "Report",

@@ -9,7 +9,7 @@
 
         <ul class="flex flex-col w-full items-center gap-y-[16px]" [ngClass]="{
                 'text-gray-200': isSwitched,
-                'text-gray-600': !isSwitched
+                'text-gray-600': !isSwitched 
             }">
             <li>
                 <a [routerLink]="['/sys-info']">
@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" [routerLink]="['/print']">
+                <a href="#" [routerLink]="['/dash_board/report']">
                     <span class="material-symbols-rounded"> print </span>
                 </a>
             </li>
@@ -34,15 +34,15 @@
                 </a>
             </li>
             <li>
-                <a >
+                <a>
                     <app-notification [notificationData]="notificationData"></app-notification>
                 </a>
-                
+
             </li>
         </ul>
         <button class="bg-[#f77e88] flex items-center justify-center gap-x-[4px] w-full py-[8px] rounded-[5px]"
             type="button" (click)="logout()">
-            <span class="text-[11px] font-bold uppercase" >Sign out</span>
+            <span class="text-[11px] font-bold uppercase">Sign out</span>
         </button>
     </nav>
 </div>

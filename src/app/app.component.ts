@@ -20,19 +20,19 @@ export class AppComponent {
     showClose: boolean = false;
     isSwitched;
     currentYear: number = new Date().getFullYear()
-    dueChequeData :any = {result:null}
+    dueChequeData: any = { result: null }
     constructor(
         private router: Router,
         private notificationService: NotificationService,
-        private location:Location
+        private location: Location
     ) {
         this.isSwitched = true;
-    
+
 
     }
     ngOnInit() {
-        this.notificationService.fetchnotificationData();
-      }
+        // this.notificationService.fetchnotificationData();
+    }
     ShowSidebarAndNotifiBar(): any {
         const currentRoute = this.router.url; //login
         // if (['/login'].includes(currentRoute)) {
@@ -45,7 +45,7 @@ export class AppComponent {
         }
     }
 
-  
+
     showCloseIcon() {
         const currentRoute = this.router.url;
         if (["/login", "/dash_board", "/dash_board/report/"].includes(currentRoute)) {
@@ -61,9 +61,9 @@ export class AppComponent {
         document.documentElement.classList.toggle("dark");
     }
 
-    goBack(){
+    goBack() {
         this.location.back()
     }
- 
-   
+
+
 }

@@ -11,8 +11,8 @@
                 'text-gray-200': isSwitched,
                 'text-gray-600': !isSwitched 
             }">
-            <li>
-                <a [routerLink]="['/sys-info']">
+            <li (click)="openUserManual()">
+                <a class="cursor-pointer">
                     <span class="material-symbols-rounded"> info </span>
                 </a>
             </li>

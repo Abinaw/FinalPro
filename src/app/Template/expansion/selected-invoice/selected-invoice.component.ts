@@ -285,7 +285,7 @@ export class SelectedInvoiceComponent implements OnInit {
         };
         const openPay = this.matDialog.open(
             AdvancePayHistoryComponent,
-            { data: extraData, width: '80%', panelClass: ["custom-dialog-container"], backdropClass: "dialogbox-backdrop" }
+            { data: extraData, width: '55%', height: '80%', panelClass: ["custom-dialog-container"], backdropClass: "dialogbox-backdrop" }
         );
         openPay.afterClosed().subscribe(res => {
             this.getAllPayments();

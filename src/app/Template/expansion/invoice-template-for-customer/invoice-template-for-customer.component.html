@@ -105,7 +105,7 @@
                         </div>
                         <div class="w-[200px] pl-[16px] ">
                             <p class="text-[18px] font-semibold text-left">Rs
-                                {{((this.total-paidAmount)||this.total).toFixed(2)}}</p>
+                                {{((this.total-(paidAmount||0))).toFixed(2)}}</p>
                         </div>
 
                     </div>

@@ -92,7 +92,8 @@ export class StockComponent {
     }
 
     toggleExtraColumns(): void {
-        this.areExtraColumnsVisible = !this.areExtraColumnsVisible; // Toggle the state
+        // Toggle the state
+        this.areExtraColumnsVisible = !this.areExtraColumnsVisible;
 
         this.columnDef = this.columnDef.map(col => {
             if (col.field === 'arrivalDate' || col.field === 'categoryOBJ' || col.field === 'reorderQty') {
@@ -110,7 +111,7 @@ export class StockComponent {
                 if (!this.areExtraColumnsVisible) {
                     this.gridApi.sizeColumnsToFit();
                 }
-            }, 0); // Ensure it runs after columnDefs update
+            }, 0);
         }
     }
 

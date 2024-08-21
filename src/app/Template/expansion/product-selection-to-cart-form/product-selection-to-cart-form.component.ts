@@ -71,7 +71,21 @@ export class ProductSelectionToCartFormComponent {
             startWith(""),
             map((value) => this.listFilter(value || ""))
         );
+        const discountCont = this.productSelectionForm.get('discount')
+        discountCont?.valueChanges.subscribe(res => {
+            if (!discountCont?.value) {
+                discountCont?.setErrors({ required: true }); // Manually set the 'required' error
+                discountCont.updateValueAndValidity()
+                discountCont?.markAsTouched(); // Mark the control as touched to display the error
+                discountCont?.markAsDirty()
+                return
+            }
+        })
+    }
 
+    displayProduct(id: any): any {
+        const stock = this.stockDataList.find((obj) => obj.stockId === id);
+        return stock ? `${stock.stockId} | ${stock.itemName}` : undefined;
     }
 
     private setDataToInputForUpdation() {
@@ -175,6 +189,8 @@ export class ProductSelectionToCartFormComponent {
 
 
     updatePopTrigger() {
+
+
         this.setInvoiceDetailsForUpdation();
         const extraData = {
             title: this.data.title,

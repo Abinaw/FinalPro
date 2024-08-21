@@ -50,10 +50,10 @@ export class InvoicePaymentComponent implements OnInit {
         this.isValid = false
         this.invoicePaymentForm = new FormGroup({
             paymentType: new FormControl(null, Validators.required),
-            cardRefNo: new FormControl('',Validators.required),
-            paidAmount: new FormControl('',Validators.required),
-            chequeRefNo: new FormControl('',Validators.required),
-            chequeDueDate: new FormControl('',Validators.required),
+            cardRefNo: new FormControl('', Validators.required),
+            paidAmount: new FormControl('', Validators.required),
+            chequeRefNo: new FormControl('', Validators.required),
+            chequeDueDate: new FormControl('', Validators.required),
             paidDate: new FormControl(moment()),
         })
     }
@@ -64,6 +64,17 @@ export class InvoicePaymentComponent implements OnInit {
     ngOnInit(): void {
 
         if (this.data.tempInvoiceData) {
+            console.log("I have come")
+            const amountInput = this.invoicePaymentForm.get('paidAmount')
+
+            if (this.data?.payable) {
+                console.log("I have come2")
+                amountInput?.setValue(this.data?.payable)
+                amountInput?.markAsDirty()
+                amountInput?.markAllAsTouched()
+                this.isValid = true
+            }
+            console.log("Payable from TempInvoice ", this.data?.payable)
             this.isTempSalesInvoicePayment = true
             this.getTempInvoiceById(this.data.tempInvoiceData.tempInvoiceId)
             this.loadAllPayment();
@@ -122,6 +133,7 @@ export class InvoicePaymentComponent implements OnInit {
     tempSalesInvoicePayValidate() {
 
         const amountInput = this.invoicePaymentForm.get('paidAmount')
+
         amountInput?.valueChanges.pipe(debounceTime(300)).subscribe((enteredAmount) => {
             console.log("netAmount ", this.tempInvoiceNetAmount)
             this.totalPaidAmount = this.getTotalPaidAmount()
@@ -166,34 +178,34 @@ export class InvoicePaymentComponent implements OnInit {
     }
 
 
-    
+
 
     payAmount() {
         switch (this.selectedOption) {
             case 'cheque':
-              if (!this.invoicePaymentForm.get('chequeDueDate')?.value && !this.invoicePaymentForm.get('chequeRefNo')?.value) {
-                this.toastr.clear();
-                this.toastr.error("Enter the cheque Due Date & cheque ref.No to pay with cheque!", "Can't be Empty!");
-                return;
-              }
-              if (!this.invoicePaymentForm.get('chequeDueDate')?.value) {
-                this.toastr.clear();
-                this.toastr.error("Enter the cheque Due Date!", "Can't be Empty!");
-                return;
-              }
-              if (!this.invoicePaymentForm.get('chequeRefNo')?.value) {
-                this.toastr.clear();
-                this.toastr.error("Enter the cheque ref.No to pay with cheque!", "Can't be Empty!");
-                return;
-              }
-              break;
+                if (!this.invoicePaymentForm.get('chequeDueDate')?.value && !this.invoicePaymentForm.get('chequeRefNo')?.value) {
+                    this.toastr.clear();
+                    this.toastr.error("Enter the cheque Due Date & cheque ref.No to pay with cheque!", "Can't be Empty!");
+                    return;
+                }
+                if (!this.invoicePaymentForm.get('chequeDueDate')?.value) {
+                    this.toastr.clear();
+                    this.toastr.error("Enter the cheque Due Date!", "Can't be Empty!");
+                    return;
+                }
+                if (!this.invoicePaymentForm.get('chequeRefNo')?.value) {
+                    this.toastr.clear();
+                    this.toastr.error("Enter the cheque ref.No to pay with cheque!", "Can't be Empty!");
+                    return;
+                }
+                break;
             case 'card':
-              if(!this.invoicePaymentForm.get('cardRefNo')?.value){
-                this.toastr.clear();
-                this.toastr.error("Enter the card ref.No to pay with card!", "Can't be Empty!");
-                return;
-              }
-          }
+                if (!this.invoicePaymentForm.get('cardRefNo')?.value) {
+                    this.toastr.clear();
+                    this.toastr.error("Enter the card ref.No to pay with card!", "Can't be Empty!");
+                    return;
+                }
+        }
         const extraData = {
             title: "Make a Payment",
             subTitle: "are you sure you want to make a payment?",
@@ -206,7 +218,7 @@ export class InvoicePaymentComponent implements OnInit {
                 paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             }
             paymentFormData.salesInvoice = this.data.tempInvoiceData;
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] ,backdropClass: "dialogbox-backdrop" })
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'], backdropClass: "dialogbox-backdrop" })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
                 console.log("paymentFormData", paymentFormData)
@@ -231,7 +243,7 @@ export class InvoicePaymentComponent implements OnInit {
                 const chequeDueDateValue = this.invoicePaymentForm.get('chequeDueDate')?.value;
                 paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             }
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'] ,backdropClass: "dialogbox-backdrop" })
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'], backdropClass: "dialogbox-backdrop" })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
                 console.log("paymentFormData", paymentFormData)
@@ -258,7 +270,7 @@ export class InvoicePaymentComponent implements OnInit {
                 const chequeDueDateValue = this.invoicePaymentForm.get('chequeDueDate')?.value;
                 paymentFormData.chequeDueDate = moment(chequeDueDateValue).format("YYYY-MM-DDTHH:mm");
             }
-            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'],backdropClass: "dialogbox-backdrop"  })
+            const openAction = this.matDialog.open(ActionPopComponent, { data: extraData, panelClass: ['custom-dialog-container'], backdropClass: "dialogbox-backdrop" })
             openAction.afterClosed().subscribe((state) => {
                 if (!state) return
                 console.log("paymentFormData", paymentFormData)

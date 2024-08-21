@@ -15,8 +15,8 @@
 
                 <mat-form-field class="w-full">
                     <mat-label>Product</mat-label>
-                    <input [readonly]="this.data.title == 'Update'" type="text" placeholder="Product" matInput
-                        formControlName="stockOBJ" [formControl]="stockOBJControl" [matAutocomplete]="auto" />
+                    <input #productInput type="text" placeholder="Product" matInput formControlName="stockOBJ"
+                        [formControl]="stockOBJControl" [matAutocomplete]="auto" />
                     <mat-error *ngIf="purchaseProductCartForm.get('stockOBJ')?.hasError">This field is
                         required!</mat-error>
                     <mat-error *ngIf="purchaseProductCartForm.get('stockOBJ')?.hasError('invalidStockId')">

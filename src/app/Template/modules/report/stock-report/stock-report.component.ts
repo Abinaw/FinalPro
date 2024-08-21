@@ -11,6 +11,7 @@ import { EmailService } from 'src/app/service/email-service/email.service';
 import { ToastrService } from 'ngx-toastr';
 import { EmailFormComponent } from 'src/app/Template/createData-forms/email-form/email-form.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ReportsServiceService } from 'src/app/service/reports-service/reports-service.service';
 
 @Component({
     selector: 'app-stock-report',
@@ -24,6 +25,7 @@ export class StockReportComponent {
     dataToSet: IDataToSet = { reportType: '', result: null, error: null, dateRange: '' };
     reports: any[] = [
         { value: 'stock', viewValue: 'STOCK REPORT' },
+        { value: 'stockRange', viewValue: 'Stock Price Range' },
     ];
     stockReport: FormGroup;
 
@@ -32,10 +34,14 @@ export class StockReportComponent {
         private stockService: StockService,
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
-        private matDialog: MatDialog
+        private matDialog: MatDialog,
+        private reportService: ReportsServiceService,
+
     ) {
         this.stockReport = new FormGroup({
             stockOption: new FormControl,
+            startPrice: new FormControl,
+            endPrice: new FormControl,
         });
     }
 
@@ -46,6 +52,33 @@ export class StockReportComponent {
     }
     generateReport() {
         this.getAllStock()
+    }
+
+    generateWithPrice() {
+        const start = this.stockReport.get('startPrice')?.value
+        const end = this.stockReport.get('endPrice')?.value
+        this.getStockInPriceRange(start, end)
+    }
+    getStockInPriceRange(startPrice: any, endPrice: any) {
+        // const priceStartControl = this.stockReport.get('startPrice')
+        // const priceEndControl = this.stockReport.get('endPrice')
+        console.log("strat", startPrice)
+        console.log("end", endPrice)
+
+        this.reportService
+            .getStockInPriceRange(startPrice, endPrice).subscribe(res => {
+                console.log("Stock Price Range :", res.result)
+                this.dataToSet = {
+                    dateRange: "",
+                    reportType: "Stock Price Range",
+                    result: res.result,
+                    error: null
+                }
+                this.isReportGenerated = true
+                this.cdr.detectChanges();
+            })
+
+
     }
 
     getAllStock() {

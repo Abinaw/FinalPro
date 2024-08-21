@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Inject, Renderer2, ViewChild } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, PatternValidator, ValidatorFn, Validators } from "@angular/forms";
 import { Observable, Subscription, debounceTime, distinctUntilChanged, map, startWith } from "rxjs";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
@@ -62,7 +62,8 @@ export class PurchasedProductFormComponent {
         private toastr: ToastrService,
         private matDialogRef: MatDialogRef<PurchasedProductFormComponent>,
         private matDialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private renderer: Renderer2
     ) {
         this.stockDataList = GLOBAL_LIST.STOCK_DATA;
         this.purchaseProductCartForm = new FormGroup({
@@ -207,6 +208,7 @@ export class PurchasedProductFormComponent {
             data: extraData,
             panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop"
         });
+        this.purchaseProductCartForm.value.stockOBJ = this.selectedProduct
         openActionPop.afterClosed().subscribe((state: boolean) => {
             if (!state) return;
             this.setvaluesToOBJFields();

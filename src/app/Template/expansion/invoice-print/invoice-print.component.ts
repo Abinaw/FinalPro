@@ -16,9 +16,9 @@ import { EmailFormComponent } from '../../createData-forms/email-form/email-form
 import { NotificationService } from 'src/app/service/notification-service/notification.service';
 
 @Component({
-  selector: 'app-invoice-print',
-  templateUrl: './invoice-print.component.html',
-  styleUrls: ['./invoice-print.component.css']
+    selector: 'app-invoice-print',
+    templateUrl: './invoice-print.component.html',
+    styleUrls: ['./invoice-print.component.css']
 })
 export class InvoicePrintComponent {
     paymentsList: IPaymentEntity[] = [];
@@ -26,11 +26,11 @@ export class InvoicePrintComponent {
 
     selectedCustomer!: any;
     productCartItems: IProCartEntity[] = [];
-   
+
     total: any;
     paidAmount!: number;
     balance!: number;
-  
+
     isComplete!: boolean;
 
     constructor(
@@ -41,22 +41,22 @@ export class InvoicePrintComponent {
         private confirmInvoice: ConfirmInvoiceService,
         private router: Router,
         private toastr: ToastrService,
-        private notificationService:NotificationService
+        private notificationService: NotificationService
     ) {
-      
+
         this.productCartItems = GLOBAL_LIST.PRODUCTCART_DATA;
         this.calcValues(this.productCartItems);
         this.paidAmount = this.data?.invoiceDataParam?.paidAmount;
         this.balance = this.total - this.paidAmount;
-     
+
     }
     ngOnInit(): void {
-        console.log("this.data",this.data)
+        console.log("this.data", this.data)
     }
 
     calcValues(list: IProCartEntity[]) {
         this.total = list.reduce(
-            (subTotal, item) => subTotal + item.netAmount,0);
+            (subTotal, item) => subTotal + item.netAmount, 0);
     }
 
     triggerNotification() {
@@ -67,32 +67,32 @@ export class InvoicePrintComponent {
         const invoiceDOC = document.getElementById("invoice");
         if (invoiceDOC) {
             html2canvas(invoiceDOC, { scale: 3 }).then(canvas => {
-        
+
                 const imgData = canvas.toDataURL('image/jpeg');
-        
+
                 const pdf = new jsPDF('p', 'mm', 'a4');
-        
+
                 const imgWidth = pdf.internal.pageSize.getWidth();
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        
+
                 pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-                
+
                 const pdfWindow = window.open('', '_blank');
-              if (pdfWindow) {
-                pdfWindow.document.open();
-                pdfWindow.document.write('<html><head><title>Invoice</title></head><body>');
-                pdfWindow.document.write('<img src="' + imgData + '" style="width:100%; height:auto;">');
-                pdfWindow.document.write('</body></html>');
-                pdfWindow.document.close();
-        
-                pdfWindow.onload = () => {
-                  pdfWindow.print();
-                };
-        
-                pdfWindow.onafterprint = () => pdfWindow.close();
-              }
-              });
-            }
+                if (pdfWindow) {
+                    pdfWindow.document.open();
+                    pdfWindow.document.write('<html><head><title>Invoice</title></head><body>');
+                    pdfWindow.document.write('<img src="' + imgData + '" style="width:100%; height:auto;">');
+                    pdfWindow.document.write('</body></html>');
+                    pdfWindow.document.close();
+
+                    pdfWindow.onload = () => {
+                        pdfWindow.print();
+                    };
+
+                    pdfWindow.onafterprint = () => pdfWindow.close();
+                }
+            });
+        }
     }
 
     completeInvoice() {
@@ -102,7 +102,7 @@ export class InvoicePrintComponent {
         };
         const popUpOpen = this.matDialog.open(ActionPopComponent, {
             data: extraData,
-            panelClass: "custom-dialog-container",backdropClass: "dialogbox-backdrop" 
+            panelClass: "custom-dialog-container", backdropClass: "dialogbox-backdrop"
         });
 
         popUpOpen.afterClosed().subscribe((state: boolean) => {
@@ -116,23 +116,23 @@ export class InvoicePrintComponent {
                         this.router.navigate(["/dash_board/"]);
                         this.toastr.success(res.successMessage);
                         this.triggerNotification()
-                    }else if(res.successMessage){
+                    } else if (res.successMessage) {
                         this.toastr.error(res.errors)
                     }
-                },err=>{
-                    this.toastr.error(err,"Error Confirming the Sales Invoice!")
+                }, err => {
+                    this.toastr.error(err, "Error Confirming the Sales Invoice!")
                 });
         });
     }
 
-   
+
     getAllPayments() {
-     
+
         this.paymentService.getAllPayments(this.data?.invoiceDataParam?.tempInvoiceId).subscribe((res) => {
             // GLOBAL_LIST.PAYMENTS_DATA = res.result;
             this.paymentsList = res.result;
             GLOBAL_LIST.PAYMENTS_DATA = res.result
-          
+
             //#cmt calculatePaidAmount has been called once the paymentList is initialized, tried calling it after the
             // 'getAllPayemnt()' in the makePayment(), the call timing is missing
             // this.calculatePaidAmount();
@@ -140,20 +140,20 @@ export class InvoicePrintComponent {
     }
 
     openMailForm() {
-        
+
         const generateReport = document.getElementById("invoice");
-        const data={
-            reportType: "Invoice Print",
-            custEmail : this.data?.invoiceDataParam?.customerOBJ.email
+        const data = {
+            reportType: "Invoice",
+            custEmail: this.data?.invoiceDataParam?.customerOBJ.email
         }
-      
+
         if (generateReport) {
             const openForm = this.matDialog.open(EmailFormComponent, {
-                data: { reportPic: generateReport, extraDetails:data },panelClass:['custom-dialog-container'],backdropClass: "dialogbox-backdrop" 
-              });
+                data: { reportPic: generateReport, extraDetails: data }, panelClass: ['custom-dialog-container'], backdropClass: "dialogbox-backdrop"
+            });
         } else {
-          this.toastr.error('Error occurred while generating the report');
+            this.toastr.error('Error occurred while generating the report');
         }
-      }
+    }
 
 }

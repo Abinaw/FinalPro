@@ -158,9 +158,9 @@ export class SelectedInvoiceComponent implements OnInit {
         {
             field: "total",
             colId: "total",
-            headerName: "Total",
+            headerName: "Gross Total",
             valueFormatter: (params) => {
-                const val = (params.value.toFixed(2))
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
 
@@ -170,7 +170,7 @@ export class SelectedInvoiceComponent implements OnInit {
             colId: "discount",
             headerName: "Discount",
             valueFormatter: (params) => {
-                const val = (params.value.toFixed(2))
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
 
@@ -180,7 +180,7 @@ export class SelectedInvoiceComponent implements OnInit {
             colId: "netAmount",
             headerName: "Net amount",
             valueFormatter: (params) => {
-                const val = (params.value.toFixed(2))
+                const val = "Rs. " + (params.value.toFixed(2))
                 return val
             }
         },
@@ -283,6 +283,7 @@ export class SelectedInvoiceComponent implements OnInit {
     openPay() {
         const extraData = {
             tempInvoiceData: this.invoiceData,
+            payable: (this.netAmount - this.paidAmount)
         };
         const openPay = this.matDialog.open(
             AdvancePayHistoryComponent,

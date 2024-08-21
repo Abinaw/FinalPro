@@ -19,7 +19,8 @@
                 <mat-error class="text-sm" *ngIf="productSelectionForm.get('stockOBJ')?.errors?.['required']">
                     This field is required!
                 </mat-error>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                    [displayWith]="displayProduct.bind(this)">
                     <mat-option *ngFor="let anItem of filterOptions | async" [value]="anItem.stockId"
                         (optionSelected)="getSelectedProduct_sList(anItem.stockId); setTotal()"
                         (onSelectionChange)="getSelectedProduct_sList(anItem.stockId); setTotal()">

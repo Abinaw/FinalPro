@@ -41,6 +41,7 @@ export class AdvancePayHistoryComponent {
 
   }
   ngOnInit() {
+    // console.log("Payable data ", this.data.payable)
     this.tempInvoiceData = this.data.tempInvoiceData
     this.getAllPayments()
     this.statusUpdateService.tempSalesCartNetAmount$.subscribe(res => {
@@ -118,6 +119,7 @@ export class AdvancePayHistoryComponent {
     const extraData = {
       totalAmount: this.netAmount,
       tempInvoiceData: this.tempInvoiceData,
+      payable: this.data.payable
     };
     const invoicePaymentOpen = this.matDialog.open(
       InvoicePaymentComponent,

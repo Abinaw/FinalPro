@@ -13,7 +13,7 @@ import {
 } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { IStockEntity } from "../../../constants/interfaces/IStockEntity";
-import { Observable, debounceTime, map, startWith } from "rxjs";
+import { Observable, debounceTime, distinctUntilChanged, map, startWith } from "rxjs";
 import { GLOBAL_LIST } from "src/app/constants/GlobalLists";
 import { ProductCartService } from "src/app/service/productCart-service/product-cart.service";
 import { StockService } from "src/app/service/stock-service/stock.service";
@@ -52,7 +52,7 @@ export class ProductSelectionToCartFormComponent {
         this.productSelectionForm = new FormGroup({
             proCartId: new FormControl(),
             stockOBJ: new FormControl([Validators.required]),
-            quantity: new FormControl([Validators.required, Validators.pattern(nonMinusDigitPattern)]),
+            quantity: new FormControl("",[Validators.required, Validators.pattern(nonMinusDigitPattern)]),
             //#cmt  qty validation has been done below, since the qty for selection will only be filtered from the list once the stock has been selected
             discount: new FormControl("", [Validators.required, Validators.pattern(discountPattern)]),
             netAmount: new FormControl(null, Validators.pattern(netAmountPattern)),
@@ -72,7 +72,17 @@ export class ProductSelectionToCartFormComponent {
             map((value) => this.listFilter(value || ""))
         );
         const discountCont = this.productSelectionForm.get('discount')
-        discountCont?.valueChanges.subscribe(res => {
+        const quantityCont = this.productSelectionForm.get('quantity')
+        quantityCont?.valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
+            if (!quantityCont?.value) {
+                quantityCont?.setErrors({ required: true }); // Manually set the 'required' error
+                quantityCont.updateValueAndValidity()
+                quantityCont?.markAsTouched(); // Mark the control as touched to display the error
+                quantityCont?.markAsDirty()
+                return
+            }
+        })
+        discountCont?.valueChanges.pipe(distinctUntilChanged()).subscribe(res => {
             if (!discountCont?.value) {
                 discountCont?.setErrors({ required: true }); // Manually set the 'required' error
                 discountCont.updateValueAndValidity()
@@ -121,7 +131,7 @@ export class ProductSelectionToCartFormComponent {
             const currentQty = control.value;
             if (currentQty <= 0) {
                 this.toastr.clear()
-                this.toastr.warning("Add a valid input");
+                // this.toastr.warning("Add a valid input");
                 this.productSelectionForm.get('discount')?.disable()
                 return { inValid: true };
             }

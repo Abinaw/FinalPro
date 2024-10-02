@@ -9,7 +9,7 @@
                     <mat-option *ngFor="let stock of reports" [value]="stock.value">{{stock.viewValue}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="w-full">
+           <!--  <mat-form-field class="w-full">
                 <mat-label> Price Start range </mat-label>
                 <input matInput formControlName="startPrice" type="number" class="" />
 
@@ -19,14 +19,14 @@
                 <input matInput formControlName="endPrice" type="number" class="" />
 
             </mat-form-field>
-
+ -->
         </form>
         <section class="w-[100%] flex flex-col gap-[5px]">
             <div class="w-full flex flex-col justify-center items-center">
                 <button mat-raised-button class="w-[95%]" color="primary" (click)="generateReport()">Generate
                     Report</button>
-                <button mat-raised-button class="w-[95%]" color="primary" (click)="generateWithPrice()">Generate
-                    Report For Price</button>
+            <!--     <button mat-raised-button class="w-[95%]" color="primary" (click)="generateWithPrice()">Generate
+                    Report For Price</button> -->
             </div>
             <div class="w-full flex flex-col justify-center items-center" *ngIf="isReportGenerated">
                 <button mat-raised-button class="w-[95%]" color="warn" (click)="printReport()">Print Report</button>

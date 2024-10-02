@@ -32,7 +32,7 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
     invoiceId!: number;
     invoiceNumber!: number;
     isComplete!: boolean;
-
+    totalDiscount: number = 0;
     constructor(
       
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -80,6 +80,7 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
             );
         }
     }
+    
 
     getACustomerData() {
         this.selectedCustomer = this.data.invoiceDataParam.customerOBJ;
@@ -95,6 +96,7 @@ export class InvoiceTemplateForCustomerComponent implements OnInit {
     calcValues(list: IProCartEntity[]) {
         this.total = list.reduce(
             (subTotal, item) => subTotal + item.netAmount,0);
+            this.totalDiscount = list.reduce((discountTotal, item) => discountTotal + item.discount, 0); // Calculate total discount
     }
 
     getInvoiceDate() {

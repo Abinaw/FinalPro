@@ -48,7 +48,7 @@ export class StockFormComponent implements OnInit {
             stockId: new FormControl,
             categoryOBJ: new FormControl([Validators.required,]),
             // item name -> have to include that alone numbers can't be inputed
-            itemName: new FormControl("", [Validators.required, Validators.pattern(itemNamePattern)]),
+            itemName: new FormControl("", [Validators.required, ]),
             materialColour: new FormControl('', [Validators.required, Validators.pattern(namePattern)]),
             quantity: new FormControl('', [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
             arrivalDate: new FormControl(new Date(), Validators.required),

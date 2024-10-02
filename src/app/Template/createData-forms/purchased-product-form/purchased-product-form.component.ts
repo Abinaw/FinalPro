@@ -68,13 +68,13 @@ export class PurchasedProductFormComponent {
         this.stockDataList = GLOBAL_LIST.STOCK_DATA;
         this.purchaseProductCartForm = new FormGroup({
             productCartId: new FormControl(),
-            stockOBJ: new FormControl("", Validators.required),
+            stockOBJ: new FormControl(""),
             quantity: new FormControl("", [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
             discount: new FormControl("", [Validators.required, Validators.pattern(discountPattern)]),
             sellingPrice: new FormControl("", [Validators.required, Validators.pattern(nonMinusDigitPattern)]),
             purchasePrice: new FormControl("", [Validators.required, Validators.pattern(nonMinusnonZeroDigitPattern)]),
-            netAmount: new FormControl(null, [Validators.pattern(netAmountPattern)]),
-            grossAmount: new FormControl(null),
+            netAmount: new FormControl(null, [Validators.required,Validators.pattern(netAmountPattern)]),
+            grossAmount: new FormControl(null,[Validators.required,]),
             tempPurchaseOBJ: new FormControl(),
         });
         // this.loadAllPurchase();
@@ -100,6 +100,12 @@ export class PurchasedProductFormComponent {
         });
 
         this.setupValidators()
+       /*  console.log("status ",this.purchaseProductCartForm.status)
+        Object.keys(this.purchaseProductCartForm.controls).forEach(key => {
+            const control = this.purchaseProductCartForm.get(key);
+            console.log(`Control: ${key}, Status: ${control?.status}, Errors: `, control?.errors);
+          }); */
+        
     }
 
 
